@@ -5,83 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>幼兒學習 📚</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body {
             font-family: "Comic Sans MS", "Helvetica Neue", sans-serif;
             background: linear-gradient(180deg, #FFF8E1 0%, #E8F5E9 50%, #E3F2FD 100%);
             min-height: 100vh;
-            overflow: hidden;
-            touch-action: manipulation;
+            overflow-y: auto;
+            touch-action: pan-y;
             user-select: none;
+            -webkit-overflow-scrolling: touch;
         }
         
         .menu {
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding: 25px 15px 80px;
             min-height: 100vh;
-            padding: 30px 20px;
         }
         
-        .title {
-            font-size: 36px;
-            color: #5D4037;
-            margin-bottom: 8px;
-            text-align: center;
-        }
+        .title { font-size: 32px; color: #5D4037; margin-bottom: 5px; text-align: center; }
+        .subtitle { font-size: 18px; color: #8D6E63; margin-bottom: 25px; }
         
-        .subtitle {
-            font-size: 20px;
-            color: #8D6E63;
-            margin-bottom: 30px;
-        }
-        
-        .section-title {
-            font-size: 26px;
-            color: #5D4037;
-            margin: 22px 0 12px;
-        }
+        .section-title { font-size: 24px; color: #5D4037; margin: 20px 0 12px; }
         
         .activities-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            max-width: 500px;
+            gap: 14px;
+            max-width: 400px;
             width: 100%;
         }
         
         .activity-card {
             background: white;
-            border-radius: 20px;
-            padding: 20px 15px;
+            border-radius: 18px;
+            padding: 18px 12px;
             text-align: center;
             cursor: pointer;
-            box-shadow: 0 5px 18px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: transform 0.2s;
         }
         
         .activity-card:active { transform: scale(0.95); }
-        
         .activity-card.shapes { border: 3px solid #E91E63; }
         .activity-card.gender { border: 3px solid #9C27B0; }
         .activity-card.numbers { border: 3px solid #2196F3; }
-        .activity-card.counting { border: 3px solid #FF9800; }
         .activity-card.colors { border: 3px solid #4CAF50; }
         .activity-card.size { border: 3px solid #00BCD4; }
         
-        .activity-icon { font-size: 48px; margin-bottom: 8px; }
-        .activity-name { font-size: 22px; font-weight: bold; }
+        .activity-icon { font-size: 42px; margin-bottom: 6px; }
+        .activity-name { font-size: 20px; font-weight: bold; }
         
         .activity-card.shapes .activity-name { color: #E91E63; }
         .activity-card.gender .activity-name { color: #9C27B0; }
         .activity-card.numbers .activity-name { color: #2196F3; }
-        .activity-card.counting .activity-name { color: #FF9800; }
         .activity-card.colors .activity-name { color: #4CAF50; }
         .activity-card.size .activity-name { color: #00BCD4; }
         
@@ -90,23 +69,23 @@
             display: none;
             flex-direction: column;
             align-items: center;
+            padding: 20px 15px 80px;
             min-height: 100vh;
-            padding: 20px;
         }
         
         .activity-page.active { display: flex; }
-        .page-title { font-size: 30px; color: #5D4037; margin-bottom: 18px; }
+        .page-title { font-size: 28px; color: #5D4037; margin-bottom: 15px; }
         
         .back-btn {
             position: fixed;
-            top: 15px; left: 15px;
-            padding: 10px 18px;
-            background: rgba(255,255,255,0.9);
+            top: 12px; left: 12px;
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.95);
             border: none;
-            border-radius: 25px;
-            font-size: 15px;
+            border-radius: 22px;
+            font-size: 14px;
             cursor: pointer;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             z-index: 50;
         }
         
@@ -114,46 +93,48 @@
         .shapes-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 14px;
+            gap: 12px;
             width: 100%;
-            max-width: 450px;
+            max-width: 380px;
         }
         
         .shape-btn {
             background: white;
-            border-radius: 16px;
-            padding: 22px 12px;
+            border-radius: 14px;
+            padding: 18px 10px;
             text-align: center;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
             transition: transform 0.15s;
         }
         
         .shape-btn:active { transform: scale(0.95); }
-        .shape-icon { font-size: 42px; }
-        .shape-label { font-size: 20px; font-weight: bold; margin-top: 6px; }
+        .shape-icon { font-size: 38px; }
+        .shape-label { font-size: 18px; font-weight: bold; margin-top: 5px; }
         
         .canvas-area {
             position: relative;
-            width: 88vmin;
-            height: 52vmin;
+            width: 85vmin;
+            height: 50vmin;
+            max-width: 350px;
+            max-height: 280px;
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 5px 18px rgba(0,0,0,0.12);
+            border-radius: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
             overflow: hidden;
-            margin-top: 18px;
+            margin-top: 15px;
         }
         
-        #drawCanvas { position: 100%;: absolute; width height: 100%; touch-action: none; }
-        .draw-hint { font-size: 16px; color: #999; margin-top: 12px; }
+        #drawCanvas { position: absolute; width: 100%; height: 100%; touch-action: none; }
+        .draw-hint { font-size: 14px; color: #999; margin-top: 10px; }
         
-        .draw-btns { display: flex; gap: 10px; margin-top: 15px; }
+        .draw-btns { display: flex; gap: 10px; margin-top: 12px; }
         
         .btn {
-            padding: 12px 24px;
-            font-size: 16px;
+            padding: 10px 22px;
+            font-size: 14px;
             border: none;
-            border-radius: 35px;
+            border-radius: 30px;
             cursor: pointer;
             font-family: inherit;
             transition: transform 0.15s;
@@ -167,43 +148,44 @@
         .gender-container {
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 15px;
             width: 100%;
-            max-width: 480px;
+            max-width: 400px;
         }
         
         .person-row {
             display: flex;
             align-items: center;
             background: white;
-            border-radius: 20px;
-            padding: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-radius: 18px;
+            padding: 14px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
         }
         
         .person-img {
-            width: 80px; height: 80px;
+            width: 70px; height: 70px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 55px;
+            font-size: 48px;
             background: #F5F5F5;
             border-radius: 50%;
         }
         
-        .person-info { flex: 1; margin-left: 16px; }
-        .person-name { font-size: 24px; font-weight: bold; color: #5D4037; }
-        .person-sentence { font-size: 18px; color: #888; margin-top: 4px; }
+        .person-info { flex: 1; margin-left: 14px; }
+        .person-name { font-size: 22px; font-weight: bold; color: #5D4037; }
+        .person-sentence { font-size: 16px; color: #888; margin-top: 3px; }
         
         .drop-zone {
             display: inline-block;
-            width: 42px; height: 36px;
+            width: 38px; height: 32px;
             border: 3px dashed #BBB;
-            border-radius: 7px;
+            border-radius: 6px;
             text-align: center;
-            font-size: 24px;
-            line-height: 32px;
+            font-size: 22px;
+            line-height: 28px;
             background: #FAFAFA;
             margin: 0 2px;
             cursor: pointer;
+            vertical-align: middle;
         }
         
         .drop-zone.correct { border-color: #4CAF50; background: #E8F5E9; }
@@ -212,20 +194,20 @@
         .sticker-container {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            margin-top: 22px;
-            padding: 20px;
+            gap: 28px;
+            margin-top: 18px;
+            padding: 18px;
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 18px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
         }
         
         .sticker {
-            width: 65px; height: 65px;
+            width: 58px; height: 58px;
             background: linear-gradient(135deg, #FFEB3B 0%, #FFC107 100%);
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 36px; font-weight: bold;
+            font-size: 32px; font-weight: bold;
             color: #5D4037;
             cursor: pointer;
             box-shadow: 0 3px 10px rgba(255,193,7,0.4);
@@ -238,69 +220,69 @@
         .numbers-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
+            gap: 8px;
             width: 100%;
-            max-width: 420px;
+            max-width: 360px;
         }
         
         .number-btn {
             background: white;
-            border-radius: 14px;
-            padding: 18px 8px;
+            border-radius: 12px;
+            padding: 15px 6px;
             text-align: center;
             cursor: pointer;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
             transition: transform 0.15s;
         }
         
         .number-btn:active { transform: scale(0.95); }
-        .number-btn .num { font-size: 32px; font-weight: bold; color: #2196F3; }
-        .number-btn .count { font-size: 24px; margin-top: 4px; }
+        .number-btn .num { font-size: 28px; font-weight: bold; color: #2196F3; }
+        .number-btn .count { font-size: 20px; margin-top: 3px; }
         
-        #numberDisplay { margin-top: 25px; font-size: 70px; color: #2196F3; }
+        #numberDisplay { margin-top: 20px; font-size: 60px; color: #2196F3; }
         
         /* Colors */
         .colors-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+            gap: 10px;
             width: 100%;
-            max-width: 380px;
+            max-width: 320px;
         }
         
         .color-btn {
-            border-radius: 16px;
-            padding: 25px 12px;
+            border-radius: 14px;
+            padding: 22px 10px;
             text-align: center;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
             transition: transform 0.15s;
         }
         
         .color-btn:active { transform: scale(0.95); }
-        .color-btn .icon { font-size: 42px; }
-        .color-btn .name { font-size: 22px; font-weight: bold; margin-top: 8px; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        .color-btn .icon { font-size: 38px; }
+        .color-btn .name { font-size: 20px; font-weight: bold; margin-top: 6px; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
         
-        #colorResult { margin-top: 25px; font-size: 36px; color: #5D4037; }
+        #colorResult { margin-top: 20px; font-size: 32px; color: #5D4037; }
         
         /* Size */
-        .size-container { display: flex; flex-direction: column; gap: 25px; align-items: center; }
+        .size-container { display: flex; flex-direction: column; gap: 20px; align-items: center; }
         
-        .size-row { display: flex; gap: 25px; align-items: flex-end; }
+        .size-row { display: flex; gap: 20px; align-items: flex-end; }
         
         .size-item {
             text-align: center;
             cursor: pointer;
-            padding: 12px;
-            border-radius: 14px;
+            padding: 10px;
+            border-radius: 12px;
             transition: transform 0.15s;
         }
         
         .size-item:active { transform: scale(0.95); }
-        .size-item .icon { font-size: 55px; }
-        .size-item .label { font-size: 20px; font-weight: bold; margin-top: 6px; color: #5D4037; }
+        .size-item .icon { font-size: 48px; }
+        .size-item .label { font-size: 18px; font-weight: bold; margin-top: 5px; color: #5D4037; }
         
-        #sizeResult { margin-top: 22px; font-size: 32px; }
+        #sizeResult { margin-top: 18px; font-size: 28px; }
         
         /* Celebration */
         .celebration {
@@ -318,11 +300,11 @@
         .celebration.show { display: flex; animation: popIn 0.4s; }
         @keyframes popIn { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         
-        .celebration-emoji { font-size: 95px; animation: bounce 0.8s infinite; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-18px); } }
+        .celebration-emoji { font-size: 85px; animation: bounce 0.8s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
         
-        .celebration-text { font-size: 34px; color: #4CAF50; margin: 16px 0 25px; text-align: center; }
-        .celebration-btns { display: flex; gap: 12px; }
+        .celebration-text { font-size: 30px; color: #4CAF50; margin: 14px 0 22px; text-align: center; }
+        .celebration-btns { display: flex; gap: 10px; }
     </style>
 </head>
 <body>
@@ -356,10 +338,6 @@
             <div class="activity-card size" onclick="goTo('size')">
                 <div class="activity-icon">🐘🐜</div>
                 <div class="activity-name">大與小</div>
-            </div>
-            <div class="activity-card size" onclick="goTo('findDiff')">
-                <div class="activity-icon">🔍</div>
-                <div class="activity-name">邊個唔同？</div>
             </div>
         </div>
     </div>
@@ -422,7 +400,7 @@
             <div class="sticker" onclick="selectSticker(this, '女')">女</div>
         </div>
         
-        <div class="draw-btns" style="margin-top:22px;">
+        <div class="draw-btns" style="margin-top:18px;">
             <button class="btn btn-orange" onclick="resetGender()">🔄 重做</button>
             <button class="btn btn-green" onclick="checkGender()">✅ 檢查</button>
         </div>
@@ -525,23 +503,6 @@
         <div id="sizeResult"></div>
     </div>
     
-    <!-- Find Different -->
-    <div class="activity-page" id="findDiffPage">
-        <button class="back-btn" onclick="goBack()">🏠 目錄</button>
-        <div class="page-title">🔍 邊個唔同？</div>
-        
-        <div style="font-size:22px; color:#666; margin-bottom:20px;">搵出大小唔同既嗰個 👇</div>
-        
-        <div id="findDiffItems" style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; max-width:400px;"></div>
-        
-        <div class="draw-btns" style="margin-top:25px;">
-            <button class="btn btn-orange" onclick="initFindDiff()">🔄 換一批</button>
-            <button class="btn btn-green" onclick="checkFindDiff()">✅ 檢查</button>
-        </div>
-        
-        <div id="findDiffResult" style="margin-top:20px; font-size:28px;"></div>
-    </div>
-    
     <!-- Celebration -->
     <div class="celebration" id="celebration">
         <div class="celebration-emoji">🌟</div>
@@ -557,7 +518,6 @@
             document.getElementById('menu').style.display = 'none';
             document.getElementById(page + 'Page').classList.add('active');
             if (page === 'numbers') document.getElementById('numberDisplay').textContent = '';
-            if (page === 'findDiff') initFindDiff();
         }
         
         function goBack() {
@@ -594,11 +554,11 @@
             
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
-            ctx.lineWidth = 14;
+            ctx.lineWidth = 12;
             ctx.strokeStyle = shapeData[shape].color;
             
-            ctx.setLineDash([20, 16]);
-            ctx.lineWidth = 9;
+            ctx.setLineDash([18, 14]);
+            ctx.lineWidth = 8;
             ctx.strokeStyle = '#EEEEEE';
             
             const w = canvas.width, h = canvas.height, cx = w/2, cy = h/2, r = Math.min(w,h) * 0.35;
@@ -608,7 +568,7 @@
             else if (shape === 'triangle') { const s = r * 2, hi = s * 0.866; ctx.beginPath(); ctx.moveTo(cx, cy - hi/2); ctx.lineTo(cx - s/2, cy + hi/2); ctx.lineTo(cx + s/2, cy + hi/2); ctx.closePath(); ctx.stroke(); }
             
             ctx.setLineDash([]);
-            ctx.lineWidth = 14;
+            ctx.lineWidth = 12;
             ctx.strokeStyle = shapeData[shape].color;
             
             canvas.ontouchstart = (e) => { e.preventDefault(); start(e); };
@@ -624,7 +584,7 @@
             const pos = getPos(e);
             lastX = pos.x; lastY = pos.y;
             ctx.beginPath();
-            ctx.arc(pos.x, pos.y, 7, 0, Math.PI*2);
+            ctx.arc(pos.x, pos.y, 6, 0, Math.PI*2);
             ctx.fill();
         }
         
@@ -645,11 +605,7 @@
             return { x: x - r.left, y: y - r.top };
         }
         
-        function clearDraw() {
-            const shape = document.querySelector('.shape-btn:active') ? 'circle' : 'square';
-            initCanvas(shape);
-        }
-        
+        function clearDraw() { initCanvas('circle'); }
         function doneDraw() { showCelebration('畫得好靚呀！'); }
         
         // Gender
@@ -693,21 +649,15 @@
         
         // Numbers
         const chineseNumbers = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
-        
-        function playNumber(n) {
-            document.getElementById('numberDisplay').textContent = chineseNumbers[n] + ' (' + n + ')';
-        }
+        function playNumber(n) { document.getElementById('numberDisplay').textContent = chineseNumbers[n] + ' (' + n + ')'; }
         
         // Colors
-        function showColor(name) {
-            document.getElementById('colorResult').textContent = name + '！';
-        }
+        function showColor(name) { document.getElementById('colorResult').textContent = name + '！'; }
         
         // Size
         function checkSize(choice, el) {
             const correct = ['big', 'small', 'big'][Math.floor(Math.random() * 3)];
             const result = document.getElementById('sizeResult');
-            
             if (choice === correct) {
                 el.style.background = '#C8E6C9';
                 result.style.color = '#4CAF50';
@@ -717,59 +667,6 @@
                 el.style.background = '#FFCDD2';
                 result.style.color = '#F44336';
                 result.textContent = '再試過！';
-            }
-        }
-        
-        // Find Different
-        const diffEmojis = ['⭐', '🌸', '🍪', '🌺', '❤️', '🔷', '🌙', '🎀'];
-        let diffItems = [];
-        let diffCorrectIdx = -1;
-        
-        function initFindDiff() {
-            const container = document.getElementById('findDiffItems');
-            container.innerHTML = '';
-            diffItems = [];
-            
-            const emoji = diffEmojis[Math.floor(Math.random() * diffEmojis.length)];
-            const isBig = Math.random() > 0.5;
-            diffCorrectIdx = Math.floor(Math.random() * 4);
-            
-            for (let i = 0; i < 4; i++) {
-                const div = document.createElement('div');
-                div.style.cssText = 'font-size:' + (i === diffCorrectIdx ? (isBig ? '55px' : '28px') : '38px') + 
-                    ';cursor:pointer;padding:10px;transition:transform 0.15s;user-select:none;';
-                div.textContent = emoji;
-                div.dataset.idx = i;
-                div.onclick = function() {
-                    document.querySelectorAll('#findDiffItems div').forEach(d => d.style.background = '');
-                    this.style.background = '#BBDEFB';
-                };
-                container.appendChild(div);
-                diffItems.push(div);
-            }
-            
-            document.getElementById('findDiffResult').textContent = '';
-        }
-        
-        function checkFindDiff() {
-            const selected = document.querySelector('#findDiffItems div[style*="background"]');
-            const result = document.getElementById('findDiffResult');
-            
-            if (!selected) {
-                result.style.color = '#FF9800';
-                result.textContent = '👆_click一個先！';
-                return;
-            }
-            
-            const idx = parseInt(selected.dataset.idx);
-            
-            if (idx === diffCorrectIdx) {
-                result.style.color = '#4CAF50';
-                result.textContent = '🎉 啱晒！你好叻呀！';
-                setTimeout(() => showCelebration('你好叻呀！'), 800);
-            } else {
-                result.style.color = '#F44336';
-                result.textContent = '❌ 唔啱，再試過！';
             }
         }
         
@@ -785,9 +682,7 @@
                 document.getElementById('drawArea').style.display = 'none';
                 document.getElementById('drawHint').style.display = 'none';
                 document.getElementById('drawBtns').style.display = 'none';
-            } else {
-                resetGender();
-            }
+            } else { resetGender(); }
         }
     </script>
 </body>
