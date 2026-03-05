@@ -357,6 +357,10 @@
                 <div class="activity-icon">🐘🐜</div>
                 <div class="activity-name">大與小</div>
             </div>
+            <div class="activity-card size" onclick="goTo('findDiff')">
+                <div class="activity-icon">🔍</div>
+                <div class="activity-name">邊個唔同？</div>
+            </div>
         </div>
     </div>
     
@@ -521,6 +525,23 @@
         <div id="sizeResult"></div>
     </div>
     
+    <!-- Find Different -->
+    <div class="activity-page" id="findDiffPage">
+        <button class="back-btn" onclick="goBack()">🏠 目錄</button>
+        <div class="page-title">🔍 邊個唔同？</div>
+        
+        <div style="font-size:22px; color:#666; margin-bottom:20px;">搵出大小唔同既嗰個 👇</div>
+        
+        <div id="findDiffItems" style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; max-width:400px;"></div>
+        
+        <div class="draw-btns" style="margin-top:25px;">
+            <button class="btn btn-orange" onclick="initFindDiff()">🔄 換一批</button>
+            <button class="btn btn-green" onclick="checkFindDiff()">✅ 檢查</button>
+        </div>
+        
+        <div id="findDiffResult" style="margin-top:20px; font-size:28px;"></div>
+    </div>
+    
     <!-- Celebration -->
     <div class="celebration" id="celebration">
         <div class="celebration-emoji">🌟</div>
@@ -536,6 +557,7 @@
             document.getElementById('menu').style.display = 'none';
             document.getElementById(page + 'Page').classList.add('active');
             if (page === 'numbers') document.getElementById('numberDisplay').textContent = '';
+            if (page === 'findDiff') initFindDiff();
         }
         
         function goBack() {
@@ -695,6 +717,59 @@
                 el.style.background = '#FFCDD2';
                 result.style.color = '#F44336';
                 result.textContent = '再試過！';
+            }
+        }
+        
+        // Find Different
+        const diffEmojis = ['⭐', '🌸', '🍪', '🌺', '❤️', '🔷', '🌙', '🎀'];
+        let diffItems = [];
+        let diffCorrectIdx = -1;
+        
+        function initFindDiff() {
+            const container = document.getElementById('findDiffItems');
+            container.innerHTML = '';
+            diffItems = [];
+            
+            const emoji = diffEmojis[Math.floor(Math.random() * diffEmojis.length)];
+            const isBig = Math.random() > 0.5;
+            diffCorrectIdx = Math.floor(Math.random() * 4);
+            
+            for (let i = 0; i < 4; i++) {
+                const div = document.createElement('div');
+                div.style.cssText = 'font-size:' + (i === diffCorrectIdx ? (isBig ? '55px' : '28px') : '38px') + 
+                    ';cursor:pointer;padding:10px;transition:transform 0.15s;user-select:none;';
+                div.textContent = emoji;
+                div.dataset.idx = i;
+                div.onclick = function() {
+                    document.querySelectorAll('#findDiffItems div').forEach(d => d.style.background = '');
+                    this.style.background = '#BBDEFB';
+                };
+                container.appendChild(div);
+                diffItems.push(div);
+            }
+            
+            document.getElementById('findDiffResult').textContent = '';
+        }
+        
+        function checkFindDiff() {
+            const selected = document.querySelector('#findDiffItems div[style*="background"]');
+            const result = document.getElementById('findDiffResult');
+            
+            if (!selected) {
+                result.style.color = '#FF9800';
+                result.textContent = '👆_click一個先！';
+                return;
+            }
+            
+            const idx = parseInt(selected.dataset.idx);
+            
+            if (idx === diffCorrectIdx) {
+                result.style.color = '#4CAF50';
+                result.textContent = '🎉 啱晒！你好叻呀！';
+                setTimeout(() => showCelebration('你好叻呀！'), 800);
+            } else {
+                result.style.color = '#F44336';
+                result.textContent = '❌ 唔啱，再試過！';
             }
         }
         
