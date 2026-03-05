@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>幼兒學習 📚</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: "Comic Sans MS", "Helvetica Neue", sans-serif;
+            background: linear-gradient(180deg, #FFF8E1 0%, #E8F5E9 50%, #E3F2FD 100%);
+            min-height: 100vh;
+            overflow: hidden;
+            touch-action: manipulation;
+            user-select: none;
+        }
+        
+        .menu {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+        
+        .title {
+            font-size: 38px;
+            color: #5D4037;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        
+        .subtitle {
+            font-size: 22px;
+            color: #8D6E63;
+            margin-bottom: 35px;
+        }
+        
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .activity-card {
+            background: white;
+            border-radius: 25px;
+            padding: 25px 15px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        
+        .activity-card:active {
+            transform: scale(0.95);
+        }
+        
+        .activity-card.shapes { border: 4px solid #E91E63; }
+        .activity-card.gender { border: 4px solid #9C27B0; }
+        .activity-card.colors { border: 4px solid #4CAF50; }
+        .activity-card.numbers { border: 3px solid #2196F3; }
+        
+        .activity-icon {
+            font-size: 55px;
+            margin-bottom: 12px;
+        }
+        
+        .activity-name {
+            font-size: 26px;
+            font-weight: bold;
+        }
+        
+        .activity-card.shapes .activity-name { color: #E91E63; }
+        .activity-card.gender .activity-name { color: #9C27B0; }
+        .activity-card.colors .activity-name { color: #4CAF50; }
+        .activity-card.numbers .activity-name { color: #2196F3; }
+        
+        /* Activity Pages */
+        .activity-page {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .activity-page.active {
+            display: flex;
+        }
+        
+        .page-title {
+            font-size: 34px;
+            color: #5D4037;
+            margin-bottom: 25px;
+        }
+        
+        /* Shapes */
+        .shapes-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .shape-btn {
+            background: white;
+            border-radius: 20px;
+            padding: 30px 15px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            transition: transform 0.15s;
+        }
+        
+        .shape-btn:active { transform: scale(0.95); }
+        
+        .shape-icon { font-size: 50px; }
+        .shape-label { font-size: 24px; font-weight: bold; margin-top: 8px; }
+        
+        /* Drawing Canvas */
+        .canvas-area {
+            position: relative;
+            width: 90vmin;
+            height: 60vmin;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            overflow: hidden;
+        }
+        
+        #drawCanvas {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+        }
+        
+        .draw-hint {
+            font-size: 20px;
+            color: #999;
+            margin-top: 18px;
+        }
+        
+        .draw-btns {
+            display: flex;
+            gap: 15px;
+            margin-top: 22px;
+        }
+        
+        .btn {
+            padding: 16px 32px;
+            font-size: 20px;
+            border: none;
+            border-radius: 45px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: transform 0.15s;
+        }
+        
+        .btn:active { transform: scale(0.93); }
+        .btn-orange { background: #FF7043; color: white; }
+        .btn-green { background: #66BB6A; color: white; }
+        .btn-blue { background: #42A5F5; color: white; }
+        .btn-purple { background: #AB47BC; color: white; }
+        
+        /* Gender Activity */
+        .gender-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            width: 100%;
+            max-width: 550px;
+        }
+        
+        .person-row {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+        
+        .person-img {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 70px;
+            background: #F5F5F5;
+            border-radius: 50%;
+        }
+        
+        .person-info {
+            flex: 1;
+            margin-left: 20px;
+        }
+        
+        .person-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #5D4037;
+        }
+        
+        .person-sentence {
+            font-size: 22px;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .drop-zone {
+            display: inline-block;
+            width: 50px;
+            height: 40px;
+            border: 3px dashed #BBB;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 28px;
+            line-height: 36px;
+            background: #FAFAFA;
+            margin: 0 3px;
+        }
+        
+        .drop-zone.correct { border-color: #4CAF50; background: #E8F5E9; }
+        .drop-zone.wrong { border-color: #F44336; background: #FFEBEE; }
+        
+        .sticker-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            padding: 25px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        
+        .sticker {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #FFEB3B 0%, #FFC107 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 45px;
+            font-weight: bold;
+            color: #5D4037;
+            cursor: grab;
+            box-shadow: 0 4px 15px rgba(255,193,7,0.4);
+            transition: transform 0.15s;
+        }
+        
+        .sticker:active { transform: scale(1.1); cursor: grabbing; }
+        
+        /* Celebration */
+        .celebration {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(255,255,255,0.97);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        
+        .celebration.show { display: flex; animation: popIn 0.4s; }
+        
+        @keyframes popIn {
+            from { transform: scale(0.6); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .celebration-emoji { font-size: 110px; animation: bounce 0.8s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        
+        .celebration-text { font-size: 38px; color: #4CAF50; margin: 20px 0 30px; text-align: center; }
+        
+        .celebration-btns { display: flex; gap: 18px; }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px; left: 20px;
+            padding: 12px 22px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+            z-index: 50;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Menu -->
+    <div class="menu" id="menu">
+        <div class="title">📚 學習時間</div>
+        <div class="subtitle">你想玩咩呀？</div>
+        
+        <div class="activities-grid">
+            <div class="activity-card shapes" onclick="goTo('shapes')">
+                <div class="activity-icon">🎨</div>
+                <div class="activity-name">畫畫</div>
+            </div>
+            <div class="activity-card gender" onclick="goTo('gender')">
+                <div class="activity-icon">👦👧</div>
+                <div class="activity-name">男仔女仔</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Shapes Activity -->
+    <div class="activity-page" id="shapesPage">
+        <button class="back-btn" onclick="goBack()">🏠 目錄</button>
+        <div class="page-title">🎨 畫畫時間</div>
+        
+        <div class="shapes-container">
+            <div class="shape-btn" onclick="startDraw('circle')">
+                <div class="shape-icon">⭕</div>
+                <div class="shape-label" style="color:#E91E63">圓形</div>
+            </div>
+            <div class="shape-btn" onclick="startDraw('square')">
+                <div class="shape-icon">⬜</div>
+                <div class="shape-label" style="color:#2196F3">正方形</div>
+            </div>
+            <div class="shape-btn" onclick="startDraw('triangle')">
+                <div class="shape-icon">🔺</div>
+                <div class="shape-label" style="color:#FF9800">三角形</div>
+            </div>
+        </div>
+        
+        <div class="canvas-area" id="drawArea" style="display:none; margin-top:25px;">
+            <canvas id="drawCanvas"></canvas>
+        </div>
+        <div class="draw-hint" id="drawHint" style="display:none;">用手指跟住灰色線畫 🎯</div>
+        
+        <div class="draw-btns" id="drawBtns" style="display:none;">
+            <button class="btn btn-orange" onclick="clearDraw()">🔄 再畫</button>
+            <button class="btn btn-green" onclick="doneDraw()">✅ 完成</button>
+        </div>
+    </div>
+    
+    <!-- Gender Activity -->
+    <div class="activity-page" id="genderPage">
+        <button class="back-btn" onclick="goBack()">🏠 目錄</button>
+        <div class="page-title">👦👧 佢係邊個？</div>
+        
+        <div class="gender-container">
+            <div class="person-row">
+                <div class="person-img">👧</div>
+                <div class="person-info">
+                    <div class="person-name">琪琪</div>
+                    <div class="person-sentence">我係琪琪。我係<span class="drop-zone" data-answer="女" onclick="tryPlace(this)">[ ]</span>孩子。</div>
+                </div>
+            </div>
+            
+            <div class="person-row">
+                <div class="person-img">👦</div>
+                <div class="person-info">
+                    <div class="person-name">俊俊</div>
+                    <div class="person-sentence">我係俊俊。我係<span class="drop-zone" data-answer="男" onclick="tryPlace(this)">[ ]</span>孩子。</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sticker-container">
+            <div class="sticker" draggable="true" ondragstart="drag(event)" onclick="selectSticker(this, '男')">男</div>
+            <div class="sticker" draggable="true" ondragstart="drag(event)" onclick="selectSticker(this, '女')">女</div>
+        </div>
+        
+        <div class="draw-btns" style="margin-top:30px;">
+            <button class="btn btn-orange" onclick="resetGender()">🔄 重做</button>
+            <button class="btn btn-green" onclick="checkGender()">✅ 檢查</button>
+        </div>
+    </div>
+    
+    <!-- Celebration -->
+    <div class="celebration" id="celebration">
+        <div class="celebration-emoji">🌟</div>
+        <div class="celebration-text">你好叻呀！<br>全部正確喎！</div>
+        <div class="celebration-btns">
+            <button class="btn btn-blue" onclick="goBack()">🏠 返去</button>
+            <button class="btn btn-orange" onclick="retry()">再玩過</button>
+        </div>
+    </div>
+
+    <script>
+        // Navigation
+        function goTo(page) {
+            document.getElementById('menu').style.display = 'none';
+            document.getElementById(page + 'Page').classList.add('active');
+        }
+        
+        function goBack() {
+            document.getElementById('menu').style.display = 'flex';
+            document.querySelectorAll('.activity-page').forEach(p => p.classList.remove('active'));
+            document.getElementById('celebration').classList.remove('show');
+            currentActivity = null;
+        }
+        
+        // Shapes Drawing
+        let currentActivity = null;
+        let ctx, canvas;
+        let isDrawing = false;
+        let lastX, lastY;
+        
+        const shapeData = {
+            circle: { name: '圓形', color: '#E91E63' },
+            square: { name: '正方形', color: '#2196F3' },
+            triangle: { name: '三角形', color: '#FF9800' }
+        };
+        
+        function startDraw(shape) {
+            currentActivity = 'draw';
+            document.getElementById('drawArea').style.display = 'block';
+            document.getElementById('drawHint').style.display = 'block';
+            document.getElementById('drawBtns').style.display = 'flex';
+            
+            setTimeout(() => {
+                initCanvas(shape);
+            }, 100);
+        }
+        
+        function initCanvas(shape) {
+            canvas = document.getElementById('drawCanvas');
+            ctx = canvas.getContext('2d');
+            
+            const area = canvas.parentElement;
+            canvas.width = area.clientWidth;
+            canvas.height = area.clientHeight;
+            
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.lineWidth = 18;
+            ctx.strokeStyle = shapeData[shape].color;
+            
+            // Draw guide
+            ctx.setLineDash([25, 20]);
+            ctx.lineWidth = 12;
+            ctx.strokeStyle = '#EEEEEE';
+            
+            const w = canvas.width, h = canvas.height;
+            const cx = w/2, cy = h/2;
+            const r = Math.min(w,h) * 0.38;
+            
+            if (shape === 'circle') {
+                ctx.beginPath();
+                ctx.arc(cx, cy, r, 0, Math.PI*2);
+                ctx.stroke();
+            } else if (shape === 'square') {
+                const size = r * 1.8;
+                ctx.strokeRect(cx-size/2, cy-size/2, size, size);
+            } else if (shape === 'triangle') {
+                const size = r * 2;
+                const h = size * 0.866;
+                ctx.beginPath();
+                ctx.moveTo(cx, cy - h/2);
+                ctx.lineTo(cx - size/2, cy + h/2);
+                ctx.lineTo(cx + size/2, cy + h/2);
+                ctx.closePath();
+                ctx.stroke();
+            }
+            
+            // Reset for drawing
+            ctx.setLineDash([]);
+            ctx.lineWidth = 18;
+            ctx.strokeStyle = shapeData[shape].color;
+            
+            // Events
+            canvas.ontouchstart = (e) => { e.preventDefault(); start(e); };
+            canvas.ontouchmove = (e) => { e.preventDefault(); move(e); };
+            canvas.ontouchend = stop;
+            canvas.onmousedown = start;
+            canvas.onmousemove = move;
+            canvas.onmouseup = canvas.onmouseleave = stop;
+        }
+        
+        function start(e) {
+            isDrawing = true;
+            const pos = getPos(e);
+            lastX = pos.x; lastY = pos.y;
+            ctx.beginPath();
+            ctx.arc(pos.x, pos.y, 10, 0, Math.PI*2);
+            ctx.fill();
+        }
+        
+        function move(e) {
+            if(!isDrawing) return;
+            const pos = getPos(e);
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            lastX = pos.x; lastY = pos.y;
+        }
+        
+        function stop() { isDrawing = false; }
+        
+        function getPos(e) {
+            const r = canvas.getBoundingClientRect();
+            let x = e.touches ? e.touches[0].clientX : e.clientX;
+            let y = e.touches ? e.touches[0].clientY : e.clientY;
+            return { x: x - r.left, y: y - r.top };
+        }
+        
+        function clearDraw() {
+            const btns = document.querySelectorAll('#drawBtns button');
+            const shape = btns[0].onclick.toString().includes('circle') ? 'circle' : 
+                         btns[0].onclick.toString().includes('square') ? 'square' : 'triangle';
+            initCanvas(shape);
+        }
+        
+        function doneDraw() {
+            showCelebration();
+        }
+        
+        // Gender Activity
+        let selectedSticker = null;
+        
+        function selectSticker(el, value) {
+            document.querySelectorAll('.sticker').forEach(s => s.style.transform = 'scale(1)');
+            el.style.transform = 'scale(1.15)';
+            selectedSticker = value;
+        }
+        
+        function tryPlace(zone) {
+            if (selectedSticker) {
+                zone.textContent = selectedSticker;
+                zone.style.borderColor = '#9C27B0';
+                zone.style.background = '#F3E5F5';
+            }
+        }
+        
+        function resetGender() {
+            document.querySelectorAll('.drop-zone').forEach(z => {
+                z.textContent = '';
+                z.classList.remove('correct', 'wrong');
+                z.style.borderColor = '#BBB';
+                z.style.background = '#FAFAFA';
+            });
+            selectedSticker = null;
+            document.querySelectorAll('.sticker').forEach(s => s.style.transform = '');
+        }
+        
+        function checkGender() {
+            let correct = 0;
+            document.querySelectorAll('.drop-zone').forEach(z => {
+                const ans = z.getAttribute('data-answer');
+                const val = z.textContent;
+                if (val === ans) {
+                    z.classList.add('correct');
+                    z.classList.remove('wrong');
+                    correct++;
+                } else {
+                    z.classList.add('wrong');
+                    z.classList.remove('correct');
+                }
+            });
+            
+            if (correct === 2) {
+                showCelebration();
+            }
+        }
+        
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.textContent);
+        }
+        
+        // Celebration
+        function showCelebration() {
+            document.getElementById('celebration').classList.add('show');
+        }
+        
+        function retry() {
+            document.getElementById('celebration').classList.remove('show');
+            if (currentActivity === 'draw') {
+                document.getElementById('drawArea').style.display = 'none';
+                document.getElementById('drawHint').style.display = 'none';
+                document.getElementById('drawBtns').style.display = 'none';
+            } else {
+                resetGender();
+            }
+        }
+    </script>
+</body>
+</html>
