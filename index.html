@@ -2,688 +2,535 @@
 <html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>幼兒學習 📚</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>🌟 晞霖學習網站</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body {
             font-family: "Comic Sans MS", "Helvetica Neue", sans-serif;
-            background: linear-gradient(180deg, #FFF8E1 0%, #E8F5E9 50%, #E3F2FD 100%);
+            background: linear-gradient(135deg, #FFE4B5 0%, #87CEEB 100%);
             min-height: 100vh;
-            overflow-y: auto;
-            touch-action: pan-y;
+            overflow-x: hidden;
+            touch-action: manipulation;
             user-select: none;
-            -webkit-overflow-scrolling: touch;
         }
         
-        .menu {
+        /* iPad 橫置優化 */
+        @media (orientation: landscape) and (max-height: 600px) {
+            body { padding: 10px; }
+            .title { font-size: 24px !important; margin-bottom: 5px !important; }
+            .menu-title { font-size: 20px !important; padding: 8px 15px !important; margin: 8px 0 !important; }
+            .category-btn { padding: 12px !important; font-size: 18px !important; }
+            .game-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; }
+        }
+        
+        .menu { padding: 20px; min-height: 100vh; }
+        
+        .title { font-size: 36px; color: #FF6F61; text-align: center; margin-bottom: 20px; text-shadow: 2px 2px white; }
+        
+        /* 分類按鈕 */
+        .category-container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 25px 15px 80px;
-            min-height: 100vh;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 25px;
         }
         
-        .title { font-size: 32px; color: #5D4037; margin-bottom: 5px; text-align: center; }
-        .subtitle { font-size: 18px; color: #8D6E63; margin-bottom: 25px; }
-        
-        .section-title { font-size: 24px; color: #5D4037; margin: 20px 0 12px; }
-        
-        .activities-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
-            max-width: 400px;
-            width: 100%;
-        }
-        
-        .activity-card {
-            background: white;
-            border-radius: 18px;
-            padding: 18px 12px;
-            text-align: center;
+        .category-btn {
+            flex: 1;
+            max-width: 180px;
+            padding: 20px 15px;
+            border-radius: 25px;
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
             transition: transform 0.2s;
         }
         
-        .activity-card:active { transform: scale(0.95); }
-        .activity-card.shapes { border: 3px solid #E91E63; }
-        .activity-card.gender { border: 3px solid #9C27B0; }
-        .activity-card.numbers { border: 3px solid #2196F3; }
-        .activity-card.colors { border: 3px solid #4CAF50; }
-        .activity-card.size { border: 3px solid #00BCD4; }
+        .category-btn:active { transform: scale(0.95); }
         
-        .activity-icon { font-size: 42px; margin-bottom: 6px; }
-        .activity-name { font-size: 20px; font-weight: bold; }
+        .category-btn.chinese { background: #FFB6C1; color: #8B4513; }
+        .category-btn.math { background: #87CEEB; color: #4169E1; }
         
-        .activity-card.shapes .activity-name { color: #E91E63; }
-        .activity-card.gender .activity-name { color: #9C27B0; }
-        .activity-card.numbers .activity-name { color: #2196F3; }
-        .activity-card.colors .activity-name { color: #4CAF50; }
-        .activity-card.size .activity-name { color: #00BCD4; }
+        /* 遊戲內容 */
+        .content-area { display: none; }
+        .content-area.active { display: block; }
         
-        /* Pages */
-        .activity-page {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px 15px 80px;
-            min-height: 100vh;
+        .menu-title {
+            font-size: 28px;
+            color: #5D4037;
+            text-align: center;
+            background: rgba(255,255,255,0.8);
+            padding: 12px;
+            border-radius: 15px;
+            margin: 15px 0;
         }
-        
-        .activity-page.active { display: flex; }
-        .page-title { font-size: 28px; color: #5D4037; margin-bottom: 15px; }
         
         .back-btn {
             position: fixed;
-            top: 12px; left: 12px;
-            padding: 8px 16px;
-            background: rgba(255,255,255,0.95);
+            top: 15px; left: 15px;
+            padding: 10px 20px;
+            background: white;
             border: none;
-            border-radius: 22px;
-            font-size: 14px;
+            border-radius: 25px;
+            font-size: 16px;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            z-index: 50;
-        }
-        
-        /* Shapes */
-        .shapes-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            width: 100%;
-            max-width: 380px;
-        }
-        
-        .shape-btn {
-            background: white;
-            border-radius: 14px;
-            padding: 18px 10px;
-            text-align: center;
-            cursor: pointer;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
-            transition: transform 0.15s;
-        }
-        
-        .shape-btn:active { transform: scale(0.95); }
-        .shape-icon { font-size: 38px; }
-        .shape-label { font-size: 18px; font-weight: bold; margin-top: 5px; }
-        
-        .canvas-area {
-            position: relative;
-            width: 85vmin;
-            height: 50vmin;
-            max-width: 350px;
-            max-height: 280px;
-            background: white;
-            border-radius: 18px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
-            overflow: hidden;
-            margin-top: 15px;
-        }
-        
-        #drawCanvas { position: absolute; width: 100%; height: 100%; touch-action: none; }
-        .draw-hint { font-size: 14px; color: #999; margin-top: 10px; }
-        
-        .draw-btns { display: flex; gap: 10px; margin-top: 12px; }
-        
-        .btn {
-            padding: 10px 22px;
-            font-size: 14px;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-family: inherit;
-            transition: transform 0.15s;
-        }
-        
-        .btn:active { transform: scale(0.93); }
-        .btn-orange { background: #FF7043; color: white; }
-        .btn-green { background: #66BB6A; color: white; }
-        
-        /* Gender */
-        .gender-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            width: 100%;
-            max-width: 400px;
-        }
-        
-        .person-row {
-            display: flex;
-            align-items: center;
-            background: white;
-            border-radius: 18px;
-            padding: 14px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-        }
-        
-        .person-img {
-            width: 70px; height: 70px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 48px;
-            background: #F5F5F5;
-            border-radius: 50%;
-        }
-        
-        .person-info { flex: 1; margin-left: 14px; }
-        .person-name { font-size: 22px; font-weight: bold; color: #5D4037; }
-        .person-sentence { font-size: 16px; color: #888; margin-top: 3px; }
-        
-        .drop-zone {
-            display: inline-block;
-            width: 38px; height: 32px;
-            border: 3px dashed #BBB;
-            border-radius: 6px;
-            text-align: center;
-            font-size: 22px;
-            line-height: 28px;
-            background: #FAFAFA;
-            margin: 0 2px;
-            cursor: pointer;
-            vertical-align: middle;
-        }
-        
-        .drop-zone.correct { border-color: #4CAF50; background: #E8F5E9; }
-        .drop-zone.wrong { border-color: #F44336; background: #FFEBEE; }
-        
-        .sticker-container {
-            display: flex;
-            justify-content: center;
-            gap: 28px;
-            margin-top: 18px;
-            padding: 18px;
-            background: white;
-            border-radius: 18px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
-        }
-        
-        .sticker {
-            width: 58px; height: 58px;
-            background: linear-gradient(135deg, #FFEB3B 0%, #FFC107 100%);
-            border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 32px; font-weight: bold;
-            color: #5D4037;
-            cursor: pointer;
-            box-shadow: 0 3px 10px rgba(255,193,7,0.4);
-            transition: transform 0.15s;
-        }
-        
-        .sticker:active { transform: scale(1.1); }
-        
-        /* Numbers */
-        .numbers-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
-            width: 100%;
-            max-width: 360px;
-        }
-        
-        .number-btn {
-            background: white;
-            border-radius: 12px;
-            padding: 15px 6px;
-            text-align: center;
-            cursor: pointer;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            transition: transform 0.15s;
-        }
-        
-        .number-btn:active { transform: scale(0.95); }
-        .number-btn .num { font-size: 28px; font-weight: bold; color: #2196F3; }
-        .number-btn .count { font-size: 20px; margin-top: 3px; }
-        
-        #numberDisplay { margin-top: 20px; font-size: 60px; color: #2196F3; }
-        
-        /* Colors */
-        .colors-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            width: 100%;
-            max-width: 320px;
-        }
-        
-        .color-btn {
-            border-radius: 14px;
-            padding: 22px 10px;
-            text-align: center;
-            cursor: pointer;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-            transition: transform 0.15s;
-        }
-        
-        .color-btn:active { transform: scale(0.95); }
-        .color-btn .icon { font-size: 38px; }
-        .color-btn .name { font-size: 20px; font-weight: bold; margin-top: 6px; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
-        
-        #colorResult { margin-top: 20px; font-size: 32px; color: #5D4037; }
-        
-        /* Size */
-        .size-container { display: flex; flex-direction: column; gap: 20px; align-items: center; }
-        
-        .size-row { display: flex; gap: 20px; align-items: flex-end; }
-        
-        .size-item {
-            text-align: center;
-            cursor: pointer;
-            padding: 10px;
-            border-radius: 12px;
-            transition: transform 0.15s;
-        }
-        
-        .size-item:active { transform: scale(0.95); }
-        .size-item .icon { font-size: 48px; }
-        .size-item .label { font-size: 18px; font-weight: bold; margin-top: 5px; color: #5D4037; }
-        
-        #sizeResult { margin-top: 18px; font-size: 28px; }
-        
-        /* Celebration */
-        .celebration {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(255,255,255,0.97);
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
             z-index: 100;
         }
         
-        .celebration.show { display: flex; animation: popIn 0.4s; }
-        @keyframes popIn { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        /* 遊戲格 */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
         
-        .celebration-emoji { font-size: 85px; animation: bounce 0.8s infinite; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
+        .game-btn {
+            background: white;
+            border-radius: 20px;
+            padding: 25px 15px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transition: transform 0.2s;
+        }
         
-        .celebration-text { font-size: 30px; color: #4CAF50; margin: 14px 0 22px; text-align: center; }
-        .celebration-btns { display: flex; gap: 10px; }
+        .game-btn:active { transform: scale(0.95); }
+        .game-btn.pink { color: #E91E63; border: 3px solid #E91E63; }
+        .game-btn.blue { color: #2196F3; border: 3px solid #2196F3; }
+        
+        /* 寫字遊戲 - 男/女 */
+        .writing-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .character-display {
+            font-size: 120px;
+            margin: 20px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .character-display:active { transform: scale(1.1); }
+        
+        /* 畫畫遊戲 */
+        .shape-game {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            max-width: 450px;
+            margin: 20px auto;
+        }
+        
+        .shape-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .shape-card:active { transform: scale(0.95); }
+        
+        .shape-icon { font-size: 50px; }
+        .shape-name { font-size: 20px; color: #5D4037; margin-top: 5px; }
+        
+        /* 大與小 - 圈起遊戲 */
+        .size-game {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+        }
+        
+        .size-item {
+            font-size: 40px;
+            padding: 15px;
+            cursor: crosshair;
+            border-radius: 10px;
+            transition: background 0.3s;
+        }
+        
+        .size-item.selected {
+            background: rgba(255, 235, 59, 0.5);
+            outline: 3px dashed red;
+        }
+        
+        .size-hint {
+            text-align: center;
+            font-size: 18px;
+            color: #5D4037;
+            margin-bottom: 15px;
+        }
+        
+        /* 男女配對 - 拖拉遊戲 */
+        .match-game {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .drop-zone {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .drop-area {
+            width: 120px;
+            height: 120px;
+            border: 3px dashed #ccc;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            background: rgba(255,255,255,0.5);
+        }
+        
+        .drag-area {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .drag-item {
+            font-size: 50px;
+            cursor: grab;
+            padding: 10px;
+            transition: transform 0.2s;
+        }
+        
+        .drag-item:active { cursor: grabbing; transform: scale(1.1); }
+        
+        .drag-item.dragging { opacity: 0.5; }
+        
+        .drop-area.drag-over {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.2);
+        }
+        
+        /* 表揚 */
+        .celebration {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .celebration.show { display: flex; }
+        
+        .celebration-text {
+            font-size: 60px;
+            color: #FFD700;
+            animation: bounce 1s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .celebration-btn {
+            margin-top: 30px;
+            padding: 15px 40px;
+            font-size: 24px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <!-- Main Menu -->
-    <div class="menu" id="menu">
-        <div class="title">📚 學習時間</div>
-        <div class="subtitle">你想玩咩呀？</div>
+    <!-- 主頁面 -->
+    <div class="menu">
+        <h1 class="title">🌟 晞霖學習網站 🌟</h1>
         
-        <div class="section-title">👶 幼兒語文</div>
-        <div class="activities-grid">
-            <div class="activity-card shapes" onclick="goTo('shapes')">
-                <div class="activity-icon">🎨</div>
-                <div class="activity-name">畫畫</div>
-            </div>
-            <div class="activity-card gender" onclick="goTo('gender')">
-                <div class="activity-icon">👦👧</div>
-                <div class="activity-name">男仔女仔</div>
-            </div>
+        <div class="category-container">
+            <button class="category-btn chinese" onclick="showCategory('chinese')">
+                📖 語文
+            </button>
+            <button class="category-btn math" onclick="showCategory('math')">
+                🔢 數學
+            </button>
         </div>
+    </div>
+    
+    <!-- 語文內容 -->
+    <div id="chinese-content" class="content-area">
+        <button class="back-btn" onclick="goBack()">🔙 返回</button>
+        <h2 class="menu-title">📖 語文</h2>
         
-        <div class="section-title">🔢 幼兒數學</div>
-        <div class="activities-grid">
-            <div class="activity-card numbers" onclick="goTo('numbers')">
-                <div class="activity-icon">1️⃣2️⃣3️⃣</div>
-                <div class="activity-name">數字</div>
+        <div class="game-grid">
+            <div class="game-btn pink" onclick="showGame('write-male')">
+                ✍️ 男
             </div>
-            <div class="activity-card colors" onclick="goTo('colors')">
-                <div class="activity-icon">🎨</div>
-                <div class="activity-name">顏色</div>
+            <div class="game-btn pink" onclick="showGame('write-female')">
+                ✍️ 女
             </div>
-            <div class="activity-card size" onclick="goTo('size')">
-                <div class="activity-icon">🐘🐜</div>
-                <div class="activity-name">大與小</div>
+            <div class="game-btn pink" onclick="showGame('match')" style="grid-column: span 2;">
+                🔗 男女配對
             </div>
         </div>
     </div>
     
-    <!-- Shapes -->
-    <div class="activity-page" id="shapesPage">
-        <button class="back-btn" onclick="goBack()">🏠 目錄</button>
-        <div class="page-title">🎨 畫畫時間</div>
+    <!-- 數學內容 -->
+    <div id="math-content" class="content-area">
+        <button class="back-btn" onclick="goBack()">🔙 返回</button>
+        <h2 class="menu-title">🔢 數學</h2>
         
-        <div class="shapes-container">
-            <div class="shape-btn" onclick="startDraw('circle')">
+        <div class="game-grid">
+            <div class="game-btn blue" onclick="showGame('shape')">
+                ⭕ 畫畫
+            </div>
+            <div class="game-btn blue" onclick="showGame('size')">
+                🔴 大與小
+            </div>
+        </div>
+    </div>
+    
+    <!-- 寫字遊戲 - 男 -->
+    <div id="write-male" class="content-area">
+        <button class="back-btn" onclick="goBack()">🔙 返回</button>
+        <h2 class="menu-title">👦 寫「男」字</h2>
+        <div class="writing-area">
+            <div class="character-display" onclick="showCelebration()">男</div>
+            <p style="font-size:18px;color:#5D4037;">點擊睇寫法</p>
+        </div>
+    </div>
+    
+    <!-- 寫字遊戲 - 女 -->
+    <div id="write-female" class="content-area">
+        <button class="back-btn" onclick="goBack()">🔙 返回</button>
+        <h2 class="menu-title">👧 寫「女」字</h2>
+        <div class="writing-area">
+            <div class="character-display" onclick="showCelebration()">女</div>
+            <p style="font-size:18px;color:#5D4037;">點擊睇寫法</p>
+        </div>
+    </div>
+    
+    <!-- 畫畫遊戲 -->
+    <div id="shape" class="content-area">
+        <button class="back-btn" onclick="goBack()">🔙 返回</button>
+        <h2 class="menu-title">⭕ 畫畫</h2>
+        <div class="shape-game">
+            <div class="shape-card" onclick="showCelebration()">
                 <div class="shape-icon">⭕</div>
-                <div class="shape-label" style="color:#E91E63">圓形</div>
+                <div class="shape-name">圓形</div>
             </div>
-            <div class="shape-btn" onclick="startDraw('square')">
-                <div class="shape-icon">⬜</div>
-                <div class="shape-label" style="color:#2196F3">正方形</div>
+            <div class="shape-card" onclick="showCelebration()">
+                <div class="shape-icon">🟥</div>
+                <div class="shape-name">方形</div>
             </div>
-            <div class="shape-btn" onclick="startDraw('triangle')">
+            <div class="shape-card" onclick="showCelebration()">
                 <div class="shape-icon">🔺</div>
-                <div class="shape-label" style="color:#FF9800">三角形</div>
+                <div class="shape-name">三角形</div>
             </div>
-        </div>
-        
-        <div class="canvas-area" id="drawArea" style="display:none;">
-            <canvas id="drawCanvas"></canvas>
-        </div>
-        <div class="draw-hint" id="drawHint" style="display:none;">用手指跟住灰色線畫 🎯</div>
-        
-        <div class="draw-btns" id="drawBtns" style="display:none;">
-            <button class="btn btn-orange" onclick="clearDraw()">🔄 再畫</button>
-            <button class="btn btn-green" onclick="doneDraw()">✅ 完成</button>
         </div>
     </div>
     
-    <!-- Gender -->
-    <div class="activity-page" id="genderPage">
-        <button class="back-btn" onclick="goBack()">🏠 目錄</button>
-        <div class="page-title">👦👧 佢係邊個？</div>
-        
-        <div class="gender-container">
-            <div class="person-row">
-                <div class="person-img">👧</div>
-                <div class="person-info">
-                    <div class="person-name">琪琪</div>
-                    <div class="person-sentence">我係琪琪。我係<span class="drop-zone" data-answer="女" onclick="tryPlace(this)">[ ]</span>孩子。</div>
-                </div>
-            </div>
-            <div class="person-row">
-                <div class="person-img">👦</div>
-                <div class="person-info">
-                    <div class="person-name">俊俊</div>
-                    <div class="person-sentence">我係俊俊。我係<span class="drop-zone" data-answer="男" onclick="tryPlace(this)">[ ]</span>孩子。</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="sticker-container">
-            <div class="sticker" onclick="selectSticker(this, '男')">男</div>
-            <div class="sticker" onclick="selectSticker(this, '女')">女</div>
-        </div>
-        
-        <div class="draw-btns" style="margin-top:18px;">
-            <button class="btn btn-orange" onclick="resetGender()">🔄 重做</button>
-            <button class="btn btn-green" onclick="checkGender()">✅ 檢查</button>
+    <!-- 大與小遊戲 -->
+    <div id="size" class="content-area">
+        <button class="back-btn" onclick="goBack()">🔙 返回</button>
+        <h2 class="menu-title">🔴 大與小</h2>
+        <p class="size-hint">圈起最大既嘢</p>
+        <div class="size-game" id="size-game-area">
+            <div class="size-item" style="font-size:30px;" onclick="selectSize(this)">🐘</div>
+            <div class="size-item" style="font-size:60px;" onclick="selectSize(this)">🐘</div>
+            <div class="size-item" style="font-size:45px;" onclick="selectSize(this)">🐘</div>
+            <div class="size-item" style="font-size:25px;" onclick="selectSize(this)">🐘</div>
+            <div class="size-item" style="font-size:50px;" onclick="selectSize(this)">🐘</div>
+            <div class="size-item" style="font-size:35px;" onclick="selectSize(this)">🐘</div>
         </div>
     </div>
     
-    <!-- Numbers -->
-    <div class="activity-page" id="numbersPage">
-        <button class="back-btn" onclick="goBack()">🏠 目錄</button>
-        <div class="page-title">1️⃣2️⃣3️⃣ 數字</div>
-        
-        <div class="numbers-grid">
-            <div class="number-btn" onclick="playNumber(1)"><div class="num">1</div><div class="count">一</div></div>
-            <div class="number-btn" onclick="playNumber(2)"><div class="num">2</div><div class="count">二</div></div>
-            <div class="number-btn" onclick="playNumber(3)"><div class="num">3</div><div class="count">三</div></div>
-            <div class="number-btn" onclick="playNumber(4)"><div class="num">4</div><div class="count">四</div></div>
-            <div class="number-btn" onclick="playNumber(5)"><div class="num">5</div><div class="count">五</div></div>
-            <div class="number-btn" onclick="playNumber(6)"><div class="num">6</div><div class="count">六</div></div>
-            <div class="number-btn" onclick="playNumber(7)"><div class="num">7</div><div class="count">七</div></div>
-            <div class="number-btn" onclick="playNumber(8)"><div class="num">8</div><div class="count">八</div></div>
-            <div class="number-btn" onclick="playNumber(9)"><div class="num">9</div><div class="count">九</div></div>
-            <div class="number-btn" onclick="playNumber(10)"><div class="num">10</div><div class="count">十</div></div>
+    <!-- 男女配對遊戲 -->
+    <div id="match" class="content-area">
+        <button class="back-btn" onclick="goBack()">🔙 返回</button>
+        <h2 class="menu-title">👦👧 男女配對</h2>
+        <p class="size-hint">將啱既字卡拖過去</p>
+        <div class="match-game">
+            <div class="drop-zone">
+                <div class="drop-area" data-gender="male" 
+                     ondragover="handleDragOver(event)" 
+                     ondragleave="handleDragLeave(event)"
+                     ondrop="handleDrop(event)">
+                    👦男
+                </div>
+                <div class="drop-area" data-gender="female"
+                     ondragover="handleDragOver(event)" 
+                     ondragleave="handleDragLeave(event)"
+                     ondrop="handleDrop(event)">
+                    👧女
+                </div>
+            </div>
+            <div class="drag-area">
+                <div class="drag-item" draggable="true" data-gender="female" 
+                     ondragstart="handleDragStart(event)" 
+                     ondragend="handleDragEnd(event)">
+                    👧
+                </div>
+                <div class="drag-item" draggable="true" data-gender="male"
+                     ondragstart="handleDragStart(event)" 
+                     ondragend="handleDragEnd(event)">
+                    👦
+                </div>
+                <div class="drag-item" draggable="true" data-gender="female"
+                     ondragstart="handleDragStart(event)" 
+                     ondragend="handleDragEnd(event)">
+                    👧
+                </div>
+                <div class="drag-item" draggable="true" data-gender="male"
+                     ondragstart="handleDragStart(event)" 
+                     ondragend="handleDragEnd(event)">
+                    👦
+                </div>
+            </div>
         </div>
-        
-        <div id="numberDisplay"></div>
     </div>
     
-    <!-- Colors -->
-    <div class="activity-page" id="colorsPage">
-        <button class="back-btn" onclick="goBack()">🏠 目錄</button>
-        <div class="page-title">🎨 顏色</div>
-        
-        <div class="colors-grid">
-            <div class="color-btn" style="background:#F44336" onclick="showColor('紅色')">
-                <div class="icon">🔴</div>
-                <div class="name">紅色</div>
-            </div>
-            <div class="color-btn" style="background:#2196F3" onclick="showColor('藍色')">
-                <div class="icon">🔵</div>
-                <div class="name">藍色</div>
-            </div>
-            <div class="color-btn" style="background:#4CAF50" onclick="showColor('綠色')">
-                <div class="icon">🟢</div>
-                <div class="name">綠色</div>
-            </div>
-            <div class="color-btn" style="background:#FFEB3B" onclick="showColor('黃色')">
-                <div class="icon">🟡</div>
-                <div class="name">黃色</div>
-            </div>
-            <div class="color-btn" style="background:#FF9800" onclick="showColor('橙色')">
-                <div class="icon">🟠</div>
-                <div class="name">橙色</div>
-            </div>
-            <div class="color-btn" style="background:#9C27B0" onclick="showColor('紫色')">
-                <div class="icon">🟣</div>
-                <div class="name">紫色</div>
-            </div>
-        </div>
-        
-        <div id="colorResult"></div>
+    <!-- 表揚畫面 -->
+    <div id="celebration" class="celebration" onclick="hideCelebration()">
+        <div class="celebration-text">🎉 你叻晒！ 🎉</div>
+        <button class="celebration-btn" onclick="event.stopPropagation();hideCelebration();goBack();">再玩過</button>
     </div>
     
-    <!-- Size -->
-    <div class="activity-page" id="sizePage">
-        <button class="back-btn" onclick="goBack()">🏠 目錄</button>
-        <div class="page-title">🐘🐜 大與小</div>
-        
-        <div class="size-container">
-            <div class="size-row">
-                <div class="size-item" onclick="checkSize('big', this)">
-                    <div class="icon">🐘</div>
-                    <div class="label">大</div>
-                </div>
-                <div class="size-item" onclick="checkSize('small', this)">
-                    <div class="icon">🐜</div>
-                    <div class="label">細</div>
-                </div>
-            </div>
-            <div class="size-row">
-                <div class="size-item" onclick="checkSize('big', this)">
-                    <div class="icon">🏠</div>
-                    <div class="label">大</div>
-                </div>
-                <div class="size-item" onclick="checkSize('small', this)">
-                    <div class="icon">🏡</div>
-                    <div class="label">細</div>
-                </div>
-            </div>
-            <div class="size-row">
-                <div class="size-item" onclick="checkSize('big', this)">
-                    <div class="icon">🌳</div>
-                    <div class="label">大</div>
-                </div>
-                <div class="size-item" onclick="checkSize('small', this)">
-                    <div class="icon">🌱</div>
-                    <div class="label">細</div>
-                </div>
-            </div>
-        </div>
-        
-        <div id="sizeResult"></div>
-    </div>
-    
-    <!-- Celebration -->
-    <div class="celebration" id="celebration">
-        <div class="celebration-emoji">🌟</div>
-        <div class="celebration-text" id="celebrationText">你好叻呀！</div>
-        <div class="celebration-btns">
-            <button class="btn btn-orange" onclick="goBack()">🏠 返去</button>
-            <button class="btn btn-green" onclick="retry()">再玩過</button>
-        </div>
-    </div>
-
     <script>
-        function goTo(page) {
-            document.getElementById('menu').style.display = 'none';
-            document.getElementById(page + 'Page').classList.add('active');
-            if (page === 'numbers') document.getElementById('numberDisplay').textContent = '';
+        let currentCategory = '';
+        let selectedSize = null;
+        
+        function showCategory(cat) {
+            document.querySelector('.menu').style.display = 'none';
+            document.getElementById(cat + '-content').classList.add('active');
+            currentCategory = cat;
+        }
+        
+        function showGame(game) {
+            document.getElementById(currentCategory + '-content').style.display = 'none';
+            document.getElementById(game).classList.add('active');
         }
         
         function goBack() {
-            document.getElementById('menu').style.display = 'flex';
-            document.querySelectorAll('.activity-page').forEach(p => p.classList.remove('active'));
-            document.getElementById('celebration').classList.remove('show');
+            // Hide all content areas
+            document.querySelectorAll('.content-area').forEach(el => {
+                el.classList.remove('active');
+            });
+            // Show menu
+            document.querySelector('.menu').style.display = 'block';
+            currentCategory = '';
         }
         
-        let currentActivity = null;
-        
-        // Shapes
-        let ctx, canvas, isDrawing = false, lastX, lastY;
-        
-        const shapeData = {
-            circle: { color: '#E91E63' },
-            square: { color: '#2196F3' },
-            triangle: { color: '#FF9800' }
-        };
-        
-        function startDraw(shape) {
-            currentActivity = 'draw';
-            document.getElementById('drawArea').style.display = 'block';
-            document.getElementById('drawHint').style.display = 'block';
-            document.getElementById('drawBtns').style.display = 'flex';
-            setTimeout(() => initCanvas(shape), 100);
-        }
-        
-        function initCanvas(shape) {
-            canvas = document.getElementById('drawCanvas');
-            ctx = canvas.getContext('2d');
-            const area = canvas.parentElement;
-            canvas.width = area.clientWidth;
-            canvas.height = area.clientHeight;
+        function selectSize(el) {
+            // 圈起功能 - 切換選中狀態
+            if (selectedSize) {
+                selectedSize.classList.remove('selected');
+            }
+            el.classList.add('selected');
+            selectedSize = el;
             
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            ctx.lineWidth = 12;
-            ctx.strokeStyle = shapeData[shape].color;
-            
-            ctx.setLineDash([18, 14]);
-            ctx.lineWidth = 8;
-            ctx.strokeStyle = '#EEEEEE';
-            
-            const w = canvas.width, h = canvas.height, cx = w/2, cy = h/2, r = Math.min(w,h) * 0.35;
-            
-            if (shape === 'circle') { ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2); ctx.stroke(); }
-            else if (shape === 'square') { const s = r * 1.8; ctx.strokeRect(cx-s/2, cy-s/2, s, s); }
-            else if (shape === 'triangle') { const s = r * 2, hi = s * 0.866; ctx.beginPath(); ctx.moveTo(cx, cy - hi/2); ctx.lineTo(cx - s/2, cy + hi/2); ctx.lineTo(cx + s/2, cy + hi/2); ctx.closePath(); ctx.stroke(); }
-            
-            ctx.setLineDash([]);
-            ctx.lineWidth = 12;
-            ctx.strokeStyle = shapeData[shape].color;
-            
-            canvas.ontouchstart = (e) => { e.preventDefault(); start(e); };
-            canvas.ontouchmove = (e) => { e.preventDefault(); move(e); };
-            canvas.ontouchend = () => isDrawing = false;
-            canvas.onmousedown = start;
-            canvas.onmousemove = move;
-            canvas.onmouseup = canvas.onmouseleave = () => isDrawing = false;
-        }
-        
-        function start(e) {
-            isDrawing = true;
-            const pos = getPos(e);
-            lastX = pos.x; lastY = pos.y;
-            ctx.beginPath();
-            ctx.arc(pos.x, pos.y, 6, 0, Math.PI*2);
-            ctx.fill();
-        }
-        
-        function move(e) {
-            if (!isDrawing) return;
-            const pos = getPos(e);
-            ctx.beginPath();
-            ctx.moveTo(lastX, lastY);
-            ctx.lineTo(pos.x, pos.y);
-            ctx.stroke();
-            lastX = pos.x; lastY = pos.y;
-        }
-        
-        function getPos(e) {
-            const r = canvas.getBoundingClientRect();
-            let x = e.touches ? e.touches[0].clientX : e.clientX;
-            let y = e.touches ? e.touches[0].clientY : e.clientY;
-            return { x: x - r.left, y: y - r.top };
-        }
-        
-        function clearDraw() { initCanvas('circle'); }
-        function doneDraw() { showCelebration('畫得好靚呀！'); }
-        
-        // Gender
-        let selectedSticker = null;
-        
-        function selectSticker(el, value) {
-            document.querySelectorAll('.sticker').forEach(s => s.style.transform = 'scale(1)');
-            el.style.transform = 'scale(1.15)';
-            selectedSticker = value;
-        }
-        
-        function tryPlace(zone) {
-            if (selectedSticker) {
-                zone.textContent = selectedSticker;
-                zone.style.borderColor = '#9C27B0';
-                zone.style.background = '#F3E5F5';
+            // 檢查是否最大 (60px)
+            if (el.style.fontSize === '60px') {
+                setTimeout(showCelebration, 500);
             }
         }
         
-        function resetGender() {
-            document.querySelectorAll('.drop-zone').forEach(z => {
-                z.textContent = '';
-                z.classList.remove('correct', 'wrong');
-                z.style.borderColor = '#BBB';
-                z.style.background = '#FAFAFA';
-            });
-            selectedSticker = null;
-            document.querySelectorAll('.sticker').forEach(s => s.style.transform = '');
-        }
-        
-        function checkGender() {
-            let correct = 0;
-            document.querySelectorAll('.drop-zone').forEach(z => {
-                const ans = z.getAttribute('data-answer');
-                const val = z.textContent;
-                if (val === ans) { z.classList.add('correct'); z.classList.remove('wrong'); correct++; }
-                else { z.classList.add('wrong'); z.classList.remove('correct'); }
-            });
-            if (correct === 2) showCelebration('你好叻呀！');
-        }
-        
-        // Numbers
-        const chineseNumbers = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
-        function playNumber(n) { document.getElementById('numberDisplay').textContent = chineseNumbers[n] + ' (' + n + ')'; }
-        
-        // Colors
-        function showColor(name) { document.getElementById('colorResult').textContent = name + '！'; }
-        
-        // Size
-        function checkSize(choice, el) {
-            const correct = ['big', 'small', 'big'][Math.floor(Math.random() * 3)];
-            const result = document.getElementById('sizeResult');
-            if (choice === correct) {
-                el.style.background = '#C8E6C9';
-                result.style.color = '#4CAF50';
-                result.textContent = '啱啦！';
-                setTimeout(() => showCelebration('你好叻呀！'), 500);
-            } else {
-                el.style.background = '#FFCDD2';
-                result.style.color = '#F44336';
-                result.textContent = '再試過！';
-            }
-        }
-        
-        // Celebration
-        function showCelebration(text) {
-            document.getElementById('celebrationText').textContent = text;
+        function showCelebration() {
             document.getElementById('celebration').classList.add('show');
         }
         
-        function retry() {
+        function hideCelebration() {
             document.getElementById('celebration').classList.remove('show');
-            if (currentActivity === 'draw') {
-                document.getElementById('drawArea').style.display = 'none';
-                document.getElementById('drawHint').style.display = 'none';
-                document.getElementById('drawBtns').style.display = 'none';
-            } else { resetGender(); }
+            // 重置選擇
+            if (selectedSize) {
+                selectedSize.classList.remove('selected');
+                selectedSize = null;
+            }
         }
+        
+        // 拖拉功能 - 男女配對
+        let draggedItem = null;
+        
+        function handleDragStart(e) {
+            draggedItem = e.target;
+            e.target.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        }
+        
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+            draggedItem = null;
+        }
+        
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('drag-over');
+        }
+        
+        function handleDragLeave(e) {
+            e.currentTarget.classList.remove('drag-over');
+        }
+        
+        function handleDrop(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('drag-over');
+            
+            if (draggedItem) {
+                // 檢查是否正確配對
+                const targetGender = e.currentTarget.dataset.gender;
+                const draggedGender = draggedItem.dataset.gender;
+                
+                if (targetGender === draggedGender) {
+                    // 正確配對
+                    e.currentTarget.innerHTML = draggedItem.innerHTML;
+                    checkAllMatched();
+                } else {
+                    // 錯誤 - 震動提示
+                    e.currentTarget.style.animation = 'shake 0.5s';
+                    setTimeout(() => {
+                        e.currentTarget.style.animation = '';
+                    }, 500);
+                }
+            }
+        }
+        
+        function checkAllMatched() {
+            const drops = document.querySelectorAll('.drop-area[data-gender]');
+            let allMatched = true;
+            drops.forEach(d => {
+                if (!d.querySelector('.drag-item')) allMatched = false;
+            });
+            if (allMatched) showCelebration();
+        }
+        
+        // 添加shake動畫
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-10px); }
+                75% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
