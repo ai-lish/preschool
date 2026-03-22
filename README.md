@@ -32,4 +32,4 @@
 
 ## 使用方法
 
-用Safari打開 https://math-lish.github.io/preschool/
+用Safari打開 https://ai-lish.github.io/preschool/

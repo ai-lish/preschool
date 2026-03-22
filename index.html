@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>🌟 晞霖學習網站 - 幼兒語文</title>
+    <title>🌟 晞霖學習網站</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
@@ -16,114 +16,47 @@
             user-select: none;
         }
         
-        /* iPad 橫置優化 */
-        @media (orientation: landscape) and (max-height: 600px) {
-            .title { font-size: 24px !important; }
-            .game-title { font-size: 20px !important; }
-            .back-btn { padding: 8px 15px !important; font-size: 14px !important; }
-        }
-        
-        /* iPad 直向 */
-        @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-            .title { font-size: 28px; }
-            .game-title { font-size: 22px; }
-            .game-btn { width: 90%; max-width: 350px; padding: 22px; font-size: 22px; }
-            .sentence-row { padding: 18px 25px; }
-            .sentence-text { font-size: 24px; }
-            .drop-target { width: 80px; height: 70px; font-size: 40px; }
-            .drag-item { font-size: 55px; }
-            .color-target { width: 90px; height: 90px; font-size: 55px; }
-            .color-butterfly { font-size: 50px; }
-            .big-character { font-size: 140px; }
-        }
-        
-        /* iPhone */
-        @media (max-width: 480px) {
-            .title { font-size: 26px; }
-            .subtitle { font-size: 16px; }
-            .focus-box { padding: 12px 15px; }
-            .focus-item { font-size: 13px; }
-            .game-btn { width: 95%; padding: 16px; font-size: 18px; }
-            .game-title { font-size: 20px; padding: 10px; margin-top: 50px; }
-            .game-instruction { font-size: 14px; padding: 8px 12px; }
-            .sentence-row { padding: 12px 15px; flex-wrap: wrap; justify-content: center; }
-            .sentence-text { font-size: 20px; }
-            .sentence-icon { font-size: 40px; }
-            .drop-target { width: 65px; height: 55px; font-size: 32px; }
-            .drag-item { font-size: 45px; padding: 8px 15px; }
-            .drag-source { gap: 25px; }
-            .color-target-row { gap: 10px; }
-            .color-target { width: 70px; height: 70px; font-size: 45px; }
-            .color-butterfly { font-size: 40px; }
-            .big-character { font-size: 100px; padding: 15px; }
-            .stroke-step { padding: 12px 15px; }
-            .stroke-name { font-size: 16px; }
-            .action-btn { padding: 10px 18px; font-size: 14px; }
-        }
-        
-        /* 小型手機 */
-        @media (max-width: 360px) {
-            .title { font-size: 22px; }
-            .game-btn { font-size: 16px; padding: 14px; }
-            .drop-target { width: 55px; height: 48px; font-size: 28px; }
-            .drag-item { font-size: 38px; }
-            .color-target { width: 60px; height: 60px; font-size: 38px; }
-            .color-butterfly { font-size: 35px; }
-        }
-        
-        /* 主頁面 */
+        /* ===== 主頁面 ===== */
         .menu { padding: 20px; min-height: 100vh; text-align: center; }
         
-        .title { font-size: 32px; color: #FF6F61; text-shadow: 2px 2px white; margin-bottom: 10px; }
-        .subtitle { font-size: 18px; color: #8B4513; margin-bottom: 25px; }
+        .title { font-size: 32px; color: #FF6F61; text-shadow: 2px 2px white; margin-bottom: 25px; }
         
-        .week-badge {
-            display: inline-block;
-            background: #D32F2F;
-            color: white;
-            padding: 8px 25px;
+        /* 科目選擇 */
+        .subject-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .subject-btn {
+            flex: 1;
+            min-width: 100px;
+            max-width: 150px;
+            padding: 20px 15px;
             border-radius: 20px;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-        
-        /* 學習重點 */
-        .focus-box {
-            background: rgba(255,255,255,0.9);
-            border-radius: 15px;
-            padding: 15px 20px;
-            margin: 0 auto 25px;
-            max-width: 350px;
-            text-align: left;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        
-        .focus-title { color: #D32F2F; font-size: 15px; margin-bottom: 8px; }
-        .focus-item { font-size: 14px; color: #5D4037; margin: 5px 0; }
-        
-        /* 遊戲按鈕 */
-        .game-btn {
-            display: block;
-            width: 280px;
-            margin: 12px auto;
-            padding: 18px;
-            background: white;
-            border-radius: 18px;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
+            border: none;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(0,0,0,0.15);
             transition: transform 0.2s;
-            border: 3px solid transparent;
         }
         
-        .game-btn:active { transform: scale(0.95); }
-        .game-btn.pink { border-color: #E91E63; color: #E91E63; }
-        .game-btn.green { border-color: #4CAF50; color: #4CAF50; }
+        .subject-btn:active { transform: scale(0.95); }
+        .subject-btn.chinese { background: #FFB6C1; color: #8B4513; }
+        .subject-btn.math { background: #87CEEB; color: #4169E1; }
+        .subject-btn.english { background: #98FB98; color: #228B22; }
         
-        /* 遊戲頁面 */
-        .game-page { display: none; padding: 20px; min-height: 100vh; }
-        .game-page.active { display: block; }
+        /* 週數選擇 */
+        .weeks-container {
+            display: none;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .weeks-container.active { display: block; }
         
         .back-btn {
             position: fixed;
@@ -138,16 +71,102 @@
             z-index: 100;
         }
         
-        .game-title {
-            font-size: 24px;
+        .subject-title {
+            font-size: 28px;
             color: #5D4037;
             text-align: center;
-            background: rgba(255,255,255,0.8);
-            padding: 12px;
-            border-radius: 15px;
-            margin: 50px auto 15px;
-            max-width: 350px;
+            margin: 10px 0 20px;
         }
+        
+        /* 週數格仔 */
+        .weeks-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            max-width: 350px;
+            margin: 0 auto;
+        }
+        
+        .week-btn {
+            background: white;
+            border-radius: 15px;
+            padding: 20px 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+            border: 3px solid transparent;
+        }
+        
+        .week-btn:active { transform: scale(0.95); }
+        .week-btn:hover { border-color: #FF6F61; }
+        .week-btn.locked { opacity: 0.5; cursor: not-allowed; }
+        
+        /* ===== 遊戲頁面 ===== */
+        .game-page { display: none; min-height: 100vh; }
+        .game-page.active { display: block; }
+        
+        .game-header {
+            background: rgba(255,255,255,0.9);
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .game-week-badge {
+            display: inline-block;
+            background: #D32F2F;
+            color: white;
+            padding: 5px 20px;
+            border-radius: 15px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .game-subject-title {
+            font-size: 22px;
+            color: #5D4037;
+            margin-bottom: 5px;
+        }
+        
+        /* Tab 導航 */
+        .tab-nav {
+            display: flex;
+            background: white;
+            border-bottom: 2px solid #eee;
+            overflow-x: auto;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            min-width: 80px;
+            padding: 12px 10px;
+            border: none;
+            background: none;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        
+        .tab-btn.active {
+            color: #FF6F61;
+            border-bottom: 3px solid #FF6F61;
+        }
+        
+        .tab-btn:disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        /* Tab 內容 */
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+        
+        .tab-content.active { display: block; }
         
         /* ===== 遊戲 1: 男女配對 ===== */
         .game-instruction {
@@ -180,11 +199,7 @@
         }
         
         .sentence-icon { font-size: 50px; }
-        
-        .sentence-text {
-            font-size: 22px;
-            color: #5D4037;
-        }
+        .sentence-text { font-size: 22px; color: #5D4037; }
         
         .drop-target {
             width: 70px;
@@ -199,25 +214,10 @@
             transition: all 0.3s;
         }
         
-        .drop-target.drag-over {
-            border-color: #4CAF50;
-            background: #E8F5E9;
-            transform: scale(1.05);
-        }
+        .drop-target.drag-over { border-color: #4CAF50; background: #E8F5E9; transform: scale(1.05); }
+        .drop-target.filled { border-style: solid; border-color: #4CAF50; background: #C8E6C9; }
+        .drop-target.wrong { border-color: #f44336; background: #FFCDD2; animation: shake 0.5s; }
         
-        .drop-target.filled {
-            border-style: solid;
-            border-color: #4CAF50;
-            background: #C8E6C9;
-        }
-        
-        .drop-target.wrong {
-            border-color: #f44336;
-            background: #FFCDD2;
-            animation: shake 0.5s;
-        }
-        
-        /* 底部拖拉字卡 */
         .drag-source {
             display: flex;
             justify-content: center;
@@ -240,21 +240,11 @@
             -webkit-user-select: none;
         }
         
-        .drag-item:active {
-            cursor: grabbing;
-            transform: scale(1.1);
-        }
-        
-        .drag-item.used {
-            opacity: 0.3;
-            pointer-events: none;
-        }
+        .drag-item:active { cursor: grabbing; transform: scale(1.1); }
+        .drag-item.used { opacity: 0.3; pointer-events: none; }
         
         /* ===== 遊戲 2: 顏色配對 ===== */
-        .color-game-container {
-            max-width: 400px;
-            margin: 0 auto;
-        }
+        .color-game-container { max-width: 400px; margin: 0 auto; }
         
         .color-target-row {
             display: flex;
@@ -277,11 +267,7 @@
             transition: all 0.3s;
         }
         
-        .color-target.matched {
-            border-style: solid;
-            transform: scale(1.05);
-        }
-        
+        .color-target.matched { border-style: solid; transform: scale(1.05); }
         .color-target.matched-red { border-color: #f44336; background: #FFEBEE; }
         .color-target.matched-yellow { border-color: #FFEB3B; background: #FFFDE7; }
         .color-target.matched-blue { border-color: #2196F3; background: #E3F2FD; }
@@ -308,26 +294,17 @@
         .color-butterfly:active { transform: scale(1.15); }
         .color-butterfly.used { opacity: 0.3; pointer-events: none; }
         
-        /* 蝴蝶顏色區分 */
+        /* 蝴蝶顏色 */
         .butterfly-red { background: #FFEBEE; border: 3px solid #f44336; }
         .butterfly-yellow { background: #FFFDE7; border: 3px solid #FFEB3B; }
         .butterfly-blue { background: #E3F2FD; border: 3px solid #2196F3; }
         .butterfly-green { background: #E8F5E9; border: 3px solid #4CAF50; }
         
         /* 連線區 */
-        .trace-section {
-            display: none;
-            margin-top: 20px;
-            text-align: center;
-        }
-        
+        .trace-section { display: none; margin-top: 20px; text-align: center; }
         .trace-section.active { display: block; }
         
-        .trace-title {
-            font-size: 18px;
-            color: #5D4037;
-            margin-bottom: 15px;
-        }
+        .trace-title { font-size: 18px; color: #5D4037; margin-bottom: 15px; }
         
         .trace-box {
             background: white;
@@ -363,20 +340,11 @@
             font-size: 18px;
         }
         
-        .trace-line.done {
-            background: #4CAF50;
-        }
-        
-        .trace-line.done::after {
-            content: " ✅";
-        }
+        .trace-line.done { background: #4CAF50; }
+        .trace-line.done::after { content: " ✅"; }
         
         /* ===== 遊戲 3: 女字書寫 ===== */
-        .stroke-demo {
-            text-align: center;
-            margin: 15px auto;
-            max-width: 350px;
-        }
+        .stroke-demo { text-align: center; margin: 15px auto; max-width: 350px; }
         
         .big-character {
             font-size: 120px;
@@ -389,10 +357,7 @@
             margin-bottom: 10px;
         }
         
-        .stroke-hint {
-            font-size: 16px;
-            color: #888;
-        }
+        .stroke-hint { font-size: 16px; color: #888; }
         
         .stroke-grid {
             display: flex;
@@ -418,16 +383,8 @@
         }
         
         .stroke-step:active { transform: scale(0.98); }
-        
-        .stroke-step.current {
-            border: 3px solid #2196F3;
-            background: #E3F2FD;
-        }
-        
-        .stroke-step.done {
-            background: #C8E6C9;
-            border: 3px solid #4CAF50;
-        }
+        .stroke-step.current { border: 3px solid #2196F3; background: #E3F2FD; }
+        .stroke-step.done { background: #C8E6C9; border: 3px solid #4CAF50; }
         
         .stroke-num {
             width: 35px;
@@ -444,19 +401,10 @@
         .stroke-step.done .stroke-num { background: #4CAF50; }
         .stroke-step.current .stroke-num { background: #2196F3; }
         
-        .stroke-info {
-            flex: 1;
-            text-align: left;
-        }
-        
+        .stroke-info { flex: 1; text-align: left; }
         .stroke-name { font-size: 18px; color: #5D4037; }
         .stroke-direction { font-size: 13px; color: #888; }
-        
-        .stroke-visual {
-            font-size: 40px;
-            width: 50px;
-            text-align: center;
-        }
+        .stroke-visual { font-size: 40px; width: 50px; text-align: center; }
         
         /* 按鈕列 */
         .action-buttons {
@@ -498,17 +446,8 @@
         
         .celebration.show { display: flex; }
         
-        .celebration-text {
-            font-size: 50px;
-            color: #FFD700;
-            animation: bounce 1s infinite;
-        }
-        
-        .celebration-sub {
-            font-size: 22px;
-            color: white;
-            margin-top: 15px;
-        }
+        .celebration-text { font-size: 50px; color: #FFD700; animation: bounce 1s infinite; }
+        .celebration-sub { font-size: 22px; color: white; margin-top: 15px; }
         
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
@@ -526,7 +465,7 @@
             cursor: pointer;
         }
         
-        /* ===== 儲存成功提示 ===== */
+        /* ===== 儲存提示 ===== */
         .save-toast {
             display: none;
             position: fixed;
@@ -549,292 +488,327 @@
             100% { opacity: 0; }
         }
         
-        /* shake 動畫 */
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-10px); }
             75% { transform: translateX(10px); }
         }
+        
+        /* ===== Responsive ===== */
+        @media (orientation: landscape) and (max-height: 600px) {
+            .title { font-size: 24px !important; }
+            .subject-btn { padding: 12px 10px; font-size: 16px; }
+        }
+        
+        @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+            .title { font-size: 28px; }
+            .subject-btn { max-width: 180px; padding: 25px 20px; font-size: 20px; }
+            .weeks-grid { max-width: 500px; grid-template-columns: repeat(4, 1fr); }
+            .week-btn { padding: 25px 15px; font-size: 20px; }
+        }
+        
+        @media (max-width: 480px) {
+            .title { font-size: 24px; }
+            .subject-container { gap: 10px; }
+            .subject-btn { min-width: 80px; padding: 15px 10px; font-size: 14px; }
+            .weeks-grid { gap: 10px; }
+            .week-btn { padding: 15px 8px; font-size: 14px; }
+            .tab-btn { padding: 10px 8px; font-size: 12px; }
+        }
     </style>
 </head>
 <body>
-    <!-- ========== 主頁面 ========== -->
-    <div class="menu">
+    <!-- ===== 主頁面 ===== -->
+    <div class="menu" id="main-menu">
         <h1 class="title">🌟 晞霖學習網站 🌟</h1>
-        <div class="week-badge">第 1 週</div>
         
-        <div class="focus-box">
-            <div class="focus-title">📚 學習重點</div>
-            <div class="focus-item">• 辨識字詞 — 男孩子、女孩子</div>
-            <div class="focus-item">• 認識筆順 — 橫 (一)</div>
-            <div class="focus-item">• 學習句式 — 我是男孩子。</div>
-        </div>
-        
-        <div class="subtitle">請選擇遊戲 👇</div>
-        
-        <div class="game-btn pink" onclick="showGame('game1')">
-            👦👧 男女配對
-        </div>
-        <div class="game-btn green" onclick="showGame('game2')">
-            🎀 顏色配對
-        </div>
-        <div class="game-btn pink" onclick="showGame('game3')">
-            ✏️ 女字書寫
-        </div>
-    </div>
-    
-    <!-- ========== 遊戲 1: 男女配對 ========== -->
-    <div id="game1" class="game-page">
-        <button class="back-btn" onclick="goBack()">🔙 返回</button>
-        <h2 class="game-title">👦👧 男女配對</h2>
-        
-        <div class="game-instruction">
-            將「男」或「女」字拖入正確位置
-        </div>
-        
-        <div class="sentence-area">
-            <div class="sentence-row">
-                <div class="sentence-icon">👦</div>
-                <div class="sentence-text">我是</div>
-                <div class="drop-target" id="drop-jun" 
-                     ondragover="handleDragOver(event)" 
-                     ondragleave="handleDragLeave(event)"
-                     ondrop="handleDrop(event, 'jun')">
-                </div>
-                <div class="sentence-text">孩子</div>
-            </div>
-            
-            <div class="sentence-row">
-                <div class="sentence-icon">👧</div>
-                <div class="sentence-text">我是</div>
-                <div class="drop-target" id="drop-qi" 
-                     ondragover="handleDragOver(event)" 
-                     ondragleave="handleDragLeave(event)"
-                     ondrop="handleDrop(event, 'qi')">
-                </div>
-                <div class="sentence-text">孩子</div>
-            </div>
-        </div>
-        
-        <div class="drag-source" id="drag-source">
-            <div class="drag-item" id="drag-male" draggable="true"
-                 ondragstart="handleDragStart(event, '男')"
-                 ondragend="handleDragEnd(event)">
-                男
-            </div>
-            <div class="drag-item" id="drag-female" draggable="true"
-                 ondragstart="handleDragStart(event, '女')"
-                 ondragend="handleDragEnd(event)">
-                女
-            </div>
-        </div>
-        
-        <div class="action-buttons">
-            <button class="action-btn btn-reset" onclick="resetGame1()">
-                🔄 清除再做
+        <div class="subject-container">
+            <button class="subject-btn chinese" onclick="showSubject('chinese')">
+                📖 語文
             </button>
-            <button class="action-btn btn-save" onclick="saveGame1()">
-                ✓ 儲存
+            <button class="subject-btn math" onclick="showSubject('math')">
+                🔢 數學
+            </button>
+            <button class="subject-btn english" onclick="showSubject('english')">
+                🔤 英文
             </button>
         </div>
     </div>
     
-    <!-- ========== 遊戲 2: 顏色配對 ========== -->
-    <div id="game2" class="game-page">
+    <!-- ===== 語文科 ===== -->
+    <div id="chinese-weeks" class="weeks-container">
         <button class="back-btn" onclick="goBack()">🔙 返回</button>
-        <h2 class="game-title">🎀 顏色配對</h2>
-        
-        <div class="game-instruction">
-            將相同顏色的蝴蝶結拖過去
+        <h2 class="subject-title">📖 語文</h2>
+        <div class="weeks-grid">
+            <button class="week-btn" onclick="showWeek('chinese', 1)">第1週</button>
+            <button class="week-btn" onclick="showWeek('chinese', 2)">第2週</button>
+            <button class="week-btn" onclick="showWeek('chinese', 3)">第3週</button>
+            <button class="week-btn locked">第4週</button>
+            <button class="week-btn locked">第5週</button>
+            <button class="week-btn locked">...</button>
+        </div>
+    </div>
+    
+    <!-- ===== 數學科 ===== -->
+    <div id="math-weeks" class="weeks-container">
+        <button class="back-btn" onclick="goBack()">🔙 返回</button>
+        <h2 class="subject-title">🔢 數學</h2>
+        <div class="weeks-grid">
+            <button class="week-btn locked">第1週</button>
+            <button class="week-btn locked">第2週</button>
+            <button class="week-btn locked">...</button>
+        </div>
+    </div>
+    
+    <!-- ===== 英文科 ===== -->
+    <div id="english-weeks" class="weeks-container">
+        <button class="back-btn" onclick="goBack()">🔙 返回</button>
+        <h2 class="subject-title">🔤 英文</h2>
+        <div class="weeks-grid">
+            <button class="week-btn locked">第1週</button>
+            <button class="week-btn locked">...</button>
+        </div>
+    </div>
+    
+    <!-- ===== 語文 第1週 遊戲頁面 ===== -->
+    <div id="chinese-week1" class="game-page">
+        <div class="game-header">
+            <button class="back-btn" onclick="goBackToWeeks('chinese')">🔙 返回</button>
+            <div class="game-week-badge">第 1 週</div>
+            <h2 class="game-subject-title">📖 語文 — 男孩子和女孩子</h2>
+            
+            <!-- Tab 導航 -->
+            <div class="tab-nav">
+                <button class="tab-btn active" id="tab-1" onclick="showTab(1)">👦👧 男女配對</button>
+                <button class="tab-btn" id="tab-2" onclick="showTab(2)">🎀 顏色配對</button>
+                <button class="tab-btn" id="tab-3" onclick="showTab(3)">✏️ 女字書寫</button>
+            </div>
         </div>
         
-        <!-- 配對區 -->
-        <div class="color-game-container" id="match-section">
-            <div class="color-target-row">
-                <div class="color-target" id="target-red"
-                     ondragover="handleColorDragOver(event)"
-                     ondragleave="handleColorDragLeave(event)"
-                     ondrop="handleColorDrop(event, 'red')">
+        <!-- Tab 1: 男女配對 -->
+        <div id="game1-content" class="tab-content active">
+            <div class="game-instruction">將「男」或「女」字拖入正確位置</div>
+            
+            <div class="sentence-area">
+                <div class="sentence-row">
+                    <div class="sentence-icon">👦</div>
+                    <div class="sentence-text">我是</div>
+                    <div class="drop-target" id="drop-jun" 
+                         ondragover="handleDragOver(event)" 
+                         ondragleave="handleDragLeave(event)"
+                         ondrop="handleDrop(event, 'jun')"></div>
+                    <div class="sentence-text">孩子</div>
                 </div>
-                <div class="color-target" id="target-yellow"
-                     ondragover="handleColorDragOver(event)"
-                     ondragleave="handleColorDragLeave(event)"
-                     ondrop="handleColorDrop(event, 'yellow')">
-                </div>
-            </div>
-            <div class="color-target-row">
-                <div class="color-target" id="target-blue"
-                     ondragover="handleColorDragOver(event)"
-                     ondragleave="handleColorDragLeave(event)"
-                     ondrop="handleColorDrop(event, 'blue')">
-                </div>
-                <div class="color-target" id="target-green"
-                     ondragover="handleColorDragOver(event)"
-                     ondragleave="handleColorDragLeave(event)"
-                     ondrop="handleColorDrop(event, 'green')">
+                <div class="sentence-row">
+                    <div class="sentence-icon">👧</div>
+                    <div class="sentence-text">我是</div>
+                    <div class="drop-target" id="drop-qi" 
+                         ondragover="handleDragOver(event)" 
+                         ondragleave="handleDragLeave(event)"
+                         ondrop="handleDrop(event, 'qi')"></div>
+                    <div class="sentence-text">孩子</div>
                 </div>
             </div>
             
-            <div class="color-drag-source" id="butterfly-source">
-                <div class="color-butterfly butterfly-red" id="bf-red" draggable="true"
-                     ondragstart="handleButterflyDragStart(event, 'red')"
-                     ondragend="handleButterflyDragEnd(event)">
-                    🦋
+            <div class="drag-source" id="drag-source">
+                <div class="drag-item" id="drag-male" draggable="true"
+                     ondragstart="handleDragStart(event, '男')"
+                     ondragend="handleDragEnd(event)">男</div>
+                <div class="drag-item" id="drag-female" draggable="true"
+                     ondragstart="handleDragStart(event, '女')"
+                     ondragend="handleDragEnd(event)">女</div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="action-btn btn-reset" onclick="resetGame1()">🔄 清除再做</button>
+                <button class="action-btn btn-save" onclick="saveGame1()">✓ 儲存</button>
+            </div>
+        </div>
+        
+        <!-- Tab 2: 顏色配對 -->
+        <div id="game2-content" class="tab-content">
+            <div class="game-instruction">將相同顏色的蝴蝶結拖過去</div>
+            
+            <div class="color-game-container" id="match-section">
+                <div class="color-target-row">
+                    <div class="color-target" id="target-red"
+                         ondragover="handleColorDragOver(event)"
+                         ondragleave="handleColorDragLeave(event)"
+                         ondrop="handleColorDrop(event, 'red')"></div>
+                    <div class="color-target" id="target-yellow"
+                         ondragover="handleColorDragOver(event)"
+                         ondragleave="handleColorDragLeave(event)"
+                         ondrop="handleColorDrop(event, 'yellow')"></div>
                 </div>
-                <div class="color-butterfly butterfly-yellow" id="bf-yellow" draggable="true"
-                     ondragstart="handleButterflyDragStart(event, 'yellow')"
-                     ondragend="handleButterflyDragEnd(event)">
-                    🦋
+                <div class="color-target-row">
+                    <div class="color-target" id="target-blue"
+                         ondragover="handleColorDragOver(event)"
+                         ondragleave="handleColorDragLeave(event)"
+                         ondrop="handleColorDrop(event, 'blue')"></div>
+                    <div class="color-target" id="target-green"
+                         ondragover="handleColorDragOver(event)"
+                         ondragleave="handleColorDragLeave(event)"
+                         ondrop="handleColorDrop(event, 'green')"></div>
                 </div>
-                <div class="color-butterfly butterfly-blue" id="bf-blue" draggable="true"
-                     ondragstart="handleButterflyDragStart(event, 'blue')"
-                     ondragend="handleButterflyDragEnd(event)">
-                    🦋
+                
+                <div class="color-drag-source" id="butterfly-source">
+                    <div class="color-butterfly butterfly-red" id="bf-red" draggable="true"
+                         ondragstart="handleButterflyDragStart(event, 'red')"
+                         ondragend="handleButterflyDragEnd(event)">🦋</div>
+                    <div class="color-butterfly butterfly-yellow" id="bf-yellow" draggable="true"
+                         ondragstart="handleButterflyDragStart(event, 'yellow')"
+                         ondragend="handleButterflyDragEnd(event)">🦋</div>
+                    <div class="color-butterfly butterfly-blue" id="bf-blue" draggable="true"
+                         ondragstart="handleButterflyDragStart(event, 'blue')"
+                         ondragend="handleButterflyDragEnd(event)">🦋</div>
+                    <div class="color-butterfly butterfly-green" id="bf-green" draggable="true"
+                         ondragstart="handleButterflyDragStart(event, 'green')"
+                         ondragend="handleButterflyDragEnd(event)">🦋</div>
                 </div>
-                <div class="color-butterfly butterfly-green" id="bf-green" draggable="true"
-                     ondragstart="handleButterflyDragStart(event, 'green')"
-                     ondragend="handleButterflyDragEnd(event)">
-                    🦋
+                
+                <div class="action-buttons">
+                    <button class="action-btn btn-reset" onclick="resetGame2Match()">🔄 清除再做</button>
+                    <button class="action-btn btn-next" onclick="goToTrace()">下一步 →</button>
+                </div>
+            </div>
+            
+            <div class="trace-section" id="trace-section">
+                <div class="trace-title">跟隨虛線連線（橫線訓練）</div>
+                
+                <div class="trace-box"><div class="trace-line" id="trace-1" onclick="doTrace(1)"></div></div>
+                <div class="trace-box"><div class="trace-line" id="trace-2" onclick="doTrace(2)"></div></div>
+                <div class="trace-box"><div class="trace-line" id="trace-3" onclick="doTrace(3)"></div></div>
+                <div class="trace-box"><div class="trace-line" id="trace-4" onclick="doTrace(4)"></div></div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn btn-reset" onclick="resetTrace()">🔄 清除再做</button>
+                    <button class="action-btn btn-save" onclick="saveGame2()">✓ 儲存</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tab 3: 女字書寫 -->
+        <div id="game3-content" class="tab-content">
+            <div class="game-instruction">點擊每一步，跟隨筆順書寫</div>
+            
+            <div class="stroke-demo">
+                <div class="big-character">女</div>
+                <div class="stroke-hint">女字共有 3 筆</div>
+            </div>
+            
+            <div class="stroke-grid" id="stroke-grid">
+                <div class="stroke-step" id="step-1" onclick="doStroke(1)">
+                    <div class="stroke-num">1</div>
+                    <div class="stroke-info">
+                        <div class="stroke-name">橫</div>
+                        <div class="stroke-direction">由左至右 →</div>
+                    </div>
+                    <div class="stroke-visual">一</div>
+                </div>
+                <div class="stroke-step" id="step-2" onclick="doStroke(2)">
+                    <div class="stroke-num">2</div>
+                    <div class="stroke-info">
+                        <div class="stroke-name">撇</div>
+                        <div class="stroke-direction">由右上至左下 ↙</div>
+                    </div>
+                    <div class="stroke-visual">丿</div>
+                </div>
+                <div class="stroke-step" id="step-3" onclick="doStroke(3)">
+                    <div class="stroke-num">3</div>
+                    <div class="stroke-info">
+                        <div class="stroke-name">捺</div>
+                        <div class="stroke-direction">由左上至右下 ↘</div>
+                    </div>
+                    <div class="stroke-visual">㇏</div>
                 </div>
             </div>
             
             <div class="action-buttons">
-                <button class="action-btn btn-reset" onclick="resetGame2()">
-                    🔄 清除再做
-                </button>
-                <button class="action-btn btn-next" onclick="goToTrace()">
-                    下一步 →
-                </button>
-            </div>
-        </div>
-        
-        <!-- 連線區 -->
-        <div class="trace-section" id="trace-section">
-            <div class="trace-title">跟隨虛線連線（橫線訓練）</div>
-            
-            <div class="trace-box">
-                <div class="trace-line" id="trace-1" onclick="doTrace(1)"></div>
-            </div>
-            <div class="trace-box">
-                <div class="trace-line" id="trace-2" onclick="doTrace(2)"></div>
-            </div>
-            <div class="trace-box">
-                <div class="trace-line" id="trace-3" onclick="doTrace(3)"></div>
-            </div>
-            <div class="trace-box">
-                <div class="trace-line" id="trace-4" onclick="doTrace(4)"></div>
-            </div>
-            
-            <div class="action-buttons">
-                <button class="action-btn btn-reset" onclick="resetTrace()">
-                    🔄 清除再做
-                </button>
-                <button class="action-btn btn-save" onclick="saveGame2()">
-                    ✓ 儲存
-                </button>
+                <button class="action-btn btn-reset" onclick="resetGame3()">🔄 清除再做</button>
+                <button class="action-btn btn-save" onclick="saveGame3()">✓ 儲存</button>
             </div>
         </div>
     </div>
     
-    <!-- ========== 遊戲 3: 女字書寫 ========== -->
-    <div id="game3" class="game-page">
-        <button class="back-btn" onclick="goBack()">🔙 返回</button>
-        <h2 class="game-title">✏️ 女字書寫</h2>
-        
-        <div class="game-instruction">
-            點擊每一步，跟隨筆順書寫
+    <!-- ===== 數學/英文 示範頁面 ===== -->
+    <div id="math-week1" class="game-page">
+        <div class="game-header">
+            <button class="back-btn" onclick="goBackToWeeks('math')">🔙 返回</button>
+            <div class="game-week-badge">第 1 週</div>
+            <h2 class="game-subject-title">🔢 數學</h2>
         </div>
-        
-        <div class="stroke-demo">
-            <div class="big-character">女</div>
-            <div class="stroke-hint">女字共有 3 筆</div>
-        </div>
-        
-        <div class="stroke-grid" id="stroke-grid">
-            <div class="stroke-step" id="step-1" onclick="doStroke(1)">
-                <div class="stroke-num">1</div>
-                <div class="stroke-info">
-                    <div class="stroke-name">橫</div>
-                    <div class="stroke-direction">由左至右 →</div>
-                </div>
-                <div class="stroke-visual">一</div>
-            </div>
-            
-            <div class="stroke-step" id="step-2" onclick="doStroke(2)">
-                <div class="stroke-num">2</div>
-                <div class="stroke-info">
-                    <div class="stroke-name">撇</div>
-                    <div class="stroke-direction">由右上至左下 ↙</div>
-                </div>
-                <div class="stroke-visual">丿</div>
-            </div>
-            
-            <div class="stroke-step" id="step-3" onclick="doStroke(3)">
-                <div class="stroke-num">3</div>
-                <div class="stroke-info">
-                    <div class="stroke-name">捺</div>
-                    <div class="stroke-direction">由左上至右下 ↘</div>
-                </div>
-                <div class="stroke-visual">㇏</div>
-            </div>
-        </div>
-        
-        <div class="action-buttons">
-            <button class="action-btn btn-reset" onclick="resetGame3()">
-                🔄 清除再做
-            </button>
-            <button class="action-btn btn-save" onclick="saveGame3()">
-                ✓ 儲存
-            </button>
+        <div style="text-align:center;padding:50px;color:#888;">
+            <div style="font-size:60px;">🚧</div>
+            <div style="font-size:20px;margin-top:20px;">敬請期待...</div>
         </div>
     </div>
     
-    <!-- ========== 表揚畫面 ========== -->
+    <div id="english-week1" class="game-page">
+        <div class="game-header">
+            <button class="back-btn" onclick="goBackToWeeks('english')">🔙 返回</button>
+            <div class="game-week-badge">第 1 週</div>
+            <h2 class="game-subject-title">🔤 英文</h2>
+        </div>
+        <div style="text-align:center;padding:50px;color:#888;">
+            <div style="font-size:60px;">🚧</div>
+            <div style="font-size:20px;margin-top:20px;">Coming soon...</div>
+        </div>
+    </div>
+    
+    <!-- ===== 表揚畫面 ===== -->
     <div id="celebration" class="celebration" onclick="hideCelebration()">
         <div class="celebration-text">🎉 你叻晒！ 🎉</div>
         <div class="celebration-sub" id="celebration-sub">完成！</div>
-        <button class="celebration-btn" onclick="event.stopPropagation();hideCelebration();goBack();">再玩過</button>
+        <button class="celebration-btn" onclick="event.stopPropagation();hideCelebration();">再玩過</button>
     </div>
     
-    <!-- ========== 儲存成功提示 ========== -->
     <div id="save-toast" class="save-toast">✓ 已儲存</div>
     
     <script>
-        // ===== 全域變數 =====
-        let currentGame = '';
-        
-        // 遊戲 1
-        let junAnswer = null;
-        let qiAnswer = null;
-        let draggedChar = '';
-        
-        // 遊戲 2
-        let matchedColors = {};
-        let tracesDone = 0;
-        let currentDragColor = '';
-        
-        // 遊戲 3
-        let currentStroke = 0;
-        
-        // ===== 通用函數 =====
-        function showGame(game) {
+        // ===== 導航 =====
+        function showSubject(subject) {
             document.querySelector('.menu').style.display = 'none';
-            document.getElementById(game).classList.add('active');
-            currentGame = game;
+            document.getElementById(subject + '-weeks').classList.add('active');
+        }
+        
+        function showWeek(subject, week) {
+            document.querySelectorAll('.weeks-container').forEach(el => el.classList.remove('active'));
+            const pageId = subject + '-week' + week;
+            document.getElementById(pageId).classList.add('active');
         }
         
         function goBack() {
-            document.querySelectorAll('.game-page').forEach(el => {
-                el.classList.remove('active');
-            });
+            document.querySelectorAll('.weeks-container').forEach(el => el.classList.remove('active'));
             document.querySelector('.menu').style.display = 'block';
+        }
+        
+        function goBackToWeeks(subject) {
+            document.querySelectorAll('.game-page').forEach(el => el.classList.remove('active'));
+            document.getElementById(subject + '-weeks').classList.add('active');
             resetAll();
         }
         
+        // ===== Tab 切換 =====
+        let currentTab = 1;
+        
+        function showTab(num) {
+            document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+                btn.classList.toggle('active', i + 1 === num);
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById('game' + num + '-content').classList.add('active');
+            currentTab = num;
+        }
+        
+        // ===== 通用 =====
         function resetAll() {
             resetGame1();
-            resetGame2();
+            resetGame2Match();
+            resetTrace();
             resetGame3();
+            showTab(1);
         }
         
         function showCelebration(sub) {
@@ -849,21 +823,20 @@
         function showToast() {
             const toast = document.getElementById('save-toast');
             toast.style.display = 'block';
-            setTimeout(() => {
-                toast.style.display = 'none';
-            }, 2000);
+            setTimeout(() => toast.style.display = 'none', 2000);
         }
         
         // ===== 遊戲 1: 男女配對 =====
+        let junAnswer = null, qiAnswer = null;
+        let draggedChar = '';
+        
         function handleDragStart(e, char) {
             draggedChar = char;
             e.dataTransfer.setData('text', char);
             e.dataTransfer.effectAllowed = 'move';
         }
         
-        function handleDragEnd(e) {
-            draggedChar = '';
-        }
+        function handleDragEnd(e) { draggedChar = ''; }
         
         function handleDragOver(e) {
             e.preventDefault();
@@ -874,6 +847,7 @@
             e.currentTarget.classList.remove('drag-over');
         }
         
+        function        
         function handleDrop(e, target) {
             e.preventDefault();
             e.currentTarget.classList.remove('drag-over');
@@ -885,22 +859,11 @@
             if (correct) {
                 e.currentTarget.textContent = char;
                 e.currentTarget.classList.add('filled');
-                
-                // 標記已使用的字卡
-                if (char === '男') {
-                    document.getElementById('drag-male').classList.add('used');
-                } else {
-                    document.getElementById('drag-female').classList.add('used');
-                }
-                
-                // 記錄答案
+                if (char === '男') document.getElementById('drag-male').classList.add('used');
+                else document.getElementById('drag-female').classList.add('used');
                 if (target === 'jun') junAnswer = true;
                 if (target === 'qi') qiAnswer = true;
-                
-                // 檢查完成
-                if (junAnswer && qiAnswer) {
-                    setTimeout(() => showCelebration('句式學會晒！'), 500);
-                }
+                if (junAnswer && qiAnswer) setTimeout(() => showCelebration('句式學會晒！'), 500);
             } else {
                 e.currentTarget.classList.add('wrong');
                 setTimeout(() => e.currentTarget.classList.remove('wrong'), 500);
@@ -908,62 +871,45 @@
         }
         
         function resetGame1() {
-            junAnswer = null;
-            qiAnswer = null;
-            
-            document.getElementById('drop-jun').textContent = '';
-            document.getElementById('drop-jun').classList.remove('filled', 'wrong');
-            document.getElementById('drop-qi').textContent = '';
-            document.getElementById('drop-qi').classList.remove('filled', 'wrong');
+            junAnswer = null; qiAnswer = null;
+            ['jun', 'qi'].forEach(t => {
+                const el = document.getElementById('drop-' + t);
+                el.textContent = ''; el.classList.remove('filled', 'wrong');
+            });
             document.getElementById('drag-male').classList.remove('used');
             document.getElementById('drag-female').classList.remove('used');
         }
         
         function saveGame1() {
-            if (junAnswer && qiAnswer) {
-                localStorage.setItem('game1_done', 'true');
-                showToast();
-            } else {
-                alert('請先完成遊戲！');
-            }
+            if (junAnswer && qiAnswer) { localStorage.setItem('game1_done', 'true'); showToast(); }
+            else alert('請先完成遊戲！');
         }
         
         // ===== 遊戲 2: 顏色配對 =====
+        let matchedColors = {};
+        let tracesDone = 0;
+        let currentDragColor = '';
+        
         function handleButterflyDragStart(e, color) {
             currentDragColor = color;
             e.dataTransfer.setData('text', color);
             e.dataTransfer.effectAllowed = 'move';
         }
         
-        function handleButterflyDragEnd(e) {
-            currentDragColor = '';
-        }
+        function handleButterflyDragEnd(e) { currentDragColor = ''; }
         
-        function handleColorDragOver(e) {
-            e.preventDefault();
-            e.currentTarget.classList.add('drag-over');
-        }
-        
-        function handleColorDragLeave(e) {
-            e.currentTarget.classList.remove('drag-over');
-        }
+        function handleColorDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
+        function handleColorDragLeave(e) { e.currentTarget.classList.remove('drag-over'); }
         
         function handleColorDrop(e, targetColor) {
             e.preventDefault();
             e.currentTarget.classList.remove('drag-over');
-            
             const droppedColor = e.dataTransfer.getData('text');
-            
             if (droppedColor === targetColor && !matchedColors[targetColor]) {
-                // 正確配對
                 matchedColors[targetColor] = true;
                 e.currentTarget.classList.add('matched', 'matched-' + targetColor);
                 e.currentTarget.innerHTML = '🦋';
-                
-                // 標記蝴蝶為已使用
                 document.getElementById('bf-' + targetColor).classList.add('used');
-                
-                // 檢查是否全部完成
                 if (Object.keys(matchedColors).length === 4) {
                     setTimeout(() => {
                         document.getElementById('match-section').style.display = 'none';
@@ -980,9 +926,7 @@
             if (Object.keys(matchedColors).length === 4) {
                 document.getElementById('match-section').style.display = 'none';
                 document.getElementById('trace-section').classList.add('active');
-            } else {
-                alert('請先完成所有顏色配對！');
-            }
+            } else alert('請先完成所有顏色配對！');
         }
         
         function doTrace(num) {
@@ -990,66 +934,44 @@
             if (!trace.classList.contains('done')) {
                 trace.classList.add('done');
                 tracesDone++;
-                
-                if (tracesDone === 4) {
-                    setTimeout(() => showCelebration('顏色同線都完成！'), 500);
-                }
+                if (tracesDone === 4) setTimeout(() => showCelebration('顏色同線都完成！'), 500);
             }
         }
         
         function resetTrace() {
             tracesDone = 0;
-            for (let i = 1; i <= 4; i++) {
-                document.getElementById('trace-' + i).classList.remove('done');
-            }
+            for (let i = 1; i <= 4; i++) document.getElementById('trace-' + i).classList.remove('done');
         }
         
-        function resetGame2() {
+        function resetGame2Match() {
             matchedColors = {};
-            tracesDone = 0;
-            
-            // 重置配對區
-            ['red', 'yellow', 'blue', 'green'].forEach(color => {
-                const target = document.getElementById('target-' + color);
-                target.className = 'color-target';
-                target.innerHTML = '';
+            ['red', 'yellow', 'blue', 'green'].forEach(c => {
+                const t = document.getElementById('target-' + c);
+                t.className = 'color-target'; t.innerHTML = '';
             });
-            
-            // 重置蝴蝶
-            ['red', 'yellow', 'blue', 'green'].forEach(color => {
-                document.getElementById('bf-' + color).classList.remove('used');
+            ['red', 'yellow', 'blue', 'green'].forEach(c => {
+                document.getElementById('bf-' + c).classList.remove('used');
             });
-            
-            // 重置連線
             resetTrace();
-            
-            // 顯示配對區，隱藏連線區
             document.getElementById('match-section').style.display = 'block';
             document.getElementById('trace-section').classList.remove('active');
         }
         
         function saveGame2() {
             if (Object.keys(matchedColors).length === 4 && tracesDone === 4) {
-                localStorage.setItem('game2_done', 'true');
-                showToast();
-            } else {
-                alert('請先完成遊戲！');
-            }
+                localStorage.setItem('game2_done', 'true'); showToast();
+            } else alert('請先完成遊戲！');
         }
         
         // ===== 遊戲 3: 女字書寫 =====
+        let currentStroke = 0;
+        
         function doStroke(step) {
             const stepEl = document.getElementById('step-' + step);
-            
             if (stepEl.classList.contains('done')) return;
-            
-            // 標記當前為完成
             stepEl.classList.add('done');
             currentStroke++;
-            
-            if (currentStroke === 3) {
-                setTimeout(() => showCelebration('女字學會晒！'), 500);
-            }
+            if (currentStroke === 3) setTimeout(() => showCelebration('女字學會晒！'), 500);
         }
         
         function resetGame3() {
@@ -1060,10 +982,9 @@
         }
         
         function saveGame3() {
-            if (currentStroke === 3) {
-                localStorage.setItem('game3_done', 'true');
-                showToast();
-            } else {
-                alert('請先完成所有筆順！');
-            }
+            if (currentStroke === 3) { localStorage.setItem('game3_done', 'true'); showToast(); }
+            else alert('請先完成所有筆順！');
         }
+    </script>
+</body>
+</html>
