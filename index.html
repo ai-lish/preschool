@@ -353,7 +353,7 @@
         
         .trace-title { font-size: 18px; color: #5D4037; margin-bottom: 15px; }
         
-        .trace-box {
+        .trace-box { position: relative; 
             background: white;
             border-radius: 15px;
             padding: 15px;
@@ -362,7 +362,35 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
         
-        .trace-line {
+        
+        /* 追蹤畫布 */
+        .trace-canvas {
+            background: repeating-linear-gradient(
+                to right,
+                #ccc 0px, #ccc 8px,
+                transparent 8px, transparent 12px,
+                #ccc 12px, #ccc 16px,
+                transparent 16px, transparent 20px
+            );
+            border-radius: 5px;
+            cursor: crosshair;
+            touch-action: none;
+        }
+        
+        .trace-canvas.completed {
+            background: #4CAF50 !important;
+        }
+        
+        .trace-guide {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #666;
+            pointer-events: none;
+        }
+.trace-line {
             height: 10px;
             background: repeating-linear-gradient(
                 to right,
@@ -596,9 +624,7 @@
         </div>
     
         <div class="week-desc">
-            📚 認識筆順 — 橫 (一)<br>
-            👦👧 辨識字詞 — 男孩子、女孩子<br>
-            📝 學習句式 — 我是男孩子。
+            👦👧 📝 ✏️
         </div>
     </div>
     
@@ -726,12 +752,24 @@
             </div>
             
             <div class="trace-section" id="trace-section">
-                <div class="trace-title">跟隨虛線連線（橫線訓練）</div>
+                <div class="trace-title">👆 用手指或筆跟隨線條</div>
                 
-                <div class="trace-box"><div class="trace-line" id="trace-1" onclick="doTrace(1)"></div></div>
-                <div class="trace-box"><div class="trace-line" id="trace-2" onclick="doTrace(2)"></div></div>
-                <div class="trace-box"><div class="trace-line" id="trace-3" onclick="doTrace(3)"></div></div>
-                <div class="trace-box"><div class="trace-line" id="trace-4" onclick="doTrace(4)"></div></div>
+                <div class="trace-box">
+                    <canvas id="canvas-1" class="trace-canvas" width="280" height="40" data-trace="1"></canvas>
+                    <div class="trace-guide" id="guide-1"></div>
+                </div>
+                <div class="trace-box">
+                    <canvas id="canvas-2" class="trace-canvas" width="280" height="40" data-trace="2"></canvas>
+                    <div class="trace-guide" id="guide-2"></div>
+                </div>
+                <div class="trace-box">
+                    <canvas id="canvas-3" class="trace-canvas" width="280" height="40" data-trace="3"></canvas>
+                    <div class="trace-guide" id="guide-3"></div>
+                </div>
+                <div class="trace-box">
+                    <canvas id="canvas-4" class="trace-canvas" width="280" height="40" data-trace="4"></canvas>
+                    <div class="trace-guide" id="guide-4"></div>
+                </div>
                 
                 <div class="action-buttons">
                     <button class="action-btn btn-reset" onclick="resetTrace()">🔄 清除再做</button>
@@ -742,7 +780,7 @@
         
         <!-- Tab 3: 女字書寫 -->
         <div id="game3-content" class="tab-content">
-            <div class="game-instruction">點擊每一步，跟隨筆順書寫</div>
+            <div class="game-instruction">👆 用手指或筆跟隨筆順</div>
             
             <div class="stroke-row">
                 <div class="stroke-card">
@@ -786,14 +824,14 @@
                     </div>
                 </div>
             </div>
-            <div class="stroke-hint">女字共有 3 筆：橫、撇、捺</div>
+            <div class="stroke-hint">3 筆</div>
             
             <div class="stroke-grid" id="stroke-grid">
                 <div class="stroke-step" id="step-1" onclick="doStroke(1)">
                     <div class="stroke-num">1</div>
                     <div class="stroke-info">
                         <div class="stroke-name">橫</div>
-                        <div class="stroke-direction">由左至右 →</div>
+                        <div class="stroke-direction">→</div>
                     </div>
                     <div class="stroke-visual">一</div>
                 </div>
@@ -801,7 +839,7 @@
                     <div class="stroke-num">2</div>
                     <div class="stroke-info">
                         <div class="stroke-name">撇</div>
-                        <div class="stroke-direction">由右上至左下 ↙</div>
+                        <div class="stroke-direction">↙</div>
                     </div>
                     <div class="stroke-visual">丿</div>
                 </div>
@@ -809,7 +847,7 @@
                     <div class="stroke-num">3</div>
                     <div class="stroke-info">
                         <div class="stroke-name">捺</div>
-                        <div class="stroke-direction">由左上至右下 ↘</div>
+                        <div class="stroke-direction">↘</div>
                     </div>
                     <div class="stroke-visual">㇏</div>
                 </div>

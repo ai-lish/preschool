@@ -33,6 +33,9 @@
             });
             document.getElementById('game' + num + '-content').classList.add('active');
             currentTab = num;
+            if (num === 2) {
+                setTimeout(initCanvases, 100);
+            }
         }
         
         // ===== 通用 =====
@@ -171,8 +174,12 @@
         }
         
         function resetTrace() {
-            tracesDone = 0;
-            for (let i = 1; i <= 4; i++) document.getElementById('trace-' + i).classList.remove('done');
+            tracesCompleted = {};
+            document.querySelectorAll('.trace-canvas').forEach(canvas => {
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                canvas.classList.remove('completed');
+            });
         }
         
         function resetGame2Match() {
@@ -217,3 +224,110 @@
             if (currentStroke === 3) { localStorage.setItem('game3_done', 'true'); showToast(); }
             else alert('請先完成所有筆順！');
         }
+
+// ===== 畫布繪畫功能 =====
+let currentCanvas = null;
+let isDrawing = false;
+let lastX = 0;
+let tracesCompleted = {};
+
+function initCanvases() {
+    document.querySelectorAll('.trace-canvas').forEach(canvas => {
+        const ctx = canvas.getContext('2d');
+        ctx.strokeStyle = '#4CAF50';
+        ctx.lineWidth = 6;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        
+        // Mouse events
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseleave', stopDrawing);
+        
+        // Touch events
+        canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+        canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+        canvas.addEventListener('touchend', stopDrawing);
+        canvas.addEventListener('touchcancel', stopDrawing);
+    });
+}
+
+function handleTouchStart(e) {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const canvas = e.target;
+    const rect = canvas.getBoundingClientRect();
+    lastX = touch.clientX - rect.left;
+    isDrawing = true;
+    currentCanvas = canvas;
+}
+
+function handleTouchMove(e) {
+    e.preventDefault();
+    if (!isDrawing) return;
+    const touch = e.touches[0];
+    const canvas = e.target;
+    const rect = canvas.getBoundingClientRect();
+    const x = touch.clientX - rect.left;
+    drawLine(canvas, x);
+}
+
+function startDrawing(e) {
+    const canvas = e.target;
+    const rect = canvas.getBoundingClientRect();
+    lastX = e.clientX - rect.left;
+    isDrawing = true;
+    currentCanvas = canvas;
+}
+
+function draw(e) {
+    if (!isDrawing) return;
+    const canvas = e.target;
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    drawLine(canvas, x);
+}
+
+function drawLine(canvas, x) {
+    const ctx = canvas.getContext('2d');
+    ctx.beginPath();
+    ctx.moveTo(lastX, 20);
+    ctx.lineTo(x, 20);
+    ctx.stroke();
+    lastX = x;
+    
+    // Check if line is mostly drawn (crossed 80% of canvas)
+    if (lastX > canvas.width * 0.8) {
+        canvas.classList.add('completed');
+        const traceNum = canvas.dataset.trace;
+        if (!tracesCompleted[traceNum]) {
+            tracesCompleted[traceNum] = true;
+            checkAllTracesComplete();
+        }
+    }
+}
+
+function stopDrawing() {
+    isDrawing = false;
+    currentCanvas = null;
+}
+
+function checkAllTracesComplete() {
+    const total = Object.keys(tracesCompleted).length;
+    if (total === 4) {
+        setTimeout(() => showCelebration('顏色同線都完成！'), 500);
+    }
+}
+
+function resetTrace() {
+    tracesCompleted = {};
+    document.querySelectorAll('.trace-canvas').forEach(canvas => {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.classList.remove('completed');
+    });
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', initCanvases);
