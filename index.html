@@ -102,6 +102,53 @@
         .week-btn:active { transform: scale(0.95); }
         .week-btn:hover { border-color: #FF6F61; }
         .week-btn.locked { opacity: 0.5; cursor: not-allowed; }
+        /* 週數描述 */
+        .week-desc {
+            background: rgba(255,255,255,0.8);
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin: 15px auto;
+            max-width: 350px;
+            text-align: center;
+            font-size: 14px;
+            color: #5D4037;
+            line-height: 1.5;
+        }
+        
+        /* 女字書寫 - 4個女字横排 */
+        .stroke-row {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .stroke-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            min-width: 80px;
+        }
+        
+        .stroke-card-title {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+        
+        .stroke-char {
+            font-size: 50px;
+            line-height: 1.2;
+        }
+        
+        .stroke-char svg {
+            width: 60px;
+            height: 70px;
+        }
+
         
         /* ===== 遊戲頁面 ===== */
         .game-page { display: none; min-height: 100vh; }
@@ -547,6 +594,12 @@
             <button class="week-btn locked">第5週</button>
             <button class="week-btn locked">...</button>
         </div>
+    
+        <div class="week-desc">
+            📚 認識筆順 — 橫 (一)<br>
+            👦👧 辨識字詞 — 男孩子、女孩子<br>
+            📝 學習句式 — 我是男孩子。
+        </div>
     </div>
     
     <!-- ===== 數學科 ===== -->
@@ -691,10 +744,49 @@
         <div id="game3-content" class="tab-content">
             <div class="game-instruction">點擊每一步，跟隨筆順書寫</div>
             
-            <div class="stroke-demo">
-                <div class="big-character">女</div>
-                <div class="stroke-hint">女字共有 3 筆</div>
+            <div class="stroke-row">
+                <div class="stroke-card">
+                    <div class="stroke-card-title">示範</div>
+                    <div class="stroke-char">
+                        <svg viewBox="0 0 60 70">
+                            <line x1="10" y1="20" x2="50" y2="20" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="30" y1="20" x2="10" y2="65" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="30" y1="20" x2="50" y2="65" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="stroke-card">
+                    <div class="stroke-card-title">跟住寫</div>
+                    <div class="stroke-char">
+                        <svg viewBox="0 0 60 70">
+                            <line x1="10" y1="20" x2="50" y2="20" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="30" y1="20" x2="10" y2="65" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="30" y1="20" x2="50" y2="65" stroke="#ccc" stroke-width="4" stroke-linecap="round" stroke-dasharray="5,3"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="stroke-card">
+                    <div class="stroke-card-title">再寫一次</div>
+                    <div class="stroke-char">
+                        <svg viewBox="0 0 60 70">
+                            <line x1="10" y1="20" x2="50" y2="20" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="30" y1="20" x2="10" y2="65" stroke="#ccc" stroke-width="4" stroke-linecap="round" stroke-dasharray="5,3"/>
+                            <line x1="30" y1="20" x2="50" y2="65" stroke="#ccc" stroke-width="4" stroke-linecap="round" stroke-dasharray="5,3"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="stroke-card">
+                    <div class="stroke-card-title">自己寫</div>
+                    <div class="stroke-char">
+                        <svg viewBox="0 0 60 70">
+                            <line x1="10" y1="20" x2="50" y2="20" stroke="#ccc" stroke-width="4" stroke-linecap="round" stroke-dasharray="5,3"/>
+                            <line x1="30" y1="20" x2="10" y2="65" stroke="#ccc" stroke-width="4" stroke-linecap="round" stroke-dasharray="5,3"/>
+                            <line x1="30" y1="20" x2="50" y2="65" stroke="#ccc" stroke-width="4" stroke-linecap="round" stroke-dasharray="5,3"/>
+                        </svg>
+                    </div>
+                </div>
             </div>
+            <div class="stroke-hint">女字共有 3 筆：橫、撇、捺</div>
             
             <div class="stroke-grid" id="stroke-grid">
                 <div class="stroke-step" id="step-1" onclick="doStroke(1)">
