@@ -664,7 +664,6 @@
                     <button class="mini-tab" onclick="showMiniTab(1, 3)">✏️</button>
                 </div>
                 <div class="mini-content active" id="mini-1-1">
-                    <p style="text-align:center;font-size:14px;color:#888;margin:10px;">拖「男」「女」字到正確位置</p>
                     <div class="sentence-area">
                         <div class="sentence-row">
                             <div class="sentence-icon">👦</div>
@@ -689,7 +688,6 @@
                     </div>
                 </div>
                 <div class="mini-content" id="mini-1-2">
-                    <p style="text-align:center;font-size:14px;color:#888;margin:10px;">拖蝴蝶去相同顏色</p>
                     <div class="color-game-container" id="match-section-1">
                         <div class="color-target-row">
                             <div class="color-target" id="target-red-1" ondragover="handleColorDragOver(event)" ondragleave="handleColorDragLeave(event)" ondrop="handleColorDrop(event, 'red', 1)"></div>
@@ -711,7 +709,6 @@
                         </div>
                     </div>
                     <div class="trace-section" id="trace-section-1">
-                        <p style="text-align:center;font-size:14px;color:#888;margin:10px;">👆 用手指或筆跟隨線條</p>
                         <div class="trace-box"><canvas id="canvas-1-1" class="trace-canvas" width="280" height="40"></canvas></div>
                         <div class="trace-box"><canvas id="canvas-1-2" class="trace-canvas" width="280" height="40"></canvas></div>
                         <div class="trace-box"><canvas id="canvas-1-3" class="trace-canvas" width="280" height="40"></canvas></div>
@@ -723,29 +720,18 @@
                     </div>
                 </div>
                 <div class="mini-content" id="mini-1-3">
-                    <p style="text-align:center;font-size:14px;color:#888;margin:10px;">👆 用手指或筆跟隨筆順寫字</p>
                     <div class="stroke-row">
                         <div class="stroke-card">
-                            <div class="stroke-card-title">示範</div>
-                            <div class="stroke-char">
-                                <svg viewBox="0 0 60 70">
-                                    <line x1="10" y1="20" x2="50" y2="20" stroke="#333" stroke-width="4" stroke-linecap="round"/>
-                                    <line x1="30" y1="20" x2="10" y2="65" stroke="#333" stroke-width="4" stroke-linecap="round"/>
-                                    <line x1="30" y1="20" x2="50" y2="65" stroke="#333" stroke-width="4" stroke-linecap="round"/>
-                                </svg>
-                            </div>
+                            <div class="stroke-char" style="font-size:60px;line-height:1;">女</div>
                         </div>
                         <div class="stroke-card">
-                            <div class="stroke-card-title">跟住寫</div>
-                            <canvas class="write-canvas" id="write-canvas-1" width="70" height="80"></canvas>
+                            <canvas class="write-canvas" id="write-canvas-1" width="80" height="90"></canvas>
                         </div>
                         <div class="stroke-card">
-                            <div class="stroke-card-title">再寫一次</div>
-                            <canvas class="write-canvas" id="write-canvas-2" width="70" height="80"></canvas>
+                            <canvas class="write-canvas" id="write-canvas-2" width="80" height="90"></canvas>
                         </div>
                         <div class="stroke-card">
-                            <div class="stroke-card-title">自己寫</div>
-                            <canvas class="write-canvas" id="write-canvas-3" width="70" height="80"></canvas>
+                            <canvas class="write-canvas" id="write-canvas-3" width="80" height="90"></canvas>
                         </div>
                     </div>
                     <div class="action-buttons">
