@@ -1,3 +1,121 @@
+
+// ===== 週折疊切換 =====
+function toggleWeek(num) {
+    const content = document.getElementById('week-content-' + num);
+    const toggle = document.getElementById('week-toggle-' + num);
+    if (content.classList.contains('active')) {
+        content.classList.remove('active');
+        toggle.classList.add('collapsed');
+    } else {
+        content.classList.add('active');
+        toggle.classList.remove('collapsed');
+    }
+}
+
+// ===== Mini Tab 切換 =====
+function showMiniTab(week, tab) {
+    // Update tab buttons
+    const tabBtns = document.querySelectorAll('.mini-tab');
+    tabBtns.forEach((btn, i) => {
+        btn.classList.toggle('active', i + 1 === tab);
+    });
+    
+    // Update content
+    const contents = document.querySelectorAll('.mini-content');
+    contents.forEach((c, i) => {
+        c.classList.toggle('active', c.id === 'mini-' + week + '-' + tab);
+    });
+    
+    // Init canvases if switching to draw tabs
+    if (tab === 2) setTimeout(initCanvases, 100);
+    if (tab === 3) setTimeout(initWriteCanvases, 100);
+}
+
+// ===== 書寫畫布 =====
+function initWriteCanvases() {
+    document.querySelectorAll('.write-canvas').forEach(canvas => {
+        const ctx = canvas.getContext('2d');
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 3;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        
+        let isDrawing = false;
+        let lastX = 0, lastY = 0;
+        
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            if (e.touches) {
+                return {
+                    x: e.touches[0].clientX - rect.left,
+                    y: e.touches[0].clientY - rect.top
+                };
+            }
+            return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        }
+        
+        canvas.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            const pos = getPos(e);
+            lastX = pos.x; lastY = pos.y;
+        });
+        canvas.addEventListener('mousemove', (e) => {
+            if (!isDrawing) return;
+            const pos = getPos(e);
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            lastX = pos.x; lastY = pos.y;
+        });
+        canvas.addEventListener('mouseup', () => isDrawing = false);
+        canvas.addEventListener('mouseleave', () => isDrawing = false);
+        
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            isDrawing = true;
+            const pos = getPos(e);
+            lastX = pos.x; lastY = pos.y;
+        }, { passive: false });
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (!isDrawing) return;
+            const pos = getPos(e);
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            lastX = pos.x; lastY = pos.y;
+        }, { passive: false });
+        canvas.addEventListener('touchend', () => isDrawing = false);
+    });
+}
+
+function resetWriteCanvases() {
+    document.querySelectorAll('.write-canvas').forEach(canvas => {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+}
+
+function saveGame3() {
+    let hasContent = false;
+    document.querySelectorAll('.write-canvas').forEach(canvas => {
+        const ctx = canvas.getContext('2d');
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < imageData.data.length; i += 4) {
+            if (imageData.data[i + 3] > 0) { hasContent = true; break; }
+        }
+    });
+    if (hasContent) {
+        localStorage.setItem('game3_done', 'true');
+        showToast();
+    } else {
+        alert('請先寫字！');
+    }
+}
+
+// ===== 修改現有函數 =====
 // ===== 導航 =====
         function showSubject(subject) {
             document.querySelector('.menu').style.display = 'none';
@@ -16,6 +134,10 @@
         }
         
         function goBackToWeeks(subject) {
+            setTimeout(() => {
+                if (currentTab === 2) initCanvases();
+                if (currentTab === 3) initWriteCanvases();
+            }, 200);
             document.querySelectorAll('.game-page').forEach(el => el.classList.remove('active'));
             document.getElementById(subject + '-weeks').classList.add('active');
             resetAll();

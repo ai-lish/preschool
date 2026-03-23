@@ -79,7 +79,44 @@
         }
         
         /* 週數格仔 */
-        .weeks-grid {
+        
+        /* 週 section 折疊 */
+        .week-section {
+            background: white;
+            border-radius: 15px;
+            margin: 10px auto;
+            max-width: 400px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .week-section.locked { opacity: 0.5; }
+        .week-header {
+            padding: 15px 20px;
+            background: #f5f5f5;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 18px;
+            color: #5D4037;
+        }
+        .week-header:active { background: #eee; }
+        .week-content { display: none; padding: 15px; }
+        .week-content.active { display: block; }
+        .week-toggle { transition: transform 0.3s; }
+        .week-toggle.collapsed { transform: rotate(-90deg); }
+        
+        /* Mini tabs */
+        .mini-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
+        .mini-tab { padding: 10px 20px; border: none; background: #eee; border-radius: 20px; font-size: 20px; cursor: pointer; }
+        .mini-tab.active { background: #FFB6C1; color: #8B4513; }
+        .mini-content { display: none; }
+        .mini-content.active { display: block; }
+        
+        /* 書寫畫布 */
+        .write-canvas { background: #f9f9f9; border: 2px dashed #ccc; border-radius: 10px; cursor: crosshair; touch-action: none; }
+.weeks-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
