@@ -1,4 +1,65 @@
 /* ==========================================
+   Sticker Reward System
+   ========================================== */
+const Stickers = {
+    collected: [],
+
+    add(stickerId) {
+        if (!this.collected.includes(stickerId)) {
+            this.collected.push(stickerId);
+            this.save();
+            this.showCollectedAnimation(stickerId);
+            this.updateDisplay();
+        }
+    },
+
+    showCollectedAnimation(stickerId) {
+        const overlay = document.createElement('div');
+        overlay.style.cssText = `
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); display: flex; align-items: center;
+            justify-content: center; z-index: 10000;
+        `;
+        overlay.innerHTML = `
+            <div style="background: white; padding: 40px; border-radius: 30px; text-align: center; animation: pop 0.5s">
+                <div style="font-size: 100px">${this.getStickerEmoji(stickerId)}</div>
+                <p style="font-size: 20px; margin-top: 10px">收集到新貼紙！</p>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+        setTimeout(() => overlay.remove(), 2000);
+    },
+
+    getStickerEmoji(id) {
+        const stickers = {
+            'd1-self-intro': '⭐', 'd1-red': '🍎', 'd2-yellow': '☀️',
+            'd2-body': '💃', 'd3-blue': '🐟', 'd3-shapes': '🔑',
+            'd4-counting': '🍇', 'd4-circle': '⭕', 'd5-review': '🏆',
+            'd5-reflection': '📖'
+        };
+        return stickers[id] || '🌟';
+    },
+
+    updateDisplay() {
+        const el = document.getElementById('sticker-count');
+        if (el) el.textContent = this.collected.length;
+        const bar = document.getElementById('sticker-bar');
+        if (bar) bar.textContent = this.collected.map(id => this.getStickerEmoji(id)).join('');
+    },
+
+    save() {
+        localStorage.setItem('stickers', JSON.stringify(this.collected));
+    },
+
+    load() {
+        try {
+            this.collected = JSON.parse(localStorage.getItem('stickers') || '[]');
+        } catch(e) { this.collected = []; }
+        this.updateDisplay();
+    }
+};
+
+/* ==========================================
    K1 Learning Platform - Activity Engine v2
    Week 1: 認識自己 + 顏色
    ========================================== */
@@ -22,18 +83,47 @@ const Activities = {
     /* ========== TTS ========== */
     speak(text, cb) {
         if (!text) { if (cb) cb(); return; }
-        if ('speechSynthesis' in window) {
-            speechSynthesis.cancel();
-            const u = new SpeechSynthesisUtterance(text);
-            u.lang = 'zh-HK';
-            u.rate = 0.85;
-            try {
-                const settings = ProgressManager.getSettings();
-                u.volume = settings.volume || 1;
-            } catch(e) { u.volume = 1; }
-            if (cb) u.onend = cb;
-            speechSynthesis.speak(u);
-        } else if (cb) { setTimeout(cb, 1000); }
+        if (!('speechSynthesis' in window)) {
+            this._showTextBubble(text);
+            if (cb) setTimeout(cb, 1500);
+            return;
+        }
+        speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'zh-HK';
+        u.rate = 0.85;
+        try {
+            const settings = ProgressManager.getSettings();
+            u.volume = settings.volume || 1;
+        } catch(e) { u.volume = 1; }
+        const voices = speechSynthesis.getVoices();
+        const cantoneseVoice = voices.find(v => v.lang === 'zh-HK')
+            || voices.find(v => v.lang.startsWith('zh'));
+        if (cantoneseVoice) u.voice = cantoneseVoice;
+        u.onend = () => { if (cb) cb(); };
+        u.onerror = () => {
+            this._showTextBubble(text);
+            if (cb) cb();
+        };
+        speechSynthesis.speak(u);
+    },
+
+    _showTextBubble(text) {
+        let bubble = document.getElementById('tts-bubble');
+        if (!bubble) {
+            bubble = document.createElement('div');
+            bubble.id = 'tts-bubble';
+            bubble.style.cssText = `
+                position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+                background: white; padding: 15px 25px; border-radius: 20px;
+                font-size: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+                z-index: 9999; opacity: 0; transition: opacity 0.3s;
+            `;
+            document.body.appendChild(bubble);
+        }
+        bubble.textContent = text;
+        bubble.style.opacity = '1';
+        setTimeout(() => { bubble.style.opacity = '0'; }, 2000);
     },
 
     speakPrompt(text) { this.speak(text); },
@@ -73,6 +163,22 @@ const Activities = {
             c.className = 'confetti-piece';
             c.style.cssText = `left:${Math.random()*100}%;background:${colors[i%colors.length]};animation-delay:${Math.random()*0.5}s;`;
             container.appendChild(c);
+        }
+    },
+
+    /* ========== Audio Unlock ========== */
+    initAudioUnlock() {
+        document.addEventListener('click', () => {
+            if (!window._audioUnlocked) {
+                window._audioUnlocked = true;
+                speechSynthesis.cancel();
+                speechSynthesis.speak(new SpeechSynthesisUtterance(''));
+            }
+        }, { once: true });
+        // Pre-load voices
+        if ('speechSynthesis' in window && speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = () => {};
+            speechSynthesis.getVoices();
         }
     },
 
@@ -121,9 +227,9 @@ const Activities = {
                 },
                 steps: [
                     { text: '花園褪色', desc: '波波嘅花園啲紅色唔見咗！', action: 'gardenIntro' },
-                    { text: '搵紅色水果', desc: '邊啲水果係紅色？㩒佢哋！', action: 'findRedFruits', items: [{e:'🍎',red:true,n:'蘋果'},{e:'🍌',red:false,n:'香蕉'},{e:'🍓',red:true,n:'士多啤梨'},{e:'🍊',red:false,n:'橙'}] },
-                    { text: '搵紅色衣服', desc: '邊啲衫係紅色？㩒佢哋！', action: 'findRedClothes', items: [{e:'👗',red:true,n:'紅色裙',c:'#FF6B6B'},{e:'👖',red:false,n:'藍色褲',c:'#4ECDC4'},{e:'🧢',red:true,n:'紅色帽',c:'#FF6B6B'},{e:'👟',red:false,n:'黃色鞋',c:'#FFE66D'}] },
-                    { text: '搵紅色自然', desc: '自然入面邊啲係紅色？', action: 'findRedNature', items: [{e:'🌹',red:true,n:'紅色花'},{e:'🍃',red:false,n:'綠色葉'},{e:'🐞',red:true,n:'紅色瓢蟲'},{e:'🦋',red:false,n:'藍色蝴蝶'}] },
+                    { text: '搵紅色水果', desc: '邊啲水果係紅色？㩒佢哋！', action: 'findRedFruits', items: [{e:'🍎',red:true,n:'蘋果'},{e:'🍌',red:false,n:'香蕉'},{e:'🍓',red:true,n:'士多啤梨'},{e:'🍊',red:false,n:'橙'},{e:'🍒',red:true,n:'車厘子'},{e:'🍇',red:false,n:'提子'}] },
+                    { text: '搵紅色衣服', desc: '邊啲衫係紅色？㩒佢哋！', action: 'findRedClothes', items: [{e:'👗',red:true,n:'紅色裙',c:'#FF6B6B'},{e:'👖',red:false,n:'藍色褲',c:'#4ECDC4'},{e:'🧢',red:true,n:'紅色帽',c:'#FF6B6B'},{e:'👟',red:false,n:'黃色鞋',c:'#FFE66D'},{e:'🧣',red:true,n:'紅色巾',c:'#FF6B6B'},{e:'🧤',red:false,n:'綠色手套',c:'#7BC67E'}] },
+                    { text: '搵紅色自然', desc: '自然入面邊啲係紅色？', action: 'findRedNature', items: [{e:'🌹',red:true,n:'紅色花'},{e:'🍃',red:false,n:'綠色葉'},{e:'🐞',red:true,n:'紅色瓢蟲'},{e:'🦋',red:false,n:'藍色蝴蝶'},{e:'🍄',red:true,n:'紅色蘑菇'},{e:'🌵',red:false,n:'綠色仙人掌'}] },
                     { text: '瓢蟲返嚟', desc: '阿紅飛返嚟，花園回復紅色！', action: 'redComplete' }
                 ],
                 parentInfo: {
@@ -252,24 +358,26 @@ const Activities = {
                 id: 'd4-counting',
                 type: 'game',
                 title: '波波嘅果園摘水果',
-                theme: '數數1-3',
+                theme: '數數1-5',
                 audio: {
                     intro: '波波嘅果園大豐收喇！一齊去摘水果！',
                     instruction: '㩒啱數量嘅水果落嚟！',
                     correct: '啱喇！好叻！',
                     wrong: '數多咗喎！再嚟過！',
-                    completion: '好叻！你識得數1、2、3喇！波波嘅朋友都好開心！🍎🍊🍌'
+                    completion: '好叻！你識得數1、2、3、4、5喇！波波嘅朋友都好開心！🍎🍊🍌🍇🍓'
                 },
                 steps: [
                     { text: '果園登場', desc: '波波帶住竹籃嚟到果園！', action: 'orchardIntro' },
                     { text: '摘1個', desc: '跳跳要1個蘋果！', action: 'pick', fruit: '🍎', count: 1, recipient: '跳跳🐰', total: 5 },
                     { text: '摘2個', desc: '啾啾要2個橙！', action: 'pick', fruit: '🍊', count: 2, recipient: '啾啾🐦', total: 5 },
-                    { text: '摘3個', desc: '波波要3個香蕉！', action: 'pick', fruit: '🍌', count: 3, recipient: '波波🐼', total: 5 },
+                    { text: '摘3個', desc: '波波要3條香蕉！', action: 'pick', fruit: '🍌', count: 3, recipient: '波波🐼', total: 6 },
+                    { text: '摘4個', desc: '圓圓要4粒提子！', action: 'pick', fruit: '🍇', count: 4, recipient: '圓圓🐢', total: 7 },
+                    { text: '摘5個', desc: '方方要5粒士多啤梨！', action: 'pick', fruit: '🍓', count: 5, recipient: '方方🐘', total: 8 },
                     { text: '數一數', desc: '我哋一共摘咗幾多個水果？', action: 'countAll' }
                 ],
                 parentInfo: {
-                    summary: '透過果園摘水果遊戲，學習數數1-3同按量取物。',
-                    learningGoals: ['唱數1-3','一一對應點數','按數取物（cardinality）','數量比較嘅初步概念'],
+                    summary: '透過果園摘水果遊戲，學習數數1-5同按量取物。',
+                    learningGoals: ['唱數1-5','一一對應點數','按數取物（cardinality）','數量比較嘅初步概念'],
                     designRationale: '摘水果係有目的嘅數數，唔係為數而數。由1到3漸進，每個數量都有明確操作同即時反饋。',
                     homeApplication: ['食飯時「俾我2粒提子」','上樓梯數1、2、3','去超市攞指定數量水果','用手指玩「伸出___隻手指」']
                 }
@@ -694,6 +802,8 @@ const Activities = {
                             <span class="count-display-item">🍎×1</span>
                             <span class="count-display-item">🍊×2</span>
                             <span class="count-display-item">🍌×3</span>
+                            <span class="count-display-item">🍇×4</span>
+                            <span class="count-display-item">🍓×5</span>
                         </div>
                     </div>`;
                 break;
@@ -701,7 +811,7 @@ const Activities = {
                 charArea.innerHTML = '<div class="group-photo bounce-in">🐼🐰🐦🐢🐘🦊🐟</div>';
                 area.innerHTML = `<div class="completion-banner">
                     <h2>🏅 Week 1 完成！</h2>
-                    <p>你學咗：自我介紹、紅黃藍、圓形方形三角形、數1-2-3！</p>
+                    <p>你學咗：自我介紹、紅黃藍、圓形方形三角形、數1-2-3-4-5！</p>
                     <div class="celebration-row">🎊🏆🎊</div>
                     <p>下個星期見！</p>
                 </div>`;
@@ -1068,7 +1178,7 @@ const Activities = {
                 break;
             case 'bodyQuiz':
                 this._bodyQuizRound = 0;
-                this._bodyQuizParts = [...parts].sort(() => Math.random() - 0.5).slice(0, 4);
+                this._bodyQuizParts = [...parts].sort(() => Math.random() - 0.5);
                 this._renderBodyQuiz(area);
                 break;
             case 'danceTime':
@@ -1289,7 +1399,7 @@ const Activities = {
                 this.speak(`${step.recipient.replace(/[🐰🐦🐼]/g,'')}要${step.count}個！㩒${step.count}個！`);
                 break;
             case 'countAll':
-                const allFruits = ['🍎','🍊🍊','🍌🍌🍌'];
+                const allFruits = ['🍎','🍊🍊','🍌🍌🍌','🍇🍇🍇🍇','🍓🍓🍓🍓🍓'];
                 area.innerHTML = `<div class="count-all">
                     <p>我哋一共摘咗幾多個水果？</p>
                     <div class="all-fruits-row">${allFruits.join(' ')}</div>
@@ -1327,17 +1437,17 @@ const Activities = {
         const el = document.getElementById('total-count');
         if (!el) return;
         let count = 0;
-        const nums = [1, 2, 3, 4, 5, 6];
+        const total = 15; // 1+2+3+4+5
         const interval = setInterval(() => {
-            if (count >= 6) {
+            if (count >= total) {
                 clearInterval(interval);
-                el.textContent = '一共 6 個水果！🎉';
-                this.speak('1、2、3、4、5、6！一共6個水果！好叻！');
+                el.textContent = `一共 ${total} 個水果！🎉`;
+                this.speak(`一共${total}個水果！好叻！`);
                 return;
             }
             count++;
             el.textContent = count;
-        }, 500);
+        }, 300);
     },
 
     // --- D5 Review Game ---
@@ -1499,6 +1609,7 @@ const Activities = {
     /* ========== Finish Activity ========== */
     _finishActivity(container, activity) {
         this.speak(activity.audio.completion);
+        Stickers.add(activity.id);
         this.showSuccess();
     },
 

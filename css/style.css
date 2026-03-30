@@ -49,7 +49,8 @@ html, body {
 
 body {
     font-family: "Comic Sans MS", "Helvetica Neue", "Noto Sans TC", sans-serif;
-    background: var(--bg);
+    background: linear-gradient(135deg, #FFF8F0 0%, #FFE8D6 50%, #F0E6FF 100%);
+    background-attachment: fixed;
     color: var(--text);
     touch-action: manipulation;
     user-select: none;
@@ -941,4 +942,260 @@ body {
 .drop-zone-label {
     font-size: 14px;
     color: var(--text-light);
+}
+
+/* ========== Activity v2 Styles ========== */
+
+/* Story/Exploration/Game shared */
+.story-activity, .exploration-activity, .game-activity {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 10px;
+    min-height: 60vh;
+}
+
+.story-progress-bar {
+    height: 6px;
+    background: #eee;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.story-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    border-radius: 3px;
+    transition: width 0.4s ease;
+}
+
+.story-scene { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.story-character-area { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.story-character { font-size: 60px; text-align: center; }
+.bounce-in { animation: bounceIn 0.6s cubic-bezier(0.34,1.56,0.64,1); }
+
+@keyframes bounceIn {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.story-dialogue {
+    background: white;
+    border-radius: var(--radius);
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    text-align: center;
+}
+.dialogue-speaker { font-weight: bold; color: var(--primary); margin-bottom: 5px; }
+.dialogue-text { font-size: 16px; line-height: 1.5; }
+.dialogue-bubble {
+    background: white;
+    border-radius: 16px;
+    padding: 12px 16px;
+    font-size: 16px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    line-height: 1.5;
+}
+.dialogue-bubble.small { font-size: 14px; padding: 8px 12px; }
+.ocean-bg { background: #E0F4FF; }
+
+.story-interaction { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.story-prompt { font-size: 16px; font-weight: bold; text-align: center; color: var(--text); }
+
+.story-nav {
+    display: flex; justify-content: space-between; gap: 10px; padding: 10px 0;
+}
+.story-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.story-prev { background: #f0f0f0; color: var(--text); }
+.story-next { background: var(--primary); color: white; }
+.story-btn:active { transform: scale(0.95); }
+
+/* Options grid */
+.option-grid {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; padding: 10px 0;
+}
+.big-option {
+    min-width: 100px; min-height: 100px;
+    padding: 14px 18px;
+    border: 3px solid #eee;
+    border-radius: var(--radius);
+    background: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 4px;
+}
+.big-option:active { transform: scale(0.95); }
+.big-option.correct { border-color: var(--success); background: #E8F5E9; }
+.big-option.incorrect { border-color: var(--red); background: #FFEBEE; }
+.big-option.disabled { pointer-events: none; opacity: 0.6; }
+.big-option.learned { border-color: var(--primary); background: #E0F7FA; }
+.big-option.lit { border-color: var(--yellow); }
+.big-option.selected-fav { border-color: gold; border-width: 4px; box-shadow: 0 0 12px rgba(255,215,0,0.5); }
+
+.celebration-row { font-size: 32px; text-align: center; padding: 10px 0; }
+.group-photo { font-size: 40px; text-align: center; letter-spacing: 5px; }
+.camera-btn { font-size: 24px !important; }
+
+/* Exploration */
+.exploration-header, .game-header {
+    display: flex; justify-content: space-between; align-items: center; padding: 5px 0;
+}
+.explore-title, .game-title { font-weight: bold; font-size: 16px; }
+.explore-score, .game-score { font-size: 16px; color: var(--secondary); }
+.exploration-area, .game-area { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.find-counter { font-size: 14px; color: var(--text-light); text-align: center; }
+
+.scene-display { text-align: center; padding: 15px; }
+.garden-gray { filter: saturate(0.3); }
+.garden-restored { filter: saturate(1); }
+
+.explore-item { position: relative; }
+
+/* Game specific */
+.body-parts-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.body-tag { display: inline-block; padding: 4px 10px; background: #E0F7FA; border-radius: 20px; margin: 3px; font-size: 14px; }
+
+.quiz-prompt { font-size: 20px; font-weight: bold; text-align: center; color: var(--primary); padding: 10px 0; }
+
+.dance-area { text-align: center; }
+.dance-moves { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.dance-btn { font-size: 16px !important; }
+
+.door-display, .orchard-intro, .carnival-intro, .completion-display, .award-display { text-align: center; }
+.locks-row { display: flex; justify-content: center; gap: 15px; margin: 10px 0; }
+.lock-shape, .lock-slot { font-size: 36px; }
+.lock-slot { padding: 10px; border: 3px dashed #ccc; border-radius: 12px; transition: all 0.3s; }
+.lock-slot.unlocked { border-color: var(--success); background: #E8F5E9; }
+
+.keys-row { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.key-btn { font-size: 16px !important; }
+
+.two-chars { display: flex; gap: 20px; justify-content: center; }
+.two-chars > div { text-align: center; flex: 1; }
+
+.plates-row, .pillars-row { display: flex; justify-content: center; gap: 12px; margin: 10px 0; }
+.plate, .pillar {
+    padding: 12px; border: 2px dashed #ccc; border-radius: 12px;
+    min-width: 70px; text-align: center; transition: all 0.3s;
+}
+.plate.filled, .pillar.matched { border-color: var(--success); background: #E8F5E9; }
+
+.trees-row { font-size: 28px; text-align: center; letter-spacing: 10px; }
+
+.pick-game, .fish-game { text-align: center; }
+.pick-target { font-size: 18px; margin-bottom: 10px; }
+.pick-counter, .fish-counter { font-size: 16px; color: var(--primary); font-weight: bold; }
+.fruit-tree, .fish-pond { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 10px 0; }
+.fruit-btn, .fish-btn {
+    font-size: 32px; padding: 8px 12px; border: 2px solid #eee;
+    border-radius: 12px; background: white; cursor: pointer; transition: all 0.2s;
+}
+.fruit-btn:active, .fish-btn:active { transform: scale(0.9); }
+.fruit-btn.picked, .fish-btn.caught { opacity: 0.3; pointer-events: none; }
+.fruit-btn.disabled, .fish-btn.disabled { pointer-events: none; opacity: 0.3; }
+.basket { font-size: 24px; padding: 10px; background: #FFF3E0; border-radius: 12px; min-height: 50px; }
+
+.count-display-big { font-size: 48px; font-weight: bold; color: var(--primary); text-align: center; padding: 15px 0; }
+.all-fruits-row { font-size: 28px; text-align: center; letter-spacing: 5px; }
+
+.shoot-game { text-align: center; }
+.shoot-prompt { font-size: 18px; margin-bottom: 10px; }
+.balloon-row { display: flex; justify-content: center; gap: 15px; }
+.balloon-btn {
+    width: 70px; height: 90px; border: none; border-radius: 50% 50% 50% 50%;
+    font-size: 32px; cursor: pointer; transition: all 0.2s;
+}
+.balloon-btn:active { transform: scale(0.9); }
+.balloon-btn.correct { opacity: 0.3; transform: scale(0) !important; }
+.balloon-btn.incorrect { animation: shake 0.3s; }
+
+.fish-prompt { font-size: 18px; font-weight: bold; }
+
+.booth-tag { display: inline-block; padding: 6px 14px; background: var(--secondary); border-radius: 20px; margin: 4px; font-size: 14px; }
+
+.stars-row { font-size: 40px; text-align: center; padding: 10px 0; }
+
+.completion-banner { text-align: center; background: white; border-radius: var(--radius); padding: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+
+.color-label { font-weight: bold; font-size: 14px; }
+.garden-slots { display: flex; justify-content: center; gap: 10px; margin: 10px 0; }
+.garden-slot { width: 60px; height: 60px; border: 2px dashed #4ECDC4; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; transition: all 0.3s; }
+.garden-slot.filled { border-color: var(--success); background: #E0F7FA; }
+
+.rainbow-display { font-size: 48px; text-align: center; letter-spacing: 10px; }
+
+.draw-area { text-align: center; }
+.roll-demo { text-align: center; }
+.race-track { display: flex; flex-direction: column; gap: 10px; padding: 15px; }
+.race-item { font-size: 20px; transition: transform 1.5s; background: #f8f8f8; padding: 10px; border-radius: 8px; }
+
+.circle-art-area { text-align: center; }
+.circle-palette { display: flex; justify-content: center; gap: 10px; margin: 10px 0; }
+.circle-piece { padding: 8px 16px; border: 2px solid #eee; border-radius: 20px; background: white; cursor: pointer; font-size: 14px; }
+
+.album-cover { text-align: center; padding: 20px; }
+.count-display-item { font-size: 20px; padding: 5px 10px; }
+
+.hint-text { font-size: 13px; color: var(--text-light); }
+
+.shape-info { font-size: 16px; padding: 8px 16px; background: #F0F0F0; border-radius: 12px; text-align: center; }
+
+/* Larger interactive elements */
+.tap-option, .drag-item, .drop-zone {
+    min-width: 100px;
+    min-height: 100px;
+}
+
+/* Full height activity */
+.story-activity, .exploration-activity, .game-activity {
+    min-height: 75vh;
+}
+
+/* Character bounce animation */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+.character, .bounce-char { animation: bounce 1.5s ease-in-out infinite; }
+
+/* Sticker pop animation */
+@keyframes pop {
+    0% { transform: scale(0); }
+    70% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.pulse-btn { animation: pulse 1s infinite; }
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Shake animation */
+.shake-anim { animation: shake 0.4s; }
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
+}
+
+/* Confetti */
+.confetti-piece {
+    position: absolute; width: 8px; height: 8px; border-radius: 2px;
+    animation: confettiFall 1.5s ease-out forwards;
+}
+@keyframes confettiFall {
+    0% { top: -10px; opacity: 1; transform: rotate(0deg); }
+    100% { top: 100%; opacity: 0; transform: rotate(720deg); }
 }
