@@ -9,6 +9,7 @@ const Activities = {
     attempts: 0,
     maxAttempts: 2,
     countNumber: 0,
+    draggedElement: null,
     
     /* ========== Week 1 Data ========== */
     week1Data: {
@@ -98,7 +99,7 @@ const Activities = {
                 ],
                 parentInfo: {
                     summary: '認識身體部位係自我意識發展嘅重要一步。',
-                    learningGoals: ['認識眼、耳、口、鼻', '建立身體圖式'],
+                    learningGoals: ['認識眼、耳、口鼻', '建立身體圖式'],
                     designRationale: '由最熟悉嘅身體部位出發。',
                     developmentalPsychology: {
                         theory: 'Erikson 信任 vs 懷疑階段',
@@ -130,7 +131,55 @@ const Activities = {
                 }
             },
             {
-                id: 'd3-shape-circle',
+                id: 'd3-colour-match',
+                type: 'drag',
+                skill: 'colour-match',
+                skillName: '顏色配對',
+                prompt: '將相同顏色拖過去！',
+                correctAudio: '冇錯！顏色一樣！',
+                wrongAudio: '顏色要一樣，再試！',
+                items: [
+                    { id: 'apple', icon: '🍎', target: 'red' },
+                    { id: 'fish', icon: '🐟', target: 'blue' },
+                    { id: 'banana', icon: '🍌', target: 'yellow' }
+                ],
+                dropZones: [
+                    { id: 'red', label: '紅色', color: '#FF6B6B' },
+                    { id: 'blue', label: '藍色', color: '#4ECDC4' },
+                    { id: 'yellow', label: '黃色', color: '#FFE66D' }
+                ],
+                parentInfo: {
+                    summary: '顏色配對係分類能力嘅基礎。',
+                    learningGoals: ['將相同顏色嘅物件配對', '理解「一樣」嘅概念'],
+                    designRationale: '拖拉需要更多動作控制，但3歲可以完成基本配對。',
+                    homeApplication: ['玩具分類顏色', '畫筆放入相同顏色盒']
+                }
+            }
+        ],
+        day4: [
+            {
+                id: 'd4-count-1',
+                type: 'count',
+                skill: 'count-1',
+                skillName: '數數1-3',
+                prompt: '數一數有幾多個蘋果？',
+                correctAudio: '數得好好！蘋果有兩個！',
+                wrongAudio: '慢慢數，一，二...',
+                count: 2,
+                items: ['🍎', '🍎'],
+                parentInfo: {
+                    summary: '點數係數學認知嘅基礎。',
+                    learningGoals: ['正確點數1-3個物件', '理解每個數字代表一個數量'],
+                    designRationale: '點擊每一個物件，配合語音，建立數量同語言嘅聯繫。',
+                    developmentalPsychology: {
+                        theory: 'Piaget 數概念發展',
+                        keyConcept: '3歲處於前期準備階段，開始理解「一對一對應」原則'
+                    },
+                    homeApplication: ['數手指', '數樓梯', '數玩具']
+                }
+            },
+            {
+                id: 'd4-shape-circle',
                 type: 'tap',
                 skill: 'shape-circle',
                 skillName: '形狀認知',
@@ -147,48 +196,6 @@ const Activities = {
                     learningGoals: ['識別圓形', '區分圓形同其他形狀'],
                     designRationale: '圓形唔需要銳角或直線知覺，最容易被幼兒識別。',
                     homeApplication: ['搵圓形：時鐘、碗、氣球', '用手指畫圓']
-                }
-            }
-        ],
-        day4: [
-            {
-                id: 'd4-count-1',
-                type: 'count',
-                skill: 'count-1',
-                skillName: '數數1-3',
-                prompt: '數一數有幾多個蘋果？',
-                correctAudio: '數得好好！蘋果有兩個！',
-                wrongAudio: '慢慢數，一、二...',
-                count: 2,
-                items: ['🍎', '🍎'],
-                parentInfo: {
-                    summary: '點數係數學認知嘅基礎。',
-                    learningGoals: ['正確點數1-3個物件', '理解每個數字代表一個數量'],
-                    designRationale: '點擊每一個物件，配合語音，建立數量同語言嘅聯繫。',
-                    developmentalPsychology: {
-                        theory: 'Piaget 數概念發展',
-                        keyConcept: '3歲處於前期準備階段，開始理解「一對一對應」原則'
-                    },
-                    homeApplication: ['數手指', '數樓梯', '數玩具']
-                }
-            },
-            {
-                id: 'd4-shape-square',
-                type: 'tap',
-                skill: 'shape-square',
-                skillName: '形狀認知',
-                prompt: '邊個係正方形？',
-                correctAudio: '冇錯！積木係正方形！',
-                wrongAudio: '積木係正方形，試再點！',
-                options: [
-                    { id: 'square', icon: '📦', correct: true },
-                    { id: 'circle', icon: '⭕', correct: false },
-                    { id: 'triangle', icon: '🔺', correct: false }
-                ],
-                parentInfo: {
-                    summary: '正方形有四個一樣長嘅邊。',
-                    learningGoals: ['識別正方形', '認識正方形特性'],
-                    homeApplication: ['搵正方形：窗、門、書']
                 }
             }
         ],
@@ -273,6 +280,9 @@ const Activities = {
             case 'count':
                 this.renderCountActivity(container, activity);
                 break;
+            case 'drag':
+                this.renderDragActivity(container, activity);
+                break;
             default:
                 container.innerHTML = '<p>活動加載中...</p>';
         }
@@ -306,7 +316,7 @@ const Activities = {
         if (element.classList.contains('disabled')) return;
         
         if (correct) {
-            element.classList.add('correct');
+            element.classList.add("correct");
             this.speak(correctAudio);
             setTimeout(() => {
                 this.showSuccess();
@@ -329,7 +339,7 @@ const Activities = {
         const options = document.querySelectorAll('.tap-option');
         options.forEach(opt => {
             if (opt.dataset.correct === 'true') {
-                opt.classList.add('correct');
+                opt.classList.add("correct");
             }
             opt.classList.add('disabled');
         });
@@ -369,7 +379,7 @@ const Activities = {
         if (element.classList.contains('counted')) return;
         
         element.classList.add('counted');
-        element.classList.add('correct');
+        element.classList.add("correct");
         
         this.countNumber++;
         document.getElementById('count-number').textContent = this.countNumber;
@@ -383,6 +393,138 @@ const Activities = {
                 this.showSuccess();
             }, 800);
         }
+    },
+    
+    /* ========== Drag Activity ========== */
+    renderDragActivity(container, activity) {
+        container.innerHTML = `
+            <div class="activity-content">
+                <div class="tap-question">
+                    <div class="tap-question-icon">🔊</div>
+                    <p>${activity.prompt}</p>
+                </div>
+                
+                <div class="drag-container">
+                    <div class="drag-source">
+                        ${activity.items.map((item, idx) => `
+                            <div class="drag-item stagger-item" 
+                                 id="drag-${item.id}"
+                                 draggable="true"
+                                 data-target="${item.target}"
+                                 data-id="${item.id}">
+                                ${item.icon}
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="drop-zones">
+                        ${activity.dropZones.map(zone => `
+                            <div class="drop-zone stagger-item"
+                                 id="drop-${zone.id}"
+                                 data-zone="${zone.id}"
+                                 style="border-color: ${zone.color}">
+                                <span class="drop-zone-label">${zone.label}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        this.setupDragEvents();
+        this.speakPrompt(activity.prompt);
+    },
+    
+    setupDragEvents() {
+        const dragItems = document.querySelectorAll('.drag-item');
+        const dropZones = document.querySelectorAll('.drop-zone');
+        
+        dragItems.forEach(item => {
+            // Desktop drag events
+            item.addEventListener('dragstart', (e) => {
+                this.draggedElement = item;
+                item.classList.add('dragging');
+                e.dataTransfer.setData('text/plain', item.dataset.target);
+                e.dataTransfer.effectAllowed = 'move';
+            });
+            
+            item.addEventListener('dragend', (e) => {
+                item.classList.remove('dragging');
+                this.draggedElement = null;
+            });
+            
+            // Touch events - handled by drag-drop-touch polyfill
+            // Just need to add visual feedback
+            item.addEventListener('touchstart', (e) => {
+                this.draggedElement = item;
+                item.classList.add('dragging');
+            });
+        });
+        
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                zone.classList.add('drag-over');
+            });
+            
+            zone.addEventListener('dragleave', (e) => {
+                zone.classList.remove('drag-over');
+            });
+            
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                zone.classList.remove('drag-over');
+                
+                const draggedTarget = e.dataTransfer.getData('text/plain');
+                const zoneId = zone.dataset.zone;
+                const draggedEl = this.draggedElement;
+                
+                if (draggedTarget === zoneId) {
+                    // Correct match!
+                    zone.classList.add('filled');
+                    draggedEl.classList.add('used');
+                    draggedEl.draggable = false;
+                    
+                    this.speak(this.currentActivity.correctAudio);
+                    
+                    // Check if all matched
+                    const allUsed = document.querySelectorAll('.drag-item.used').length;
+                    if (allUsed >= this.currentActivity.items.length) {
+                        setTimeout(() => {
+                            this.showSuccess();
+                        }, 500);
+                    }
+                } else {
+                    // Wrong
+                    zone.classList.add('wrong');
+                    this.speak(this.currentActivity.wrongAudio);
+                    this.attempts++;
+                    
+                    setTimeout(() => {
+                        zone.classList.remove('wrong');
+                    }, 500);
+                    
+                    if (this.attempts >= this.maxAttempts) {
+                        // Show correct answers
+                        this.currentActivity.items.forEach(item => {
+                            const el = document.getElementById('drag-' + item.id);
+                            el.classList.add('used');
+                            el.draggable = false;
+                        });
+                        this.currentActivity.dropZones.forEach(zone => {
+                            const z = document.getElementById('drop-' + zone.id);
+                            z.classList.add('filled');
+                        });
+                        setTimeout(() => {
+                            App.afterActivity();
+                        }, 2000);
+                    } else {
+                        this.showRetry();
+                    }
+                }
+            });
+        });
     },
     
     /* ========== Audio ========== */
@@ -435,7 +577,6 @@ const Activities = {
         
         setTimeout(() => {
             overlay.classList.remove('active');
-            // Remove incorrect class after delay
             document.querySelectorAll('.tap-option.incorrect').forEach(el => {
                 el.classList.remove('incorrect');
             });
