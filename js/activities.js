@@ -8,6 +8,7 @@ const Activities = {
     activities: [],
     attempts: 0,
     maxAttempts: 2,
+    countNumber: 0,
     
     /* ========== Week 1 Data ========== */
     week1Data: {
@@ -17,62 +18,49 @@ const Activities = {
                 type: 'tap',
                 skill: 'self-age',
                 skillName: '年齡認知',
-                parentInfo: {
-                    summary: '年齡認知係自我認識嘅基礎。呢個活動幫助小朋友理解「數」可以代表年齡。',
-                    learningGoals: [
-                        '認識數字 1、2、3',
-                        '理解數量代表年齡',
-                        '建立數字同實物嘅對應'
-                    ],
-                    designRationale: '3選1嘅形式降低難度，配合視覺提示（手指圖），符合前運算期兒童認知水平。',
-                    developmentalPsychology: {
-                        theory: 'Piaget 前運算期',
-                        keyConcept: '具體運算階段前期，幼兒開始理解數字可以代表數量',
-                        ageAppropriateness: '3歲可以理解「幾多歲」呢個概念，但需要視覺輔助'
-                    },
-                    homeApplication: [
-                        '數家庭成員年齡',
-                        '問「你幾歲？幾時生日？」',
-                        '用手指表示年齡'
-                    ]
-                },
                 prompt: '你幾歲呀？',
-                promptAudio: null,
+                correctAudio: '叻叻！你今年3歲喇！',
+                wrongAudio: '試多次，3歲係最大嗰個數字。',
                 options: [
                     { id: '1', icon: '1️⃣', correct: false },
                     { id: '2', icon: '2️⃣', correct: false },
                     { id: '3', icon: '3️⃣', correct: true }
-                ]
+                ],
+                parentInfo: {
+                    summary: '年齡認知係自我認識嘅基礎。',
+                    learningGoals: ['認識數字 1、2、3', '理解數量代表年齡'],
+                    designRationale: '3選1降低難度，配合視覺提示。',
+                    developmentalPsychology: {
+                        theory: 'Piaget 前運算期',
+                        keyConcept: '幼兒開始理解數字可以代表數量',
+                        ageAppropriateness: '3歲可以理解「幾多歲」概念'
+                    },
+                    homeApplication: ['數家庭成員年齡', '用手指表示年齡']
+                }
             },
             {
                 id: 'd1-colour-rb',
                 type: 'tap',
                 skill: 'colour-red-blue',
                 skillName: '顏色認知',
-                parentInfo: {
-                    summary: '紅色同藍色係最基本嘅原色，係顏色學習嘅起點。',
-                    learningGoals: [
-                        '認識紅色同藍色',
-                        '區分兩種不同顏色',
-                        '聽顏色名指出正確顏色'
-                    ],
-                    designRationale: '2選1建立成功感，減少認知負擔。實物圖像（蘋果、天空）幫助顏色同實物聯繫。',
-                    developmentalPsychology: {
-                        theory: '視覺發展 + 顏色知覺',
-                        keyConcept: '3歲開始可以區分基本顏色，原色最容易被視覺系統偵測',
-                        ageAppropriateness: '原色（紅黃藍綠）比間色更容易被幼兒區分'
-                    },
-                    homeApplication: [
-                        '指住物件問顏色：「蘋果係咩顏色？」',
-                        '玩「邊個係紅色」遊戲',
-                        '着衫時討論顏色'
-                    ]
-                },
                 prompt: '邊個係紅色？',
+                correctAudio: '冇錯！蘋果係紅色！',
+                wrongAudio: '蘋果係紅色，試多次！',
                 options: [
                     { id: 'red', icon: '🍎', correct: true },
                     { id: 'blue', icon: '🌊', correct: false }
-                ]
+                ],
+                parentInfo: {
+                    summary: '紅色係最基本嘅原色。',
+                    learningGoals: ['認識紅色', '區分紅色同藍色'],
+                    designRationale: '2選1建立成功感。',
+                    developmentalPsychology: {
+                        theory: '視覺發展',
+                        keyConcept: '原色最容易被幼兒區分',
+                        ageAppropriateness: '3歲開始可以區分基本顏色'
+                    },
+                    homeApplication: ['指住物件問顏色', '着衫時討論顏色']
+                }
             }
         ],
         day2: [
@@ -81,52 +69,43 @@ const Activities = {
                 type: 'tap',
                 skill: 'colour-red-yellow',
                 skillName: '顏色認知',
-                parentInfo: {
-                    summary: '認識第三原色 — 黃色，鞏固紅色學習。',
-                    learningGoals: ['認識黃色', '鞏固紅色認知', '擴展顏色詞彙'],
-                    designRationale: '由2選1開始，逐步建立顏色分類能力。',
-                    developmentalPsychology: {
-                        theory: '顏色知覺發展',
-                        keyConcept: '原色知覺係幼兒視覺系統最早發展完整嘅顏色區分能力'
-                    },
-                    homeApplication: ['黄色物品：香蕉、太陽', '「黃色士啤軚」']
-                },
                 prompt: '邊個係黃色？',
+                correctAudio: '做得好！香蕉係黃色！',
+                wrongAudio: '黃色係香蕉，試多次！',
                 options: [
                     { id: 'yellow', icon: '🍌', correct: true },
                     { id: 'red', icon: '🍎', correct: false }
-                ]
+                ],
+                parentInfo: {
+                    summary: '認識第三原色 — 黃色。',
+                    learningGoals: ['認識黃色', '鞏固紅色認知'],
+                    designRationale: '由2選1開始逐步建立顏色分類能力。',
+                    homeApplication: ['黄色物品：香蕉、太陽']
+                }
             },
             {
                 id: 'd2-body-parts',
                 type: 'tap',
                 skill: 'self-body',
                 skillName: '身體部位',
-                parentInfo: {
-                    summary: '認識身體部位係自我意識發展嘅重要一步。',
-                    learningGoals: [
-                        '認識眼、耳、口、鼻、手',
-                        '建立身體圖式',
-                        '為身體自主權打基礎'
-                    ],
-                    designRationale: '由最熟悉嘅身體部位出發，配合大圖示，符合幼兒學習順序。',
-                    developmentalPsychology: {
-                        theory: 'Erikson 信任 vs 懷疑階段',
-                        keyConcept: '認識自己嘅身體係建立安全感同自我認同嘅基礎',
-                        ageAppropriateness: '2-3歲開始可以指出自己嘅身體部位'
-                    },
-                    homeApplication: [
-                        '照鏡時指出五官',
-                        '玩「身體部位歌」',
-                        '「眼仔睇到乜？」'
-                    ]
-                },
                 prompt: '眼喺邊？',
+                correctAudio: '冇錯！眼仔喺度！',
+                wrongAudio: '眼仔喺上面，試點眼仔！',
                 options: [
                     { id: 'eye', icon: '👁️', correct: true },
                     { id: 'nose', icon: '👃', correct: false },
                     { id: 'mouth', icon: '👄', correct: false }
-                ]
+                ],
+                parentInfo: {
+                    summary: '認識身體部位係自我意識發展嘅重要一步。',
+                    learningGoals: ['認識眼、耳、口、鼻', '建立身體圖式'],
+                    designRationale: '由最熟悉嘅身體部位出發。',
+                    developmentalPsychology: {
+                        theory: 'Erikson 信任 vs 懷疑階段',
+                        keyConcept: '認識自己嘅身體係建立安全感嘅基礎'
+                    },
+                    homeApplication: ['照鏡時指出五官', '玩「身體部位歌」']
+                }
             }
         ],
         day3: [
@@ -135,55 +114,40 @@ const Activities = {
                 type: 'tap',
                 skill: 'colour-3',
                 skillName: '三原色',
-                parentInfo: {
-                    summary: '同時認紅、黃、藍三原色，挑戰視覺分類能力。',
-                    learningGoals: [
-                        '同時識別三種顏色',
-                        '快速反應正確顏色',
-                        '為多色分類打基礎'
-                    ],
-                    designRationale: '由2選1過渡到3選1，係難度嘅自然提升，配合清晰嘅視覺區分。',
-                    homeApplication: [
-                        '三色積木分類',
-                        '着衫時數顏色'
-                    ]
-                },
                 prompt: '邊個係藍色？',
+                correctAudio: '做得好！天空係藍色！',
+                wrongAudio: '藍色係天空，試多次！',
                 options: [
                     { id: 'blue', icon: '🚗', correct: true },
                     { id: 'yellow', icon: '🌻', correct: false },
                     { id: 'red', icon: '🎈', correct: false }
-                ]
+                ],
+                parentInfo: {
+                    summary: '同時認紅、黃、藍三原色。',
+                    learningGoals: ['同時識別三種顏色', '快速反應正確顏色'],
+                    designRationale: '由2選1過渡到3選1，係難度嘅自然提升。',
+                    homeApplication: ['三色積木分類', '着衫時數顏色']
+                }
             },
             {
-                id: 'd3-colour-match',
-                type: 'drag',
-                skill: 'colour-match',
-                skillName: '顏色配對',
-                parentInfo: {
-                    summary: '顏色配對係分類能力嘅基礎，訓練視覺對應。',
-                    learningGoals: [
-                        '將相同顏色嘅物件配對',
-                        '理解「一樣」嘅概念',
-                        '發展分類思維'
-                    ],
-                    designRationale: '拖拉配對比點擊需要更多動作控制，但3歲可以完成基本配對。',
-                    homeApplication: [
-                        '玩具分類顏色',
-                        '畫筆放入相同顏色盒'
-                    ]
-                },
-                prompt: '將相同顏色拖過去',
+                id: 'd3-shape-circle',
+                type: 'tap',
+                skill: 'shape-circle',
+                skillName: '形狀認知',
+                prompt: '邊個係圓形？',
+                correctAudio: '叻！波係圓形！',
+                wrongAudio: '波係圓形，試再點！',
                 options: [
-                    { id: 'red-apple', icon: '🍎', targetId: 'red' },
-                    { id: 'blue-fish', icon: '🐟', targetId: 'blue' },
-                    { id: 'yellow-banana', icon: '🍌', targetId: 'yellow' }
+                    { id: 'circle', icon: '⚽', correct: true },
+                    { id: 'square', icon: '📦', correct: false },
+                    { id: 'triangle', icon: '🔺', correct: false }
                 ],
-                dropTargets: [
-                    { id: 'red', label: '紅色', icon: '🍎' },
-                    { id: 'blue', label: '藍色', icon: '🐟' },
-                    { id: 'yellow', label: '黃色', icon: '🍌' }
-                ]
+                parentInfo: {
+                    summary: '圓形係最基本嘅形狀。',
+                    learningGoals: ['識別圓形', '區分圓形同其他形狀'],
+                    designRationale: '圓形唔需要銳角或直線知覺，最容易被幼兒識別。',
+                    homeApplication: ['搵圓形：時鐘、碗、氣球', '用手指畫圓']
+                }
             }
         ],
         day4: [
@@ -192,53 +156,40 @@ const Activities = {
                 type: 'count',
                 skill: 'count-1',
                 skillName: '數數1-3',
+                prompt: '數一數有幾多個蘋果？',
+                correctAudio: '數得好好！蘋果有兩個！',
+                wrongAudio: '慢慢數，一、二...',
+                count: 2,
+                items: ['🍎', '🍎'],
                 parentInfo: {
-                    summary: '點數係數學認知嘅基礎，訓練1:1對應。',
-                    learningGoals: [
-                        '正確點數1-3個物件',
-                        '理解每個數字代表一個數量',
-                        '聽到「幾多個」要點數'
-                    ],
-                    designRationale: '點擊每一個物件，配合語音「一、二、三」，建立數量同語言嘅聯繫。',
+                    summary: '點數係數學認知嘅基礎。',
+                    learningGoals: ['正確點數1-3個物件', '理解每個數字代表一個數量'],
+                    designRationale: '點擊每一個物件，配合語音，建立數量同語言嘅聯繫。',
                     developmentalPsychology: {
                         theory: 'Piaget 數概念發展',
-                        keyConcept: '3歲處於前期準備階段，開始理解「一對一對應」原則',
-                        ageAppropriateness: '點數係幼兒最早嘅數學活動之一'
+                        keyConcept: '3歲處於前期準備階段，開始理解「一對一對應」原則'
                     },
-                    homeApplication: [
-                        '數手指',
-                        '數樓梯',
-                        '數玩具'
-                    ]
-                },
-                prompt: '數一數有幾多個蘋果？',
-                count: 2,
-                items: ['🍎', '🍎']
+                    homeApplication: ['數手指', '數樓梯', '數玩具']
+                }
             },
             {
-                id: 'd4-shape-circle',
+                id: 'd4-shape-square',
                 type: 'tap',
-                skill: 'shape-circle',
+                skill: 'shape-square',
                 skillName: '形狀認知',
-                parentInfo: {
-                    summary: '圓形係最基本嘅形狀，幼兒最容易識別。',
-                    learningGoals: [
-                        '識別圓形',
-                        '區分圓形同其他形狀',
-                        '觀察生活中嘅圓形'
-                    ],
-                    designRationale: '圓形係最原始嘅形狀，唔需要銳角或直線知覺，最容易被幼兒識別。',
-                    homeApplication: [
-                        '搵圓形：時鐘、碗、氣球',
-                        '用手指畫圓'
-                    ]
-                },
-                prompt: '邊個係圓形？',
+                prompt: '邊個係正方形？',
+                correctAudio: '冇錯！積木係正方形！',
+                wrongAudio: '積木係正方形，試再點！',
                 options: [
-                    { id: 'circle', icon: '⭕', correct: true },
-                    { id: 'square', icon: '⬜', correct: false },
+                    { id: 'square', icon: '📦', correct: true },
+                    { id: 'circle', icon: '⭕', correct: false },
                     { id: 'triangle', icon: '🔺', correct: false }
-                ]
+                ],
+                parentInfo: {
+                    summary: '正方形有四個一樣長嘅邊。',
+                    learningGoals: ['識別正方形', '認識正方形特性'],
+                    homeApplication: ['搵正方形：窗、門、書']
+                }
             }
         ],
         day5: [
@@ -247,31 +198,24 @@ const Activities = {
                 type: 'tap',
                 skill: 'review-w1',
                 skillName: '綜合回顧',
-                parentInfo: {
-                    summary: '溫故知新！間隔回顧係記憶鞏固嘅關鍵。',
-                    learningGoals: [
-                        '溫固顏色認知',
-                        '鞏固數數概念',
-                        '建立學習自信心'
-                    ],
-                    designRationale: '綜合練習混合不同類型，保持新鮮感同時確認學習成效。',
-                    developmentalPsychology: {
-                        theory: '遺忘曲線 + 間隔效應',
-                        keyConcept: '新資訊需要多次回顧先會轉為長期記憶，每週回顧係最佳時間點',
-                        ageAppropriateness: '3歲需要更高頻率嘅回顧'
-                    },
-                    homeApplication: [
-                        '每晚問「今日學咗咩？」',
-                        '帶佢搵紅色嘅嘢',
-                        '數手指問幾多'
-                    ]
-                },
                 prompt: '邊個係紅色？',
+                correctAudio: '叻叻！你記得蘋果係紅色！',
+                wrongAudio: '蘋果係紅色，再試多次！',
                 options: [
                     { id: 'red', icon: '🍎', correct: true },
                     { id: 'blue', icon: '🌊', correct: false },
                     { id: 'yellow', icon: '🍌', correct: false }
-                ]
+                ],
+                parentInfo: {
+                    summary: '溫故知新！間隔回顧係記憶鞏固嘅關鍵。',
+                    learningGoals: ['溫固顏色認知', '鞏固數數概念', '建立學習自信心'],
+                    designRationale: '綜合練習混合不同類型，保持新鮮感同時確認學習成效。',
+                    developmentalPsychology: {
+                        theory: '遺忘曲線 + 間隔效應',
+                        keyConcept: '新資訊需要多次回顧先會轉為長期記憶'
+                    },
+                    homeApplication: ['每晚問「今日學咗咩？」', '帶佢搵紅色嘅嘢', '數手指問幾多']
+                }
             }
         ]
     },
@@ -282,6 +226,7 @@ const Activities = {
         this.currentIndex = 0;
         this.currentActivity = null;
         this.attempts = 0;
+        this.countNumber = 0;
     },
     
     getCurrent() {
@@ -319,13 +264,11 @@ const Activities = {
         
         this.currentActivity = activity;
         this.attempts = 0;
+        this.countNumber = 0;
         
         switch (activity.type) {
             case 'tap':
                 this.renderTapActivity(container, activity);
-                break;
-            case 'drag':
-                this.renderDragActivity(container, activity);
                 break;
             case 'count':
                 this.renderCountActivity(container, activity);
@@ -337,8 +280,6 @@ const Activities = {
     
     /* ========== Tap Activity ========== */
     renderTapActivity(container, activity) {
-        const childInfo = ProgressManager.getChildInfo();
-        
         container.innerHTML = `
             <div class="activity-content">
                 <div class="tap-question">
@@ -350,7 +291,7 @@ const Activities = {
                     ${activity.options.map((opt, idx) => `
                         <button class="tap-option stagger-item" 
                                 data-correct="${opt.correct}"
-                                onclick="Activities.handleTap(this, ${opt.correct})">
+                                onclick="Activities.handleTap(this, ${opt.correct}, '${activity.correctAudio}', '${activity.wrongAudio}')">
                             <span class="tap-option-icon">${opt.icon}</span>
                         </button>
                     `).join('')}
@@ -358,24 +299,24 @@ const Activities = {
             </div>
         `;
         
-        // Play audio prompt (if available)
         this.speakPrompt(activity.prompt);
     },
     
-    handleTap(element, correct) {
+    handleTap(element, correct, correctAudio, wrongAudio) {
         if (element.classList.contains('disabled')) return;
         
         if (correct) {
             element.classList.add('correct');
-            ProgressManager.recordAttempt(this.currentActivity.skill, true);
-            this.showSuccess();
+            this.speak(correctAudio);
+            setTimeout(() => {
+                this.showSuccess();
+            }, 800);
         } else {
             element.classList.add('incorrect');
-            ProgressManager.recordAttempt(this.currentActivity.skill, false);
+            this.speak(wrongAudio);
             this.attempts++;
             
             if (this.attempts >= this.maxAttempts) {
-                // Show correct answer
                 this.showCorrectAnswer();
             } else {
                 this.showRetry();
@@ -384,6 +325,7 @@ const Activities = {
     },
     
     showCorrectAnswer() {
+        const activity = this.getCurrent();
         const options = document.querySelectorAll('.tap-option');
         options.forEach(opt => {
             if (opt.dataset.correct === 'true') {
@@ -392,123 +334,10 @@ const Activities = {
             opt.classList.add('disabled');
         });
         
+        this.speak(activity.correctAudio);
         setTimeout(() => {
             App.afterActivity();
-        }, 1500);
-    },
-    
-    /* ========== Drag Activity ========== */
-    renderDragActivity(container, activity) {
-        container.innerHTML = `
-            <div class="activity-content">
-                <p class="drag-instruction">${activity.prompt}</p>
-                
-                <div class="drag-area">
-                    <div class="drag-source">
-                        ${activity.options.map((opt, idx) => `
-                            <div class="drag-item stagger-item"
-                                 id="drag-${opt.id}"
-                                 draggable="true"
-                                 data-target="${opt.targetId}"
-                                 ontouchstart="Activities.handleDragStart(event, this)"
-                                 ondragstart="Activities.handleDragStart(event, this)">
-                                ${opt.icon}
-                            </div>
-                        `).join('')}
-                    </div>
-                    
-                    <div class="drop-targets">
-                        ${activity.dropTargets.map(target => `
-                            <div class="drop-target"
-                                 id="drop-${target.id}"
-                                 data-target="${target.id}"
-                                 ondragover="Activities.handleDragOver(event)"
-                                 ondragleave="Activities.handleDragLeave(event)"
-                                 ondrop="Activities.handleDrop(event, '${target.id}')">
-                                <span class="drop-target-label">${target.label}</span>
-                                <span class="drop-target-icon">${target.icon}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        // Setup touch events for mobile
-        this.setupDragEvents();
-        this.speakPrompt(activity.prompt);
-    },
-    
-    setupDragEvents() {
-        const dragItems = document.querySelectorAll('.drag-item');
-        
-        dragItems.forEach(item => {
-            // Touch events
-            item.addEventListener('touchmove', (e) => {
-                e.preventDefault();
-            }, { passive: false });
-        });
-    },
-    
-    handleDragStart(e, element) {
-        element.classList.add('dragging');
-        e.dataTransfer.setData('text/plain', element.dataset.target);
-    },
-    
-    handleDragOver(e) {
-        e.preventDefault();
-        e.currentTarget.classList.add('drag-over');
-    },
-    
-    handleDragLeave(e) {
-        e.currentTarget.classList.remove('drag-over');
-    },
-    
-    handleDrop(e, targetId) {
-        e.preventDefault();
-        const dropTarget = e.currentTarget;
-        dropTarget.classList.remove('drag-over');
-        
-        const sourceTargetId = e.dataTransfer.getData('text/plain');
-        const dragElement = document.getElementById(`drag-${sourceTargetId}`);
-        
-        if (sourceTargetId === targetId) {
-            dropTarget.classList.add('filled');
-            dragElement.classList.add('used');
-            dragElement.classList.remove('dragging');
-            
-            ProgressManager.recordAttempt(this.currentActivity.skill, true);
-            this.showSuccess();
-        } else {
-            dropTarget.classList.add('incorrect');
-            setTimeout(() => dropTarget.classList.remove('incorrect'), 500);
-            
-            ProgressManager.recordAttempt(this.currentActivity.skill, false);
-            this.attempts++;
-            
-            if (this.attempts >= this.maxAttempts) {
-                // Show all correct answers
-                this.showCorrectDragAnswer();
-            } else {
-                this.showRetry();
-            }
-        }
-    },
-    
-    showCorrectDragAnswer() {
-        const dragItems = document.querySelectorAll('.drag-item');
-        dragItems.forEach(item => {
-            item.classList.add('used');
-        });
-        
-        const dropTargets = document.querySelectorAll('.drop-target');
-        dropTargets.forEach(target => {
-            target.classList.add('filled');
-        });
-        
-        setTimeout(() => {
-            App.afterActivity();
-        }, 1500);
+        }, 2000);
     },
     
     /* ========== Count Activity ========== */
@@ -545,21 +374,52 @@ const Activities = {
         this.countNumber++;
         document.getElementById('count-number').textContent = this.countNumber;
         
-        // Speak the number
         this.speakNumber(this.countNumber);
         
-        if (this.countNumber >= this.currentActivity.count) {
-            ProgressManager.recordAttempt(this.currentActivity.skill, true);
+        const activity = this.getCurrent();
+        if (this.countNumber >= activity.count) {
+            this.speak(activity.correctAudio);
             setTimeout(() => {
                 this.showSuccess();
-            }, 500);
+            }, 800);
         }
+    },
+    
+    /* ========== Audio ========== */
+    speak(text) {
+        if ('speechSynthesis' in window) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'zh-HK';
+            utterance.rate = 0.85;
+            const settings = ProgressManager.getSettings();
+            utterance.volume = settings.volume;
+            speechSynthesis.cancel();
+            speechSynthesis.speak(utterance);
+        }
+    },
+    
+    speakPrompt(text) {
+        this.speak(text);
+    },
+    
+    speakNumber(num) {
+        this.speak(String(num));
+    },
+    
+    speakCorrect() {
+        this.speak('冇錯！做得好！');
+    },
+    
+    speakRetry() {
+        this.speak('再試一次！');
     },
     
     /* ========== Feedback ========== */
     showSuccess() {
         const overlay = document.getElementById('success-overlay');
         overlay.classList.add('active');
+        
+        this.speak('叻叻！做得好！');
         
         setTimeout(() => {
             overlay.classList.remove('active');
@@ -571,38 +431,14 @@ const Activities = {
         const overlay = document.getElementById('retry-overlay');
         overlay.classList.add('active');
         
-        // Re-enable options
+        this.speakRetry();
+        
         setTimeout(() => {
             overlay.classList.remove('active');
-        }, 800);
-    },
-    
-    /* ========== Audio ========== */
-    speakPrompt(text) {
-        if ('speechSynthesis' in window) {
-            // Use Web Speech API for TTS
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'zh-HK';
-            utterance.rate = 0.8;
-            
-            const settings = ProgressManager.getSettings();
-            utterance.volume = settings.volume;
-            
-            speechSynthesis.cancel();
-            speechSynthesis.speak(utterance);
-        }
-    },
-    
-    speakNumber(num) {
-        if ('speechSynthesis' in window) {
-            const utterance = new SpeechSynthesisUtterance(String(num));
-            utterance.lang = 'zh-HK';
-            utterance.rate = 0.8;
-            
-            const settings = ProgressManager.getSettings();
-            utterance.volume = settings.volume;
-            
-            speechSynthesis.speak(utterance);
-        }
+            // Remove incorrect class after delay
+            document.querySelectorAll('.tap-option.incorrect').forEach(el => {
+                el.classList.remove('incorrect');
+            });
+        }, 1000);
     }
 };
