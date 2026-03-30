@@ -9,7 +9,12 @@ const Activities = {
     attempts: 0,
     maxAttempts: 2,
     countNumber: 0,
-    draggedElement: null,
+    
+    // Drag state
+    draggedItem: null,
+    dragClone: null,
+    touchOffsetX: 0,
+    touchOffsetY: 0,
     
     /* ========== Week 1 Data ========== */
     week1Data: {
@@ -33,8 +38,7 @@ const Activities = {
                     designRationale: '3選1降低難度，配合視覺提示。',
                     developmentalPsychology: {
                         theory: 'Piaget 前運算期',
-                        keyConcept: '幼兒開始理解數字可以代表數量',
-                        ageAppropriateness: '3歲可以理解「幾多歲」概念'
+                        keyConcept: '幼兒開始理解數字可以代表數量'
                     },
                     homeApplication: ['數家庭成員年齡', '用手指表示年齡']
                 }
@@ -53,14 +57,7 @@ const Activities = {
                 ],
                 parentInfo: {
                     summary: '紅色係最基本嘅原色。',
-                    learningGoals: ['認識紅色', '區分紅色同藍色'],
-                    designRationale: '2選1建立成功感。',
-                    developmentalPsychology: {
-                        theory: '視覺發展',
-                        keyConcept: '原色最容易被幼兒區分',
-                        ageAppropriateness: '3歲開始可以區分基本顏色'
-                    },
-                    homeApplication: ['指住物件問顏色', '着衫時討論顏色']
+                    learningGoals: ['認識紅色', '區分紅色同藍色']
                 }
             }
         ],
@@ -76,13 +73,7 @@ const Activities = {
                 options: [
                     { id: 'yellow', icon: '🍌', correct: true },
                     { id: 'red', icon: '🍎', correct: false }
-                ],
-                parentInfo: {
-                    summary: '認識第三原色 — 黃色。',
-                    learningGoals: ['認識黃色', '鞏固紅色認知'],
-                    designRationale: '由2選1開始逐步建立顏色分類能力。',
-                    homeApplication: ['黄色物品：香蕉、太陽']
-                }
+                ]
             },
             {
                 id: 'd2-body-parts',
@@ -99,12 +90,6 @@ const Activities = {
                 ],
                 parentInfo: {
                     summary: '認識身體部位係自我意識發展嘅重要一步。',
-                    learningGoals: ['認識眼、耳、口鼻', '建立身體圖式'],
-                    designRationale: '由最熟悉嘅身體部位出發。',
-                    developmentalPsychology: {
-                        theory: 'Erikson 信任 vs 懷疑階段',
-                        keyConcept: '認識自己嘅身體係建立安全感嘅基礎'
-                    },
                     homeApplication: ['照鏡時指出五官', '玩「身體部位歌」']
                 }
             }
@@ -122,37 +107,29 @@ const Activities = {
                     { id: 'blue', icon: '🚗', correct: true },
                     { id: 'yellow', icon: '🌻', correct: false },
                     { id: 'red', icon: '🎈', correct: false }
-                ],
-                parentInfo: {
-                    summary: '同時認紅、黃、藍三原色。',
-                    learningGoals: ['同時識別三種顏色', '快速反應正確顏色'],
-                    designRationale: '由2選1過渡到3選1，係難度嘅自然提升。',
-                    homeApplication: ['三色積木分類', '着衫時數顏色']
-                }
+                ]
             },
             {
-                id: 'd3-colour-match',
+                id: 'd3-shape-match',
                 type: 'drag',
-                skill: 'colour-match',
-                skillName: '顏色配對',
-                prompt: '將相同顏色拖過去！',
-                correctAudio: '冇錯！顏色一樣！',
-                wrongAudio: '顏色要一樣，再試！',
+                skill: 'shape-match',
+                skillName: '形狀配對',
+                prompt: '將相同形狀拖過去！',
+                correctAudio: '冇錯！形狀一樣！',
+                wrongAudio: '形狀要一樣，再試！',
                 items: [
-                    { id: 'apple', icon: '🍎', target: 'red' },
-                    { id: 'fish', icon: '🐟', target: 'blue' },
-                    { id: 'banana', icon: '🍌', target: 'yellow' }
+                    { id: 'circle', icon: '⚪', target: 'circle', label: '圓形' },
+                    { id: 'square', icon: '🟧', target: 'square', label: '方形' },
+                    { id: 'triangle', icon: '🔺', target: 'triangle', label: '三角形' }
                 ],
                 dropZones: [
-                    { id: 'red', label: '紅色', color: '#FF6B6B' },
-                    { id: 'blue', label: '藍色', color: '#4ECDC4' },
-                    { id: 'yellow', label: '黃色', color: '#FFE66D' }
+                    { id: 'circle', label: '圓形', color: '#ccc' },
+                    { id: 'square', label: '方形', color: '#ccc' },
+                    { id: 'triangle', label: '三角形', color: '#ccc' }
                 ],
                 parentInfo: {
-                    summary: '顏色配對係分類能力嘅基礎。',
-                    learningGoals: ['將相同顏色嘅物件配對', '理解「一樣」嘅概念'],
-                    designRationale: '拖拉需要更多動作控制，但3歲可以完成基本配對。',
-                    homeApplication: ['玩具分類顏色', '畫筆放入相同顏色盒']
+                    summary: '形狀配對訓練視覺分類能力。',
+                    homeApplication: ['玩具分類形狀', '搵生活中嘅形狀']
                 }
             }
         ],
@@ -169,12 +146,6 @@ const Activities = {
                 items: ['🍎', '🍎'],
                 parentInfo: {
                     summary: '點數係數學認知嘅基礎。',
-                    learningGoals: ['正確點數1-3個物件', '理解每個數字代表一個數量'],
-                    designRationale: '點擊每一個物件，配合語音，建立數量同語言嘅聯繫。',
-                    developmentalPsychology: {
-                        theory: 'Piaget 數概念發展',
-                        keyConcept: '3歲處於前期準備階段，開始理解「一對一對應」原則'
-                    },
                     homeApplication: ['數手指', '數樓梯', '數玩具']
                 }
             },
@@ -190,13 +161,7 @@ const Activities = {
                     { id: 'circle', icon: '⚽', correct: true },
                     { id: 'square', icon: '📦', correct: false },
                     { id: 'triangle', icon: '🔺', correct: false }
-                ],
-                parentInfo: {
-                    summary: '圓形係最基本嘅形狀。',
-                    learningGoals: ['識別圓形', '區分圓形同其他形狀'],
-                    designRationale: '圓形唔需要銳角或直線知覺，最容易被幼兒識別。',
-                    homeApplication: ['搵圓形：時鐘、碗、氣球', '用手指畫圓']
-                }
+                ]
             }
         ],
         day5: [
@@ -215,13 +180,7 @@ const Activities = {
                 ],
                 parentInfo: {
                     summary: '溫故知新！間隔回顧係記憶鞏固嘅關鍵。',
-                    learningGoals: ['溫固顏色認知', '鞏固數數概念', '建立學習自信心'],
-                    designRationale: '綜合練習混合不同類型，保持新鮮感同時確認學習成效。',
-                    developmentalPsychology: {
-                        theory: '遺忘曲線 + 間隔效應',
-                        keyConcept: '新資訊需要多次回顧先會轉為長期記憶'
-                    },
-                    homeApplication: ['每晚問「今日學咗咩？」', '帶佢搵紅色嘅嘢', '數手指問幾多']
+                    homeApplication: ['每晚問「今日學咗咩？」']
                 }
             }
         ]
@@ -301,7 +260,7 @@ const Activities = {
                     ${activity.options.map((opt, idx) => `
                         <button class="tap-option stagger-item" 
                                 data-correct="${opt.correct}"
-                                onclick="Activities.handleTap(this, ${opt.correct}, '${activity.correctAudio}', '${activity.wrongAudio}')">
+                                onclick="Activities.handleTap(this, ${opt.correct})">
                             <span class="tap-option-icon">${opt.icon}</span>
                         </button>
                     `).join('')}
@@ -312,18 +271,20 @@ const Activities = {
         this.speakPrompt(activity.prompt);
     },
     
-    handleTap(element, correct, correctAudio, wrongAudio) {
+    handleTap(element, correct) {
         if (element.classList.contains('disabled')) return;
         
+        const activity = this.getCurrent();
+        
         if (correct) {
-            element.classList.add("correct");
-            this.speak(correctAudio);
+            element.classList.add('correct');
+            this.speak(activity.correctAudio);
             setTimeout(() => {
                 this.showSuccess();
             }, 800);
         } else {
             element.classList.add('incorrect');
-            this.speak(wrongAudio);
+            this.speak(activity.wrongAudio);
             this.attempts++;
             
             if (this.attempts >= this.maxAttempts) {
@@ -339,7 +300,7 @@ const Activities = {
         const options = document.querySelectorAll('.tap-option');
         options.forEach(opt => {
             if (opt.dataset.correct === 'true') {
-                opt.classList.add("correct");
+                opt.classList.add('correct');
             }
             opt.classList.add('disabled');
         });
@@ -359,7 +320,7 @@ const Activities = {
                 <div class="count-items">
                     ${activity.items.map((item, idx) => `
                         <button class="count-item tap-option stagger-item" 
-                                onclick="Activities.handleCountTap(this, ${idx})">
+                                onclick="Activities.handleCountTap(this)">
                             <span class="tap-option-icon">${item}</span>
                         </button>
                     `).join('')}
@@ -375,11 +336,11 @@ const Activities = {
         this.speakPrompt(activity.prompt);
     },
     
-    handleCountTap(element, index) {
+    handleCountTap(element) {
         if (element.classList.contains('counted')) return;
         
         element.classList.add('counted');
-        element.classList.add("correct");
+        element.classList.add('correct');
         
         this.countNumber++;
         document.getElementById('count-number').textContent = this.countNumber;
@@ -395,7 +356,7 @@ const Activities = {
         }
     },
     
-    /* ========== Drag Activity ========== */
+    /* ========== Drag Activity (Native Touch) ========== */
     renderDragActivity(container, activity) {
         container.innerHTML = `
             <div class="activity-content">
@@ -409,10 +370,10 @@ const Activities = {
                         ${activity.items.map((item, idx) => `
                             <div class="drag-item stagger-item" 
                                  id="drag-${item.id}"
-                                 draggable="true"
                                  data-target="${item.target}"
                                  data-id="${item.id}">
-                                ${item.icon}
+                                <span class="drag-icon">${item.icon}</span>
+                                <span class="drag-label">${item.label}</span>
                             </div>
                         `).join('')}
                     </div>
@@ -421,8 +382,7 @@ const Activities = {
                         ${activity.dropZones.map(zone => `
                             <div class="drop-zone stagger-item"
                                  id="drop-${zone.id}"
-                                 data-zone="${zone.id}"
-                                 style="border-color: ${zone.color}">
+                                 data-zone="${zone.id}">
                                 <span class="drop-zone-label">${zone.label}</span>
                             </div>
                         `).join('')}
@@ -440,9 +400,11 @@ const Activities = {
         const dropZones = document.querySelectorAll('.drop-zone');
         
         dragItems.forEach(item => {
-            // Desktop drag events
+            // Desktop drag events (standard HTML5)
+            item.setAttribute('draggable', 'true');
+            
             item.addEventListener('dragstart', (e) => {
-                this.draggedElement = item;
+                this.draggedItem = item;
                 item.classList.add('dragging');
                 e.dataTransfer.setData('text/plain', item.dataset.target);
                 e.dataTransfer.effectAllowed = 'move';
@@ -450,17 +412,83 @@ const Activities = {
             
             item.addEventListener('dragend', (e) => {
                 item.classList.remove('dragging');
-                this.draggedElement = null;
+                this.draggedItem = null;
             });
             
-            // Touch events - handled by drag-drop-touch polyfill
-            // Just need to add visual feedback
+            // Touch events for mobile - native implementation
             item.addEventListener('touchstart', (e) => {
-                this.draggedElement = item;
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = item.getBoundingClientRect();
+                
+                this.draggedItem = item;
+                this.touchOffsetX = touch.clientX - rect.left;
+                this.touchOffsetY = touch.clientY - rect.top;
+                
+                // Create clone for dragging visual
+                this.dragClone = item.cloneNode(true);
+                this.dragClone.style.position = 'fixed';
+                this.dragClone.style.zIndex = '1000';
+                this.dragClone.style.pointerEvents = 'none';
+                this.dragClone.style.opacity = '0.9';
+                this.dragClone.style.transform = 'scale(1.1)';
+                this.dragClone.classList.add('dragging');
+                
+                this.updateClonePosition(touch.clientX, touch.clientY);
+                document.body.appendChild(this.dragClone);
+                
                 item.classList.add('dragging');
-            });
+            }, { passive: false });
+            
+            item.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                if (!this.dragClone) return;
+                
+                const touch = e.touches[0];
+                this.updateClonePosition(touch.clientX, touch.clientY);
+                
+                // Check if over a drop zone
+                dropZones.forEach(zone => {
+                    const rect = zone.getBoundingClientRect();
+                    if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
+                        touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+                        zone.classList.add('drag-over');
+                    } else {
+                        zone.classList.remove('drag-over');
+                    }
+                });
+            }, { passive: false });
+            
+            item.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                if (!this.draggedItem || !this.dragClone) return;
+                
+                const touch = e.changedTouches[0];
+                
+                // Find which drop zone we're over
+                let matchedZone = null;
+                dropZones.forEach(zone => {
+                    zone.classList.remove('drag-over');
+                    const rect = zone.getBoundingClientRect();
+                    if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
+                        touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+                        matchedZone = zone;
+                    }
+                });
+                
+                if (matchedZone) {
+                    this.handleDropMatch(matchedZone);
+                }
+                
+                // Cleanup
+                this.dragClone.remove();
+                this.dragClone = null;
+                this.draggedItem.classList.remove('dragging');
+                this.draggedItem = null;
+            }, { passive: false });
         });
         
+        // Desktop drop zone events
         dropZones.forEach(zone => {
             zone.addEventListener('dragover', (e) => {
                 e.preventDefault();
@@ -478,53 +506,84 @@ const Activities = {
                 
                 const draggedTarget = e.dataTransfer.getData('text/plain');
                 const zoneId = zone.dataset.zone;
-                const draggedEl = this.draggedElement;
                 
                 if (draggedTarget === zoneId) {
-                    // Correct match!
-                    zone.classList.add('filled');
-                    draggedEl.classList.add('used');
-                    draggedEl.draggable = false;
-                    
-                    this.speak(this.currentActivity.correctAudio);
-                    
-                    // Check if all matched
-                    const allUsed = document.querySelectorAll('.drag-item.used').length;
-                    if (allUsed >= this.currentActivity.items.length) {
-                        setTimeout(() => {
-                            this.showSuccess();
-                        }, 500);
-                    }
+                    this.handleDropMatch(zone);
                 } else {
-                    // Wrong
-                    zone.classList.add('wrong');
-                    this.speak(this.currentActivity.wrongAudio);
-                    this.attempts++;
-                    
-                    setTimeout(() => {
-                        zone.classList.remove('wrong');
-                    }, 500);
-                    
-                    if (this.attempts >= this.maxAttempts) {
-                        // Show correct answers
-                        this.currentActivity.items.forEach(item => {
-                            const el = document.getElementById('drag-' + item.id);
-                            el.classList.add('used');
-                            el.draggable = false;
-                        });
-                        this.currentActivity.dropZones.forEach(zone => {
-                            const z = document.getElementById('drop-' + zone.id);
-                            z.classList.add('filled');
-                        });
-                        setTimeout(() => {
-                            App.afterActivity();
-                        }, 2000);
-                    } else {
-                        this.showRetry();
-                    }
+                    this.handleDropFail(zone);
                 }
             });
         });
+    },
+    
+    updateClonePosition(x, y) {
+        if (!this.dragClone) return;
+        this.dragClone.style.left = (x - this.touchOffsetX) + 'px';
+        this.dragClone.style.top = (y - this.touchOffsetY) + 'px';
+    },
+    
+    handleDropMatch(zone) {
+        const item = this.draggedItem;
+        if (!item || item.classList.contains('used')) return;
+        
+        const activity = this.getCurrent();
+        const targetId = item.dataset.target;
+        const zoneId = zone.dataset.zone;
+        
+        if (targetId === zoneId) {
+            // Success!
+            item.classList.add('used');
+            item.style.opacity = '0.3';
+            item.style.pointerEvents = 'none';
+            
+            zone.classList.add('filled');
+            
+            this.speak(activity.correctAudio);
+            
+            // Check if all matched
+            const usedItems = document.querySelectorAll('.drag-item.used').length;
+            if (usedItems >= activity.items.length) {
+                setTimeout(() => {
+                    this.showSuccess();
+                }, 500);
+            }
+        } else {
+            this.handleDropFail(zone);
+        }
+    },
+    
+    handleDropFail(zone) {
+        const activity = this.getCurrent();
+        
+        zone.classList.add('wrong');
+        this.speak(activity.wrongAudio);
+        this.attempts++;
+        
+        setTimeout(() => {
+            zone.classList.remove('wrong');
+        }, 500);
+        
+        if (this.attempts >= this.maxAttempts) {
+            // Show all correct answers
+            const activity = this.getCurrent();
+            activity.items.forEach(item => {
+                const el = document.getElementById('drag-' + item.id);
+                if (el) {
+                    el.classList.add('used');
+                    el.style.opacity = '0.3';
+                    el.style.pointerEvents = 'none';
+                }
+            });
+            activity.dropZones.forEach(zone => {
+                const z = document.getElementById('drop-' + zone.id);
+                if (z) z.classList.add('filled');
+            });
+            setTimeout(() => {
+                App.afterActivity();
+            }, 2000);
+        } else {
+            this.showRetry();
+        }
     },
     
     /* ========== Audio ========== */

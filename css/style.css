@@ -842,3 +842,103 @@ body {
     font-size: 14px;
     color: var(--text-light);
 }
+
+/* ========== Drag Activity ========== */
+.drag-container {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.drag-source {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+    background: rgba(255,255,255,0.8);
+    border-radius: var(--radius);
+    flex-wrap: wrap;
+}
+
+.drag-item {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 15px;
+    min-width: 80px;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: grab;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    touch-action: none;
+    user-select: none;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.drag-item:active,
+.drag-item.dragging {
+    transform: scale(1.1);
+    cursor: grabbing;
+}
+
+.drag-item.used {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.drag-icon {
+    font-size: 40px;
+}
+
+.drag-label {
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+.drop-zones {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.drop-zone {
+    background: var(--card-bg);
+    border: 4px dashed #ccc;
+    border-radius: var(--radius);
+    min-width: 100px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s;
+}
+
+.drop-zone.drag-over {
+    border-color: var(--primary);
+    background: rgba(78, 205, 196, 0.1);
+    transform: scale(1.05);
+}
+
+.drop-zone.filled {
+    border-style: solid;
+    border-color: var(--success);
+    background: rgba(123, 198, 126, 0.2);
+}
+
+.drop-zone.wrong {
+    border-color: var(--retry);
+    animation: shake 0.5s;
+}
+
+.drop-zone-label {
+    font-size: 14px;
+    color: var(--text-light);
+}
