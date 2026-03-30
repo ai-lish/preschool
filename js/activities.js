@@ -104,7 +104,7 @@ const Activities = {
                 correctAudio: '做得好！天空係藍色！',
                 wrongAudio: '藍色係天空，試多次！',
                 options: [
-                    { id: 'blue', icon: '🚗', correct: true },
+                    { id: 'blue', icon: '🦋', correct: true },
                     { id: 'yellow', icon: '🌻', correct: false },
                     { id: 'red', icon: '🎈', correct: false }
                 ]
