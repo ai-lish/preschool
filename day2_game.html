@@ -130,13 +130,13 @@ body {
       搵出所有黃色嘢！🔍
     </div>
     <div class="item-grid" id="item-grid"></div>
-    <div class="score" id="score">搵到：0 / 4</div>
+    <div class="score" id="score">搵到：0 / 3</div>
   </div>
 
   <!-- Celebrate -->
   <div class="screen" id="screen-celebrate">
     <div class="speech-bubble" id="bubble-celebrate">
-      🎉 太叻喇！<br>你搵晒所有黃色嘢！<br>太陽公公好開心！☀️
+      🎉 太叻喇！<br>你搵晒黃色嘢喇！<br>太陽公公好開心！☀️
     </div>
     <img class="character-img" src="img/sun_character.png" alt="太陽公公" style="max-height:30vh;">
     <button id="replay-btn" onclick="replay()">再玩一次 🔄</button>
@@ -149,16 +149,13 @@ const items = [
   { emoji: '<img src="img/item_banana.png" alt="香蕉" style="width:60px;height:60px;">', color: 'yellow', name: '香蕉' },
   { emoji: '<img src="img/item_sunflower.png" alt="向日葵" style="width:60px;height:60px;">', color: 'yellow', name: '向日葵' },
   { emoji: '<img src="img/item_star.png" alt="星星" style="width:60px;height:60px;">', color: 'yellow', name: '星星' },
-  { emoji: '<img src="img/item_duck.png" alt="小鴨" style="width:60px;height:60px;">', color: 'yellow', name: '小鴨' },
   { emoji: '🍎', color: 'red', name: '蘋果' },
   { emoji: '🥦', color: 'green', name: '西蘭花' },
-  { emoji: '🫐', color: 'blue', name: '藍莓' },
   { emoji: '🍇', color: 'purple', name: '提子' },
-  { emoji: '🥕', color: 'orange', name: '紅蘿蔔' },
 ];
 
 let found = 0;
-const totalYellow = 4;
+const totalYellow = 3;
 let shuffled = [];
 
 function playAudio(src) { const a = new Audio(src); a.play().catch(()=>{}); return a; }
@@ -196,9 +193,9 @@ function startGame() {
 function goToGame() {
   setProgress(50);
   showScreen('game');
-  // Shuffle and pick 6 items (4 yellow + 2 others)
+  // 6 items: 3 yellow + 3 decoys
   const yellows = items.filter(i=>i.color==='yellow');
-  const others = items.filter(i=>i.color!=='yellow').sort(()=>Math.random()-0.5).slice(0,5);
+  const others = items.filter(i=>i.color!=='yellow');
   shuffled = [...yellows, ...others].sort(()=>Math.random()-0.5);
 
   const grid = document.getElementById('item-grid');

@@ -43,6 +43,7 @@ body {
   box-shadow: 0 6px 20px rgba(255,107,107,0.5); animation: glow 2s ease-in-out infinite;
 }
 @keyframes glow { 0%,100%{box-shadow:0 6px 20px rgba(255,107,107,0.5)} 50%{box-shadow:0 6px 35px rgba(255,215,0,0.8)} }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-15px)} }
 
 .speech-bubble {
   background: white; border-radius: 24px; padding: 20px 28px; max-width: 85vw; text-align: center;
@@ -112,15 +113,18 @@ body {
 <div id="game">
   <div class="screen active" id="screen-welcome">
     <div class="welcome-title">🎪 綜合大挑戰 🏆</div>
-    <div class="character-row">
-      <img src="img/bobo_panda.png" alt="波波">
-      <img src="img/sun_character.png" alt="太陽公公">
-      <img src="img/lanlan_fish.png" alt="藍藍">
-      <img src="img/char_bunny_tiaotiao.png" alt="跳跳">
-      <img src="img/char_bird_jiujiu.png" alt="啾啾">
-      <img src="img/char_ladybug_ahung.png" alt="阿紅">
+    <button id="start-btn" onclick="startGame()" style="padding:28px 60px;font-size:2.2rem;margin-bottom:20px;position:relative;z-index:50;">
+      👆 撳呢度開始 ▶
+    </button>
+    <div class="bounce-arrow" style="font-size:2.5rem;animation:bounce 1s ease-in-out infinite;margin-bottom:16px;">⬆️</div>
+    <div class="character-row" style="opacity:0.6;pointer-events:none;">
+      <img src="img/bobo_panda.png" alt="波波" style="height:50px;">
+      <img src="img/sun_character.png" alt="太陽公公" style="height:50px;">
+      <img src="img/lanlan_fish.png" alt="藍藍" style="height:50px;">
+      <img src="img/char_bunny_tiaotiao.png" alt="跳跳" style="height:50px;">
+      <img src="img/char_bird_jiujiu.png" alt="啾啾" style="height:50px;">
+      <img src="img/char_ladybug_ahung.png" alt="阿紅" style="height:50px;">
     </div>
-    <button id="start-btn" onclick="startGame()">開始 ▶</button>
   </div>
 
   <div class="screen" id="screen-intro">

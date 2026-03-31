@@ -130,12 +130,12 @@ body {
   <div class="screen" id="screen-game">
     <div class="speech-bubble visible" id="bubble-game">搵出所有藍色嘢！🔍</div>
     <div class="item-grid" id="item-grid"></div>
-    <div class="score" id="score">搵到：0 / 4</div>
+    <div class="score" id="score">搵到：0 / 3</div>
   </div>
 
   <div class="screen" id="screen-celebrate">
     <div class="speech-bubble" id="bubble-celebrate">
-      🎉 太叻喇！<br>你搵晒所有藍色嘢！<br>藍藍好開心！🐟
+      🎉 太叻喇！<br>你搵晒藍色嘢喇！<br>藍藍好開心！🐟
     </div>
     <img class="character-img" src="img/lanlan_fish.png" alt="藍藍魚" style="max-height:30vh;">
     <button id="replay-btn" onclick="replay()">再玩一次 🔄</button>
@@ -160,15 +160,12 @@ const items = [
   { emoji: '<img src="img/item_whale.png" alt="鯨魚" style="width:60px;height:60px;">', color: 'blue', name: '鯨魚' },
   { emoji: '<img src="img/item_fish_blue.png" alt="藍魚" style="width:60px;height:60px;">', color: 'blue', name: '藍魚' },
   { emoji: '<img src="img/item_jellyfish.png" alt="水母" style="width:60px;height:60px;">', color: 'blue', name: '水母' },
-  { emoji: '🧊', color: 'blue', name: '冰塊' },
   { emoji: '🍎', color: 'red', name: '蘋果' },
   { emoji: '🌻', color: 'yellow', name: '向日葵' },
-  { emoji: '🥦', color: 'green', name: '西蘭花' },
   { emoji: '🍊', color: 'orange', name: '橙' },
-  { emoji: '🍇', color: 'purple', name: '提子' },
 ];
 
-let found = 0; const totalBlue = 4; let shuffled = [];
+let found = 0; const totalBlue = 3; let shuffled = [];
 
 function playAudio(src) { const a = new Audio(src); a.play().catch(()=>{}); return a; }
 function setProgress(pct) { document.getElementById('progress-fill').style.width = pct+'%'; }
@@ -197,7 +194,7 @@ function startGame() {
 function goToGame() {
   setProgress(50); showScreen('game');
   const blues = items.filter(i=>i.color==='blue');
-  const others = items.filter(i=>i.color!=='blue').sort(()=>Math.random()-0.5).slice(0,5);
+  const others = items.filter(i=>i.color!=='blue');
   shuffled = [...blues, ...others].sort(()=>Math.random()-0.5);
   const grid = document.getElementById('item-grid'); grid.innerHTML = '';
   shuffled.forEach(item => {

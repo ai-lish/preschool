@@ -127,7 +127,7 @@ body {
   </div>
 
   <div class="screen" id="screen-game">
-    <div class="speech-bubble visible" id="bubble-game">數吓有幾多個？🤔</div>
+    <div class="speech-bubble visible" id="bubble-game">數數有幾多個？🤔</div>
     <div class="fruit-display" id="fruit-display"></div>
     <div class="choices" id="choices"></div>
     <div class="round-info" id="round-info">第 1 題 / 5 題</div>
@@ -144,10 +144,16 @@ body {
 </div>
 
 <script>
-const fruits = ['🍎','🍊','🍇','🍌','🍓','🍑','🥭','🍐'];
+const fruitImgs = {
+  '🍎': 'img/item_apple.png',
+  '🍊': 'img/item_orange.png',
+  '🍇': 'img/item_grape.png',
+  '🍌': 'img/item_banana.png',
+  '🍓': 'img/item_strawberry.png',
+};
+const fruits = Object.keys(fruitImgs);
 let round = 0;
 const totalRounds = 5;
-// Each round: count = round+1 (so 1,2,3,4,5)
 let currentAnswer = 0;
 
 function playAudio(src) { const a = new Audio(src); a.play().catch(()=>{}); return a; }
@@ -181,28 +187,42 @@ function nextRound() {
   setProgress(20 + (round/totalRounds)*60);
   document.getElementById('round-info').textContent = '第 '+(round+1)+' 題 / '+totalRounds+' 題';
 
-  // Show fruits
+  // Show fruits as images
   const display = document.getElementById('fruit-display');
   display.innerHTML = '';
   const fruit = fruits[Math.floor(Math.random()*fruits.length)];
+  const fruitSrc = fruitImgs[fruit];
   for (let i = 0; i < currentAnswer; i++) {
-    const span = document.createElement('span');
-    span.className = 'fruit-item';
-    span.textContent = fruit;
-    span.style.animationDelay = (i*0.15)+'s';
-    display.appendChild(span);
+    const img = document.createElement('img');
+    img.src = fruitSrc;
+    img.alt = fruit;
+    img.style.cssText = 'width:60px;height:60px;';
+    img.className = 'fruit-item';
+    img.style.animationDelay = (i*0.15)+'s';
+    display.appendChild(img);
   }
 
-  // Show number choices (1-5)
+  // Show 3 choices with fruit images representing quantities
   const choices = document.getElementById('choices');
   choices.innerHTML = '';
-  for (let n = 1; n <= 5; n++) {
+  // Generate 3 options: correct answer + 2 wrong ones
+  let options = [currentAnswer];
+  while (options.length < 3) {
+    let wrong = Math.floor(Math.random()*5) + 1;
+    if (!options.includes(wrong)) options.push(wrong);
+  }
+  options.sort(()=>Math.random()-0.5);
+  options.forEach(n => {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
-    btn.innerHTML = '<img src="img/item_num' + n + '.png" alt="' + n + '" style="width:50px;height:50px;">';
+    // Show n fruit images inside the button
+    let imgs = '';
+    for (let i = 0; i < n; i++) imgs += '<img src="' + fruitSrc + '" alt="' + n + '" style="width:30px;height:30px;margin:2px;">';
+    btn.innerHTML = '<div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:2px;">' + imgs + '</div>';
+    btn.style.cssText = 'width:auto;min-width:80px;height:auto;min-height:70px;padding:8px 12px;border-radius:15px;background:white;border:3px solid #FFD700;cursor:pointer;';
     btn.onclick = () => pickNumber(btn, n);
     choices.appendChild(btn);
-  }
+  });
   setTimeout(()=>choices.classList.add('visible'), 200);
 }
 
