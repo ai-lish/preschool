@@ -11,7 +11,7 @@ body {
   font-family: 'Noto Sans TC', 'PingFang HK', sans-serif;
   overflow: hidden;
   height: 100vh; width: 100vw;
-  background: linear-gradient(180deg, #87CEEB 0%, #b5e8f7 40%, #90EE90 60%, #228B22 100%);
+  background: url('img/bg_forest_party.png') center/cover no-repeat fixed;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
@@ -228,7 +228,12 @@ body {
     <div class="speech-bubble" id="bubble-celebrate">
       🎉 太好喇！<br>我哋而家係好朋友喇！🤝
     </div>
-    <img id="bobo-celebrate" src="img/bobo_panda.png" alt="BoBo" style="max-height:40vh;filter:drop-shadow(0 8px 16px rgba(0,0,0,0.25))">
+    <img id="bobo-celebrate" src="img/bobo_panda.png" alt="BoBo" style="max-height:30vh;filter:drop-shadow(0 8px 16px rgba(0,0,0,0.25))">
+    <div style="display:flex;gap:8px;justify-content:center;margin:12px 0;">
+      <img src="img/char_bunny_tiaotiao.png" alt="跳跳" style="height:60px;border-radius:12px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.2));">
+      <img src="img/char_bird_jiujiu.png" alt="啾啾" style="height:60px;border-radius:12px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.2));">
+      <img src="img/char_ladybug_ahung.png" alt="阿紅" style="height:60px;border-radius:12px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.2));">
+    </div>
     <button id="replay-btn" onclick="replay()">再玩一次 🔄</button>
   </div>
 </div>
