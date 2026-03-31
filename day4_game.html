@@ -188,6 +188,24 @@ body {
     <img class="character-img" id="character" src="img/bobo_panda.png" alt="波波熊貓">
   </div>
 
+
+  <!-- Drag and Drop Fruit Section -->
+  <div class="screen" id="screen-drag">
+    <h2>🍎 將水果拖去籃 🍎</h2>
+    <p class="count-display">已收集：<span id="fruit-count">0</span> / <span id="fruit-total">3</span></p>
+    <div class="drag-area" id="drag-area">
+      <img src="img/item_apple.png" class="drag-item" draggable="true" data-fruit="apple" alt="蘋果">
+      <img src="img/blueberry.png" class="drag-item" draggable="true" data-fruit="blueberry" alt="藍莓">
+      <img src="img/cherry.png" class="drag-item" draggable="true" data-fruit="cherry" alt="櫻桃">
+    </div>
+    <div class="basket-area">
+      <div class="basket" id="basket">
+        <img src="img/basket.png" alt="籃" style="width:120px;height:100px;">
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:15px;color:#666;font-size:14px;">提示：撳住水果然後拖去籃度 📱</p>
+  </div>
+
   <div class="screen" id="screen-game">
     <div class="speech-bubble visible" id="bubble-game">數數有幾多個？🤔</div>
     <div class="fruit-display" id="fruit-display"></div>
@@ -426,7 +444,7 @@ function handleFruitDrop(fruit, target) {
       document.getElementById('basket').classList.add('highlight');
       // Auto advance after 1.5s
       setTimeout(() => {
-        goToScreen('counting');
+        goToScreen('drag');
       }, 1500);
     }, 300);
   }
@@ -542,7 +560,7 @@ function handleFruitDrop(fruit, target) {
       document.getElementById('basket').classList.add('highlight');
       // Auto advance after 1.5s
       setTimeout(() => {
-        goToScreen('counting');
+        goToScreen('drag');
       }, 1500);
     }, 300);
   }
