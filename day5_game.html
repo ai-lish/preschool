@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Day 5 — 綜合大挑戰 🎪</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Noto Sans TC', 'PingFang HK', sans-serif;
+  overflow: hidden; height: 100vh; width: 100vw;
+  background: linear-gradient(180deg, #FF6B6B 0%, #FFA500 25%, #FFD700 50%, #4ECDC4 75%, #667eea 100%);
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+}
+
+/* Carnival decorations */
+.flag { position: absolute; top: 0; z-index: 1; font-size: 2rem; animation: wave 2s ease-in-out infinite; }
+@keyframes wave { 0%,100%{transform:rotate(-10deg)} 50%{transform:rotate(10deg)} }
+
+#progress-bar { position: fixed; top: 0; left: 0; width: 100%; height: 8px; z-index: 100; background: rgba(255,255,255,0.3); }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #FF6B6B, #FFD700, #4ECDC4, #667eea); border-radius: 0 4px 4px 0; transition: width 0.6s ease; }
+
+#game {
+  position: relative; z-index: 10;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: 100vh; width: 100vw; padding: 20px;
+}
+
+.screen { display: none; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
+.screen.active { display: flex; }
+
+.welcome-title { font-size: 2rem; color: white; text-shadow: 0 2px 8px rgba(0,0,0,0.3); margin-bottom: 16px; font-weight: 800; text-align: center; }
+
+/* Character row */
+.character-row {
+  display: flex; gap: 8px; justify-content: center; margin-bottom: 20px;
+}
+.character-row img { height: 80px; border-radius: 12px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2)); }
+
+#start-btn {
+  background: linear-gradient(135deg, #FFD700, #FF6B6B); color: white; border: none; border-radius: 30px;
+  padding: 20px 50px; font-size: 1.8rem; font-weight: 800; cursor: pointer; font-family: inherit;
+  box-shadow: 0 6px 20px rgba(255,107,107,0.5); animation: glow 2s ease-in-out infinite;
+}
+@keyframes glow { 0%,100%{box-shadow:0 6px 20px rgba(255,107,107,0.5)} 50%{box-shadow:0 6px 35px rgba(255,215,0,0.8)} }
+
+.speech-bubble {
+  background: white; border-radius: 24px; padding: 20px 28px; max-width: 85vw; text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12); font-size: 1.3rem; line-height: 1.6; color: #333;
+  position: relative; margin-bottom: 16px; opacity: 0; transform: scale(0.8);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.speech-bubble.visible { opacity: 1; transform: scale(1); }
+.speech-bubble::after {
+  content: ''; position: absolute; bottom: -14px; left: 50%; transform: translateX(-50%);
+  border: 14px solid transparent; border-top-color: white;
+}
+
+.choices {
+  display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 16px;
+  opacity: 0; transform: translateY(20px); transition: all 0.5s ease 0.3s;
+}
+.choices.visible { opacity: 1; transform: translateY(0); }
+
+.choice-btn {
+  background: linear-gradient(135deg, #FF6B6B, #FF8E53); color: white; border: none; border-radius: 20px;
+  padding: 16px 28px; font-size: 1.2rem; font-weight: 700; cursor: pointer; min-width: 90px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: all 0.2s ease; font-family: inherit;
+}
+.choice-btn:active { transform: scale(0.9); }
+.choice-btn:nth-child(2) { background: linear-gradient(135deg, #4ECDC4, #44B09E); }
+.choice-btn:nth-child(3) { background: linear-gradient(135deg, #A18CD1, #FBC2EB); }
+.choice-btn:nth-child(4) { background: linear-gradient(135deg, #FFD700, #FFA500); color: #333; }
+.choice-btn.correct { background: linear-gradient(135deg, #00C851, #007E33) !important; animation: pulse-correct 0.5s ease; }
+.choice-btn.wrong { animation: shake 0.4s ease; }
+
+@keyframes pulse-correct { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+
+.round-info { font-size: 1.1rem; color: white; font-weight: 700; margin-top: 8px; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+
+/* Stars earned */
+.stars { font-size: 2rem; margin-top: 12px; }
+
+#replay-btn {
+  margin-top: 20px; background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white; border: none; border-radius: 20px; padding: 14px 36px;
+  font-size: 1.2rem; font-weight: 700; cursor: pointer; font-family: inherit;
+}
+#home-btn {
+  margin-top: 12px; background: linear-gradient(135deg, #4ECDC4, #44B09E);
+  color: white; border: none; border-radius: 20px; padding: 14px 36px;
+  font-size: 1.2rem; font-weight: 700; cursor: pointer; font-family: inherit;
+}
+
+.confetti-piece {
+  position: fixed; width: 12px; height: 12px; z-index: 200; pointer-events: none;
+  animation: confetti-fall 2.5s ease-out forwards;
+}
+@keyframes confetti-fall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+<div class="flag" style="left:5%">🎪</div>
+<div class="flag" style="left:25%;animation-delay:0.3s">🎠</div>
+<div class="flag" style="left:50%;animation-delay:0.6s">🎡</div>
+<div class="flag" style="left:75%;animation-delay:0.9s">🎢</div>
+<div class="flag" style="right:5%;animation-delay:1.2s">🎪</div>
+
+<div id="game">
+  <div class="screen active" id="screen-welcome">
+    <div class="welcome-title">🎪 綜合大挑戰 🏆</div>
+    <div class="character-row">
+      <img src="img/bobo_panda.png" alt="波波">
+      <img src="img/sun_character.png" alt="太陽公公">
+      <img src="img/lanlan_fish.png" alt="藍藍">
+    </div>
+    <button id="start-btn" onclick="startGame()">開始 ▶</button>
+  </div>
+
+  <div class="screen" id="screen-intro">
+    <div class="speech-bubble" id="bubble-intro">
+      今日我哋學咗好多嘢！<br>一齊嚟個大挑戰！💪
+    </div>
+    <div class="character-row">
+      <img src="img/bobo_panda.png" alt="波波" style="height:100px;border-radius:12px;">
+    </div>
+  </div>
+
+  <div class="screen" id="screen-game">
+    <div class="speech-bubble visible" id="bubble-game"></div>
+    <div id="game-visual" style="font-size:3rem;margin:12px 0;min-height:60px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;"></div>
+    <div class="choices" id="choices"></div>
+    <div class="round-info" id="round-info">第 1 題 / 6 題</div>
+    <div class="stars" id="stars"></div>
+  </div>
+
+  <div class="screen" id="screen-celebrate">
+    <div class="speech-bubble" id="bubble-celebrate">
+      🏆 恭喜你完成所有挑戰！<br>你好叻呀！🎉
+    </div>
+    <div class="stars" id="final-stars" style="font-size:3rem;margin:16px 0;"></div>
+    <div class="character-row">
+      <img src="img/bobo_panda.png" alt="波波" style="height:80px;border-radius:12px;">
+      <img src="img/sun_character.png" alt="太陽公公" style="height:80px;border-radius:12px;">
+      <img src="img/lanlan_fish.png" alt="藍藍" style="height:80px;border-radius:12px;">
+    </div>
+    <button id="replay-btn" onclick="replay()">再玩一次 🔄</button>
+    <button id="home-btn" onclick="location.href='day1_game.html'">返回第一課 🏠</button>
+  </div>
+</div>
+
+<script>
+// Quiz questions mixing all days
+const questions = [
+  { q: '邊個係黃色㗎？☀️', visual: '', options: ['🍌','🍎','🫐'], answer: '🍌' },
+  { q: '邊個係藍色㗎？🌊', visual: '', options: ['🌻','🍊','🐳'], answer: '🐳' },
+  { q: '數吓有幾多個蘋果？🍎', visual: '🍎🍎🍎', options: ['2','3','4'], answer: '3' },
+  { q: '邊個唔係黃色㗎？', visual: '', options: ['🍌','⭐','🍇'], answer: '🍇' },
+  { q: '數吓有幾多個星星？⭐', visual: '⭐⭐⭐⭐⭐', options: ['3','4','5'], answer: '5' },
+  { q: 'BoBo 係咩動物？🤔', visual: '', options: ['🐼 熊貓','🐟 魚','🐘 大象'], answer: '🐼 熊貓' },
+];
+
+let round = 0;
+let score = 0;
+
+function playAudio(src) { const a = new Audio(src); a.play().catch(()=>{}); return a; }
+function setProgress(pct) { document.getElementById('progress-fill').style.width = pct+'%'; }
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+}
+function confetti() {
+  const colors = ['#FF6B6B','#FFD700','#4ECDC4','#A18CD1','#FF8E53','#00C851'];
+  for (let i = 0; i < 50; i++) {
+    const c = document.createElement('div'); c.className = 'confetti-piece';
+    c.style.left = Math.random()*100+'vw'; c.style.background = colors[i%colors.length];
+    c.style.borderRadius = Math.random()>0.5?'50%':'2px'; c.style.animationDelay = (Math.random()*0.8)+'s';
+    document.body.appendChild(c); setTimeout(()=>c.remove(), 4000);
+  }
+}
+function updateStars() {
+  document.getElementById('stars').textContent = '⭐'.repeat(score);
+}
+
+function startGame() {
+  setProgress(15); showScreen('intro');
+  setTimeout(()=>document.getElementById('bubble-intro').classList.add('visible'), 400);
+  playAudio('audio/d5_cantonese_intro.mp3');
+  setTimeout(()=>nextRound(), 4000);
+}
+
+function nextRound() {
+  if (round >= questions.length) { celebrate(); return; }
+  showScreen('game');
+  const q = questions[round];
+  setProgress(15 + (round/questions.length)*70);
+  document.getElementById('round-info').textContent = '第 '+(round+1)+' 題 / '+questions.length+' 題';
+  document.getElementById('bubble-game').textContent = q.q;
+  document.getElementById('game-visual').textContent = q.visual;
+
+  const choices = document.getElementById('choices');
+  choices.innerHTML = '';
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = opt;
+    btn.onclick = () => pickAnswer(btn, opt, q.answer);
+    choices.appendChild(btn);
+  });
+  choices.classList.add('visible');
+  updateStars();
+}
+
+function pickAnswer(btn, picked, answer) {
+  if (picked === answer) {
+    btn.classList.add('correct');
+    playAudio('audio/d5_cantonese_correct.mp3');
+    score++;
+    updateStars();
+    document.querySelectorAll('#choices .choice-btn').forEach(b=>b.disabled=true);
+    round++;
+    setTimeout(()=>{
+      document.getElementById('choices').classList.remove('visible');
+      nextRound();
+    }, 1500);
+  } else {
+    btn.classList.add('wrong');
+    playAudio('audio/d5_cantonese_wrong.mp3');
+    setTimeout(()=>btn.classList.remove('wrong'), 400);
+  }
+}
+
+function celebrate() {
+  setProgress(100); showScreen('celebrate'); confetti();
+  playAudio('audio/d5_cantonese_complete.mp3');
+  document.getElementById('final-stars').textContent = '⭐'.repeat(score) + ' (' + score + '/' + questions.length + ')';
+  setTimeout(()=>document.getElementById('bubble-celebrate').classList.add('visible'), 300);
+  setTimeout(confetti, 1500);
+  setTimeout(confetti, 3000);
+}
+
+function replay() {
+  round = 0; score = 0; setProgress(0);
+  document.querySelectorAll('.speech-bubble').forEach(b=>b.classList.remove('visible'));
+  document.getElementById('choices').classList.remove('visible');
+  document.getElementById('stars').textContent = '';
+  showScreen('welcome');
+}
+</script>
+</body>
+</html>
