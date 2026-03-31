@@ -103,6 +103,68 @@ body {
   animation: confetti-fall 2.5s ease-out forwards;
 }
 @keyframes confetti-fall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
+#parent-btn{position:fixed;bottom:20px;right:20px;z-index:1000;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;border:none;padding:12px 18px;border-radius:25px;font-size:14px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.2)}#parent-btn:hover{transform:scale(1.05)}.parent-modal{max-width:500px;padding:25px}.parent-modal h3{color:#667eea;margin-bottom:20px}.parent-modal .info-section{margin-bottom:15px;padding:15px;background:#f8f9fa;border-radius:10px}.parent-modal .info-section h4{color:#333;margin-bottom:8px}.parent-modal .info-section ul{margin:0;padding-left:20px}.parent-modal .close-btn{background:#667eea;color:white;border:none;padding:12px 30px;border-radius:20px;font-size:16px;cursor:pointer;margin-top:20px}
+/* Drag and Drop Fruit Basket */
+.drag-area {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+.drag-item {
+  width: 80px;
+  height: 80px;
+  cursor: grab;
+  transition: transform 0.2s;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.drag-item:hover {
+  transform: scale(1.1);
+}
+.drag-item:active {
+  cursor: grabbing;
+}
+.drag-item.dragging {
+  opacity: 0.5;
+}
+.basket-area {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+.basket {
+  width: 150px;
+  height: 120px;
+  border: 4px dashed #8B4513;
+  border-radius: 0 0 20px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #DEB887 0%, #D2691E 100%);
+  transition: all 0.3s;
+}
+.basket.highlight {
+  border-color: #4CAF50;
+  background: linear-gradient(180deg, #90EE90 0%, #4CAF50 100%);
+  transform: scale(1.05);
+}
+.basket-label {
+  font-size: 16px;
+  color: #8B4513;
+  text-align: center;
+}
+.count-display {
+  text-align: center;
+  font-size: 24px;
+  color: #333;
+  margin: 15px 0;
+}
+.count-display span {
+  color: #4CAF50;
+  font-weight: bold;
+}
 </style>
 </head>
 <body>
@@ -257,6 +319,236 @@ function replay() {
   document.getElementById('choices').classList.remove('visible');
   showScreen('welcome');
 }
+
+// Drag and Drop Fruit Game
+let fruitInBasket = 0;
+const totalFruits = 3;
+
+function initDragDrop() {
+  const items = document.querySelectorAll('.drag-item');
+  items.forEach(item => {
+    item.addEventListener('dragstart', handleDragStart);
+    item.addEventListener('touchstart', handleTouchStart, {passive: false});
+    item.addEventListener('touchmove', handleTouchMove, {passive: false});
+    item.addEventListener('touchend', handleTouchEnd);
+  });
+}
+
+function handleDragStart(e) {
+  e.dataTransfer.setData('text/plain', e.target.dataset.fruit);
+  e.target.classList.add('dragging');
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  document.getElementById('basket').classList.add('highlight');
+}
+
+function handleDragLeave(e) {
+  document.getElementById('basket').classList.remove('highlight');
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  const basket = document.getElementById('basket');
+  basket.classList.remove('highlight');
+  const fruit = e.dataTransfer.getData('text/plain');
+  handleFruitDrop(fruit, e.target);
+}
+
+// Touch support
+let touchDragItem = null;
+let touchClone = null;
+
+function handleTouchStart(e) {
+  e.preventDefault();
+  touchDragItem = e.target;
+  touchDragItem.classList.add('dragging');
+  
+  // Create clone for visual feedback
+  touchClone = touchDragItem.cloneNode(true);
+  touchClone.style.position = 'fixed';
+  touchClone.style.pointerEvents = 'none';
+  touchClone.style.zIndex = '9999';
+  touchClone.style.opacity = '0.8';
+  document.body.appendChild(touchClone);
+  
+  const touch = e.touches[0];
+  touchClone.style.left = (touch.clientX - 40) + 'px';
+  touchClone.style.top = (touch.clientY - 40) + 'px';
+}
+
+function handleTouchMove(e) {
+  e.preventDefault();
+  if (!touchClone) return;
+  const touch = e.touches[0];
+  touchClone.style.left = (touch.clientX - 40) + 'px';
+  touchClone.style.top = (touch.clientY - 40) + 'px';
+}
+
+function handleTouchEnd(e) {
+  if (!touchDragItem) return;
+  
+  const touch = e.changedTouches[0];
+  const basket = document.getElementById('basket');
+  const basketRect = basket.getBoundingClientRect();
+  
+  // Check if dropped on basket
+  if (touch.clientX >= basketRect.left && touch.clientX <= basketRect.right &&
+      touch.clientY >= basketRect.top && touch.clientY <= basketRect.bottom) {
+    handleFruitDrop(touchDragItem.dataset.fruit, basket);
+  }
+  
+  // Cleanup
+  touchDragItem.classList.remove('dragging');
+  if (touchClone) {
+    touchClone.remove();
+    touchClone = null;
+  }
+  touchDragItem = null;
+}
+
+function handleFruitDrop(fruit, target) {
+  fruitInBasket++;
+  document.getElementById('fruit-count').textContent = fruitInBasket;
+  
+  // Remove fruit from drag area
+  const dragItem = document.querySelector(`[data-fruit="${fruit}"]`);
+  if (dragItem) {
+    dragItem.style.opacity = '0.3';
+    dragItem.draggable = false;
+  }
+  
+  // Show basket full message
+  if (fruitInBasket >= totalFruits) {
+    setTimeout(() => {
+      document.getElementById('basket').innerHTML = '<span class="basket-label">🎉 滿咗！</span>';
+      document.getElementById('basket').classList.add('highlight');
+      // Auto advance after 1.5s
+      setTimeout(() => {
+        goToScreen('counting');
+      }, 1500);
+    }, 300);
+  }
+}
+
+// Initialize drag-drop when page loads
+document.addEventListener('DOMContentLoaded', initDragDrop);
 </script>
-</body>
+<button id="parent-btn" onclick="showParentInfo('day4')">👨‍👩‍👧 家長提示</button><div id="parent-modal" class="modal hidden"><div class="modal-content parent-modal"><p>載入中...</p></div></div><script src="js/parent-info.js">
+// Drag and Drop Fruit Game
+let fruitInBasket = 0;
+const totalFruits = 3;
+
+function initDragDrop() {
+  const items = document.querySelectorAll('.drag-item');
+  items.forEach(item => {
+    item.addEventListener('dragstart', handleDragStart);
+    item.addEventListener('touchstart', handleTouchStart, {passive: false});
+    item.addEventListener('touchmove', handleTouchMove, {passive: false});
+    item.addEventListener('touchend', handleTouchEnd);
+  });
+}
+
+function handleDragStart(e) {
+  e.dataTransfer.setData('text/plain', e.target.dataset.fruit);
+  e.target.classList.add('dragging');
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  document.getElementById('basket').classList.add('highlight');
+}
+
+function handleDragLeave(e) {
+  document.getElementById('basket').classList.remove('highlight');
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  const basket = document.getElementById('basket');
+  basket.classList.remove('highlight');
+  const fruit = e.dataTransfer.getData('text/plain');
+  handleFruitDrop(fruit, e.target);
+}
+
+// Touch support
+let touchDragItem = null;
+let touchClone = null;
+
+function handleTouchStart(e) {
+  e.preventDefault();
+  touchDragItem = e.target;
+  touchDragItem.classList.add('dragging');
+  
+  // Create clone for visual feedback
+  touchClone = touchDragItem.cloneNode(true);
+  touchClone.style.position = 'fixed';
+  touchClone.style.pointerEvents = 'none';
+  touchClone.style.zIndex = '9999';
+  touchClone.style.opacity = '0.8';
+  document.body.appendChild(touchClone);
+  
+  const touch = e.touches[0];
+  touchClone.style.left = (touch.clientX - 40) + 'px';
+  touchClone.style.top = (touch.clientY - 40) + 'px';
+}
+
+function handleTouchMove(e) {
+  e.preventDefault();
+  if (!touchClone) return;
+  const touch = e.touches[0];
+  touchClone.style.left = (touch.clientX - 40) + 'px';
+  touchClone.style.top = (touch.clientY - 40) + 'px';
+}
+
+function handleTouchEnd(e) {
+  if (!touchDragItem) return;
+  
+  const touch = e.changedTouches[0];
+  const basket = document.getElementById('basket');
+  const basketRect = basket.getBoundingClientRect();
+  
+  // Check if dropped on basket
+  if (touch.clientX >= basketRect.left && touch.clientX <= basketRect.right &&
+      touch.clientY >= basketRect.top && touch.clientY <= basketRect.bottom) {
+    handleFruitDrop(touchDragItem.dataset.fruit, basket);
+  }
+  
+  // Cleanup
+  touchDragItem.classList.remove('dragging');
+  if (touchClone) {
+    touchClone.remove();
+    touchClone = null;
+  }
+  touchDragItem = null;
+}
+
+function handleFruitDrop(fruit, target) {
+  fruitInBasket++;
+  document.getElementById('fruit-count').textContent = fruitInBasket;
+  
+  // Remove fruit from drag area
+  const dragItem = document.querySelector(`[data-fruit="${fruit}"]`);
+  if (dragItem) {
+    dragItem.style.opacity = '0.3';
+    dragItem.draggable = false;
+  }
+  
+  // Show basket full message
+  if (fruitInBasket >= totalFruits) {
+    setTimeout(() => {
+      document.getElementById('basket').innerHTML = '<span class="basket-label">🎉 滿咗！</span>';
+      document.getElementById('basket').classList.add('highlight');
+      // Auto advance after 1.5s
+      setTimeout(() => {
+        goToScreen('counting');
+      }, 1500);
+    }, 300);
+  }
+}
+
+// Initialize drag-drop when page loads
+document.addEventListener('DOMContentLoaded', initDragDrop);
+</script></body>
 </html>

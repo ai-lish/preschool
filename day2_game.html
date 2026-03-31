@@ -102,7 +102,7 @@ body {
   color: white; border: none; border-radius: 20px; padding: 14px 36px;
   font-size: 1.2rem; font-weight: 700; cursor: pointer; font-family: inherit;
 }
-</style>
+#parent-btn{position:fixed;bottom:20px;right:20px;z-index:1000;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;border:none;padding:12px 18px;border-radius:25px;font-size:14px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.2)}#parent-btn:hover{transform:scale(1.05)}.parent-modal{max-width:500px;padding:25px}.parent-modal h3{color:#667eea;margin-bottom:20px}.parent-modal .info-section{margin-bottom:15px;padding:15px;background:#f8f9fa;border-radius:10px}.parent-modal .info-section h4{color:#333;margin-bottom:8px}.parent-modal .info-section ul{margin:0;padding-left:20px}.parent-modal .close-btn{background:#667eea;color:white;border:none;padding:12px 30px;border-radius:20px;font-size:16px;cursor:pointer;margin-top:20px}</style>
 </head>
 <body>
 
@@ -245,5 +245,5 @@ function replay() {
   showScreen('welcome');
 }
 </script>
-</body>
+<button id="parent-btn" onclick="showParentInfo('day2')">👨‍👩‍👧 家長提示</button><div id="parent-modal" class="modal hidden"><div class="modal-content parent-modal"><p>載入中...</p></div></div><script src="js/parent-info.js"></script></body>
 </html>
