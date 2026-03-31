@@ -64,6 +64,34 @@ const Stickers = {
    Week 1: 認識自己 + 顏色
    ========================================== */
 
+const CHARACTER_IMAGES = {
+    '🐼': 'img/bobo_panda.png',
+    '🐟': 'img/lanlan_fish.png',
+    '🐢': 'img/yuenyuen_turtle.png',
+    '🐘': 'img/fongfong_elephant.png',
+    '🦊': 'img/sansan_fox.png',
+    '☀️': 'img/sun_character.png',
+};
+
+const CHARACTER_NAMES = {
+    '🐼': '波波',
+    '🐟': '藍藍',
+    '🐢': '圓圓',
+    '🐘': '方方',
+    '🦊': '三三',
+    '☀️': '太陽公公',
+};
+
+function charImg(emoji, extraClass) {
+    const src = CHARACTER_IMAGES[emoji];
+    if (src) {
+        const alt = CHARACTER_NAMES[emoji] || '';
+        const cls = extraClass ? ' ' + extraClass : '';
+        return `<img class="story-character${cls}" src="${src}" alt="${alt}">`;
+    }
+    return `<div class="story-character${extraClass ? ' '+extraClass : ''}">${emoji}</div>`;
+}
+
 const Activities = {
     currentActivity: null,
     currentIndex: 0,
@@ -164,6 +192,13 @@ const Activities = {
             c.style.cssText = `left:${Math.random()*100}%;background:${colors[i%colors.length]};animation-delay:${Math.random()*0.5}s;`;
             container.appendChild(c);
         }
+    },
+
+    /* ========== Audio Playback ========== */
+    playAudio(filename, cb) {
+        const audio = new Audio('audio/' + filename);
+        audio.play().catch(() => {});
+        audio.onended = () => { if (cb) cb(); };
     },
 
     /* ========== Audio Unlock ========== */
@@ -541,7 +576,7 @@ const Activities = {
         this._renderStoryInteraction(activity, step);
 
         // Audio
-        if (isFirst) this.speak(activity.audio.intro);
+        if (isFirst) { const _dm = activity.id.match(/^d(\d+)/); if (_dm) this.playAudio(`d${_dm[1]}_intro.mp3`); this.speak(activity.audio.intro); }
         else if (isLast) this.speak(activity.audio.completion);
         else this.speak(step.desc);
     },
@@ -558,7 +593,7 @@ const Activities = {
             case 'd5-reflection': this._storyD5Reflection(area, charArea, step); break;
             default:
                 if (step.character) {
-                    charArea.innerHTML = `<div class="story-character bounce-in">${step.character}</div>`;
+                    charArea.innerHTML = charImg(step.character, 'bounce-in');
                 }
         }
     },
@@ -568,11 +603,11 @@ const Activities = {
         const name = this._childName();
         switch(step.action) {
             case 'intro':
-                charArea.innerHTML = '<div class="story-character bounce-in" style="font-size:80px">🐼</div>';
+                charArea.innerHTML = charImg('🐼', 'bounce-in');
                 area.innerHTML = `<div class="dialogue-bubble">「你好呀！我叫波波！歡迎嚟到森林派對！」</div>`;
                 break;
             case 'findName':
-                charArea.innerHTML = '<div class="story-character" style="font-size:60px">🐼</div>';
+                charArea.innerHTML = charImg('🐼');
                 const names = [name, '小明', '小花'].sort(() => Math.random() - 0.5);
                 area.innerHTML = `<p class="story-prompt">搵到你嘅名！㩒佢！</p>
                     <div class="option-grid">${names.map(n =>
@@ -581,7 +616,7 @@ const Activities = {
                 this.speak(this.currentActivity.audio.instruction);
                 break;
             case 'selectAge':
-                charArea.innerHTML = '<div class="story-character" style="font-size:60px">🐼</div>';
+                charArea.innerHTML = charImg('🐼');
                 area.innerHTML = `<p class="story-prompt">你幾多歲呀？㩒啱嘅數字！</p>
                     <div class="option-grid">${[1,2,3,4,5].map(n =>
                         `<button class="big-option num-option" onclick="Activities._handleAgeTap(this,${n})">${n}</button>`
@@ -649,17 +684,17 @@ const Activities = {
     _storyD2Yellow(area, charArea, step) {
         switch(step.action) {
             case 'sunIntro':
-                charArea.innerHTML = '<div class="story-character bounce-in" style="font-size:80px">☀️</div>';
+                charArea.innerHTML = charImg('☀️', 'bounce-in');
                 area.innerHTML = '<div class="dialogue-bubble">「早晨呀！我帶咗好多黃色禮物嚟㗎！」</div>';
                 break;
             case 'sortYellow1':
             case 'sortYellow2':
-                charArea.innerHTML = '<div class="story-character" style="font-size:50px">☀️</div>';
+                charArea.innerHTML = charImg('☀️');
                 this._renderColorSort(area, step.items, 'y', '黃色', '#FFE66D');
                 this.speak('搵出黃色嘅嘢！㩒佢！');
                 break;
             case 'yellowMatch':
-                charArea.innerHTML = '<div class="story-character" style="font-size:50px">☀️</div>';
+                charArea.innerHTML = charImg('☀️');
                 area.innerHTML = `<p class="story-prompt">呢啲全部都係黃色㗎！㩒佢哋！</p>
                     <div class="option-grid">${step.items.map(it =>
                         `<button class="big-option item-btn" onclick="Activities._handleItemLight(this)">${it.e}<br><small>${it.n}</small></button>`
@@ -712,11 +747,11 @@ const Activities = {
     _storyD3Blue(area, charArea, step) {
         switch(step.action) {
             case 'diveIntro':
-                charArea.innerHTML = '<div class="story-character bounce-in" style="font-size:70px">🐼🤿</div>';
+                charArea.innerHTML = charImg('🐼', 'bounce-in') + '<span style="font-size:40px">🤿</span>';
                 area.innerHTML = '<div class="dialogue-bubble ocean-bg">「歡迎嚟到我嘅藍色世界！」— 藍藍🐟</div>';
                 break;
             case 'findBlue':
-                charArea.innerHTML = '<div class="story-character" style="font-size:40px">🐟</div>';
+                charArea.innerHTML = charImg('🐟');
                 this._renderColorSort(area, step.items, 'b', '藍色', '#4ECDC4');
                 this.speak('㩒藍色嘅海洋朋友！');
                 break;
@@ -879,7 +914,7 @@ const Activities = {
         // Render step content
         this._renderExploreContent(activity, step);
 
-        if (isFirst) this.speak(activity.audio.intro);
+        if (isFirst) { const _dm = activity.id.match(/^d(\d+)/); if (_dm) this.playAudio(`d${_dm[1]}_intro.mp3`); this.speak(activity.audio.intro); }
         else if (isLast) this.speak(activity.audio.completion);
         else this.speak(activity.audio.instruction);
     },
@@ -905,7 +940,7 @@ const Activities = {
         switch(step.action) {
             case 'gardenIntro':
                 area.innerHTML = `<div class="scene-display garden-gray">
-                    <div class="story-character bounce-in" style="font-size:60px">🐼</div>
+                    ${charImg('🐼', 'bounce-in')}
                     <div class="dialogue-bubble">「我嘅花園啲紅色唔見咗！」</div>
                     <div class="story-character" style="font-size:40px;opacity:0.5">🐞</div>
                     <div class="dialogue-bubble small">「搵到我就可以恢復紅色！」</div>
@@ -1139,7 +1174,7 @@ const Activities = {
             </div>`;
 
         this._renderGameContent(activity, step);
-        if (isFirst) this.speak(activity.audio.intro);
+        if (isFirst) { const _dm = activity.id.match(/^d(\d+)/); if (_dm) this.playAudio(`d${_dm[1]}_intro.mp3`); this.speak(activity.audio.intro); }
         else if (isLast && activity.id !== 'd5-review') this.speak(activity.audio.completion);
     },
 
@@ -1162,7 +1197,7 @@ const Activities = {
         switch(step.action) {
             case 'bodyIntro':
                 area.innerHTML = `<div class="body-display">
-                    <div class="story-character bounce-in" style="font-size:80px">🐼</div>
+                    ' + charImg('🐼', 'bounce-in') + '
                     <div class="dialogue-bubble">「嚟認識我哋嘅身體部位！」</div>
                 </div>`;
                 break;
@@ -1184,7 +1219,7 @@ const Activities = {
             case 'danceTime':
                 const moves = ['擺手 ✋','踏腳 🦶','點頭 🗣️','轉圈 🔄'];
                 area.innerHTML = `<div class="dance-area">
-                    <div class="story-character" style="font-size:60px" id="dance-char">🐼</div>
+                    ' + charImg('🐼') + '
                     <div class="dance-moves">${moves.map((m,i) =>
                         `<button class="big-option dance-btn" onclick="Activities._doDance(this,'${m}')" style="animation-delay:${i*0.15}s">${m}</button>`
                     ).join('')}</div>
@@ -1288,7 +1323,7 @@ const Activities = {
                 break;
             case 'meetCircle':
                 area.innerHTML = `<div class="character-intro">
-                    <div class="story-character bounce-in" style="font-size:80px">🐢</div>
+                    ' + charImg('🐢', 'bounce-in') + '
                     <div class="dialogue-bubble">「我係圓圓！我嘅龜殼係圓形！冇角，可以碌嚟碌去！」</div>
                     <div class="shape-info">⭕ 圓形 — 冇角，圓碌碌</div>
                 </div>`;
@@ -1298,11 +1333,11 @@ const Activities = {
                 area.innerHTML = `<div class="character-intro">
                     <div class="two-chars">
                         <div>
-                            <div class="story-character bounce-in" style="font-size:60px">🐘</div>
+                            ' + charImg('🐘', 'bounce-in') + '
                             <div class="dialogue-bubble small">「我係方方！正方形有四條邊、四個角！」</div>
                         </div>
                         <div>
-                            <div class="story-character bounce-in" style="font-size:60px;animation-delay:0.3s">🦊</div>
+                            ' + charImg('🦊', 'bounce-in') + '
                             <div class="dialogue-bubble small">「我係三三！三角形有三條邊、三個角！」</div>
                         </div>
                     </div>
@@ -1375,7 +1410,7 @@ const Activities = {
         switch(step.action) {
             case 'orchardIntro':
                 area.innerHTML = `<div class="orchard-intro">
-                    <div class="story-character bounce-in" style="font-size:60px">🐼🧺</div>
+                    ' + charImg('🐼', 'bounce-in') + '<span style="font-size:40px">🧺</span>
                     <div class="trees-row">🌳🍎 🌳🍊 🌳🍌</div>
                     <div class="dialogue-bubble">「今日要摘水果送俾朋友！」</div>
                 </div>`;
