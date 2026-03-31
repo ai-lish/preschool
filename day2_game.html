@@ -146,10 +146,10 @@ body {
 
 <script>
 const items = [
-  { emoji: '🍌', color: 'yellow', name: '香蕉' },
-  { emoji: '🌻', color: 'yellow', name: '向日葵' },
-  { emoji: '⭐', color: 'yellow', name: '星星' },
-  { emoji: '🐤', color: 'yellow', name: '小雞' },
+  { emoji: '<img src="img/item_banana.png" alt="香蕉" style="width:60px;height:60px;">', color: 'yellow', name: '香蕉' },
+  { emoji: '<img src="img/item_sunflower.png" alt="向日葵" style="width:60px;height:60px;">', color: 'yellow', name: '向日葵' },
+  { emoji: '<img src="img/item_star.png" alt="星星" style="width:60px;height:60px;">', color: 'yellow', name: '星星' },
+  { emoji: '<img src="img/item_duck.png" alt="小鴨" style="width:60px;height:60px;">', color: 'yellow', name: '小鴨' },
   { emoji: '🍎', color: 'red', name: '蘋果' },
   { emoji: '🥦', color: 'green', name: '西蘭花' },
   { emoji: '🫐', color: 'blue', name: '藍莓' },
@@ -206,7 +206,7 @@ function goToGame() {
   shuffled.forEach((item, idx) => {
     const card = document.createElement('div');
     card.className = 'item-card';
-    card.textContent = item.emoji;
+    card.innerHTML = item.emoji;
     card.onclick = () => tapItem(card, item);
     grid.appendChild(card);
   });

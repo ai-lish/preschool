@@ -162,12 +162,12 @@ body {
 <script>
 // Quiz questions mixing all days
 const questions = [
-  { q: '邊個係黃色㗎？☀️', visual: '', options: ['🍌','🍎','🫐'], answer: '🍌' },
-  { q: '邊個係藍色㗎？🌊', visual: '', options: ['🌻','🍊','🐳'], answer: '🐳' },
-  { q: '數吓有幾多個蘋果？🍎', visual: '🍎🍎🍎', options: ['2','3','4'], answer: '3' },
-  { q: '邊個唔係黃色㗎？', visual: '', options: ['🍌','⭐','🍇'], answer: '🍇' },
-  { q: '數吓有幾多個星星？⭐', visual: '⭐⭐⭐⭐⭐', options: ['3','4','5'], answer: '5' },
-  { q: 'BoBo 係咩動物？🤔', visual: '', options: ['🐼 熊貓','🐟 魚','🐘 大象'], answer: '🐼 熊貓' },
+  { q: '邊個係黃色㗎？☀️', visual: '', options: ['<img src="img/item_banana.png" alt="香蕉" style="width:40px;height:40px;vertical-align:middle;"> 香蕉','🍎 蘋果','🫐 藍莓'], answer: '<img src="img/item_banana.png" alt="香蕉" style="width:40px;height:40px;vertical-align:middle;"> 香蕉' },
+  { q: '邊個係藍色㗎？🌊', visual: '', options: ['<img src="img/item_sunflower.png" alt="向日葵" style="width:40px;height:40px;vertical-align:middle;"> 向日葵','🍊 橙','<img src="img/item_whale.png" alt="鯨魚" style="width:40px;height:40px;vertical-align:middle;"> 鯨魚'], answer: '<img src="img/item_whale.png" alt="鯨魚" style="width:40px;height:40px;vertical-align:middle;"> 鯨魚' },
+  { q: '數吓有幾多個蘋果？🍎', visual: '<img src="img/item_apple.png" alt="蘋果" style="width:50px;height:50px;"><img src="img/item_apple.png" alt="蘋果" style="width:50px;height:50px;"><img src="img/item_apple.png" alt="蘋果" style="width:50px;height:50px;">', options: ['2','3','4'], answer: '3' },
+  { q: '呢個係咩形狀？', visual: '<img src="img/item_circle_red.png" alt="圓形" style="width:80px;height:80px;">', options: ['⭐ 星形','🔴 圓形','🔷 菱形'], answer: '🔴 圓形' },
+  { q: '呢個係咩形狀？', visual: '<img src="img/item_triangle_yellow.png" alt="三角形" style="width:80px;height:80px;">', options: ['🔺 三角形','⬛ 正方形','⭕ 圓形'], answer: '🔺 三角形' },
+  { q: '呢個係咩形狀？', visual: '<img src="img/item_square_blue.png" alt="正方形" style="width:80px;height:80px;">', options: ['🔺 三角形','🟦 正方形','⭕ 圓形'], answer: '🟦 正方形' },
 ];
 
 let round = 0;
@@ -206,14 +206,14 @@ function nextRound() {
   setProgress(15 + (round/questions.length)*70);
   document.getElementById('round-info').textContent = '第 '+(round+1)+' 題 / '+questions.length+' 題';
   document.getElementById('bubble-game').textContent = q.q;
-  document.getElementById('game-visual').textContent = q.visual;
+  document.getElementById('game-visual').innerHTML = q.visual;
 
   const choices = document.getElementById('choices');
   choices.innerHTML = '';
   q.options.forEach(opt => {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
-    btn.textContent = opt;
+    btn.innerHTML = opt;
     btn.onclick = () => pickAnswer(btn, opt, q.answer);
     choices.appendChild(btn);
   });

@@ -157,9 +157,9 @@ for (let i = 0; i < 8; i++) {
 }
 
 const items = [
-  { emoji: '🐳', color: 'blue', name: '鯨魚' },
-  { emoji: '💎', color: 'blue', name: '鑽石' },
-  { emoji: '🫐', color: 'blue', name: '藍莓' },
+  { emoji: '<img src="img/item_whale.png" alt="鯨魚" style="width:60px;height:60px;">', color: 'blue', name: '鯨魚' },
+  { emoji: '<img src="img/item_fish_blue.png" alt="藍魚" style="width:60px;height:60px;">', color: 'blue', name: '藍魚' },
+  { emoji: '<img src="img/item_jellyfish.png" alt="水母" style="width:60px;height:60px;">', color: 'blue', name: '水母' },
   { emoji: '🧊', color: 'blue', name: '冰塊' },
   { emoji: '🍎', color: 'red', name: '蘋果' },
   { emoji: '🌻', color: 'yellow', name: '向日葵' },
@@ -202,7 +202,7 @@ function goToGame() {
   const grid = document.getElementById('item-grid'); grid.innerHTML = '';
   shuffled.forEach(item => {
     const card = document.createElement('div'); card.className = 'item-card';
-    card.textContent = item.emoji; card.onclick = ()=>tapItem(card, item);
+    card.innerHTML = item.emoji; card.onclick = ()=>tapItem(card, item);
     grid.appendChild(card);
   });
   setTimeout(()=>grid.classList.add('visible'), 200);

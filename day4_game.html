@@ -76,11 +76,9 @@ body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: all 0.2s ease; font-family: inherit;
 }
 .choice-btn:active { transform: scale(0.9); }
-.choice-btn:nth-child(1) { background: linear-gradient(135deg, #FF6B6B, #FF8E53); }
-.choice-btn:nth-child(2) { background: linear-gradient(135deg, #4ECDC4, #44B09E); }
-.choice-btn:nth-child(3) { background: linear-gradient(135deg, #A18CD1, #FBC2EB); }
-.choice-btn:nth-child(4) { background: linear-gradient(135deg, #FFD700, #FFA500); color: #333; }
-.choice-btn:nth-child(5) { background: linear-gradient(135deg, #667eea, #764ba2); }
+.choice-btn { background: white !important; border: 3px solid #FFD700; border-radius: 15px; }
+.choice-btn:hover { transform: scale(1.1); }
+.choice-btn img { width: 50px; height: 50px; }
 .choice-btn.correct { background: linear-gradient(135deg, #00C851, #007E33) !important; animation: pulse-correct 0.5s ease; }
 .choice-btn.wrong { animation: shake 0.4s ease; }
 
@@ -201,7 +199,7 @@ function nextRound() {
   for (let n = 1; n <= 5; n++) {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
-    btn.textContent = n;
+    btn.innerHTML = '<img src="img/item_num' + n + '.png" alt="' + n + '" style="width:50px;height:50px;">';
     btn.onclick = () => pickNumber(btn, n);
     choices.appendChild(btn);
   }
