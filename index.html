@@ -9,6 +9,21 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
 </head>
+<!-- Navbar -->
+<div id="navbar" style="position:fixed;top:12px;left:10px;right:10px;z-index:1001;display:flex;gap:8px;align-items:center">
+  <button onclick="toggleLangMenu()" style="background:rgba(255,255,255,0.9);border:none;border-radius:12px;padding:8px 14px;font-size:1.1rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.15)">🌐 <span id="lang-label">粵</span></button>
+  <div id="lang-menu" style="display:none;flex-direction:column;gap:4px;background:rgba(255,255,255,0.95);padding:8px 12px;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,0.15);position:absolute;top:50px;right:10px">
+    <button onclick="setLang('zhHK')" style="background:#667eea;color:white;border:none;padding:8px 16px;border-radius:10px;font-size:0.95rem">粵</button>
+    <button onclick="setLang('zhCN')" style="background:#667eea;color:white;border:none;padding:8px 16px;border-radius:10px;font-size:0.95rem">普</button>
+    <button onclick="setLang('en')" style="background:#667eea;color:white;border:none;padding:8px 16px;border-radius:10px;font-size:0.95rem">EN</button>
+    <button onclick="setLang('ja')" style="background:#667eea;color:white;border:none;padding:8px 16px;border-radius:10px;font-size:0.95rem">日</button>
+  </div>
+</div>
+<script>
+function toggleLangMenu(){document.getElementById('lang-menu').style.display=document.getElementById('lang-menu').style.display==='flex'?'none':'flex'}
+function setLang(l){localStorage.setItem('preschool_lang',l);document.getElementById('lang-label').textContent={zhHK:'粵',zhCN:'普',en:'EN',ja:'日'}[l];document.getElementById('lang-menu').style.display='none'}
+</script>
+
 <body style="background-image: url('img/bg_forest_party.png'); background-size: cover; background-position: center; background-attachment: fixed;">
     <!-- Sticker Display -->
     <div id="sticker-display" style="position: fixed; top: 10px; right: 10px; font-size: 24px; z-index: 100; background: rgba(255,255,255,0.9); padding: 6px 14px; border-radius: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
