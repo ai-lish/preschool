@@ -133,6 +133,7 @@ body {
 <div id="navbar">
   <button onclick="location.href='index.html'">🏠</button>
   <button onclick="toggleLangMenu()">🌐 <span id="lang-label">粵</span></button>
+  <button onclick="replayAudio()">🔊</button>
   <div id="lang-menu">
     <button onclick="setLang('zhHK')">粵</button>
     <button onclick="setLang('zhCN')">普</button>
@@ -238,6 +239,15 @@ function setLang(lang) {
   const labels = { zhHK: '粵', zhCN: '普', en: 'EN', ja: '日' };
   document.getElementById('lang-label').textContent = labels[lang];
   document.getElementById('lang-menu').classList.remove('show');
+}
+
+function replayAudio() {
+  const currentLang = AudioManager.currentLang;
+  // Play intro audio for current language
+  const introUrl = AudioManager.urls[currentLang]?.intro;
+  if (introUrl) {
+    new Audio(introUrl).play().catch(() => {});
+  }
 }
 
 // === Game Logic ===
