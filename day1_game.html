@@ -26,7 +26,7 @@ body {
   padding: 8px 14px; font-size: 1.1rem; cursor: pointer;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
-#lang-menu {
+#lang-menu { display: none;
   display: flex; gap: 4px; background: rgba(255,255,255,0.95);
   padding: 6px 10px; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.15);
 }
@@ -36,6 +36,7 @@ body {
 }
 #lang-menu button:hover { background: #5a6fd6; }
 .hidden { display: none !important; }
+#lang-menu.show { display: flex; }
 
 /* === CLOUDS === */
 .cloud {
@@ -249,7 +250,7 @@ body {
 <div id="navbar">
   <button id="nav-home" onclick="location.href='index.html'">🏠</button>
   <button id="lang-switch" onclick="toggleLangMenu()">🌐 <span id="lang-label">粵</span></button>
-  <div id="lang-menu" class="lang-menu hidden">
+  <div id="lang-menu" class="lang-menu">
     <button onclick="setLang('zhHK')">粵</button>
     <button onclick="setLang('zhCN')">普</button>
     <button onclick="setLang('en')">EN</button>
@@ -396,13 +397,13 @@ AudioManager.init();
 
 // Language switching
 function toggleLangMenu() {
-  document.getElementById('lang-menu').classList.toggle('hidden');
+  document.getElementById('lang-menu').classList.toggle('show');
 }
 function setLang(lang) {
   AudioManager.setLang(lang);
   const labels = { zhHK: '粵', zhCN: '普', en: 'EN', ja: '日' };
   document.getElementById('lang-label').textContent = labels[lang];
-  document.getElementById('lang-menu').classList.add('hidden');
+  document.getElementById('lang-menu').classList.remove('show');
 }
 
 // State
