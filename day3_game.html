@@ -8,6 +8,29 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: 'Noto Sans TC', 'PingFang HK', sans-serif;
+/* Navbar */
+#navbar {
+  position: fixed; top: 12px; left: 10px; right: 10px; z-index: 1001;
+  display: flex; gap: 8px; align-items: center;
+}
+#navbar button {
+  background: rgba(255,255,255,0.9); border: none; border-radius: 12px;
+  padding: 8px 14px; font-size: 1.1rem; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+#lang-menu {
+  display: none; flex-direction: column; gap: 4px;
+  background: rgba(255,255,255,0.95); padding: 8px 12px;
+  border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  position: absolute; top: 50px; right: 10px;
+}
+#lang-menu.show { display: flex; }
+#lang-menu button {
+  background: #667eea; color: white; border: none;
+  padding: 8px 16px; border-radius: 10px; font-size: 0.95rem;
+}
+#lang-menu button:hover { background: #5a6fd6; }
+
   overflow: hidden; height: 100vh; width: 100vw;
   background: url('img/bg_underwater.png') center/cover no-repeat fixed;
   touch-action: manipulation; -webkit-tap-highlight-color: transparent;
@@ -106,6 +129,18 @@ body {
 </head>
 <body>
 
+<!-- Navbar -->
+<div id="navbar">
+  <button onclick="location.href='index.html'">🏠</button>
+  <button onclick="toggleLangMenu()">🌐 <span id="lang-label">粵</span></button>
+  <div id="lang-menu">
+    <button onclick="setLang('zhHK')">粵</button>
+    <button onclick="setLang('zhCN')">普</button>
+    <button onclick="setLang('en')">EN</button>
+    <button onclick="setLang('ja')">日</button>
+  </div>
+</div>
+
 <div id="progress-bar"><div id="progress-fill"></div></div>
 
 <!-- Underwater decorations -->
@@ -144,6 +179,67 @@ body {
 </div>
 
 <script>
+
+// === AudioManager ===
+const AudioManager = {
+  currentLang: 'zhHK',
+  isMuted: false,
+  
+  urls: {
+    zhHK: {
+      intro: 'https://drive.google.com/uc?export=download&id=1xkp_ocmA0umi2YNcG1wL00a6uPMHM82s',
+      correct: 'https://drive.google.com/uc?export=download&id=1A12axl65u-n8_5B6LQ7UT4vnjteZPxMC',
+      wrong: 'https://drive.google.com/uc?export=download&id=1J15WL2gKH0EDTYtKEMFrlj-2eLS1RxoG',
+      complete: 'https://drive.google.com/uc?export=download&id=1JuOUUnks7jrJwhYn9dKB6j9C2Fqm46Rv',
+    },
+    zhCN: {
+      intro: 'https://drive.google.com/uc?export=download&id=1_skk7u5aSG4XI12D1DvXD61nsw54oKKd',
+      correct: 'https://drive.google.com/uc?export=download&id=1_skk7u5aSG4XI12D1DvXD61nsw54oKKd',
+      wrong: 'https://drive.google.com/uc?export=download&id=1_skk7u5aSG4XI12D1DvXD61nsw54oKKd',
+      complete: 'https://drive.google.com/uc?export=download&id=1_skk7u5aSG4XI12D1DvXD61nsw54oKKd',
+    },
+    en: {
+      intro: 'https://drive.google.com/uc?export=download&id=15-3UMFicnmoUb--RRt6_CidjIaqgUStf',
+      correct: 'https://drive.google.com/uc?export=download&id=15-3UMFicnmoUb--RRt6_CidjIaqgUStf',
+      wrong: 'https://drive.google.com/uc?export=download&id=15-3UMFicnmoUb--RRt6_CidjIaqgUStf',
+      complete: 'https://drive.google.com/uc?export=download&id=15-3UMFicnmoUb--RRt6_CidjIaqgUStf',
+    },
+    ja: {
+      intro: 'https://drive.google.com/uc?export=download&id=1E72MAS34XZhqR34UsFp3PyWlCLvMGlbr',
+      correct: 'https://drive.google.com/uc?export=download&id=1E72MAS34XZhqR34UsFp3PyWlCLvMGlbr',
+      wrong: 'https://drive.google.com/uc?export=download&id=1E72MAS34XZhqR34UsFp3PyWlCLvMGlbr',
+      complete: 'https://drive.google.com/uc?export=download&id=1E72MAS34XZhqR34UsFp3PyWlCLvMGlbr',
+    }
+  },
+  
+  play(key) {
+    if (this.isMuted) return;
+    const url = this.urls[this.currentLang]?.[key];
+    if (url) new Audio(url).play().catch(()=>{});
+  },
+  
+  setLang(lang) {
+    this.currentLang = lang;
+    localStorage.setItem('preschool_lang', lang);
+  },
+  
+  init() {
+    const saved = localStorage.getItem('preschool_lang');
+    if (saved) this.currentLang = saved;
+  }
+};
+AudioManager.init();
+
+function toggleLangMenu() {
+  document.getElementById('lang-menu').classList.toggle('show');
+}
+function setLang(lang) {
+  AudioManager.setLang(lang);
+  const labels = { zhHK: '粵', zhCN: '普', en: 'EN', ja: '日' };
+  document.getElementById('lang-label').textContent = labels[lang];
+  document.getElementById('lang-menu').classList.remove('show');
+}
+
 // Create floating bubbles
 for (let i = 0; i < 8; i++) {
   const b = document.createElement('div');
@@ -187,7 +283,7 @@ function startGame() {
   setProgress(20); showScreen('intro');
   setTimeout(()=>document.getElementById('character').classList.add('visible'), 200);
   setTimeout(()=>document.getElementById('bubble-intro').classList.add('visible'), 600);
-  playAudio('audio/d3_cantonese_intro.mp3');
+  AudioManager.play('intro');
   setTimeout(()=>goToGame(), 4500);
 }
 
@@ -210,17 +306,17 @@ function tapItem(card, item) {
   if (item.color === 'blue') {
     card.classList.add('correct'); setTimeout(()=>card.classList.add('found'), 500);
     found++; document.getElementById('score').textContent = '搵到：'+found+' / '+totalBlue;
-    playAudio('audio/d3_cantonese_correct.mp3');
+    AudioManager.play('correct');
     if (found >= totalBlue) setTimeout(()=>celebrate(), 1200);
   } else {
-    card.classList.add('wrong'); playAudio('audio/d3_cantonese_wrong.mp3');
+    card.classList.add('wrong'); AudioManager.play('wrong');
     setTimeout(()=>card.classList.remove('wrong'), 400);
   }
 }
 
 function celebrate() {
   setProgress(100); showScreen('celebrate'); confetti();
-  playAudio('audio/d3_cantonese_complete.mp3');
+  AudioManager.play('complete');
   setTimeout(()=>document.getElementById('bubble-celebrate').classList.add('visible'), 300);
   setTimeout(confetti, 1500);
 }
