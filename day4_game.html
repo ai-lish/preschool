@@ -6,6 +6,14 @@
 <title>Day 4 — 果園數數 🍎</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
+/* Navbar */
+#navbar{position:fixed;top:12px;left:10px;right:10px;z-index:1001;display:flex;gap:8px;align-items:center}
+#navbar button{background:rgba(255,255,255,0.9);border:none;border-radius:12px;padding:8px 14px;font-size:1.1rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.15)}
+#lang-menu{display:none;flex-direction:column;gap:4px;background:rgba(255,255,255,0.95);padding:8px 12px;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,0.15);position:absolute;top:50px;right:10px}
+#lang-menu.show{display:flex}
+#lang-menu button{background:#667eea;color:white;border:none;padding:8px 16px;border-radius:10px;font-size:0.95rem}
+#lang-menu button:hover{background:#5a6fd6}
+
 body {
   font-family: 'Noto Sans TC', 'PingFang HK', sans-serif;
   overflow: hidden; height: 100vh; width: 100vw;
@@ -169,6 +177,18 @@ body {
 </head>
 <body>
 
+<!-- Navbar -->
+<div id="navbar">
+  <button onclick="location.href='index.html'">🏠</button>
+  <button onclick="toggleLangMenu()">🌐 <span id="lang-label">粵</span></button>
+  <div id="lang-menu">
+    <button onclick="setLang('zhHK')">粵</button>
+    <button onclick="setLang('zhCN')">普</button>
+    <button onclick="setLang('en')">EN</button>
+    <button onclick="setLang('ja')">日</button>
+  </div>
+</div>
+
 <div id="progress-bar"><div id="progress-fill"></div></div>
 <div class="tree" style="left:3%">🌳</div>
 <div class="tree" style="left:15%">🌲</div>
@@ -236,6 +256,10 @@ let round = 0;
 const totalRounds = 5;
 let currentAnswer = 0;
 
+
+// === AudioManager ===
+const AudioManager={currentLang:localStorage.getItem('preschool_lang')||'zhHK',isMuted:false,urls:{zhHK:{intro:'https://drive.google.com/uc?export=download&id=1CKIfr953e7iQi8VaBfoo507BCqycgHxg',correct:'https://drive.google.com/uc?export=download&id=1y0PZmpahtkDUzLlJrteoQ0XqEM43Ha21',wrong:'https://drive.google.com/uc?export=download&id=1AoomdRYsXP8_JUkgOYrzM6urZIWOxZA5',complete:'https://drive.google.com/uc?export=download&id=1z8aOMkRE7mtqntue4RO7ApprqXhVnCb9'},zhCN:{intro:'https://drive.google.com/uc?export=download&id=111UKLJ8zej8QE1z5CmjoZw2nM-EFyyVW',correct:'https://drive.google.com/uc?export=download&id=111UKLJ8zej8QE1z5CmjoZw2nM-EFyyVW',wrong:'https://drive.google.com/uc?export=download&id=111UKLJ8zej8QE1z5CmjoZw2nM-EFyyVW',complete:'https://drive.google.com/uc?export=download&id=111UKLJ8zej8QE1z5CmjoZw2nM-EFyyVW'},en:{intro:'https://drive.google.com/uc?export=download&id=1JZzIpk1BWWNP0nvxpeK7X01sdpXZsWQ3',correct:'https://drive.google.com/uc?export=download&id=1JZzIpk1BWWNP0nvxpeK7X01sdpXZsWQ3',wrong:'https://drive.google.com/uc?export=download&id=1JZzIpk1BWWNP0nvxpeK7X01sdpXZsWQ3',complete:'https://drive.google.com/uc?export=download&id=1JZzIpk1BWWNP0nvxpeK7X01sdpXZsWQ3'},ja:{intro:'https://drive.google.com/uc?export=download&id=1Mqo7X7RtmZYFbSCNOf9rWcfb6A_y49GQ',correct:'https://drive.google.com/uc?export=download&id=1Mqo7X7RtmZYFbSCNOf9rWcfb6A_y49GQ',wrong:'https://drive.google.com/uc?export=download&id=1Mqo7X7RtmZYFbSCNOf9rWcfb6A_y49GQ',complete:'https://drive.google.com/uc?export=download&id=1Mqo7X7RtmZYFbSCNOf9rWcfb6A_y49GQ'}},play(k){if(this.isMuted)return;const u=this.urls[this.currentLang]?.[k];if(u)new Audio(u).play().catch(()=>{})},setLang(l){this.currentLang=l;localStorage.setItem('preschool_lang',l)}};function toggleLangMenu(){document.getElementById('lang-menu').classList.toggle('show')}function setLang(l){AudioManager.setLang(l);document.getElementById('lang-label').textContent={zhHK:'粵',zhCN:'普',en:'EN',ja:'日'}[l];document.getElementById('lang-menu').classList.remove('show')}
+
 function playAudio(src) { const a = new Audio(src); a.play().catch(()=>{}); return a; }
 function setProgress(pct) { document.getElementById('progress-fill').style.width = pct+'%'; }
 function showScreen(id) {
@@ -256,7 +280,7 @@ function startGame() {
   setProgress(20); showScreen('intro');
   setTimeout(()=>document.getElementById('character').classList.add('visible'), 200);
   setTimeout(()=>document.getElementById('bubble-intro').classList.add('visible'), 600);
-  playAudio('audio/d4_cantonese_intro.mp3');
+  AudioManager.play('intro');
   setTimeout(()=>nextRound(), 5000);
 }
 
@@ -309,7 +333,7 @@ function nextRound() {
 function pickNumber(btn, n) {
   if (n === currentAnswer) {
     btn.classList.add('correct');
-    playAudio('audio/d4_cantonese_correct.mp3');
+    AudioManager.play('correct');
     document.querySelectorAll('#choices .choice-btn').forEach(b=>b.disabled=true);
     round++;
     setTimeout(()=>{
@@ -318,14 +342,14 @@ function pickNumber(btn, n) {
     }, 1500);
   } else {
     btn.classList.add('wrong');
-    playAudio('audio/d4_cantonese_wrong.mp3');
+    AudioManager.play('wrong');
     setTimeout(()=>btn.classList.remove('wrong'), 400);
   }
 }
 
 function celebrate() {
   setProgress(100); showScreen('celebrate'); confetti();
-  playAudio('audio/d4_cantonese_complete.mp3');
+  AudioManager.play('complete');
   setTimeout(()=>document.getElementById('bubble-celebrate').classList.add('visible'), 300);
   setTimeout(confetti, 1500);
 }
