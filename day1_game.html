@@ -16,6 +16,27 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* === NAVBAR === */
+#navbar {
+  position: fixed; top: 12px; left: 10px; right: 10px; z-index: 1001;
+  display: flex; gap: 8px; align-items: center;
+}
+#navbar button {
+  background: rgba(255,255,255,0.9); border: none; border-radius: 12px;
+  padding: 8px 14px; font-size: 1.1rem; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+#lang-menu {
+  display: flex; gap: 4px; background: rgba(255,255,255,0.95);
+  padding: 6px 10px; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+}
+#lang-menu button {
+  background: #667eea; color: white; border: none;
+  padding: 6px 12px; border-radius: 10px; font-size: 0.9rem;
+}
+#lang-menu button:hover { background: #5a6fd6; }
+.hidden { display: none !important; }
+
 /* === CLOUDS === */
 .cloud {
   position: absolute; background: white; border-radius: 50%;
@@ -171,59 +192,70 @@ body {
   box-shadow: 0 4px 12px rgba(102,126,234,0.4);
 }
 
-    /* Parent Button */
-    #parent-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 1000;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border: none;
-      padding: 12px 18px;
-      border-radius: 25px;
-      font-size: 14px;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-    #parent-btn:hover {
-      transform: scale(1.05);
-    }
-    .parent-modal {
-      max-width: 500px;
-      padding: 25px;
-    }
-    .parent-modal h3 {
-      color: #667eea;
-      margin-bottom: 20px;
-    }
-    .parent-modal .info-section {
-      margin-bottom: 15px;
-      padding: 15px;
-      background: #f8f9fa;
-      border-radius: 10px;
-    }
-    .parent-modal .info-section h4 {
-      color: #333;
-      margin-bottom: 8px;
-    }
-    .parent-modal .info-section ul {
-      margin: 0;
-      padding-left: 20px;
-    }
-    .parent-modal .close-btn {
-      background: #667eea;
-      color: white;
-      border: none;
-      padding: 12px 30px;
-      border-radius: 20px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-    </style>
+/* Parent Button */
+#parent-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 25px;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+#parent-btn:hover {
+  transform: scale(1.05);
+}
+.parent-modal {
+  max-width: 500px;
+  padding: 25px;
+}
+.parent-modal h3 {
+  color: #667eea;
+  margin-bottom: 20px;
+}
+.parent-modal .info-section {
+  margin-bottom: 15px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 10px;
+}
+.parent-modal .info-section h4 {
+  color: #333;
+  margin-bottom: 8px;
+}
+.parent-modal .info-section ul {
+  margin: 0;
+  padding-left: 20px;
+}
+.parent-modal .close-btn {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+</style>
 </head>
 <body>
+
+<div id="navbar">
+  <button id="nav-home" onclick="location.href='index.html'">🏠</button>
+  <button id="lang-switch" onclick="toggleLangMenu()">🌐 <span id="lang-label">粵</span></button>
+  <div id="lang-menu" class="lang-menu hidden">
+    <button onclick="setLang('zhHK')">粵</button>
+    <button onclick="setLang('zhCN')">普</button>
+    <button onclick="setLang('en')">EN</button>
+    <button onclick="setLang('ja')">日</button>
+  </div>
+</div>
 
 <div id="progress-bar"><div id="progress-fill"></div></div>
 
@@ -289,22 +321,93 @@ body {
       <img src="img/char_bird_jiujiu.png" alt="啾啾" style="height:60px;border-radius:12px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.2));">
       <img src="img/char_ladybug_ahung.png" alt="阿紅" style="height:60px;border-radius:12px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.2));">
     </div>
-    <button id="replay-btn" onclick="replay()">再玩一次 🔄</button>
+    <button id="replay-btn" onclick="replayIntro()">🔄 再聽一次</button>
     <button id="nav-btn" onclick="location.href='day2_game.html'" style="margin-top:8px;padding:14px 32px;font-size:1.2em;border:none;border-radius:30px;background:linear-gradient(135deg,#4CAF50,#66BB6A);color:white;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);">下一課 ▶</button>
   </div>
 </div>
 
+<button id="parent-btn" onclick="showParentInfo('day1')">👨‍👩‍👧 家長提示</button>
+<div id="parent-modal" class="modal hidden">
+  <div class="modal-content parent-modal">
+    <p>載入中...</p>
+  </div>
+</div>
+<script src="js/parent-info.js"></script>
+
 <script>
+// === AudioManager ===
+const AudioManager = {
+  currentLang: 'zhHK',
+  isMuted: false,
+  
+  // Audio URLs by lang and asset
+  urls: {
+    zhHK: {
+      intro: 'https://drive.google.com/uc?export=download&id=18ond1XCIlz7MjKB0dbq83Pl65p2GxYA9',
+      gender_intro: 'https://drive.google.com/uc?export=download&id=11Dbn0kAbH6celI0BwcpYM5oLKuV0sUnY',
+      correct: 'https://drive.google.com/uc?export=download&id=1qSE6Y0hwFJLn7b_vWjrqY5LfTc4u750w',
+      wrong: 'https://drive.google.com/uc?export=download&id=1pUHll2EkYgGUfCIbi7Zge1K2uUuuDef5',
+      complete: 'https://drive.google.com/uc?export=download&id=1G9m-fdDOu4MPZuvWLGNHBpQnSfR8lcKc',
+      color_intro: 'https://drive.google.com/uc?export=download&id=1GorMSBNALr1jWKP4k43aZbOS9-_whGKU',
+      color_correct: 'https://drive.google.com/uc?export=download&id=1D4aYQNssCVH0TUjM24w2ckHpZSKDd-uS',
+      color_wrong: 'https://drive.google.com/uc?export=download&id=1O9ipB9f1sjHiakXUF63xI4Xd3fPYJO46',
+      write_intro: 'https://drive.google.com/uc?export=download&id=1_EAVfr9GdlO_5bXtgUAMav5YmICTxu5i',
+      write_complete: 'https://drive.google.com/uc?export=download&id=1JwSvtpjOXjzE_tHLlrREi_C1uJZ56kNb',
+    },
+    zhCN: {
+      intro: 'https://drive.google.com/uc?export=download&id=1oLDGZhfRZBtp9HV7k-TnJGwcBlaU0ImU',
+      correct: 'https://drive.google.com/uc?export=download&id=1wvOZgwrYc7ItR0Dsl_2Gro9oyk0cy-oE',
+      wrong: 'https://drive.google.com/uc?export=download&id=1mtMLthX8ievQ2kSwBnMze_psMdNW628E',
+      complete: 'https://drive.google.com/uc?export=download&id=1G9m-fdDOu4MPZuvWLGNHBpQnSfR8lcKc',
+    },
+    en: {
+      intro: 'https://drive.google.com/uc?export=download&id=1eh0xkRsPMQf5a740DcEqRZy4U7G-7MAf',
+      correct: 'https://drive.google.com/uc?export=download&id=1PaLFwwRLYiRkTXV4HQ0wdUAsbJMpXkqU',
+      wrong: 'https://drive.google.com/uc?export=download&id=1mCOYkdhkjBTZ_Z4qFsGNSzXt5PYVJU45',
+      complete: 'https://drive.google.com/uc?export=download&id=1G9m-fdDOu4MPZuvWLGNHBpQnSfR8lcKc',
+    },
+    ja: {
+      intro: 'https://drive.google.com/uc?export=download&id=1HVGguyw61X3zPlgkn15KoH8meGWhnAY5',
+      correct: 'https://drive.google.com/uc?export=download&id=1F4qQGn7jmFNO5_vyKv0s3pmHEeH6TArn',
+      wrong: 'https://drive.google.com/uc?export=download&id=1mCOYkdhkjBTZ_Z4qFsGNSzXt5PYVJU45',
+      complete: 'https://drive.google.com/uc?export=download&id=1G9m-fdDOu4MPZuvWLGNHBpQnSfR8lcKc',
+    }
+  },
+  
+  play(key) {
+    if (this.isMuted) return;
+    const url = this.urls[this.currentLang][key];
+    if (url) {
+      new Audio(url).play().catch(() => {});
+    }
+  },
+  
+  setLang(lang) {
+    this.currentLang = lang;
+    localStorage.setItem('preschool_lang', lang);
+  },
+  
+  init() {
+    const saved = localStorage.getItem('preschool_lang');
+    if (saved) this.currentLang = saved;
+  }
+};
+AudioManager.init();
+
+// Language switching
+function toggleLangMenu() {
+  document.getElementById('lang-menu').classList.toggle('hidden');
+}
+function setLang(lang) {
+  AudioManager.setLang(lang);
+  const labels = { zhHK: '粵', zhCN: '普', en: 'EN', ja: '日' };
+  document.getElementById('lang-label').textContent = labels[lang];
+  document.getElementById('lang-menu').classList.add('hidden');
+}
+
 // State
 let playerName = '';
 let playerAge = 0;
-
-// Audio helper
-function playAudio(src) {
-  const a = new Audio(src);
-  a.play().catch(() => {});
-  return a;
-}
 
 // Progress
 function setProgress(pct) {
@@ -362,7 +465,7 @@ function startGame() {
   setTimeout(() => { bobo.classList.add('bounce'); }, 900);
   setTimeout(() => { bubble.classList.add('visible'); }, 600);
 
-  playAudio('audio/d1_cantonese_intro.mp3');
+  AudioManager.play('intro');
 
   // Auto-advance after 4s
   setTimeout(() => goToName(), 4500);
@@ -371,7 +474,7 @@ function startGame() {
 function goToName() {
   setProgress(40);
   showScreen('name');
-  playAudio('audio/d1_cantonese_name.mp3');
+  AudioManager.play('gender_intro');
 
   setTimeout(() => {
     document.getElementById('bubble-name').classList.add('visible');
@@ -382,7 +485,7 @@ function goToName() {
 function pickName(btn, name) {
   playerName = name;
   btn.classList.add('correct');
-  playAudio('audio/d1_cantonese_correct.mp3');
+  AudioManager.play('correct');
 
   // Disable all name buttons
   document.querySelectorAll('#choices-name .choice-btn').forEach(b => b.disabled = true);
@@ -395,7 +498,7 @@ function goToAge() {
   showScreen('age');
   document.getElementById('age-text').innerHTML =
     playerName + '，你幾多歲呀？ 🎂';
-  playAudio('audio/d1_cantonese_age.mp3');
+  AudioManager.play('gender_intro');
 
   setTimeout(() => {
     document.getElementById('bubble-age').classList.add('visible');
@@ -406,7 +509,7 @@ function goToAge() {
 function pickAge(btn, age) {
   playerAge = age;
   btn.classList.add('correct');
-  playAudio('audio/d1_cantonese_correct.mp3');
+  AudioManager.play('correct');
 
   document.querySelectorAll('#choices-age .choice-btn').forEach(b => b.disabled = true);
 
@@ -421,7 +524,7 @@ function celebrate() {
   document.getElementById('bubble-celebrate').innerHTML =
     '🎉 太好喇！<br>' + playerName + '（' + playerAge + '歲），<br>我哋而家係好朋友喇！🤝';
 
-  playAudio('audio/d1_cantonese_friend.mp3');
+  AudioManager.play('complete');
 
   setTimeout(() => {
     document.getElementById('bubble-celebrate').classList.add('visible');
@@ -429,6 +532,10 @@ function celebrate() {
 
   // Extra confetti burst
   setTimeout(confetti, 1500);
+}
+
+function replayIntro() {
+  AudioManager.play('intro');
 }
 
 function replay() {
@@ -439,16 +546,4 @@ function replay() {
   document.querySelectorAll('.speech-bubble').forEach(b => b.classList.remove('visible'));
   document.querySelectorAll('.choices').forEach(c => c.classList.remove('visible'));
   document.querySelectorAll('.choice-btn').forEach(b => { b.disabled = false; b.classList.remove('correct'); });
-  document.getElementById('bobo').classList.remove('visible', 'bounce');
-
-  showScreen('welcome');
-}
-</script>
-<button id="parent-btn" onclick="showParentInfo('day1')">👨‍👩‍👧 家長提示</button>
-    <div id="parent-modal" class="modal hidden">
-      <div class="modal-content parent-modal">
-        <p>載入中...</p>
-      </div>
-    </div>
-    <script src="js/parent-info.js"></script></body>
-</html>
+  document.getElementById('b
