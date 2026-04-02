@@ -1,228 +1,413 @@
 <!DOCTYPE html>
 <html lang="zh-HK">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <title>🌱 成長學習</title>
-    <link rel="icon" href="images/logo.png" type="image/png">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/animations.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>🌟 神的創造 — 聖經故事</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; overflow: hidden; touch-action: manipulation; }
+
+:root {
+  --primary: #6C5CE7;
+  --gold: #FFD700;
+  --shadow: 0 4px 20px rgba(0,0,0,0.15);
+  --radius: 24px;
+}
+
+body {
+  font-family: 'Noto Sans TC', 'PingFang HK', 'Microsoft JhengHei', sans-serif;
+  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  height: 100vh; width: 100vw;
+  position: relative; overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+/* NAVBAR */
+#navbar { position: fixed; top: 12px; left: 10px; right: 10px; z-index: 999; display: flex; gap: 8px; align-items: center; }
+.nav-btn { background: rgba(255,255,255,0.92); border: none; border-radius: 14px; padding: 9px 14px; font-size: 1.1rem; cursor: pointer; box-shadow: var(--shadow); transition: transform 0.15s; }
+.nav-btn:active { transform: scale(0.93); }
+#lang-wrap { position: relative; }
+#lang-menu { display: none; flex-direction: column; gap: 4px; position: absolute; top: 110%; left: 0; background: rgba(255,255,255,0.97); border-radius: 14px; padding: 8px; box-shadow: var(--shadow); min-width: 90px; }
+#lang-menu.show { display: flex; }
+.lang-btn { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 10px; font-size: 0.95rem; cursor: pointer; text-align: left; }
+.lang-btn:hover { background: #5a4fcf; }
+
+/* MAIN CONTENT */
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 20px;
+  max-width: 500px;
+  text-align: center;
+}
+
+/* CROSS SYMBOL */
+.cross-symbol {
+  font-size: 5rem;
+  filter: drop-shadow(0 0 30px rgba(255,215,0,0.6));
+  animation: crossPulse 3s ease-in-out infinite;
+}
+@keyframes crossPulse { 
+  0%,100%{transform:scale(1);filter:drop-shadow(0 0 20px rgba(255,215,0,0.5))} 
+  50%{transform:scale(1.08);filter:drop-shadow(0 0 40px rgba(255,215,0,0.9))} 
+}
+
+/* TITLE */
+.title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--gold);
+  text-shadow: 0 2px 12px rgba(255,215,0,0.4);
+  letter-spacing: 2px;
+  line-height: 1.3;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.8);
+  margin-top: 4px;
+}
+
+/* DESCRIPTION */
+.description {
+  background: rgba(255,255,255,0.1);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  backdrop-filter: blur(6px);
+  max-width: 90vw;
+}
+
+.description p {
+  margin-bottom: 10px;
+}
+.description p:last-child {
+  margin-bottom: 0;
+}
+
+/* DAYS PREVIEW */
+.days-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  max-width: 90vw;
+}
+
+.day-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.15);
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  backdrop-filter: blur(4px);
+}
+
+.day-badge span {
+  font-size: 1.3rem;
+}
+
+/* START BUTTON */
+.start-btn {
+  border: none;
+  border-radius: 30px;
+  padding: 18px 50px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #1a1a2e;
+  box-shadow: 0 4px 20px rgba(255,215,0,0.4);
+}
+.start-btn:active { transform: scale(0.92); }
+
+/* PARENT INFO */
+.parent-info {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.1);
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.6);
+  backdrop-filter: blur(4px);
+}
+.parent-info a {
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+}
+.parent-info a:hover {
+  text-decoration: underline;
+}
+
+/* FOOTER */
+.footer {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.4);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+/* STARS DECORATION */
+.star {
+  position: fixed;
+  font-size: 1rem;
+  opacity: 0.3;
+  animation: twinkle 2s ease-in-out infinite;
+}
+.star:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+.star:nth-child(2) { top: 15%; right: 15%; animation-delay: 0.5s; }
+.star:nth-child(3) { top: 60%; left: 8%; animation-delay: 1s; }
+.star:nth-child(4) { top: 70%; right: 10%; animation-delay: 1.5s; }
+.star:nth-child(5) { top: 30%; left: 85%; animation-delay: 0.3s; }
+.star:nth-child(6) { top: 80%; left: 20%; animation-delay: 0.8s; }
+
+@keyframes twinkle {
+  0%,100%{opacity: 0.2; transform: scale(1);}
+  50%{opacity: 0.6; transform: scale(1.2);}
+}
+</style>
 </head>
-<body style="background-image: url('img/bg_garden_colorful.png'); background-size: cover; background-position: center; background-attachment: fixed;">
+<body>
+
+<!-- Decorative stars -->
+<span class="star">⭐</span>
+<span class="star">✨</span>
+<span class="star">⭐</span>
+<span class="star">✨</span>
+<span class="star">⭐</span>
+<span class="star">✨</span>
 
 <!-- Navbar -->
-<div id="navbar" style="position:fixed;top:12px;left:10px;right:10px;z-index:1001;display:flex;gap:8px;align-items:center">
-  <button onclick="toggleLangMenu()" style="background:rgba(255,255,255,0.9);border:none;border-radius:12px;padding:8px 14px;font-size:1.1rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.15)">🌐 <span id="lang-label">粵</span></button>
-  <div id="lang-menu" style="display:none;flex-direction:column;gap:4px;background:rgba(255,255,255,0.95);padding:8px 12px;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,0.15);position:absolute;top:50px;right:10px">
-    <button onclick="setLang('zhHK')" style="background:#667eea;color:white;border:none;padding:8px 16px;border-radius:10px;font-size:0.95rem">粵</button>
-    <button onclick="setLang('zhCN')" style="background:#667eea;color:white;border:none;padding:8px 16px;border-radius:10px;font-size:0.95rem">普</button>
-    <button onclick="setLang('en')" style="background:#667eea;color:white;border:none;padding:8px 16px;border-radius:10px;font-size:0.95rem">EN</button>
-    <button onclick="setLang('ja')" style="background:#667eea;color:white;border:none;padding:8px 16px;border-radius:10px;font-size:0.95rem">日</button>
+<div id="navbar">
+  <button class="nav-btn" onclick="toggleLangMenu()">🌐 <span id="lang-label">粵</span></button>
+  <div id="lang-wrap">
+    <div id="lang-menu">
+      <button class="lang-btn" onclick="setLang('zhHK')">粵</button>
+      <button class="lang-btn" onclick="setLang('zhCN')">普</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('ja')">日</button>
+    </div>
   </div>
 </div>
 
+<!-- Main Content -->
+<div class="main-container">
+  <div class="cross-symbol">✝️</div>
+  
+  <div class="title" id="title">神的創造</div>
+  <div class="subtitle" id="subtitle">聖經故事幼兒課程</div>
+  
+  <div class="description" id="description">
+    <p id="desc1">神用六日創造美麗的世界。</p>
+    <p id="desc2">一齊聽聖經故事，認識神嘅創造！</p>
+  </div>
+  
+  <div class="days-preview">
+    <div class="day-badge"><span>💡</span><span id="day1-label">第一日：光</span></div>
+    <div class="day-badge"><span>☁️</span><span id="day2-label">第二日：天空</span></div>
+    <div class="day-badge"><span>🌱</span><span id="day3-label">第三日：陸地</span></div>
+    <div class="day-badge"><span>☀️</span><span id="day4-label">第四日：太陽</span></div>
+    <div class="day-badge"><span>🐟</span><span id="day5-label">第五日：生物</span></div>
+    <div class="day-badge"><span>👤</span><span id="day6-label">第六日：人</span></div>
+  </div>
+  
+  <button class="start-btn" onclick="startGame()" id="start-btn">開始學習 ▶</button>
+</div>
+
+<div class="parent-info">
+  <a href="javascript:void(0)" onclick="showParentInfo()">👨‍👩‍👧 家長提示</a>
+</div>
 
 <script>
-function toggleLangMenu(){document.getElementById('lang-menu').style.display=document.getElementById('lang-menu').style.display==='flex'?'none':'flex'}
-function setLang(l){localStorage.setItem('preschool_lang',l);document.getElementById('lang-label').textContent={zhHK:'粵',zhCN:'普',en:'EN',ja:'日'}[l];document.getElementById('lang-menu').style.display='none'}
+// ===== LANGUAGE SYSTEM =====
+const texts = {
+  zhHK: {
+    title: '神的創造',
+    subtitle: '聖經故事幼兒課程',
+    desc1: '神用六日創造美麗的世界。',
+    desc2: '一齊聽聖經故事，認識神嘅創造！',
+    day1: '第一日：光',
+    day2: '第二日：天空',
+    day3: '第三日：陸地',
+    day4: '第四日：太陽',
+    day5: '第五日：生物',
+    day6: '第六日：人',
+    startBtn: '開始學習 ▶',
+    parentInfo: '👨‍👩‍👧 家長提示',
+    parentTitle: '👶 發展心理學話你知',
+    parentContent: `
+      <h3>這個課程的目標</h3>
+      <p>幫助幼兒認識聖經創世故事，建立對神的 basic 認識。</p>
+      <h3>教學法</h3>
+      <ul>
+        <li>✋ 動手操作（觸摸、拖動）</li>
+        <li>👀 視覺學習（顏色、形狀）</li>
+        <li>👂 聽覺記憶（故事、音效）</li>
+        <li>🗣️ 語言發展（詞彙、句子）</li>
+      </ul>
+      <h3>適合年齡</h3>
+      <p>K1-K2（3-5歲幼兒）</p>
+    `
+  },
+  zhCN: {
+    title: '神的创造',
+    subtitle: '圣经故事幼儿课程',
+    desc1: '神用六日创造美丽的世界。',
+    desc2: '一起听圣经故事，认识神的创造！',
+    day1: '第一日：光',
+    day2: '第二日：天空',
+    day3: '第三日：陆地',
+    day4: '第四日：太阳',
+    day5: '第五日：生物',
+    day6: '第六日：人',
+    startBtn: '开始学习 ▶',
+    parentInfo: '👨‍👩‍👧 家长提示',
+    parentTitle: '👶 发展心理学话你知',
+    parentContent: `
+      <h3>这个课程的目标</h3>
+      <p>帮助幼儿认识圣经创世故事，建立对神的基本认识。</p>
+      <h3>教学法</h3>
+      <ul>
+        <li>✋ 动手操作（触摸、拖动）</li>
+        <li>👀 视觉学习（颜色、形状）</li>
+        <li>👂 听觉记忆（故事、音效）</li>
+        <li>🗣️ 语言发展（词汇、句子）</li>
+      </ul>
+      <h3>适合年龄</h3>
+      <p>K1-K2（3-5岁幼儿）</p>
+    `
+  },
+  en: {
+    title: 'God\'s Creation',
+    subtitle: 'Bible Story for Kids',
+    desc1: 'God created the beautiful world in six days.',
+    desc2: 'Learn about God\'s creation through fun stories!',
+    day1: 'Day 1: Light',
+    day2: 'Day 2: Sky',
+    day3: 'Day 3: Land',
+    day4: 'Day 4: Sun & Moon',
+    day5: 'Day 5: Creatures',
+    day6: 'Day 6: People',
+    startBtn: 'Start Learning ▶',
+    parentInfo: '👨‍👩‍👧 Parent Info',
+    parentTitle: '👶 Child Development Tips',
+    parentContent: `
+      <h3>Course Goals</h3>
+      <p>Help children understand the biblical creation story and develop basic understanding of God.</p>
+      <h3>Teaching Methods</h3>
+      <ul>
+        <li>✋ Hands-on activities</li>
+        <li>👀 Visual learning</li>
+        <li>👂 Audio memory</li>
+        <li>🗣️ Language development</li>
+      </ul>
+      <h3>Age Range</h3>
+      <p>K1-K2 (3-5 years)</p>
+    `
+  },
+  ja: {
+    title: '神の創造',
+    subtitle: '聖書物語子供教室',
+    desc1: '神は六日で美しい世界創造しました。',
+    desc2: '聖書の物語で神様の創造を学ぼう！',
+    day1: '一日目：光',
+    day2: '二日目：空',
+    day3: '三日目：陸',
+    day4: '四日目：太陽',
+    day5: '五日目：生き物',
+    day6: '六日目：人',
+    startBtn: '勉強始めよう ▶',
+    parentInfo: '👨‍👩‍👧 保護者へ',
+    parentTitle: '👶 発達心理学のポイント',
+    parentContent: `
+      <h3>コースの目的</h3>
+      <p>子供が聖書の創造物語を理解し、神様への基本認識を持つようになります。</p>
+      <h3>教え方</h3>
+      <ul>
+        <li>✋ 实际操作</li>
+        <li>👀 視覚学習</li>
+        <li>👂 聴覚記憶</li>
+        <li>🗣️ 言語発達</li>
+      </ul>
+      <h3>対象年齢</h3>
+      <p>K1-K2（3-5歳）</p>
+    `
+  }
+};
+
+let currentLang = localStorage.getItem('creation_lang') || 'zhHK';
+
+function toggleLangMenu() {
+  document.getElementById('lang-menu').classList.toggle('show');
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('creation_lang', lang);
+  document.getElementById('lang-label').textContent = {zhHK:'粵',zhCN:'普',en:'EN',ja:'日'}[lang];
+  document.getElementById('lang-menu').classList.remove('show');
+  updateTexts();
+}
+
+function updateTexts() {
+  let t = texts[currentLang];
+  document.getElementById('title').textContent = t.title;
+  document.getElementById('subtitle').textContent = t.subtitle;
+  document.getElementById('desc1').textContent = t.desc1;
+  document.getElementById('desc2').textContent = t.desc2;
+  document.getElementById('day1-label').textContent = t.day1;
+  document.getElementById('day2-label').textContent = t.day2;
+  document.getElementById('day3-label').textContent = t.day3;
+  document.getElementById('day4-label').textContent = t.day4;
+  document.getElementById('day5-label').textContent = t.day5;
+  document.getElementById('day6-label').textContent = t.day6;
+  document.getElementById('start-btn').textContent = t.startBtn;
+  document.title = '🌟 ' + t.title;
+}
+
+function startGame() {
+  location.href = 'creation_game.html';
+}
+
+function showParentInfo() {
+  let t = texts[currentLang];
+  alert(t.parentTitle + '\n\n' + t.parentContent.replace(/<[^>]*>/g, '\n').replace(/\n+/g, '\n').trim());
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', function() {
+  let savedLang = localStorage.getItem('creation_lang');
+  if (savedLang) {
+    currentLang = savedLang;
+    document.getElementById('lang-label').textContent = {zhHK:'粵',zhCN:'普',en:'EN',ja:'日'}[savedLang];
+  }
+  updateTexts();
+});
+
+// Close menu on outside click
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('#lang-wrap')) {
+    document.getElementById('lang-menu').classList.remove('show');
+  }
+});
 </script>
-    <!-- Sticker Display -->
-    <div id="sticker-display" style="position: fixed; top: 60px; right: 10px; font-size: 24px; z-index: 100; background: rgba(255,255,255,0.9); padding: 6px 14px; border-radius: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-        <span id="sticker-bar"></span> <span id="sticker-count">0</span>/10 ⭐
-    </div>
-    <!-- ========== 主頁面 ========== -->
-    <div id="app-home" class="screen active">
-        <div class="home-container">
-            <h1 class="app-title"><img src="images/logo.png" alt="Logo" class="header-logo">成長學習</h1>
-            <p class="app-subtitle">一齊嚟玩啦！</p>
-            
-            <!-- Characters -->
-            <div style="display:flex;gap:8px;justify-content:center;margin:16px 0;flex-wrap:wrap;">
-                <img src="img/bobo_panda.png" alt="波波" style="height:70px;border-radius:12px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.2));">
-                <img src="img/sun_character.png" alt="太陽公公" style="height:70px;border-radius:12px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.2));">
-                <img src="img/lanlan_fish.png" alt="藍藍" style="height:70px;border-radius:12px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.2));">
-                <img src="img/char_bunny_tiaotiao.png" alt="跳跳" style="height:70px;border-radius:12px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.2));">
-                <img src="img/char_bird_jiujiu.png" alt="啾啾" style="height:70px;border-radius:12px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.2));">
-                <img src="img/char_ladybug_ahung.png" alt="阿紅" style="height:70px;border-radius:12px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.2));">
-            </div>
-            
-            <!-- Day 導航 -->
-            <div class="day-nav">
-                <div class="day-header">
-                    <h2>📅 第 1 週</h2>
-                    <span class="day-progress">已玩 0/5 日</span>
-                </div>
-                
-                <div class="day-grid">
-                    <!-- Day 1 -->
-                    <button class="day-btn" onclick="location.href='day1_game.html'">
-                        <span class="day-emoji">🐼</span>
-                        <span class="day-label">Day 1</span>
-                        <span class="day-status" id="day1-status">認識 BoBo</span>
-                    </button>
-                    
-                    <!-- Day 2 -->
-                    <button class="day-btn" onclick="location.href='day2_game.html'">
-                        <span class="day-emoji">☀️</span>
-                        <span class="day-label">Day 2</span>
-                        <span class="day-status" id="day2-status">搵黃色</span>
-                    </button>
-                    
-                    <!-- Day 3 -->
-                    <button class="day-btn" onclick="location.href='day3_game.html'">
-                        <span class="day-emoji">🐟</span>
-                        <span class="day-label">Day 3</span>
-                        <span class="day-status" id="day3-status">搵藍色</span>
-                    </button>
-                    
-                    <!-- Day 4 -->
-                    <button class="day-btn" onclick="location.href='day4_game.html'">
-                        <span class="day-emoji">🍎</span>
-                        <span class="day-label">Day 4</span>
-                        <span class="day-status" id="day4-status">果園數數</span>
-                    </button>
-                    
-                    <!-- Day 5 -->
-                    <button class="day-btn" onclick="location.href='day5_game.html'">
-                        <span class="day-emoji">🎪</span>
-                        <span class="day-label">Day 5</span>
-                        <span class="day-status" id="day5-status">綜合挑戰</span>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- 家長按鈕 -->
-            <button class="parent-gate" onclick="showParentInfo()">
-                <span class="parent-icon">👨‍👩‍👧</span>
-                <span class="parent-label">家長專區</span>
-            </button>
-        </div>
-    </div>
-    
-    <!-- ========== 活動頁面 ========== -->
-    <div id="app-session" class="screen">
-        <div class="session-header">
-            <button class="back-btn" onclick="goHome()">← 返回</button>
-            <div class="session-info">
-                <span class="session-title" id="session-title">Day 1</span>
-                <span class="session-progress" id="session-progress">1/4</span>
-            </div>
-            <!-- 家長資訊按鈕 -->
-            <button class="info-btn" onclick="showActivityInfo()" title="家長資訊">ℹ️</button>
-        </div>
-        
-        <div class="activity-container" id="activity-container">
-            <!-- 活動內容會動態插入 -->
-        </div>
-        
-        <!-- 導航按鈕 -->
-        <div class="session-nav">
-            <button class="nav-btn prev-btn" id="prev-btn" onclick="prevActivity()" style="display:none;">← 上一個</button>
-            <button class="nav-btn next-btn" id="next-btn" onclick="nextActivity()" style="display:none;">下一個 →</button>
-        </div>
-    </div>
-    
-    <!-- ========== 完成頁面 ========== -->
-    <div id="app-complete" class="screen">
-        <div class="complete-container">
-            <div class="complete-emoji">🎉</div>
-            <h2 class="complete-title">你做得好好！</h2>
-            <p class="complete-message">今日嘅學習完成晒啦！</p>
-            
-            <div class="complete-stars" id="complete-stars">
-                <!-- 星星動畫 -->
-            </div>
-            
-            <button class="btn-primary" onclick="goHome()">再玩一次</button>
-        </div>
-    </div>
-    
-    <!-- ========== 家長資訊 Modal ========== -->
-    <div id="parent-modal" class="modal">
-        <div class="modal-backdrop" onclick="hideParentModal()"></div>
-        <div class="modal-content">
-            <button class="modal-close" onclick="hideParentModal()">×</button>
-            <div class="modal-header">
-                <h2>👶 發展心理學話你知</h2>
-            </div>
-            <div class="modal-body" id="modal-body">
-                <!-- 動態內容 -->
-            </div>
-        </div>
-    </div>
-    
-    <!-- ========== 休息提示 ========== -->
-    <div id="break-screen" class="screen">
-        <div class="break-container">
-            <div class="break-emoji">☕</div>
-            <h2>休息一下！</h2>
-            <p>休息幾分鐘，等大腦吸收下嘢。</p>
-            <button class="btn-primary" onclick="continueSession()">繼續！</button>
-        </div>
-    </div>
-    
-    <!-- ========== 設置頁面（家長） ========== -->
-    <div id="app-settings" class="screen">
-        <div class="settings-container">
-            <h2>⚙️ 設置</h2>
-            
-            <div class="setting-item">
-                <label>小朋友名字</label>
-                <input type="text" id="setting-name" placeholder="例如：BB" maxlength="10">
-            </div>
-            
-            <div class="setting-item">
-                <label>年齡</label>
-                <select id="setting-age">
-                    <option value="3">3 歲</option>
-                    <option value="4">4 歲</option>
-                    <option value="5">5 歲</option>
-                </select>
-            </div>
-            
-            <div class="setting-item">
-                <label>音量</label>
-                <input type="range" id="setting-volume" min="0" max="100" value="80">
-            </div>
-            
-            <button class="btn-primary" onclick="saveSettings()">保存設置</button>
-            <button class="btn-secondary" onclick="resetProgress()">重置進度</button>
-            <button class="btn-secondary" onclick="goHome()">返回主頁</button>
-            
-            <!-- 進度概覽 -->
-            <div class="progress-overview">
-                <h3>📊 學習進度</h3>
-                <div id="progress-summary">
-                    <!-- 動態內容 -->
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- ========== 成功動畫 ========== -->
-    <div id="success-overlay" class="success-overlay">
-        <div class="success-content">
-            <div class="success-stars">⭐⭐⭐</div>
-            <div class="success-text">叻叻！</div>
-        </div>
-    </div>
-    
-    <!-- ========== 再試一次提示 ========== -->
-    <div id="retry-overlay" class="retry-overlay">
-        <div class="retry-content">
-            <div class="retry-text">再試一次！</div>
-        </div>
-    </div>
-    
-    <script src="js/progress.js"></script>
-    <script src="js/activities.js"></script>
-    <script src="js/app.js"></script>
-    <script>
-        // Init stickers and audio unlock
-        Stickers.load();
-        Activities.initAudioUnlock();
-    </script>
-<button id="parent-btn" onclick="showParentInfo('day1')">👨‍👩‍👧 家長提示</button><div id="parent-modal" class="modal hidden"><div class="modal-content parent-modal"><p>載入中...</p></div></div><script src="js/parent-info.js"></script></body>
+</body>
 </html>
