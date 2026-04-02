@@ -432,8 +432,17 @@ let cloudStartX, cloudStartY, waterStartX, waterStartY;
 let dragEl = null;
 
 // ── Audio placeholder ────────────────────────────────────────
+const AUDIO_BASE = 'https://raw.githubusercontent.com/ai-lish/preschool/main/audio/creation/';
+const LANG_MAP = { zhHK: 'zhHK', zhCN: 'zhCN', en: 'en', ja: 'ja' };
+let currentAudio = null;
+
 function playAudio(key) {
-  console.log('Play audio:', key, lang);
+  const langSuffix = LANG_MAP[lang] || 'zhHK';
+  const audioUrl = AUDIO_BASE + key + '_' + langSuffix + '.mp3';
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  currentAudio = new Audio(audioUrl);
+  currentAudio.play().catch(e => console.log('Audio play failed:', e));
+  console.log('Play audio:', key, langSuffix);
 }
 
 // ── Language helpers ─────────────────────────────────────────
