@@ -26,7 +26,7 @@ body {
 }
 
 /* NAVBAR */
-#navbar { position: fixed; top: 12px; left: 10px; right: 10px; z-index: 999; display: flex; gap: 8px; align-items: center; }
+#navbar { position: fixed; top: 12px; left: 10px; right: 10px; z-index: 999; display: flex; gap: 8px; align-items: center; touch-action: manipulation; }
 .nav-btn { background: rgba(255,255,255,0.92); border: none; border-radius: 14px; padding: 9px 14px; font-size: 1.1rem; cursor: pointer; box-shadow: var(--shadow); transition: transform 0.15s; }
 .nav-btn:active { transform: scale(0.93); }
 #lang-wrap { position: relative; }
@@ -51,8 +51,8 @@ body {
 @keyframes crossPulse { 0%,100%{transform:scale(1);filter:drop-shadow(0 0 15px rgba(255,215,0,0.4))} 50%{transform:scale(1.1);filter:drop-shadow(0 0 30px rgba(255,215,0,0.8))} }
 .welcome-narration { background: rgba(255,255,255,0.12); color: white; border-radius: var(--radius); padding: 20px 24px; max-width: 90vw; font-size: 1.25rem; line-height: 1.7; text-align: center; backdrop-filter: blur(6px); }
 .welcome-choices { display: flex; gap: 16px; margin-top: 10px; flex-wrap: wrap; justify-content: center; }
-.welcome-btn { border: none; border-radius: 20px; padding: 16px 36px; font-size: 1.3rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: transform 0.2s; box-shadow: var(--shadow); }
-.welcome-btn:active { transform: scale(0.92); }
+.welcome-btn { border: none; border-radius: 20px; padding: 20px 50px; font-size: 1.5rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: transform 0.2s; box-shadow: var(--shadow); min-height: 60px; min-width: 140px; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.welcome-btn:active { transform: scale(0.95); opacity: 0.9; }
 .btn-help { background: linear-gradient(135deg, #00C851, #007E33); color: white; }
 .btn-no { background: linear-gradient(135deg, #FF6B6B, #c0392b); color: white; }
 
