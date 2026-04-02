@@ -107,7 +107,7 @@ body {
   animation: confetti-fall 2.5s ease-out forwards;
 }
 @keyframes confetti-fall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
-#parent-btn{position:fixed;bottom:20px;right:20px;z-index:1000;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;border:none;padding:12px 18px;border-radius:25px;font-size:14px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.2)}#parent-btn:hover{transform:scale(1.05)}.parent-modal{max-width:500px;padding:25px}.parent-modal h3{color:#667eea;margin-bottom:20px}.parent-modal .info-section{margin-bottom:15px;padding:15px;background:#f8f9fa;border-radius:10px}.parent-modal .info-section h4{color:#333;margin-bottom:8px}.parent-modal .info-section ul{margin:0;padding-left:20px}.parent-modal .close-btn{background:#667eea;color:white;border:none;padding:12px 30px;border-radius:20px;font-size:16px;cursor:pointer;margin-top:20px}</style>
+#parent-btn{background:rgba(255,255,255,0.9);border:none;border-radius:12px;padding:8px 14px;font-size:1.1rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.15)}.parent-modal{max-width:500px;padding:25px}.parent-modal h3{color:#667eea;margin-bottom:20px}.parent-modal .info-section{margin-bottom:15px;padding:15px;background:#f8f9fa;border-radius:10px}.parent-modal .info-section h4{color:#333;margin-bottom:8px}.parent-modal .info-section ul{margin:0;padding-left:20px}.parent-modal .close-btn{background:#667eea;color:white;border:none;padding:12px 30px;border-radius:20px;font-size:16px;cursor:pointer;margin-top:20px}</style>
 </head>
 <body>
 
@@ -115,6 +115,7 @@ body {
 <div id="navbar">
   <button onclick="location.href='index.html'">🏠</button>
   <button onclick="toggleLangMenu()">🌐 <span id="lang-label">粵</span></button>
+  <button id="parent-btn" onclick="showParentInfo('day5')">👨‍👩‍👧</button>
   <div id="lang-menu">
     <button onclick="setLang('zhHK')">粵</button>
     <button onclick="setLang('zhCN')">普</button>
@@ -285,5 +286,5 @@ function replay() {
   showScreen('welcome');
 }
 </script>
-<button id="parent-btn" onclick="showParentInfo('day5')">👨‍👩‍👧 家長提示</button><div id="parent-modal" class="modal hidden"><div class="modal-content parent-modal"><p>載入中...</p></div></div><script src="js/parent-info.js"></script></body>
+<div id="parent-modal" class="modal hidden"><div class="modal-content parent-modal"><p>載入中...</p></div></div><script src="js/parent-info.js"></script></body>
 </html>
