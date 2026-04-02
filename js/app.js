@@ -200,15 +200,15 @@ const App = {
         `;
         
         document.getElementById('modal-body').innerHTML = html;
-        document.getElementById('parent-modal').classList.add('active');
+        document.getElementById('activity-info-modal').classList.add('active');
     },
     
     hideParentModal() {
-        document.getElementById('parent-modal').classList.remove('active');
+        document.getElementById('activity-info-modal').classList.remove('active');
     },
     
     /* ========== Settings ========== */
-    showParentInfo() {
+    showSettings() {
         const childInfo = ProgressManager.getChildInfo();
         const settings = ProgressManager.getSettings();
         
@@ -284,8 +284,14 @@ function prevActivity() {
     App.prevActivity();
 }
 
-function showParentInfo() {
-    App.showParentInfo();
+// showParentInfo(day) is provided by parent-info.js and shows the psychology modal.
+// Valid values: 'general', 'day1'–'day5'. Any other value (including undefined) falls back to 'general'.
+function showSettings() {
+    App.showSettings();
+}
+
+function showActivityInfo() {
+    App.showActivityInfo();
 }
 
 function hideParentModal() {

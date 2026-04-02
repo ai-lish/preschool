@@ -20,6 +20,8 @@
     <button onclick="setLang('en')" style="background:#667eea;color:white;border:none;padding:8px 16px;border-radius:10px;font-size:0.95rem">EN</button>
     <button onclick="setLang('ja')" style="background:#667eea;color:white;border:none;padding:8px 16px;border-radius:10px;font-size:0.95rem">日</button>
   </div>
+  <!-- Settings button (right-aligned) -->
+  <button onclick="showSettings()" style="margin-left:auto;background:rgba(255,255,255,0.9);border:none;border-radius:12px;padding:8px 14px;font-size:1.1rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.15)" title="設置">⚙️</button>
 </div>
 
 
@@ -93,9 +95,9 @@ function setLang(l){localStorage.setItem('preschool_lang',l);document.getElement
             </div>
             
             <!-- 家長按鈕 -->
-            <button class="parent-gate" onclick="showParentInfo()">
+            <button class="parent-gate" onclick="showParentInfo('general')" aria-label="家長專區 — 查看K1兒童發展心理學資訊">
                 <span class="parent-icon">👨‍👩‍👧</span>
-                <span class="parent-label">家長專區</span>
+                <span class="parent-label">家長專區（發展心理學）</span>
             </button>
         </div>
     </div>
@@ -138,19 +140,22 @@ function setLang(l){localStorage.setItem('preschool_lang',l);document.getElement
         </div>
     </div>
     
-    <!-- ========== 家長資訊 Modal ========== -->
-    <div id="parent-modal" class="modal">
+    <!-- ========== 家長資訊 Modal（活動中使用） ========== -->
+    <div id="activity-info-modal" class="modal">
         <div class="modal-backdrop" onclick="hideParentModal()"></div>
         <div class="modal-content">
             <button class="modal-close" onclick="hideParentModal()">×</button>
             <div class="modal-header">
-                <h2>👶 發展心理學話你知</h2>
+                <h2>👶 活動資訊</h2>
             </div>
             <div class="modal-body" id="modal-body">
                 <!-- 動態內容 -->
             </div>
         </div>
     </div>
+
+    <!-- 家長心理學資訊 Modal（由 parent-info.js 控制） -->
+    <div id="parent-modal" class="hidden"></div>
     
     <!-- ========== 休息提示 ========== -->
     <div id="break-screen" class="screen">
@@ -217,11 +222,12 @@ function setLang(l){localStorage.setItem('preschool_lang',l);document.getElement
     
     <script src="js/progress.js"></script>
     <script src="js/activities.js"></script>
+    <script src="js/parent-info.js"></script>
     <script src="js/app.js"></script>
     <script>
         // Init stickers and audio unlock
         Stickers.load();
         Activities.initAudioUnlock();
     </script>
-<button id="parent-btn" onclick="showParentInfo('day1')">👨‍👩‍👧 家長提示</button><div id="parent-modal" class="modal hidden"><div class="modal-content parent-modal"><p>載入中...</p></div></div><script src="js/parent-info.js"></script></body>
+</body>
 </html>
