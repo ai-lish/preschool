@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>🌟 神的創造 — 聖經故事</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; overflow: hidden; touch-action: manipulation; }
+
+:root {
+  --primary: #6C5CE7;
+  --gold: #FFD700;
+  --shadow: 0 4px 20px rgba(0,0,0,0.15);
+  --radius: 24px;
+}
+
+body {
+  font-family: 'Noto Sans TC', 'PingFang HK', 'Microsoft JhengHei', sans-serif;
+  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  height: 100vh; width: 100vw;
+  position: relative; overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+/* NAVBAR */
+#navbar { position: fixed; top: 12px; left: 10px; right: 10px; z-index: 999; display: flex; gap: 8px; align-items: center; }
+.nav-btn { background: rgba(255,255,255,0.92); border: none; border-radius: 14px; padding: 9px 14px; font-size: 1.1rem; cursor: pointer; box-shadow: var(--shadow); transition: transform 0.15s; }
+.nav-btn:active { transform: scale(0.93); }
+#lang-wrap { position: relative; }
+#lang-menu { display: none; flex-direction: column; gap: 4px; position: absolute; top: 110%; left: 0; background: rgba(255,255,255,0.97); border-radius: 14px; padding: 8px; box-shadow: var(--shadow); min-width: 90px; }
+#lang-menu.show { display: flex; }
+.lang-btn { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 10px; font-size: 0.95rem; cursor: pointer; text-align: left; }
+.lang-btn:hover { background: #5a4fcf; }
+
+/* MAIN CONTENT */
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 20px;
+  max-width: 500px;
+  text-align: center;
+}
+
+/* CROSS SYMBOL */
+.cross-symbol {
+  font-size: 5rem;
+  filter: drop-shadow(0 0 30px rgba(255,215,0,0.6));
+  animation: crossPulse 3s ease-in-out infinite;
+}
+@keyframes crossPulse { 
+  0%,100%{transform:scale(1);filter:drop-shadow(0 0 20px rgba(255,215,0,0.5))} 
+  50%{transform:scale(1.08);filter:drop-shadow(0 0 40px rgba(255,215,0,0.9))} 
+}
+
+/* TITLE */
+.title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--gold);
+  text-shadow: 0 2px 12px rgba(255,215,0,0.4);
+  letter-spacing: 2px;
+  line-height: 1.3;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.8);
+  margin-top: 4px;
+}
+
+/* DESCRIPTION */
+.description {
+  background: rgba(255,255,255,0.1);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  backdrop-filter: blur(6px);
+  max-width: 90vw;
+}
+
+.description p {
+  margin-bottom: 10px;
+}
+.description p:last-child {
+  margin-bottom: 0;
+}
+
+/* DAYS PREVIEW */
+.days-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  max-width: 90vw;
+}
+
+.day-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.15);
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  backdrop-filter: blur(4px);
+}
+
+.day-badge span {
+  font-size: 1.3rem;
+}
+
+/* START BUTTON */
+.start-btn {
+  border: none;
+  border-radius: 30px;
+  padding: 18px 50px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #1a1a2e;
+  box-shadow: 0 4px 20px rgba(255,215,0,0.4);
+}
+.start-btn:active { transform: scale(0.92); }
+
+/* PARENT INFO */
+.parent-info {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.1);
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.6);
+  backdrop-filter: blur(4px);
+}
+.parent-info a {
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+}
+.parent-info a:hover {
+  text-decoration: underline;
+}
+
+/* FOOTER */
+.footer {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.4);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+/* STARS DECORATION */
+.star {
+  position: fixed;
+  font-size: 1rem;
+  opacity: 0.3;
+  animation: twinkle 2s ease-in-out infinite;
+}
+.star:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+.star:nth-child(2) { top: 15%; right: 15%; animation-delay: 0.5s; }
+.star:nth-child(3) { top: 60%; left: 8%; animation-delay: 1s; }
+.star:nth-child(4) { top: 70%; right: 10%; animation-delay: 1.5s; }
+.star:nth-child(5) { top: 30%; left: 85%; animation-delay: 0.3s; }
+.star:nth-child(6) { top: 80%; left: 20%; animation-delay: 0.8s; }
+
+@keyframes twinkle {
+  0%,100%{opacity: 0.2; transform: scale(1);}
+  50%{opacity: 0.6; transform: scale(1.2);}
+}
+</style>
+</head>
+<body>
+
+<!-- Decorative stars -->
+<span class="star">⭐</span>
+<span class="star">✨</span>
+<span class="star">⭐</span>
+<span class="star">✨</span>
+<span class="star">⭐</span>
+<span class="star">✨</span>
+
+<!-- Navbar -->
+<div id="navbar">
+  <button class="nav-btn" onclick="toggleLangMenu()">🌐 <span id="lang-label">粵</span></button>
+  <div id="lang-wrap">
+    <div id="lang-menu">
+      <button class="lang-btn" onclick="setLang('zhHK')">粵</button>
+      <button class="lang-btn" onclick="setLang('zhCN')">普</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('ja')">日</button>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-container">
+  <div class="cross-symbol">✝️</div>
+  
+  <div class="title" id="title">神的創造</div>
+  <div class="subtitle" id="subtitle">聖經故事幼兒課程</div>
+  
+  <div class="description" id="description">
+    <p id="desc1">神用六日創造美麗的世界。</p>
+    <p id="desc2">一齊聽聖經故事，認識神嘅創造！</p>
+  </div>
+  
+  <div class="days-preview">
+    <div class="day-badge"><span>💡</span><span id="day1-label">第一日：光</span></div>
+    <div class="day-badge"><span>☁️</span><span id="day2-label">第二日：天空</span></div>
+    <div class="day-badge"><span>🌱</span><span id="day3-label">第三日：陸地</span></div>
+    <div class="day-badge"><span>☀️</span><span id="day4-label">第四日：太陽</span></div>
+    <div class="day-badge"><span>🐟</span><span id="day5-label">第五日：生物</span></div>
+    <div class="day-badge"><span>👤</span><span id="day6-label">第六日：人</span></div>
+  </div>
+  
+  <button class="start-btn" onclick="startGame()" id="start-btn">開始學習 ▶</button>
+</div>
+
+<div class="parent-info">
+  <a href="javascript:void(0)" onclick="showParentInfo()">👨‍👩‍👧 家長提示</a>
+</div>
+
+<script>
+// ===== LANGUAGE SYSTEM =====
+const texts = {
+  zhHK: {
+    title: '神的創造',
+    subtitle: '聖經故事幼兒課程',
+    desc1: '神用六日創造美麗的世界。',
+    desc2: '一齊聽聖經故事，認識神嘅創造！',
+    day1: '第一日：光',
+    day2: '第二日：天空',
+    day3: '第三日：陸地',
+    day4: '第四日：太陽',
+    day5: '第五日：生物',
+    day6: '第六日：人',
+    startBtn: '開始學習 ▶',
+    parentInfo: '👨‍👩‍👧 家長提示',
+    parentTitle: '👶 發展心理學話你知',
+    parentContent: `
+      <h3>這個課程的目標</h3>
+      <p>幫助幼兒認識聖經創世故事，建立對神的 basic 認識。</p>
+      <h3>教學法</h3>
+      <ul>
+        <li>✋ 動手操作（觸摸、拖動）</li>
+        <li>👀 視覺學習（顏色、形狀）</li>
+        <li>👂 聽覺記憶（故事、音效）</li>
+        <li>🗣️ 語言發展（詞彙、句子）</li>
+      </ul>
+      <h3>適合年齡</h3>
+      <p>K1-K2（3-5歲幼兒）</p>
+    `
+  },
+  zhCN: {
+    title: '神的创造',
+    subtitle: '圣经故事幼儿课程',
+    desc1: '神用六日创造美丽的世界。',
+    desc2: '一起听圣经故事，认识神的创造！',
+    day1: '第一日：光',
+    day2: '第二日：天空',
+    day3: '第三日：陆地',
+    day4: '第四日：太阳',
+    day5: '第五日：生物',
+    day6: '第六日：人',
+    startBtn: '开始学习 ▶',
+    parentInfo: '👨‍👩‍👧 家长提示',
+    parentTitle: '👶 发展心理学话你知',
+    parentContent: `
+      <h3>这个课程的目标</h3>
+      <p>帮助幼儿认识圣经创世故事，建立对神的基本认识。</p>
+      <h3>教学法</h3>
+      <ul>
+        <li>✋ 动手操作（触摸、拖动）</li>
+        <li>👀 视觉学习（颜色、形状）</li>
+        <li>👂 听觉记忆（故事、音效）</li>
+        <li>🗣️ 语言发展（词汇、句子）</li>
+      </ul>
+      <h3>适合年龄</h3>
+      <p>K1-K2（3-5岁幼儿）</p>
+    `
+  },
+  en: {
+    title: 'God\'s Creation',
+    subtitle: 'Bible Story for Kids',
+    desc1: 'God created the beautiful world in six days.',
+    desc2: 'Learn about God\'s creation through fun stories!',
+    day1: 'Day 1: Light',
+    day2: 'Day 2: Sky',
+    day3: 'Day 3: Land',
+    day4: 'Day 4: Sun & Moon',
+    day5: 'Day 5: Creatures',
+    day6: 'Day 6: People',
+    startBtn: 'Start Learning ▶',
+    parentInfo: '👨‍👩‍👧 Parent Info',
+    parentTitle: '👶 Child Development Tips',
+    parentContent: `
+      <h3>Course Goals</h3>
+      <p>Help children understand the biblical creation story and develop basic understanding of God.</p>
+      <h3>Teaching Methods</h3>
+      <ul>
+        <li>✋ Hands-on activities</li>
+        <li>👀 Visual learning</li>
+        <li>👂 Audio memory</li>
+        <li>🗣️ Language development</li>
+      </ul>
+      <h3>Age Range</h3>
+      <p>K1-K2 (3-5 years)</p>
+    `
+  },
+  ja: {
+    title: '神の創造',
+    subtitle: '聖書物語子供教室',
+    desc1: '神は六日で美しい世界創造しました。',
+    desc2: '聖書の物語で神様の創造を学ぼう！',
+    day1: '一日目：光',
+    day2: '二日目：空',
+    day3: '三日目：陸',
+    day4: '四日目：太陽',
+    day5: '五日目：生き物',
+    day6: '六日目：人',
+    startBtn: '勉強始めよう ▶',
+    parentInfo: '👨‍👩‍👧 保護者へ',
+    parentTitle: '👶 発達心理学のポイント',
+    parentContent: `
+      <h3>コースの目的</h3>
+      <p>子供が聖書の創造物語を理解し、神様への基本認識を持つようになります。</p>
+      <h3>教え方</h3>
+      <ul>
+        <li>✋ 实际操作</li>
+        <li>👀 視覚学習</li>
+        <li>👂 聴覚記憶</li>
+        <li>🗣️ 言語発達</li>
+      </ul>
+      <h3>対象年齢</h3>
+      <p>K1-K2（3-5歳）</p>
+    `
+  }
+};
+
+let currentLang = localStorage.getItem('creation_lang') || 'zhHK';
+
+function toggleLangMenu() {
+  document.getElementById('lang-menu').classList.toggle('show');
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('creation_lang', lang);
+  document.getElementById('lang-label').textContent = {zhHK:'粵',zhCN:'普',en:'EN',ja:'日'}[lang];
+  document.getElementById('lang-menu').classList.remove('show');
+  updateTexts();
+}
+
+function updateTexts() {
+  let t = texts[currentLang];
+  document.getElementById('title').textContent = t.title;
+  document.getElementById('subtitle').textContent = t.subtitle;
+  document.getElementById('desc1').textContent = t.desc1;
+  document.getElementById('desc2').textContent = t.desc2;
+  document.getElementById('day1-label').textContent = t.day1;
+  document.getElementById('day2-label').textContent = t.day2;
+  document.getElementById('day3-label').textContent = t.day3;
+  document.getElementById('day4-label').textContent = t.day4;
+  document.getElementById('day5-label').textContent = t.day5;
+  document.getElementById('day6-label').textContent = t.day6;
+  document.getElementById('start-btn').textContent = t.startBtn;
+  document.title = '🌟 ' + t.title;
+}
+
+function startGame() {
+  location.href = 'creation_game.html';
+}
+
+function showParentInfo() {
+  let t = texts[currentLang];
+  alert(t.parentTitle + '\n\n' + t.parentContent.replace(/<[^>]*>/g, '\n').replace(/\n+/g, '\n').trim());
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', function() {
+  let savedLang = localStorage.getItem('creation_lang');
+  if (savedLang) {
+    currentLang = savedLang;
+    document.getElementById('lang-label').textContent = {zhHK:'粵',zhCN:'普',en:'EN',ja:'日'}[savedLang];
+  }
+  updateTexts();
+});
+
+// Close menu on outside click
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('#lang-wrap')) {
+    document.getElementById('lang-menu').classList.remove('show');
+  }
+});
+</script>
+</body>
+</html>
