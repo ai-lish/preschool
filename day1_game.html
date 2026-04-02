@@ -195,21 +195,13 @@ body {
 
 /* Parent Button */
 #parent-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: rgba(255,255,255,0.9);
   border: none;
-  padding: 12px 18px;
-  border-radius: 25px;
-  font-size: 14px;
+  padding: 8px 14px;
+  font-size: 1.1rem;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-#parent-btn:hover {
-  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  border-radius: 12px;
 }
 .parent-modal {
   max-width: 500px;
@@ -251,6 +243,7 @@ body {
   <button id="nav-home" onclick="location.href='index.html'">🏠</button>
   <button id="lang-switch" onclick="toggleLangMenu()">🌐 <span id="lang-label">粵</span></button>
   <button onclick="replayAudio()">🔊</button>
+  <button id="parent-btn" onclick="showParentInfo('day1')">👨‍👩‍👧</button>
   <div id="lang-menu" class="lang-menu">
     <button onclick="setLang('zhHK')">粵</button>
     <button onclick="setLang('zhCN')">普</button>
@@ -553,5 +546,5 @@ function replay() {
   showScreen('welcome');
 }
 </script>
-<button id="parent-btn" onclick="showParentInfo('day1')">👨‍👩‍👧 家長提示</button><div id="parent-modal" class="modal hidden"><div class="modal-content parent-modal"><p>載入中...</p></div></div><script src="js/parent-info.js"></script></body>
+<div id="parent-modal" class="modal hidden"><div class="modal-content parent-modal"><p>載入中...</p></div></div><script src="js/parent-info.js"></script></body>
 </html>
