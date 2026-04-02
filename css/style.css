@@ -89,6 +89,14 @@ body {
     text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
 }
 
+.header-logo {
+    width: 48px;
+    height: 48px;
+    vertical-align: middle;
+    margin-right: 10px;
+    border-radius: 8px;
+}
+
 .app-subtitle {
     font-size: 20px;
     color: var(--text-light);
@@ -512,7 +520,7 @@ body {
     right: 0;
     bottom: 0;
     z-index: 1000;
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
 }
 
@@ -535,7 +543,7 @@ body {
     width: 100%;
     max-width: 450px;
     max-height: 80vh;
-    border-radius: var(--radius) var(--radius) 0 0;
+    border-radius: var(--radius);
     padding: 25px;
     overflow-y: auto;
     animation: slideUp 0.3s ease-out;
