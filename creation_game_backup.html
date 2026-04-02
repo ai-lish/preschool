@@ -311,10 +311,7 @@ body {
       <div class="animal-char" id="animal-1" onclick="d6ClickAnimal(1)">🐈</div>
       <div class="animal-char" id="animal-2" onclick="d6ClickAnimal(2)">🐰</div>
       <div class="animal-char" id="animal-3" onclick="d6ClickAnimal(3)">🐮</div>
-      <div class="animal-char" id="animal-4"><img src="img/creation/羊羊.png" alt="羊" style="width:60px;height:60px;object-fit:contain;"></div>
-      <div class="animal-char" id="animal-5"><img src="img/creation/大象.png" alt="象" style="width:60px;height:60px;object-fit:contain;" onclick="d6ClickAnimal(5)"></div>
-      <div class="animal-char" id="animal-6"><img src="img/creation/獅子.png" alt="獅" style="width:60px;height:60px;object-fit:contain;" onclick="d6ClickAnimal(6)"></div>
-      <div class="animal-char" id="animal-7"><img src="img/creation/羊羊.png" alt="羊" style="width:60px;height:60px;object-fit:contain;" onclick="d6ClickAnimal(7)"></div>
+      <div class="animal-char" id="animal-4" onclick="d6ClickAnimal(4)">🐑</div>
     </div>
     <div class="dirt-pile" id="dirt-pile" onclick="d6DirtClick()">🪨</div>
     <div class="adam-form" id="adam-form">🧍</div>
@@ -367,7 +364,7 @@ const langs = {
     d6Narr: "地要生出活物來...神就照著自己的形像造人", d6Hint: "點擊動物學習名稱，點擊泥土造亞當", d6Breathe: "💨 對住個MON吹氣！", d6Success: "神造了亞當同夏娃！🧍👩",
     summary: "神用六日創造晒成個世界！\n第一日：光\n第二日：天空\n第三日：陸地和植物\n第四日：太陽、月亮、星星\n第五日：魚和鳥\n第六日：動物和人\n然後，神休息，所以我們都有安息日！",
     bye: "多謝你一齊聽故事！下次再一齊讀聖經啦！",
-    animals: ["🐕狗","🐈貓","🐰兔","🐮牛","🐑羊","🐘大象","🦁獅子"],
+    animals: ["🐕狗","🐈貓","🐰兔","🐮牛","🐑羊"],
     fruit: "🍎🍊🍋",
   },
   zhCN: {
@@ -381,7 +378,7 @@ const langs = {
     d6Narr: "地要生出活物来...神就照着自己的形像造人", d6Hint: "点击动物学习名称，点击泥土造亚当", d6Breathe: "💨 对住屏幕吹气！", d6Success: "神造了亚当和夏娃！🧍👩",
     summary: "神用六日创造晒成个世界！\n第一日：光\n第二日：天空\n第三日：陆地与植物\n第四日：太阳、月亮、星星\n第五日：鱼和鸟\n第六日：动物和人\n然后，神休息，所以我们都有安息日！",
     bye: "多谢你一齐听故事！下次再一齐读圣经啦！",
-    animals: ["🐕狗","🐈猫","🐰兔","🐮牛","🐑羊","🐘大象","🦁狮子"],
+    animals: ["🐕狗","🐈猫","🐰兔","🐮牛","🐑羊"],
     fruit: "🍎🍊🍋",
   },
   en: {
@@ -395,7 +392,7 @@ const langs = {
     d6Narr: "God said: Let the earth bring forth living creatures... God created man.", d6Hint: "Tap animals to learn names, tap dirt to form Adam", d6Breathe: "💨 Blow on the screen!", d6Success: "God made Adam and Eve! 🧍👩",
     summary: "God created the whole world in six days!\nDay 1: Light\nDay 2: Sky\nDay 3: Land & Plants\nDay 4: Sun, Moon & Stars\nDay 5: Fish & Birds\nDay 6: Animals & People\nThen God rested — that's why we have the Sabbath!",
     bye: "Thanks for joining the story! See you next time!",
-    animals: ["🐕Dog","🐈Cat","🐰Rabbit","🐮Cow","🐑Sheep","🐘Elephant","🦁Lion"],
+    animals: ["🐕Dog","🐈Cat","🐰Rabbit","🐮Cow","🐑Sheep"],
     fruit: "🍎🍊🍋",
   },
   ja: {
@@ -409,7 +406,7 @@ const langs = {
     d6Narr: "神は言われた。「地が生き物を生み出せ。...神は人をその形像に造った。」", d6Hint: "動物をクリックして名前を覚える、土をクリックしてアダムを作る", d6Breathe: "💨 画面に向かって息を吹いて！", d6Success: "神様はアダムとエバを作った！🧍👩",
     summary: "神様は六日間で世界全部を作った！\n一日目：光\n二日目：空\n三日目：大地と植物\n四日目：太陽、月、星\n五日目：魚と鳥\n六日目：動物と人\nそして神様は休んだ — だから我々は安息日を持っている！",
     bye: "物語に参加してくれてありがとう！またこんどこそ！",
-    animals: ["🐕犬","🐈猫","🐰うさぎ","🐮牛","🐑羊","🐘ぞう","🦁らいおん"],
+    animals: ["🐕犬","🐈猫","🐰うさぎ","🐮牛","🐑羊"],
     fruit: "🍎🍊🍋",
   },
 };
@@ -700,7 +697,7 @@ function completeDay5() {
 function initDay6() {
   if (animalSeqTimer) return;
   d6DirtDone = false; d6AdamDone = false;
-  ['animal-0','animal-1','animal-2','animal-3','animal-4','animal-5','animal-6','animal-7'].forEach((id, i) => {
+  ['animal-0','animal-1','animal-2','animal-3','animal-4'].forEach((id, i) => {
     const el = document.getElementById(id);
     el.classList.remove('show','bounce'); el.style.opacity = '0'; el.style.transform = 'translateX(-80px)';
     setTimeout(() => el.classList.add('show'), 600 + i * 500);
