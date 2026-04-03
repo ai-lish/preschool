@@ -3,15 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>🌟 神的創造 — 聖經故事</title>
+<title>📖 聖經故事 — 幼兒聖經教育</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { height: 100%; overflow: hidden; touch-action: manipulation; }
 
 :root {
   --primary: #6C5CE7;
+  --old-testament: #8B4513;
+  --new-testament: #C41E3A;
   --gold: #FFD700;
-  --shadow: 0 4px 20px rgba(0,0,0,0.15);
+  --shadow: 0 4px 20px rgba(0,0,0,0.2);
   --radius: 24px;
 }
 
@@ -20,394 +22,614 @@ body {
   background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
   height: 100vh; width: 100vw;
   position: relative; overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   color: white;
 }
 
 /* NAVBAR */
-#navbar { position: fixed; top: 12px; left: 10px; right: 10px; z-index: 999; display: flex; gap: 8px; align-items: center; }
-.nav-btn { background: rgba(255,255,255,0.92); border: none; border-radius: 14px; padding: 9px 14px; font-size: 1.1rem; cursor: pointer; box-shadow: var(--shadow); transition: transform 0.15s; }
-.nav-btn:active { transform: scale(0.93); }
+#navbar { position: fixed; top: 12px; left: 10px; right: 10px; z-index: 999; display: flex; justify-content: space-between; align-items: center; padding: 0 10px; }
+.nav-title { font-size: 1.3rem; font-weight: 700; color: var(--gold); text-shadow: 0 2px 8px rgba(255,215,0,0.3); }
 #lang-wrap { position: relative; }
-#lang-menu { display: none; flex-direction: column; gap: 4px; position: absolute; top: 110%; left: 0; background: rgba(255,255,255,0.97); border-radius: 14px; padding: 8px; box-shadow: var(--shadow); min-width: 90px; }
-#lang-menu.show { display: flex; }
-.lang-btn { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 10px; font-size: 0.95rem; cursor: pointer; text-align: left; }
-.lang-btn:hover { background: #5a4fcf; }
+.nav-btn { background: rgba(255,255,255,0.9); border: none; border-radius: 12px; padding: 8px 14px; font-size: 1rem; cursor: pointer; box-shadow: var(--shadow); }
 
-/* MAIN CONTENT */
-.main-container {
+/* MAIN LAYOUT */
+.main-layout {
+  display: flex;
+  height: 100vh;
+  padding-top: 70px;
+  transition: all 0.5s ease;
+}
+
+/* OLD TESTAMENT SIDE */
+.old-testament {
+  flex: 0 0 75%;
+  max-width: 75%;
+  padding: 20px;
+  overflow-y: auto;
+  transition: all 0.5s ease;
+  position: relative;
+}
+
+.old-testament.collapsed {
+  flex: 0 0 25%;
+  max-width: 25%;
+  padding: 15px 10px;
+}
+
+.old-testament.collapsed .section-title,
+.old-testament.collapsed .stories-grid,
+.old-testament.collapsed .story-preview {
+  display: none;
+}
+
+.old-testament.collapsed .stories-list {
   display: flex;
   flex-direction: column;
+  gap: 8px;
+}
+
+/* SECTION TITLE */
+.section-title {
+  display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(255,255,255,0.2);
+}
+
+.section-icon { font-size: 2rem; }
+.section-title h2 { font-size: 1.5rem; font-weight: 800; color: var(--gold); }
+.section-title span { font-size: 0.9rem; opacity: 0.7; }
+
+/* STORIES LIST (collapsed mode) */
+.stories-list {
+  display: none;
+}
+
+.story-list-item {
+  background: rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.story-list-item:active {
+  transform: scale(0.95);
+  background: rgba(255,255,255,0.2);
+}
+
+.story-list-item .list-icon { font-size: 1.5rem; margin-bottom: 4px; }
+.story-list-item .list-name { font-size: 0.8rem; }
+
+/* DIVIDER */
+.divider {
+  width: 4px;
+  background: linear-gradient(180deg, var(--gold), var(--primary));
+  transition: all 0.5s ease;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.divider:hover {
+  background: linear-gradient(180deg, #fff, var(--gold));
+}
+
+/* NEW TESTAMENT SIDE */
+.new-testament {
+  flex: 1;
   padding: 20px;
-  max-width: 500px;
+  overflow-y: auto;
+  transition: all 0.5s ease;
+  position: relative;
+}
+
+.new-testament.collapsed {
+  padding: 15px 10px;
+}
+
+.new-testament.collapsed .section-title,
+.new-testament.collapsed .stories-grid,
+.new-testament.collapsed .story-preview {
+  display: none;
+}
+
+.new-testament.collapsed .testament-toggle {
+  display: flex;
+}
+
+/* TESTAMENT TOGGLE (shown when collapsed) */
+.testament-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.testament-toggle .toggle-btn {
+  background: rgba(196, 30, 58, 0.3);
+  border: 2px solid var(--new-testament);
+  border-radius: 16px;
+  padding: 12px 16px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
   text-align: center;
 }
 
-/* CROSS SYMBOL */
-.cross-symbol {
-  font-size: 5rem;
-  filter: drop-shadow(0 0 30px rgba(255,215,0,0.6));
-  animation: crossPulse 3s ease-in-out infinite;
-}
-@keyframes crossPulse { 
-  0%,100%{transform:scale(1);filter:drop-shadow(0 0 20px rgba(255,215,0,0.5))} 
-  50%{transform:scale(1.08);filter:drop-shadow(0 0 40px rgba(255,215,0,0.9))} 
+.testament-toggle .toggle-btn:active {
+  transform: scale(0.95);
+  background: rgba(196, 30, 58, 0.5);
 }
 
-/* TITLE */
-.title {
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: var(--gold);
-  text-shadow: 0 2px 12px rgba(255,215,0,0.4);
-  letter-spacing: 2px;
-  line-height: 1.3;
+.testament-toggle .toggle-icon { font-size: 1.8rem; }
+.testament-toggle .toggle-name { font-size: 0.9rem; margin-top: 4px; }
+
+/* STORIES GRID */
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 16px;
 }
 
-.subtitle {
-  font-size: 1.1rem;
-  color: rgba(255,255,255,0.8);
-  margin-top: 4px;
-}
-
-/* DESCRIPTION */
-.description {
+/* STORY CARD */
+.story-card {
   background: rgba(255,255,255,0.1);
   border-radius: var(--radius);
-  padding: 20px 24px;
-  font-size: 1.1rem;
-  line-height: 1.7;
-  backdrop-filter: blur(6px);
-  max-width: 90vw;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: 2px solid transparent;
 }
 
-.description p {
-  margin-bottom: 10px;
-}
-.description p:last-child {
-  margin-bottom: 0;
-}
-
-/* DAYS PREVIEW */
-.days-preview {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-  max-width: 90vw;
-}
-
-.day-badge {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.story-card:hover {
   background: rgba(255,255,255,0.15);
-  padding: 8px 14px;
-  border-radius: 20px;
-  font-size: 0.95rem;
-  backdrop-filter: blur(4px);
+  transform: translateY(-3px);
+  border-color: rgba(255,215,0,0.4);
 }
 
-.day-badge span {
-  font-size: 1.3rem;
+.story-card:active {
+  transform: scale(0.95);
 }
 
-/* START BUTTON */
-.start-btn {
+.story-card.selected {
+  border-color: var(--gold);
+  background: rgba(255,215,0,0.15);
+}
+
+.story-icon { font-size: 3rem; margin-bottom: 10px; display: block; }
+.story-name { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+.story-desc { font-size: 0.8rem; opacity: 0.7; }
+
+/* STORY PREVIEW (shown when card selected) */
+.story-preview {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #2d2d4a 0%, #1a1a2e 100%);
+  border-radius: var(--radius);
+  padding: 30px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  z-index: 1000;
+  border: 2px solid rgba(255,215,0,0.3);
+}
+
+.story-preview.show {
+  display: block;
+  animation: popIn 0.3s ease;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.preview-icon { font-size: 4rem; text-align: center; margin-bottom: 15px; }
+.preview-title { font-size: 1.5rem; font-weight: 800; text-align: center; color: var(--gold); margin-bottom: 10px; }
+.preview-desc { font-size: 1rem; line-height: 1.6; text-align: center; margin-bottom: 20px; color: rgba(255,255,255,0.9); }
+
+.enter-btn {
+  display: block;
+  width: 100%;
+  background: linear-gradient(135deg, var(--primary), #5a4fcf);
+  color: white;
   border: none;
-  border-radius: 30px;
-  padding: 18px 50px;
-  font-size: 1.4rem;
+  border-radius: 16px;
+  padding: 14px 20px;
+  font-size: 1.1rem;
   font-weight: 700;
   cursor: pointer;
-  font-family: inherit;
-  transition: transform 0.2s, box-shadow 0.2s;
-  background: linear-gradient(135deg, #FFD700, #FFA500);
-  color: #1a1a2e;
-  box-shadow: 0 4px 20px rgba(255,215,0,0.4);
-}
-.start-btn:active { transform: scale(0.92); }
-
-/* PARENT INFO */
-.parent-info {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255,255,255,0.1);
-  padding: 10px 20px;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  color: rgba(255,255,255,0.6);
-  backdrop-filter: blur(4px);
-}
-.parent-info a {
-  color: rgba(255,255,255,0.8);
-  text-decoration: none;
-}
-.parent-info a:hover {
-  text-decoration: underline;
-}
-
-/* FOOTER */
-.footer {
-  position: fixed;
-  bottom: 60px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: rgba(255,255,255,0.4);
-  font-size: 0.8rem;
   text-align: center;
+  transition: transform 0.2s;
 }
 
-/* STARS DECORATION */
-.star {
+.enter-btn:active {
+  transform: scale(0.95);
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: white;
+}
+
+/* OVERLAY */
+.overlay {
+  display: none;
   position: fixed;
-  font-size: 1rem;
-  opacity: 0.3;
-  animation: twinkle 2s ease-in-out infinite;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 999;
 }
-.star:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
-.star:nth-child(2) { top: 15%; right: 15%; animation-delay: 0.5s; }
-.star:nth-child(3) { top: 60%; left: 8%; animation-delay: 1s; }
-.star:nth-child(4) { top: 70%; right: 10%; animation-delay: 1.5s; }
-.star:nth-child(5) { top: 30%; left: 85%; animation-delay: 0.3s; }
-.star:nth-child(6) { top: 80%; left: 20%; animation-delay: 0.8s; }
 
-@keyframes twinkle {
-  0%,100%{opacity: 0.2; transform: scale(1);}
-  50%{opacity: 0.6; transform: scale(1.2);}
+.overlay.show {
+  display: block;
 }
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .old-testament { flex: 0 0 65%; max-width: 65%; }
+  .old-testament.collapsed { flex: 0 0 35%; max-width: 35%; }
+  .stories-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .story-card { padding: 12px; }
+  .story-icon { font-size: 2.5rem; }
+  .story-preview { padding: 20px; width: 95%; }
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 3px; }
 </style>
 </head>
 <body>
 
-<!-- Decorative stars -->
-<span class="star">⭐</span>
-<span class="star">✨</span>
-<span class="star">⭐</span>
-<span class="star">✨</span>
-<span class="star">⭐</span>
-<span class="star">✨</span>
-
-<!-- Navbar -->
-<div id="navbar">
-  <button class="nav-btn" onclick="toggleLangMenu()">🌐 <span id="lang-label">粵</span></button>
+<!-- NAVBAR -->
+<nav id="navbar">
+  <span class="nav-title">📖 聖經故事</span>
   <div id="lang-wrap">
-    <div id="lang-menu">
-      <button class="lang-btn" onclick="setLang('zhHK')">粵</button>
-      <button class="lang-btn" onclick="setLang('zhCN')">普</button>
-      <button class="lang-btn" onclick="setLang('en')">EN</button>
-      <button class="lang-btn" onclick="setLang('ja')">日</button>
+    <button class="nav-btn" onclick="toggleLang()">🌐 粵</button>
+    <div id="lang-menu" style="display:none;position:absolute;top:110%;right:0;background:white;border-radius:12px;padding:8px;box-shadow:0 4px 20px rgba(0,0,0,0.2);">
+      <button class="lang-btn" onclick="setLang('zhHK')" style="background:var(--primary)">🌐 粵</button>
+      <button class="lang-btn" onclick="setLang('zhCN')" style="background:#666">簡</button>
+      <button class="lang-btn" onclick="setLang('en')" style="background:#666">EN</button>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN LAYOUT -->
+<div class="main-layout" id="main-layout">
+  
+  <!-- OLD TESTAMENT -->
+  <div class="old-testament" id="old-testament">
+    <div class="section-title">
+      <span class="section-icon">📜</span>
+      <div>
+        <h2>舊約聖經</h2>
+        <span>創世記、出埃及記...</span>
+      </div>
+    </div>
+    
+    <div class="stories-grid" id="old-stories-grid">
+      <!-- Stories will be populated by JS -->
+    </div>
+    
+    <div class="stories-list" id="old-stories-list">
+      <!-- Shown when collapsed -->
+    </div>
+  </div>
+  
+  <!-- DIVIDER -->
+  <div class="divider" id="divider" onclick="toggleTestaments()"></div>
+  
+  <!-- NEW TESTAMENT -->
+  <div class="new-testament" id="new-testament">
+    <div class="section-title">
+      <span class="section-icon">✨</span>
+      <div>
+        <h2>新約聖經</h2>
+        <span>福音書、書信...</span>
+      </div>
+    </div>
+    
+    <div class="stories-grid" id="new-stories-grid">
+      <!-- Stories will be populated by JS -->
+    </div>
+    
+    <div class="testament-toggle" id="new-toggles">
+      <!-- Shown when collapsed -->
     </div>
   </div>
 </div>
 
-<!-- Main Content -->
-<div class="main-container">
-  <div class="cross-symbol">✝️</div>
-  
-  <div class="title" id="title">神的創造</div>
-  <div class="subtitle" id="subtitle">聖經故事幼兒課程</div>
-  
-  <div class="description" id="description">
-    <p id="desc1">神用六日創造美麗的世界。</p>
-    <p id="desc2">一齊聽聖經故事，認識神嘅創造！</p>
-  </div>
-  
-  <div class="days-preview">
-    <div class="day-badge"><span>💡</span><span id="day1-label">第一日：光</span></div>
-    <div class="day-badge"><span>☁️</span><span id="day2-label">第二日：天空</span></div>
-    <div class="day-badge"><span>🌱</span><span id="day3-label">第三日：陸地</span></div>
-    <div class="day-badge"><span>☀️</span><span id="day4-label">第四日：太陽</span></div>
-    <div class="day-badge"><span>🐟</span><span id="day5-label">第五日：生物</span></div>
-    <div class="day-badge"><span>👤</span><span id="day6-label">第六日：人</span></div>
-  </div>
-  
-  <button class="start-btn" onclick="startGame()" id="start-btn">開始學習 ▶</button>
-</div>
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closePreview()"></div>
 
-<div class="parent-info">
-  <a href="javascript:void(0)" onclick="showParentInfo()">👨‍👩‍👧 家長提示</a>
+<!-- STORY PREVIEW -->
+<div class="story-preview" id="story-preview">
+  <button class="close-btn" onclick="closePreview()">✕</button>
+  <div class="preview-icon" id="preview-icon"></div>
+  <div class="preview-title" id="preview-title"></div>
+  <div class="preview-desc" id="preview-desc"></div>
+  <button class="enter-btn" id="enter-btn" onclick="enterStory()">進入遊戲 ▶</button>
 </div>
 
 <script>
-// ===== LANGUAGE SYSTEM =====
-const texts = {
-  zhHK: {
-    title: '神的創造',
-    subtitle: '聖經故事幼兒課程',
-    desc1: '神用六日創造美麗的世界。',
-    desc2: '一齊聽聖經故事，認識神嘅創造！',
-    day1: '第一日：光',
-    day2: '第二日：天空',
-    day3: '第三日：陸地',
-    day4: '第四日：太陽',
-    day5: '第五日：生物',
-    day6: '第六日：人',
-    startBtn: '開始學習 ▶',
-    parentInfo: '👨‍👩‍👧 家長提示',
-    parentTitle: '👶 發展心理學話你知',
-    parentContent: `
-      <h3>這個課程的目標</h3>
-      <p>幫助幼兒認識聖經創世故事，建立對神的 basic 認識。</p>
-      <h3>教學法</h3>
-      <ul>
-        <li>✋ 動手操作（觸摸、拖動）</li>
-        <li>👀 視覺學習（顏色、形狀）</li>
-        <li>👂 聽覺記憶（故事、音效）</li>
-        <li>🗣️ 語言發展（詞彙、句子）</li>
-      </ul>
-      <h3>適合年齡</h3>
-      <p>K1-K2（3-5歲幼兒）</p>
-    `
-  },
-  zhCN: {
-    title: '神的创造',
-    subtitle: '圣经故事幼儿课程',
-    desc1: '神用六日创造美丽的世界。',
-    desc2: '一起听圣经故事，认识神的创造！',
-    day1: '第一日：光',
-    day2: '第二日：天空',
-    day3: '第三日：陆地',
-    day4: '第四日：太阳',
-    day5: '第五日：生物',
-    day6: '第六日：人',
-    startBtn: '开始学习 ▶',
-    parentInfo: '👨‍👩‍👧 家长提示',
-    parentTitle: '👶 发展心理学话你知',
-    parentContent: `
-      <h3>这个课程的目标</h3>
-      <p>帮助幼儿认识圣经创世故事，建立对神的基本认识。</p>
-      <h3>教学法</h3>
-      <ul>
-        <li>✋ 动手操作（触摸、拖动）</li>
-        <li>👀 视觉学习（颜色、形状）</li>
-        <li>👂 听觉记忆（故事、音效）</li>
-        <li>🗣️ 语言发展（词汇、句子）</li>
-      </ul>
-      <h3>适合年龄</h3>
-      <p>K1-K2（3-5岁幼儿）</p>
-    `
-  },
-  en: {
-    title: 'God\'s Creation',
-    subtitle: 'Bible Story for Kids',
-    desc1: 'God created the beautiful world in six days.',
-    desc2: 'Learn about God\'s creation through fun stories!',
-    day1: 'Day 1: Light',
-    day2: 'Day 2: Sky',
-    day3: 'Day 3: Land',
-    day4: 'Day 4: Sun & Moon',
-    day5: 'Day 5: Creatures',
-    day6: 'Day 6: People',
-    startBtn: 'Start Learning ▶',
-    parentInfo: '👨‍👩‍👧 Parent Info',
-    parentTitle: '👶 Child Development Tips',
-    parentContent: `
-      <h3>Course Goals</h3>
-      <p>Help children understand the biblical creation story and develop basic understanding of God.</p>
-      <h3>Teaching Methods</h3>
-      <ul>
-        <li>✋ Hands-on activities</li>
-        <li>👀 Visual learning</li>
-        <li>👂 Audio memory</li>
-        <li>🗣️ Language development</li>
-      </ul>
-      <h3>Age Range</h3>
-      <p>K1-K2 (3-5 years)</p>
-    `
-  },
-  ja: {
-    title: '神の創造',
-    subtitle: '聖書物語子供教室',
-    desc1: '神は六日で美しい世界創造しました。',
-    desc2: '聖書の物語で神様の創造を学ぼう！',
-    day1: '一日目：光',
-    day2: '二日目：空',
-    day3: '三日目：陸',
-    day4: '四日目：太陽',
-    day5: '五日目：生き物',
-    day6: '六日目：人',
-    startBtn: '勉強始めよう ▶',
-    parentInfo: '👨‍👩‍👧 保護者へ',
-    parentTitle: '👶 発達心理学のポイント',
-    parentContent: `
-      <h3>コースの目的</h3>
-      <p>子供が聖書の創造物語を理解し、神様への基本認識を持つようになります。</p>
-      <h3>教え方</h3>
-      <ul>
-        <li>✋ 实际操作</li>
-        <li>👀 視覚学習</li>
-        <li>👂 聴覚記憶</li>
-        <li>🗣️ 言語発達</li>
-      </ul>
-      <h3>対象年齢</h3>
-      <p>K1-K2（3-5歳）</p>
-    `
-  }
+// Stories Data
+const stories = {
+  oldTestament: [
+    {
+      id: 'creation',
+      icon: '✨',
+      name: '神的創造',
+      nameCN: '神的創造',
+      nameEN: "God's Creation",
+      desc: '神用六日創造天地萬物，第一日創造光，第二日創造天空...',
+      descCN: '神用六日創造天地萬物，第一日創造光，第二日創造天空...',
+      descEN: 'God created heaven and earth in six days. On the first day, He created light...',
+      page: 'creation_game.html',
+      available: true
+    },
+    {
+      id: 'noah',
+      icon: '🐘',
+      name: '挪亞方舟',
+      nameCN: '挪亞方舟',
+      nameEN: "Noah's Ark",
+      desc: '神叫挪亞建造方舟，帶埋動物躲避大洪水...',
+      descCN: '神叫挪亞建造方舟，帶埋動物躲避大洪水...',
+      descEN: 'God told Noah to build an ark to save animals from the great flood...',
+      page: '#',
+      available: false
+    },
+    {
+      id: 'moses',
+      icon: '🌊',
+      name: '摩西過紅海',
+      nameCN: '摩西過紅海',
+      nameEN: 'Moses & Red Sea',
+      desc: '摩西帶領以色列人過紅海，神分開海水...',
+      descCN: '摩西帶領以色列人過紅海，神分開海水...',
+      descEN: 'Moses led Israel through the Red Sea. God divided the waters...',
+      page: '#',
+      available: false
+    },
+    {
+      id: 'david',
+      icon: '🐑',
+      name: '大衛與歌利亞',
+      nameCN: '大衛與歌利亞',
+      nameEN: 'David & Goliath',
+      desc: '少年大衛用甩石戰勝巨人歌利亞...',
+      descCN: '少年大衛用甩石戰勝巨人歌利亞...',
+      descEN: 'Young David defeated the giant Goliath with a sling...',
+      page: '#',
+      available: false
+    }
+  ],
+  newTestament: [
+    {
+      id: 'jesus-birth',
+      icon: '⭐',
+      name: '耶穌降生',
+      nameCN: '耶穌降生',
+      nameEN: 'Birth of Jesus',
+      desc: '天使向馬利亞報信，耶穌生在伯利恆...',
+      descCN: '天使向馬利亞報信，耶穌生在伯利恆...',
+      descEN: 'The angel told Mary that Jesus would be born in Bethlehem...',
+      page: '#',
+      available: false
+    },
+    {
+      id: 'feeding',
+      icon: '🐟',
+      name: '五餅二魚',
+      nameCN: '五餅二魚',
+      nameEN: 'Feeding 5000',
+      desc: '耶穌用五餅二魚餵饱五千人...',
+      descCN: '耶穌用五餅二魚餵饱五千人...',
+      descEN: 'Jesus fed 5000 people with five loaves and two fish...',
+      page: '#',
+      available: false
+    },
+    {
+      id: 'resurrection',
+      icon: '🐰',
+      name: '耶穌復活',
+      nameCN: '耶穌復活',
+      nameEN: 'Jesus Rises',
+      desc: '耶穌被釘死後第三日復活...',
+      descCN: '耶穌被釘死後第三日復活...',
+      descEN: 'Jesus rose from the dead on the third day after His crucifixion...',
+      page: '#',
+      available: false
+    },
+    {
+      id: 'prodigal-son',
+      icon: '🏠',
+      name: '浪子回頭',
+      nameCN: '浪子回頭',
+      nameEN: 'Prodigal Son',
+      desc: '一個儿子浪費金錢後回家，父親歡喜接納...',
+      descCN: '一個兒子浪費金錢後回家，父親歡喜接納...',
+      descEN: 'A son wasted his money but returned home, and his father welcomed him joyfully...',
+      page: '#',
+      available: false
+    }
+  ]
 };
 
-let currentLang = localStorage.getItem('creation_lang') || 'zhHK';
+// State
+let currentLang = 'zhHK';
+let isOldTestamentExpanded = true;
+let selectedStory = null;
 
-function toggleLangMenu() {
-  document.getElementById('lang-menu').classList.toggle('show');
+// Translations
+const langNames = {
+  oldTestament: { zhHK: '舊約聖經', zhCN: '旧约圣经', en: 'Old Testament' },
+  newTestament: { zhHK: '新約聖經', zhCN: '新约圣经', en: 'New Testament' },
+  subtitle: {
+    oldTestament: { zhHK: '創世記、出埃及記...', zhCN: '创世纪、出埃及记...', en: 'Genesis, Exodus...' },
+    newTestament: { zhHK: '福音書、書信...', zhCN: '福音书、书信...', en: 'Gospels, Epistles...' }
+  },
+  enter: { zhHK: '進入遊戲 ▶', zhCN: '进入游戏 ▶', en: 'Enter Game ▶' }
+};
+
+// Initialize
+function init() {
+  renderStories();
+}
+
+// Render stories in grids
+function renderStories() {
+  const oldGrid = document.getElementById('old-stories-grid');
+  const newGrid = document.getElementById('new-stories-grid');
+  const oldList = document.getElementById('old-stories-list');
+  const newToggles = document.getElementById('new-toggles');
+  
+  // Old Testament Grid
+  oldGrid.innerHTML = stories.oldTestament.map(story => `
+    <div class="story-card ${story.available ? '' : 'disabled'}" 
+         onclick="selectStory('old', '${story.id}')">
+      <span class="story-icon">${story.icon}</span>
+      <div class="story-name">${story.name}</div>
+      <div class="story-desc">${story.available ? '✅ 可遊玩' : '🚧 準備中'}</div>
+    </div>
+  `).join('');
+  
+  // New Testament Grid
+  newGrid.innerHTML = stories.newTestament.map(story => `
+    <div class="story-card ${story.available ? '' : 'disabled'}" 
+         onclick="selectStory('new', '${story.id}')">
+      <span class="story-icon">${story.icon}</span>
+      <div class="story-name">${story.name}</div>
+      <div class="story-desc">${story.available ? '✅ 可遊玩' : '🚧 準備中'}</div>
+    </div>
+  `).join('');
+  
+  // Old Testament Collapsed List
+  oldList.innerHTML = stories.oldTestament.map(story => `
+    <div class="story-list-item" onclick="selectStory('old', '${story.id}')">
+      <div class="list-icon">${story.icon}</div>
+      <div class="list-name">${story.name}</div>
+    </div>
+  `).join('');
+  
+  // New Testament Collapsed Toggles
+  newToggles.innerHTML = stories.newTestament.map(story => `
+    <div class="toggle-btn" onclick="selectStory('new', '${story.id}')">
+      <div class="toggle-icon">${story.icon}</div>
+      <div class="toggle-name">${story.name}</div>
+    </div>
+  `).join('');
+}
+
+// Select story
+function selectStory(testament, storyId) {
+  const storyList = testament === 'old' ? stories.oldTestament : stories.newTestament;
+  const story = storyList.find(s => s.id === storyId);
+  if (!story) return;
+  
+  selectedStory = story;
+  
+  // Update preview content
+  document.getElementById('preview-icon').textContent = story.icon;
+  document.getElementById('preview-title').textContent = story.name;
+  document.getElementById('preview-desc').textContent = story.desc;
+  
+  // Update enter button
+  const enterBtn = document.getElementById('enter-btn');
+  if (story.available) {
+    enterBtn.textContent = '進入遊戲 ▶';
+    enterBtn.style.opacity = '1';
+    enterBtn.onclick = () => enterStory();
+  } else {
+    enterBtn.textContent = '🚧 準備中...';
+    enterBtn.style.opacity = '0.5';
+    enterBtn.onclick = null;
+  }
+  
+  // Show preview
+  document.getElementById('overlay').classList.add('show');
+  document.getElementById('story-preview').classList.add('show');
+  
+  // Update card selection
+  document.querySelectorAll('.story-card').forEach(card => card.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+}
+
+// Close preview
+function closePreview() {
+  document.getElementById('overlay').classList.remove('show');
+  document.getElementById('story-preview').classList.remove('show');
+  document.querySelectorAll('.story-card').forEach(card => card.classList.remove('selected'));
+  selectedStory = null;
+}
+
+// Enter story
+function enterStory() {
+  if (!selectedStory || !selectedStory.available) return;
+  window.location.href = selectedStory.page;
+}
+
+// Toggle testaments
+function toggleTestaments() {
+  isOldTestamentExpanded = !isOldTestamentExpanded;
+  
+  const oldTestament = document.getElementById('old-testament');
+  const newTestament = document.getElementById('new-testament');
+  const divider = document.getElementById('divider');
+  
+  if (isOldTestamentExpanded) {
+    oldTestament.classList.remove('collapsed');
+    newTestament.classList.remove('collapsed');
+    divider.style.flex = '0 0 4px';
+  } else {
+    oldTestament.classList.add('collapsed');
+    newTestament.classList.add('collapsed');
+  }
+}
+
+// Language toggle
+function toggleLang() {
+  const menu = document.getElementById('lang-menu');
+  menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
 }
 
 function setLang(lang) {
   currentLang = lang;
-  localStorage.setItem('creation_lang', lang);
-  document.getElementById('lang-label').textContent = {zhHK:'粵',zhCN:'普',en:'EN',ja:'日'}[lang];
-  document.getElementById('lang-menu').classList.remove('show');
-  updateTexts();
+  document.getElementById('lang-menu').style.display = 'none';
+  document.querySelector('.nav-btn').textContent = lang === 'zhHK' ? '🌐 粵' : lang === 'zhCN' ? '🌐 簡' : '🌐 EN';
+  
+  // Update section titles
+  document.querySelector('#old-testament .section-title h2').textContent = langNames.oldTestament[lang];
+  document.querySelector('#old-testament .section-title span').textContent = langNames.subtitle.oldTestament[lang];
+  document.querySelector('#new-testament .section-title h2').textContent = langNames.newTestament[lang];
+  document.querySelector('#new-testament .section-title span').textContent = langNames.subtitle.newTestament[lang];
+  
+  // Re-render stories
+  renderStories();
 }
 
-function updateTexts() {
-  let t = texts[currentLang];
-  document.getElementById('title').textContent = t.title;
-  document.getElementById('subtitle').textContent = t.subtitle;
-  document.getElementById('desc1').textContent = t.desc1;
-  document.getElementById('desc2').textContent = t.desc2;
-  document.getElementById('day1-label').textContent = t.day1;
-  document.getElementById('day2-label').textContent = t.day2;
-  document.getElementById('day3-label').textContent = t.day3;
-  document.getElementById('day4-label').textContent = t.day4;
-  document.getElementById('day5-label').textContent = t.day5;
-  document.getElementById('day6-label').textContent = t.day6;
-  document.getElementById('start-btn').textContent = t.startBtn;
-  document.title = '🌟 ' + t.title;
-}
-
-function startGame() {
-  location.href = 'creation_game.html';
-}
-
-function showParentInfo() {
-  let t = texts[currentLang];
-  alert(t.parentTitle + '\n\n' + t.parentContent.replace(/<[^>]*>/g, '\n').replace(/\n+/g, '\n').trim());
-}
-
-// Init
-document.addEventListener('DOMContentLoaded', function() {
-  let savedLang = localStorage.getItem('creation_lang');
-  if (savedLang) {
-    currentLang = savedLang;
-    document.getElementById('lang-label').textContent = {zhHK:'粵',zhCN:'普',en:'EN',ja:'日'}[savedLang];
-  }
-  updateTexts();
-});
-
-// Close menu on outside click
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('#lang-wrap')) {
-    document.getElementById('lang-menu').classList.remove('show');
-  }
-});
+// Start
+init();
 </script>
 </body>
 </html>
