@@ -313,10 +313,10 @@ body {
       <div class="animal-char" id="animal-1" onclick="d6ClickAnimal(1)">🐈</div>
       <div class="animal-char" id="animal-2" onclick="d6ClickAnimal(2)">🐰</div>
       <div class="animal-char" id="animal-3" onclick="d6ClickAnimal(3)">🐮</div>
-      <div class="animal-char" id="animal-4"><img src="img/creation/羊羊.png" alt="羊" style="width:60px;height:60px;object-fit:contain;"></div>
-      <div class="animal-char" id="animal-5"><img src="img/creation/大象.png" alt="象" style="width:60px;height:60px;object-fit:contain;" onclick="d6ClickAnimal(5)"></div>
-      <div class="animal-char" id="animal-6"><img src="img/creation/獅子.png" alt="獅" style="width:60px;height:60px;object-fit:contain;" onclick="d6ClickAnimal(6)"></div>
-      <div class="animal-char" id="animal-7"><img src="img/creation/羊羊.png" alt="羊" style="width:60px;height:60px;object-fit:contain;" onclick="d6ClickAnimal(7)"></div>
+      <div class="animal-char" id="animal-4" onclick="d6ClickAnimal(4)"><img src="img/creation/羊羊.png" alt="羊" style="width:60px;height:60px;object-fit:contain;"></div>
+      <div class="animal-char" id="animal-5" onclick="d6ClickAnimal(5)"><img src="img/creation/大象.png" alt="象" style="width:60px;height:60px;object-fit:contain;"></div>
+      <div class="animal-char" id="animal-6" onclick="d6ClickAnimal(6)"><img src="img/creation/獅子.png" alt="獅" style="width:60px;height:60px;object-fit:contain;"></div>
+      <div class="animal-char" id="animal-7" onclick="d6ClickAnimal(7)"><img src="img/creation/羊羊.png" alt="羊" style="width:60px;height:60px;object-fit:contain;"></div>
     </div>
     <div class="dirt-pile" id="dirt-pile" onclick="d6DirtClick()">🪨</div>
     <div class="adam-form" id="adam-form">🧍</div>
@@ -438,13 +438,44 @@ const AUDIO_BASE = 'https://raw.githubusercontent.com/ai-lish/preschool/main/aud
 const LANG_MAP = { zhHK: 'zhHK', zhCN: 'zhCN', en: 'en', ja: 'ja' };
 let currentAudio = null;
 
+// Map code audio keys → actual filename keys (without lang suffix)
+const AUDIO_KEY_MAP = {
+  // Day 6 animals
+  animal0: 'cr_d6_dog',
+  animal1: 'cr_d6_cat',
+  animal2: 'cr_d6_rabbit',
+  animal3: 'cr_d6_cow',
+  animal4: 'cr_d6_sheep',
+  animal5: 'cr_d6_lion',
+  animal6: 'cr_d6_sheep',   // elephant uses sheep sound
+  animal7: 'cr_d6_sheep',   // duplicate sheep uses sheep sound
+  // Day 6 events
+  d6AdamAppear: 'cr_d6_adam',
+  d6AdamBreathe: 'cr_d6_breathe',
+  d6AdamSleep: 'cr_d6_adam',
+  d6Rib: 'cr_d6_adam',
+  d6Eve: 'cr_d6_eve',
+  // Missing files — use closest available
+  d1Start: 'd1Fail',
+  d2Water: 'd2Cloud',
+  d3Land: 'd3Water',
+  d3Grow: 'd3Water',
+  d3Fruit: 'd3Water',
+  d4Moon: 'd4Sun',
+  d4Star: 'd4Sun',
+  d5Bird: 'd5Fish',
+  d6Start: 'd6Dirt',
+  d6Success: 'd6Dirt',
+};
+
 function playAudio(key) {
   const langSuffix = LANG_MAP[lang] || 'zhHK';
-  const audioUrl = AUDIO_BASE + key + '_' + langSuffix + '.mp3';
+  const mappedKey = AUDIO_KEY_MAP[key] || key;
+  const audioUrl = AUDIO_BASE + mappedKey + '_' + langSuffix + '.mp3';
   if (currentAudio) { currentAudio.pause(); currentAudio = null; }
   currentAudio = new Audio(audioUrl);
   currentAudio.play().catch(e => console.log('Audio play failed:', e));
-  console.log('Play audio:', key, langSuffix);
+  console.log('Play audio:', key, '→', mappedKey, langSuffix);
 }
 
 // ── Language helpers ─────────────────────────────────────────
