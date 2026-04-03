@@ -224,10 +224,11 @@ body {
   <div id="mic-area" onclick="if(!d1Done)completeDay1()">
     <div class="mic-icon">🎤</div>
     <div id="volume-bar-wrap"><div id="volume-bar"></div></div>
-    <div class="mic-hint" id="mic-hint">大聲講嘢！光就會出現！<br><span style="font-size:0.85rem;opacity:0.7">(或點擊上方)</span></div>
+    <div id="volume-text" style="color:rgba(255,255,255,0.8);font-size:0.9rem;margin-top:4px;">🎤 請說話...</div>
+    <div class="mic-hint" id="mic-hint">大聲講嘢！光就會出現！<br><span style="font-size:0.85rem;opacity:0.7">(或長按麥克風代替)</span></div>
   </div>
   <button class="next-btn" id="d1-next" onclick="goToDay(2)" style="display:none">第二日 ▶</button>
-  <button id="d1-skip" onclick="completeDay1()" style="background:rgba(255,255,255,0.15);color:white;border:2px solid rgba(255,255,255,0.4);border-radius:16px;padding:12px 24px;font-size:1rem;margin-top:10px;cursor:pointer;font-family:inherit">🫧 無法語音？點呢度</button>
+  <button id="d1-skip" onclick="completeDay1()" style="background:rgba(255,255,255,0.15);color:white;border:2px solid rgba(255,255,255,0.4);border-radius:16px;padding:12px 24px;font-size:1rem;margin-top:10px;cursor:pointer;font-family:inherit">🫧 語音無法使用？點呢度跳過</button>
 </div>
 
 <!-- ===== SCREEN 2: DAY 2 - SKY ===== -->
@@ -533,24 +534,94 @@ async function startMic() {
     micActive = true;
     tickMic();
   } catch (e) {
-    document.getElementById('mic-hint').textContent = '🎤 咪高峰無法使用';
-    setTimeout(() => { if (!d1Done) completeDay1(); }, 3000);
+    // Mic unavailable: offer long-press fallback
+    document.getElementById('mic-area').dataset.micFailed = '1';
+    setupLongPressFallback();
   }
+}
+
+// ── Long-press fallback for when mic is unavailable ──────────
+function setupLongPressFallback() {
+  const micEl = document.querySelector('.mic-icon');
+  const micArea = document.getElementById('mic-area');
+  let pressTimer = null;
+  let pressProgress = 0;
+  let progressInterval = null;
+  const HOLD_DURATION = 2000; // 2 seconds to succeed
+
+  const startPress = (e) => {
+    e.preventDefault();
+    if (d1Done) return;
+    pressProgress = 0;
+    document.getElementById('volume-bar').style.width = '0%';
+    progressInterval = setInterval(() => {
+      pressProgress += 4;
+      const pct = Math.min(100, pressProgress);
+      document.getElementById('volume-bar').style.width = pct + '%';
+      document.getElementById('volume-text').textContent = '🎤 ' + Math.round(pct) + '%';
+      const lv = Math.floor(pct * 2.55);
+      document.getElementById('light-bg').style.background =
+        'radial-gradient(circle at center, rgb(' + (lv+20) + ',' + (lv+20) + ',' + Math.floor(lv*0.3+10) + ') 0%, rgb(' + Math.floor(lv*.6) + ',' + Math.floor(lv*.6) + ',' + Math.floor(lv*.4) + ') 100%)';
+      let glow = document.getElementById('light-glow');
+      if (!glow) { glow = document.createElement('div'); glow.id = 'light-glow'; glow.textContent = '☀️'; glow.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:8rem;opacity:0;transition:opacity 0.8s;filter:drop-shadow(0 0 40px #FFD700);z-index:5;pointer-events:none;'; document.getElementById('screen-d1').appendChild(glow); }
+      glow.style.opacity = pct / 100;
+      if (pressProgress >= 100 && !d1Done) {
+        clearInterval(progressInterval);
+        completeDay1();
+      }
+    }, HOLD_DURATION / 25);
+  };
+
+  const endPress = () => {
+    clearInterval(progressInterval);
+    if (!d1Done && pressProgress < 100) {
+      pressProgress = 0;
+      document.getElementById('volume-bar').style.width = '0%';
+      document.getElementById('volume-text').textContent = '🎤 再試長啲...';
+    }
+  };
+
+  micArea.addEventListener('touchstart', startPress, { passive: false });
+  micArea.addEventListener('touchend', endPress);
+  micArea.addEventListener('touchcancel', endPress);
+  micArea.addEventListener('mousedown', startPress);
+  micArea.addEventListener('mouseup', endPress);
+  micArea.addEventListener('mouseleave', endPress);
+
+  document.getElementById('mic-hint').textContent = '🎤 無法使用咪高峰？長按麥克風試試！
+(兩秒成功) 或點擊上方跳過';
+}
 }
 function tickMic() {
   if (!micActive || d1Done) return;
   const data = new Uint8Array(analyser.frequencyBinCount);
   analyser.getByteFrequencyData(data);
-  const avg = data.reduce((a, b) => a + b, 0) / data.length;
-  const pct = Math.min(100, avg * 1.2);
+  // Use RMS-like calculation for more stable volume detection
+  let sum = 0;
+  let peak = 0;
+  for (let i = 0; i < data.length; i++) {
+    sum += data[i] * data[i];
+    if (data[i] > peak) peak = data[i];
+  }
+  const rms = Math.sqrt(sum / data.length);
+  // Combine RMS and peak: more forgiving for mobile mics
+  const volume = (rms * 0.6 + peak * 0.4);
+  const pct = Math.min(100, volume * 0.9); // scale down threshold
   document.getElementById('volume-bar').style.width = pct + '%';
+  document.getElementById('volume-text').textContent = '🎤 ' + Math.round(pct) + '%';
+  // Color: green when getting close to threshold
+  const volBar = document.getElementById('volume-bar');
+  if (pct > 60) volBar.style.background = 'linear-gradient(90deg, #4ECDC4, #00C851)';
+  else if (pct > 30) volBar.style.background = 'linear-gradient(90deg, #fdcb6e, #e17055)';
+  else volBar.style.background = 'linear-gradient(90deg, #4ECDC4, #00C851)';
   const lv = Math.floor(pct * 2.55);
   document.getElementById('light-bg').style.background =
     'radial-gradient(circle at center, rgb(' + (lv+20) + ',' + (lv+20) + ',' + Math.floor(lv*0.3+10) + ') 0%, rgb(' + Math.floor(lv*.6) + ',' + Math.floor(lv*.6) + ',' + Math.floor(lv*.4) + ') 100%)';
   let glow = document.getElementById('light-glow');
   if (!glow) { glow = document.createElement('div'); glow.id = 'light-glow'; glow.textContent = '☀️'; glow.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:8rem;opacity:0;transition:opacity 0.8s;filter:drop-shadow(0 0 40px #FFD700);z-index:5;pointer-events:none;'; document.getElementById('screen-d1').appendChild(glow); }
   glow.style.opacity = pct / 100;
-  if (pct > 35 && !d1Done) completeDay1();
+  // Threshold lowered to 15 for mobile-friendly detection
+  if (pct > 15 && !d1Done) completeDay1();
   else requestAnimationFrame(tickMic);
 }
 function completeDay1() {
