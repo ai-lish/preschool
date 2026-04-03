@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>挪亞方舟 — 六日洪水故事</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; overflow: hidden; touch-action: manipulation; }
+
+:root {
+  --primary: #6C5CE7;
+  --success: #00C851;
+  --retry: #FF6B6B;
+  --gold: #FFD700;
+  --shadow: 0 4px 20px rgba(0,0,0,0.15);
+  --radius: 24px;
+  --radius-sm: 14px;
+}
+
+body {
+  font-family: 'Noto Sans TC', 'PingFang HK', 'Microsoft JhengHei', sans-serif;
+  background: #0984e3;
+  height: 100vh; width: 100vw;
+  position: relative; overflow: hidden;
+}
+
+/* NAVBAR */
+#navbar { position: fixed; top: 12px; left: 10px; right: 10px; z-index: 999; display: flex; gap: 8px; align-items: center; touch-action: manipulation; }
+.nav-btn { background: rgba(255,255,255,0.92); border: none; border-radius: 14px; padding: 9px 14px; font-size: 1.1rem; cursor: pointer; box-shadow: var(--shadow); transition: transform 0.15s; }
+.nav-btn:active { transform: scale(0.93); }
+#lang-wrap { position: relative; }
+#lang-menu { display: none; flex-direction: column; gap: 4px; position: absolute; top: 110%; left: 0; background: rgba(255,255,255,0.97); border-radius: 14px; padding: 8px; box-shadow: var(--shadow); min-width: 90px; }
+#lang-menu.show { display: flex; }
+.lang-btn { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 10px; font-size: 0.95rem; cursor: pointer; text-align: left; }
+.lang-btn:hover { background: #5a4fcf; }
+
+/* PROGRESS */
+#progress-bar { position: fixed; top: 0; left: 0; width: 100%; height: 7px; background: rgba(255,255,255,0.3); z-index: 1000; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #FFD700, #FF6B6B); transition: width 0.6s ease; }
+
+/* SCREENS */
+.screen { display: none; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100vh; padding: 70px 20px 20px; position: absolute; top: 0; left: 0; }
+.screen.active { display: flex; }
+.hidden { display: none !important; }
+
+/* WELCOME */
+#screen-welcome { background: linear-gradient(180deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); justify-content: flex-start; gap: 14px; overflow-y: auto; padding-top: 80px; }
+.welcome-title { font-size: 1.6rem; color: #FFD700; text-shadow: 0 2px 12px rgba(255,215,0,0.5); font-weight: 800; text-align: center; letter-spacing: 1px; margin: 0; }
+.welcome-ark { font-size: 3rem; filter: drop-shadow(0 0 20px rgba(139,90,43,0.6)); animation: arkBob 3s ease-in-out infinite; }
+@keyframes arkBob { 0%,100%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(-10px) rotate(2deg)} }
+.welcome-narration { background: rgba(255,255,255,0.12); color: white; border-radius: var(--radius); padding: 14px 18px; max-width: 90vw; font-size: 1rem; line-height: 1.4; text-align: center; backdrop-filter: blur(6px); }
+.welcome-choices { display: flex; gap: 16px; margin-top: 10px; flex-wrap: wrap; justify-content: center; }
+.welcome-btn { border: none; border-radius: 20px; padding: 16px 40px; font-size: 1.2rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: transform 0.2s; box-shadow: var(--shadow); min-height: 50px; min-width: 120px; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.welcome-btn:active { transform: scale(0.95); opacity: 0.9; }
+.btn-start { background: linear-gradient(135deg, #00C851, #007E33); color: white; }
+.btn-skip { background: linear-gradient(135deg, #FFD700, #f39c12); color: white; }
+
+/* DAY BASE */
+.day-screen { background: linear-gradient(180deg, #74b9ff 0%, #0984e3 100%); justify-content: flex-start; padding-top: 70px; }
+.day-verse { background: rgba(255,255,255,0.9); border-radius: var(--radius-sm); padding: 10px 20px; font-size: 1rem; color: #555; margin-bottom: 10px; text-align: center; box-shadow: var(--shadow); }
+.day-title { font-size: 1.8rem; font-weight: 800; color: white; text-shadow: 0 2px 8px rgba(0,0,0,0.2); margin-bottom: 8px; text-align: center; }
+.day-narration { background: rgba(255,255,255,0.9); border-radius: var(--radius); padding: 16px 22px; font-size: 1.15rem; color: #333; max-width: 90vw; text-align: center; margin-bottom: 14px; box-shadow: var(--shadow); }
+
+/* DAY 1 — BUILD ARK */
+#screen-d1 { background: linear-gradient(180deg, #a17e6a 0%, #7d5a3c 100%); }
+.build-scene { position: relative; width: 95vw; max-width: 500px; height: 52vh; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); background: #8B5A2B; display: flex; align-items: center; justify-content: center; }
+.ark-build { font-size: 6rem; transition: all 0.5s; }
+.ark-build.built { filter: drop-shadow(0 8px 20px rgba(0,0,0,0.4)); transform: scale(1.1); }
+.ark-progress { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.5); color: white; border-radius: 12px; padding: 6px 14px; font-size: 0.9rem; white-space: nowrap; }
+.build-nails { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.nail { position: absolute; width: 32px; height: 32px; font-size: 1.8rem; cursor: pointer; transition: all 0.3s; opacity: 0; transform: scale(0); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+.nail.show { opacity: 1; transform: scale(1); }
+.nail.placed { opacity: 0.4; transform: scale(0.7); pointer-events: none; }
+
+/* DAY 2 — ANIMALS BOARD */
+#screen-d2 { background: linear-gradient(180deg, #74b9ff 0%, #55a63d 100%); }
+.animal-scene { position: relative; width: 95vw; max-width: 500px; height: 52vh; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); background: linear-gradient(180deg, #87CEEB 0%, #55a63d 80%); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 10px; }
+.ark-ship { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); font-size: 6rem; z-index: 5; }
+.animal-pond { position: absolute; top: 0; left: 0; width: 100%; height: 75%; display: flex; flex-wrap: wrap; align-content: flex-start; padding: 10px; gap: 8px; }
+.animal-char { font-size: 2.8rem; cursor: pointer; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2)); transition: all 0.3s; }
+.animal-char:active { transform: scale(1.3); }
+.animal-char.boarded { opacity: 0.25; transform: scale(0.55); pointer-events: none; }
+.animal-in-ark { position: absolute; bottom: 18px; display: flex; gap: 4px; font-size: 1.8rem; opacity: 0; transition: all 0.5s; z-index: 10; flex-wrap: wrap; justify-content: center; max-width: 90%; }
+.animal-in-ark.show { opacity: 1; }
+
+/* DAY 3 — RAIN */
+#screen-d3 { background: linear-gradient(180deg, #2d3436 0%, #636e72 100%); }
+.rain-scene { position: relative; width: 95vw; max-width: 500px; height: 52vh; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); background: linear-gradient(180deg, #636e72 0%, #2d3436 100%); }
+.cloud-row { position: absolute; top: 0; left: 0; width: 100%; display: flex; justify-content: space-around; padding: 12px 8px; }
+.cloud-btn { font-size: 3.5rem; cursor: pointer; transition: all 0.3s; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2)); }
+.cloud-btn:active { transform: scale(1.2); }
+.cloud-btn.rained { filter: grayscale(0.5) brightness(0.7); transform: scale(0.8); pointer-events: none; }
+.rain-drops { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; }
+.rain-drop { position: absolute; top: -20px; font-size: 1.5rem; animation: rainFall 1s linear forwards; opacity: 0.85; }
+@keyframes rainFall { 0%{top:-20px;opacity:0.85} 100%{top:110%;opacity:0} }
+.rain-hint { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.5); color: white; border-radius: 12px; padding: 6px 14px; font-size: 0.9rem; white-space: nowrap; }
+
+/* DAY 4 — FLOOD */
+#screen-d4 { background: linear-gradient(180deg, #0984e3 0%, #01579b 100%); }
+.flood-scene { position: relative; width: 95vw; max-width: 500px; height: 52vh; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); background: linear-gradient(180deg, #0984e3 0%, #01579b 100%); display: flex; align-items: flex-end; justify-content: center; }
+.water-level { position: absolute; bottom: 0; left: 0; width: 100%; height: 0%; background: linear-gradient(180deg, rgba(9,132,227,0.7), rgba(1,87,155,0.9)); transition: height 2.5s ease; }
+.ark-float { position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%); font-size: 5rem; transition: all 2s ease; z-index: 10; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3)); }
+.ark-float.floating { bottom: 35%; animation: arkFloat 2.5s ease-in-out infinite; }
+@keyframes arkFloat { 0%,100%{transform:translateX(-50%) rotate(-3deg)} 50%{transform:translateX(-50%) rotate(3deg)} }
+.float-btn { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.5); color: white; border: none; border-radius: 14px; padding: 10px 20px; font-size: 1rem; cursor: pointer; font-family: inherit; z-index: 20; }
+.float-btn:active { transform: translateX(-50%) scale(0.93); }
+
+/* DAY 5 — DOVE */
+#screen-d5 { background: linear-gradient(180deg, #0984e3 0%, #74b9ff 100%); }
+.dove-scene { position: relative; width: 95vw; max-width: 500px; height: 52vh; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+.ocean-sky { position: absolute; top: 0; left: 0; width: 100%; height: 45%; background: linear-gradient(180deg, #2d3436 0%, #636e72 60%, #74b9ff 100%); }
+.water-bg { position: absolute; bottom: 0; left: 0; width: 100%; height: 55%; background: linear-gradient(180deg, #0984e3, #01579b); }
+.ark-silhouette { position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%); font-size: 5rem; z-index: 5; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)); }
+.olive-branch { position: absolute; top: 25%; right: 18%; font-size: 2.5rem; opacity: 0; transition: opacity 1.2s; z-index: 15; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3)); }
+.olive-branch.show { opacity: 1; }
+.dove-btn { position: absolute; bottom: 42%; left: 50%; transform: translateX(-50%); font-size: 4rem; cursor: pointer; z-index: 20; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)); transition: all 0.3s; }
+.dove-btn:active { transform: translateX(-50%) scale(1.2); }
+.dove-btn.released { animation: doveFly 3s ease-out forwards; }
+@keyframes doveFly { 0%{bottom:42%;left:50%;transform:translateX(-50%) scale(1)} 40%{bottom:65%;left:60%;transform:translateX(-50%) scale(1.05)} 70%{bottom:80%;left:72%;transform:scale(0.7)} 100%{bottom:100%;left:85%;transform:scale(0.4);opacity:0} }
+.dove-hint { position: absolute; bottom: 8%; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.5); color: white; border-radius: 12px; padding: 6px 14px; font-size: 0.9rem; white-space: nowrap; }
+
+/* DAY 6 — RAINBOW */
+#screen-d6 { background: linear-gradient(180deg, #a29bfe 0%, #74b9ff 100%); }
+.rainbow-scene { position: relative; width: 95vw; max-width: 500px; height: 52vh; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); background: linear-gradient(180deg, #74b9ff 0%, #dfe6e9 60%); display: flex; align-items: center; justify-content: center; }
+.rainbow-arc { font-size: 8rem; cursor: pointer; filter: drop-shadow(0 4px 20px rgba(255,255,255,0.5)); transition: all 0.3s; }
+.rainbow-arc:active { transform: scale(1.15); }
+.rainbow-arc.clicked { animation: rainbowPulse 1.2s ease forwards; }
+@keyframes rainbowPulse { 0%{transform:scale(1)} 50%{transform:scale(1.35);filter:drop-shadow(0 4px 40px rgba(255,215,0,1))} 100%{transform:scale(1.15);filter:drop-shadow(0 4px 30px rgba(255,215,0,0.9))} }
+.rainbow-hint { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.5); color: white; border-radius: 12px; padding: 6px 14px; font-size: 0.9rem; }
+
+/* FEEDBACK */
+.feedback-bubble { position: fixed; bottom: 18%; left: 50%; transform: translateX(-50%); background: white; border-radius: var(--radius); padding: 18px 26px; max-width: 90vw; font-size: 1.15rem; text-align: center; box-shadow: var(--shadow); z-index: 500; opacity: 0; pointer-events: none; transition: all 0.4s; }
+.feedback-bubble.show { opacity: 1; pointer-events: auto; }
+.feedback-bubble.success { border: 3px solid #00C851; }
+.feedback-bubble.fail { border: 3px solid #FF6B6B; }
+
+/* NEXT BTN */
+.next-btn { background: linear-gradient(135deg, #00C851, #007E33); color: white; border: none; border-radius: 22px; padding: 14px 36px; font-size: 1.2rem; font-weight: 700; cursor: pointer; font-family: inherit; margin-top: 12px; box-shadow: 0 4px 12px rgba(0,200,81,0.4); transition: transform 0.2s; display: none; }
+.next-btn:active { transform: scale(0.92); }
+
+/* SKIP BTN */
+.skip-btn { background: linear-gradient(135deg, #FFD700, #f39c12); color: white; border: none; border-radius: 20px; padding: 14px 32px; font-size: 1.1rem; font-weight: 700; cursor: pointer; font-family: inherit; margin-top: 8px; box-shadow: 0 4px 12px rgba(255,215,0,0.4); transition: transform 0.2s; }
+.skip-btn:active { transform: scale(0.92); }
+
+/* CONFETTI */
+.confetti-piece { position: fixed; width: 10px; height: 10px; z-index: 200; pointer-events: none; animation: confettiFall 2.5s ease-out forwards; }
+@keyframes confettiFall { 0%{transform:translateY(-10px) rotate(0deg);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
+
+/* SUMMARY */
+#screen-summary { background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); justify-content: center; gap: 16px; padding: 70px 20px 20px; }
+.summary-title { font-size: 2rem; color: #FFD700; font-weight: 800; text-align: center; text-shadow: 0 2px 10px rgba(255,215,0,0.5); }
+.summary-rainbow { font-size: 4rem; animation: rainbowPulse 2s ease-in-out infinite; }
+.summary-text { background: rgba(255,255,255,0.1); color: white; border-radius: var(--radius); padding: 20px 24px; max-width: 90vw; font-size: 1.15rem; line-height: 1.7; text-align: center; backdrop-filter: blur(6px); }
+.summary-verse { background: rgba(255,215,0,0.15); color: #FFD700; border-radius: var(--radius-sm); padding: 10px 18px; max-width: 90vw; font-size: 1rem; text-align: center; border: 1px solid rgba(255,215,0,0.3); }
+
+/* BYE */
+#screen-bye { background: linear-gradient(180deg, #2d3436 0%, #1a1a2e 100%); justify-content: center; gap: 16px; }
+.bye-text { font-size: 1.8rem; color: white; font-weight: 700; text-align: center; }
+.bye-sub { color: rgba(255,255,255,0.6); font-size: 1.1rem; text-align: center; }
+
+/* RESPONSIVE */
+@media (max-width: 400px) {
+  .welcome-title { font-size: 1.8rem; }
+  .day-title { font-size: 1.5rem; }
+  .day-narration { font-size: 1.05rem; padding: 14px 18px; }
+  .animal-char { font-size: 2.2rem; }
+  .cloud-btn { font-size: 2.8rem; }
+  .rainbow-arc { font-size: 6rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div id="navbar">
+  <button class="nav-btn" onclick="location.href='index.html'">🏠</button>
+  <div id="lang-wrap">
+    <button class="nav-btn" id="lang-switch" onclick="toggleLang()">🌐 <span id="lang-label">粵</span></button>
+    <div id="lang-menu">
+      <button class="lang-btn" onclick="setLang('zhHK')">粵語</button>
+      <button class="lang-btn" onclick="setLang('zhCN')">普通话</button>
+      <button class="lang-btn" onclick="setLang('en')">English</button>
+      <button class="lang-btn" onclick="setLang('ja')">日本語</button>
+    </div>
+  </div>
+  <button class="nav-btn" onclick="replayNarration()">🔊</button>
+</div>
+
+<!-- Progress Bar -->
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- ===== SCREEN 0: WELCOME ===== -->
+<div class="screen active" id="screen-welcome">
+  <div class="welcome-ark">🚢</div>
+  <div class="welcome-title">挪亞方舟</div>
+  <div class="welcome-narration" id="welcome-text">
+    今日我哋一齊聽挪亞方舟嘅故事！<br>神叫挪亞建造方舟，帶埋動物避開大洪水！
+  </div>
+  <div class="welcome-choices" style="margin-bottom:20px">
+    <button class="welcome-btn btn-start" onclick="handleStart()">🚢 開始故事</button>
+    <button class="welcome-btn btn-skip" onclick="handleSkip()">⏩ 跳過測試</button>
+  </div>
+</div>
+
+<!-- ===== SCREEN 1: DAY 1 - BUILD ARK ===== -->
+<div class="screen day-screen" id="screen-d1">
+  <div class="day-title">🔨 第一日：建造方舟</div>
+  <div class="day-verse">創世記 6:14-16</div>
+  <div class="day-narration" id="d1-narration">挪亞照神的吩咐，用歌斐木建造方舟</div>
+  <div class="build-scene" id="build-scene">
+    <div class="ark-progress" id="ark-progress">🔨 建造進度：0%</div>
+    <div class="ark-build" id="ark-build">🚢</div>
+    <div class="build-nails" id="build-nails"></div>
+  </div>
+  <button class="next-btn" id="d1-next" onclick="goToDay(2)">第二日 ▶</button>
+  <button class="skip-btn" id="d1-skip" onclick="completeDay(1)">⏩ 跳過 ▶</button>
+</div>
+
+<!-- ===== SCREEN 2: DAY 2 - ANIMALS ===== -->
+<div class="screen day-screen" id="screen-d2">
+  <div class="day-title">🐾 第二日：動物登船</div>
+  <div class="day-verse">創世記 7:2-3</div>
+  <div class="day-narration" id="d2-narration">挪亞帶各樣牲畜、空中的雀鳥，一對對走入方舟</div>
+  <div class="animal-scene" id="animal-scene">
+    <div class="ark-ship">🚢</div>
+    <div class="animal-pond" id="animal-pond"></div>
+    <div class="animal-in-ark" id="animal-in-ark"></div>
+  </div>
+  <button class="next-btn" id="d2-next" onclick="goToDay(3)">第三日 ▶</button>
+  <button class="skip-btn" id="d2-skip" onclick="completeDay(2)">⏩ 跳過 ▶</button>
+</div>
+
+<!-- ===== SCREEN 3: DAY 3 - RAIN ===== -->
+<div class="screen day-screen" id="screen-d3">
+  <div class="day-title">🌧️ 第三日：大雨降臨</div>
+  <div class="day-verse">創世記 7:4</div>
+  <div class="day-narration" id="d3-narration">四十晝夜降大雨在地上，水勢浩大</div>
+  <div class="rain-scene" id="rain-scene">
+    <div class="cloud-row" id="cloud-row">
+      <div class="cloud-btn" id="cloud-0" onclick="n3ClickCloud(0)">☁️</div>
+      <div class="cloud-btn" id="cloud-1" onclick="n3ClickCloud(1)">☁️</div>
+      <div class="cloud-btn" id="cloud-2" onclick="n3ClickCloud(2)">☁️</div>
+      <div class="cloud-btn" id="cloud-3" onclick="n3ClickCloud(3)">☁️</div>
+    </div>
+    <div class="rain-drops" id="rain-drops"></div>
+    <div class="rain-hint" id="rain-hint">👆 點擊所有雲朵！</div>
+  </div>
+  <button class="next-btn" id="d3-next" onclick="goToDay(4)">第四日 ▶</button>
+  <button class="skip-btn" id="d3-skip" onclick="completeDay(3)">⏩ 跳過 ▶</button>
+</div>
+
+<!-- ===== SCREEN 4: DAY 4 - FLOOD ===== -->
+<div class="screen day-screen" id="screen-d4">
+  <div class="day-title">🌊 第四日：洪水氾濫</div>
+  <div class="day-verse">創世記 7:17-20</div>
+  <div class="day-narration" id="d4-narration">水勢在地上極大，方舟在水上漂行</div>
+  <div class="flood-scene" id="flood-scene">
+    <div class="water-level" id="water-level"></div>
+    <div class="ark-float" id="ark-float">🚢</div>
+    <button class="float-btn" id="float-btn" onclick="n4Float()">🌊 讓方舟漂浮！</button>
+  </div>
+  <button class="next-btn" id="d4-next" onclick="goToDay(5)">第五日 ▶</button>
+  <button class="skip-btn" id="d4-skip" onclick="completeDay(4)">⏩ 跳過 ▶</button>
+</div>
+
+<!-- ===== SCREEN 5: DAY 5 - DOVE ===== -->
+<div class="screen day-screen" id="screen-d5">
+  <div class="day-title">🕊️ 第五日：鴿子探路</div>
+  <div class="day-verse">創世記 8:6-12</div>
+  <div class="day-narration" id="d5-narration">挪亞放出一隻鴿子，試探水退了沒有</div>
+  <div class="dove-scene" id="dove-scene">
+    <div class="ocean-sky"></div>
+    <div class="water-bg"></div>
+    <div class="ark-silhouette">🚢</div>
+    <div class="olive-branch" id="olive-branch">🌿</div>
+    <div class="dove-btn" id="dove-btn" onclick="n5ReleaseDove()">🕊️</div>
+    <div class="dove-hint" id="dove-hint">👆 放出鴿子！</div>
+  </div>
+  <button class="next-btn" id="d5-next" onclick="goToDay(6)">第六日 ▶</button>
+  <button class="skip-btn" id="d5-skip" onclick="completeDay(5)">⏩ 跳過 ▶</button>
+</div>
+
+<!-- ===== SCREEN 6: DAY 6 - RAINBOW ===== -->
+<div class="screen day-screen" id="screen-d6">
+  <div class="day-title">🌈 第六日：彩虹之約</div>
+  <div class="day-verse">創世記 9:12-17</div>
+  <div class="day-narration" id="d6-narration">神以彩虹為記，與挪亞立約，不再毀滅大地</div>
+  <div class="rainbow-scene" id="rainbow-scene">
+    <div class="rainbow-arc" id="rainbow-arc" onclick="n6ClickRainbow()">🌈</div>
+    <div class="rainbow-hint" id="rainbow-hint">👆 點擊彩虹完成！</div>
+  </div>
+  <button class="next-btn" id="d6-next" onclick="showSummary()">完成！🎉</button>
+  <button class="skip-btn" id="d6-skip" onclick="completeDay(6)">⏩ 跳過 ▶</button>
+</div>
+
+<!-- ===== SUMMARY ===== -->
+<div class="screen" id="screen-summary">
+  <div class="summary-rainbow">🌈</div>
+  <div class="summary-title">🎉 挪亞方舟故事完成！</div>
+  <div class="summary-verse" id="summary-verse">創世記 9:16<br>「虹必現在雲彩中，我便記念我與你們...所立的約」</div>
+  <div class="summary-text" id="summary-text">
+    挪亞聽從神的話，建造方舟！<br>第一日：建造方舟 🔨🚢<br>第二日：動物登船 🐾<br>第三日：大雨降臨 🌧️<br>第四日：洪水氾濫 🌊<br>第五日：鴿子探路 🕊️<br>第六日：彩虹之約 🌈<br>神以彩虹為記，與地上一切活物立約！
+  </div>
+</div>
+
+<!-- ===== BYE ===== -->
+<div class="screen" id="screen-bye">
+  <div class="summary-rainbow">🌈</div>
+  <div class="bye-text" id="bye-text">多謝你一齊聽挪亞方舟的故事！</div>
+  <div class="bye-sub">記住神的彩虹之約！</div>
+  <button class="welcome-btn btn-start" onclick="location.href='index.html'" style="margin-top:16px">🏠 返去主頁</button>
+</div>
+
+</body>
+</html>
+
+<script>
+const langs = {
+  zhHK: {
+    welcome: "今日我哋一齊聽挪亞方舟嘅故事！\n神叫挪亞建造方舟，帶埋動物避開大洪水！",
+    d1Narr: "挪亞照神的吩咐，用歌斐木建造方舟", d1Hint: "👆 點擊釘子建造方舟！", d1Success: "方舟建造完成！🚢",
+    d2Narr: "挪亞帶各樣牲畜、空中的雀鳥，一對對走入方舟", d2Hint: "👆 點擊所有動物上船！", d2Success: "所有動物都上船了！🐾",
+    d3Narr: "四十晝夜降大雨在地上，水勢浩大", d3Hint: "👆 點擊所有雲朵落雨！", d3Success: "大雨傾盆而下！🌧️",
+    d4Narr: "水勢在地上極大，方舟在水上漂行", d4Hint: "👆 按鈕讓方舟漂浮！", d4Success: "方舟漂浮起來了！🚢🌊",
+    d5Narr: "挪亞放出一隻鴿子，試探水退了沒有", d5Hint: "👆 放出鴿子！", d5Success: "鴿子帶回橄榄枝！🕊️🌿",
+    d6Narr: "神以彩虹為記，與挪亞立約，不再毀滅大地", d6Hint: "👆 點擊彩虹完成！", d6Success: "彩虹出現！神嘅約永不改變！🌈",
+    summary: "挪亞聽從神的話，建造方舟！<br>第一日：建造方舟 🔨🚢<br>第二日：動物登船 🐾<br>第三日：大雨降臨 🌧️<br>第四日：洪水氾濫 🌊<br>第五日：鴿子探路 🕊️<br>第六日：彩虹之約 🌈<br>神以彩虹為記，與地上一切活物立約！",
+    bye: "多謝你一齊聽挪亞方舟的故事！記住神的彩虹之約！",
+    animals: ["🐘","🦁","🐺","🐑","🐄","🐎","🐰","🦌","🐻","🐐"],
+    animalsLabel: ["大象","獅子","狼","羊","牛","馬","兔","鹿","熊","山羊"],
+    verse: "創世記 9:16<br>「虹必現在雲彩中，我便記念我與你們...所立的約」",
+  },
+  zhCN: {
+    welcome: "今天我们一起听挪亚方舟的故事！\n神叫挪亚建造方舟，带动物避开大洪水！",
+    d1Narr: "挪亚照神的吩咐，用歌斐木建造方舟", d1Hint: "👆 点击钉子建造方舟！", d1Success: "方舟建造完成！🚢",
+    d2Narr: "挪亚带各样牲畜、空中的雀鸟，一对对走入方舟", d2Hint: "👆 点击所有动物上船！", d2Success: "所有动物都上船了！🐾",
+    d3Narr: "四十昼夜降大雨在地上，水势浩大", d3Hint: "👆 点击所有云朵落雨！", d3Success: "大雨倾盆而下！🌧️",
+    d4Narr: "水势在地上极大，方舟在水上漂行", d4Hint: "👆 按钮让方舟漂浮！", d4Success: "方舟漂浮起来了！🚢🌊",
+    d5Narr: "挪亚放出一只鸽子，试探水退了没有", d5Hint: "👆 放出鸽子！", d5Success: "鸽子带回橄榄枝！🕊️🌿",
+    d6Narr: "神以彩虹为记，与挪亚立约，不再毁灭大地", d6Hint: "👆 点击彩虹完成！", d6Success: "彩虹出现！神的约永不变！🌈",
+    summary: "挪亚听从神的话，建造方舟！<br>第一日：建造方舟 🔨🚢<br>第二日：动物登船 🐾<br>第三日：大雨降临 🌧️<br>第四日：洪水泛滥 🌊<br>第五日：鸽子探路 🕊️<br>第六日：彩虹之约 🌈<br>神以彩虹为记，与地上一切活物立约！",
+    bye: "多谢你一齐听挪亚方舟的故事！记住神的彩虹之约！",
+    animals: ["🐘","🦁","🐺","🐑","🐄","🐎","🐰","🦌","🐻","🐐"],
+    animalsLabel: ["大象","狮子","狼","羊","牛","马","兔","鹿","熊","山羊"],
+    verse: "创世记 9:16<br>「虹必现在云彩中，我便记念我与你们...所立的约」",
+  },
+  en: {
+    welcome: "Today we hear the story of Noah's Ark!\nGod told Noah to build an ark to save the animals from the great flood!",
+    d1Narr: "Noah built the ark according to God's command using cypress wood", d1Hint: "Tap the nails to build the ark!", d1Success: "Ark built! 🚢",
+    d2Narr: "Noah brought all kinds of animals, two by two, into the ark", d2Hint: "Tap all animals to board!", d2Success: "All animals are on the ark! 🐾",
+    d3Narr: "For forty days and forty nights the great rain fell upon the earth", d3Hint: "Tap all the clouds!", d3Success: "Rain falls heavily! 🌧️",
+    d4Narr: "The waters rose greatly upon the earth, and the ark floated on the water", d4Hint: "Press button to float!", d4Success: "Ark floats! 🚢🌊",
+    d5Narr: "Noah sent out a dove to see if the waters had receded", d5Hint: "Release the dove!", d5Success: "Dove returns with an olive branch! 🕊️🌿",
+    d6Narr: "God set a rainbow in the sky as a sign of His covenant with Noah", d6Hint: "Tap the rainbow to complete!", d6Success: "Rainbow appears! God's promise endures! 🌈",
+    summary: "Noah obeyed God and built the ark!<br>Day 1: Build the Ark 🔨🚢<br>Day 2: Animals Board 🐾<br>Day 3: Rain Falls 🌧️<br>Day 4: Flood Rises 🌊<br>Day 5: Dove Sent 🕊️<br>Day 6: Rainbow Covenant 🌈<br>God set a rainbow as a sign of His covenant with all living creatures!",
+    bye: "Thanks for hearing Noah's Ark story! Remember God's rainbow promise!",
+    animals: ["🐘","🦁","🐺","🐑","🐄","🐎","🐰","🦌","🐻","🐐"],
+    animalsLabel: ["Elephant","Lion","Wolf","Sheep","Cow","Horse","Rabbit","Deer","Bear","Goat"],
+    verse: "Genesis 9:16<br>\"The rainbow shall be in the cloud, and I will look on it to remember...the everlasting covenant\"",
+  },
+  ja: {
+    welcome: "今日はノアの箱舟の物語を聞こう！\n神様はノアに箱舟を造らせ、大洪水から動物を救った！",
+    d1Narr: "ノアは神の命令により、柏の木で箱舟を造的", d1Hint: "釘をクリックして箱舟を造的！", d1Success: "箱舟完成！🚢",
+    d2Narr: "ノアは各样の動物を一对一对で箱舟に入れた", d2Hint: "すべての動物をクリック！", d2Success: "すべての動物が乗った！🐾",
+    d3Narr: "四十日四十夜、大雨が地上に降った", d3Hint: "すべての雲をクリック！", d3Success: "大雨が降り注いだ！🌧️",
+    d4Narr: "水は地に甚だ大きくなり、箱舟は水上を漂った", d4Hint: "ボタンで浮かべよう！", d4Success: "箱舟が浮かんだ！🚢🌊",
+    d5Narr: "ノアは鴻子を送り、水が引いたか確かめた", d5Hint: "鴻子を放つ！", d5Success: "鴻子が橄榄の枝を持って戻った！🕊️🌿",
+    d6Narr: "神は虹を置いて、ノアと契約を結んだ", d6Hint: "虹をクリックして完成！", d6Success: "虹が出た！神の契約は永遠！🌈",
+    summary: "ノアは神に従い箱舟を造的！<br>一日目：箱舟を造的 🔨🚢<br>二日目：動物が乗船 🐾<br>三日目：大雨が降る 🌧️<br>四日目：洪水が氾濫 🌊<br>五日目：鴻子が探る 🕊️<br>六日目：虹の契約 🌈<br>神は虹を置いて、すべての生き物と契約を結んだ！",
+    bye: "ノアの箱舟の物語を聴いてくれてありがとう！神様の虹の契約を忘れないでね！",
+    animals: ["🐘","🦁","🐺","🐑","🐄","🐎","🐰","🦌","🐻","🐐"],
+    animalsLabel: ["ぞう","らいおん","おおかみ","ひつじ","うし","うま","うさぎ","じか","くま","やぎ"],
+    verse: "創世記 9:16<br>「虹が雲の中にあるとき，我便それを覚え...永遠の契約を」",
+  },
+};
+
+let lang = 'zhHK';
+let currentDay = 0;
+let completedDays = new Set();
+let currentAudio = null;
+
+const AUDIO_BASE = 'https://raw.githubusercontent.com/ai-lish/preschool/main/audio/noah/';
+const LANG_MAP = { zhHK: 'zhHK', zhCN: 'zhCN', en: 'en', ja: 'ja' };
+
+function playAudio(key) {
+  const langSuffix = LANG_MAP[lang] || 'zhHK';
+  const audioUrl = AUDIO_BASE + key + '_' + langSuffix + '.mp3';
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  currentAudio = new Audio(audioUrl);
+  currentAudio.play().catch(e => console.log('Audio play failed:', e));
+  console.log('Play:', key, langSuffix);
+}
+
+function t(key) { return (langs[lang] && langs[lang][key]) ? langs[lang][key] : langs.zhHK[key]; }
+
+function toggleLang() { document.getElementById('lang-menu').classList.toggle('show'); }
+function setLang(l) {
+  lang = l;
+  const labels = { zhHK: '粵', zhCN: '普', en: 'EN', ja: '日' };
+  document.getElementById('lang-label').textContent = labels[l];
+  document.getElementById('lang-menu').classList.remove('show');
+  applyLang();
+}
+function applyLang() {
+  document.getElementById('welcome-text').innerHTML = t('welcome').replace(/\\n/g, '<br>');
+  document.getElementById('d1-narration').textContent = t('d1Narr');
+  document.getElementById('d2-narration').textContent = t('d2Narr');
+  document.getElementById('d3-narration').textContent = t('d3Narr');
+  document.getElementById('d4-narration').textContent = t('d4Narr');
+  document.getElementById('d5-narration').textContent = t('d5Narr');
+  document.getElementById('d6-narration').textContent = t('d6Narr');
+  document.getElementById('summary-text').innerHTML = t('summary');
+  document.getElementById('summary-verse').innerHTML = t('verse');
+  document.getElementById('bye-text').textContent = t('bye');
+  updateProgress();
+}
+function replayNarration() { playAudio('n' + currentDay + 'Narr'); }
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function handleStart() {
+  showScreen('screen-d1'); currentDay = 1; updateProgress();
+  initDay1(); playAudio('n1Narr');
+}
+function handleSkip() {
+  showScreen('screen-summary'); currentDay = 7; updateProgress();
+  spawnConfetti(); playAudio('summary');
+}
+function goToDay(n) {
+  showScreen('screen-d' + n); currentDay = n; updateProgress();
+  if (n === 2) initDay2();
+  if (n === 6) initDay6();
+  playAudio('n' + n + 'Narr');
+}
+function showSummary() {
+  showScreen('screen-summary'); currentDay = 7; updateProgress();
+  spawnConfetti(); playAudio('n6Success');
+}
+function updateProgress() {
+  document.getElementById('progress-fill').style.width = Math.round((completedDays.size / 6) * 100) + '%';
+}
+
+function showFeedback(msg, type) {
+  let el = document.getElementById('feedback-bubble');
+  if (!el) { el = document.createElement('div'); el.id = 'feedback-bubble'; document.body.appendChild(el); }
+  el.textContent = msg;
+  el.className = 'feedback-bubble show ' + (type === 'success' ? 'success' : 'fail');
+  clearTimeout(el._timer);
+  el._timer = setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+function spawnConfetti() {
+  const colors = ['#FFD700','#FF6B6B','#00C851','#74b9ff','#a29bfe','#fd79a8','#00cec9','#fab1a0'];
+  for (let i = 0; i < 50; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    p.style.cssText = 'position:fixed;left:' + (Math.random()*100) + 'vw;top:-10px;width:10px;height:10px;background:' + colors[i%colors.length] + ';border-radius:' + (Math.random()>.5?'50%':'2px') + ';z-index:200;pointer-events:none;animation:confettiFall 2.5s ease-out forwards;animation-delay:' + (Math.random()*1.5) + 's;';
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 4000);
+  }
+}
+
+// DAY 1: BUILD ARK
+let n1Nails = 0;
+const NAIL_TOTAL = 8;
+const nailPositions = [
+  {x:'15%',y:'20%'},{x:'45%',y:'15%'},{x:'75%',y:'20%'},
+  {x:'25%',y:'45%'},{x:'60%',y:'40%'},{x:'80%',y:'50%'},
+  {x:'35%',y:'65%'},{x:'65%',y:'70%'},
+];
+function initDay1() {
+  n1Nails = 0;
+  document.getElementById('ark-progress').textContent = '🔨 建造進度：0/' + NAIL_TOTAL;
+  document.getElementById('ark-build').classList.remove('built');
+  const nailsEl = document.getElementById('build-nails');
+  nailsEl.innerHTML = '';
+  nailPositions.forEach((pos, i) => {
+    const nail = document.createElement('div');
+    nail.className = 'nail';
+    nail.style.left = pos.x;
+    nail.style.top = pos.y;
+    nail.id = 'nail-' + i;
+    nail.textContent = '🔩';
+    nail.onclick = () => n1ClickNail(i);
+    nailsEl.appendChild(nail);
+    setTimeout(() => nail.classList.add('show'), 200 + i * 150);
+  });
+}
+function n1ClickNail(idx) {
+  const nail = document.getElementById('nail-' + idx);
+  if (!nail || nail.classList.contains('placed')) return;
+  nail.classList.add('placed');
+  n1Nails++;
+  document.getElementById('ark-progress').textContent = '🔨 建造進度：' + n1Nails + '/' + NAIL_TOTAL;
+  if (n1Nails >= NAIL_TOTAL) {
+    document.getElementById('ark-build').classList.add('built');
+    completedDays.add(1);
+    showFeedback(t('d1Success'), 'success');
+    document.getElementById('d1-next').style.display = 'block';
+    playAudio('n1Success');
+    updateProgress();
+  }
+}
+
+// DAY 2: ANIMALS
+let n2Boarded = 0;
+const ANIMAL_TOTAL = 8;
+let n2Animals = [];
+function initDay2() {
+  n2Boarded = 0;
+  const animals = langs[lang].animals.slice(0, ANIMAL_TOTAL);
+  n2Animals = animals;
+  const pond = document.getElementById('animal-pond');
+  pond.innerHTML = '';
+  animals.forEach((emo, i) => {
+    const a = document.createElement('div');
+    a.className = 'animal-char';
+    a.id = 'animal-' + i;
+    a.textContent = emo;
+    a.onclick = () => n2ClickAnimal(i);
+    pond.appendChild(a);
+    setTimeout(() => a.classList.add('show'), 100 + i * 120);
+  });
+  document.getElementById('animal-in-ark').classList.remove('show');
+  document.getElementById('animal-in-ark').innerHTML = '';
+}
+function n2ClickAnimal(idx) {
+  const el = document.getElementById('animal-' + idx);
+  if (!el || el.classList.contains('boarded')) return;
+  el.classList.add('boarded');
+  n2Boarded++;
+  const ark = document.getElementById('animal-in-ark');
+  ark.classList.add('show');
+  const a = document.createElement('span');
+  a.textContent = n2Animals[idx];
+  a.style.fontSize = '1.8rem';
+  ark.appendChild(a);
+  showFeedback(langs[lang].animalsLabel[idx], 'success');
+  if (n2Boarded >= ANIMAL_TOTAL) {
+    completedDays.add(2);
+    showFeedback(t('d2Success'), 'success');
+    document.getElementById('d2-next').style.display = 'block';
+    playAudio('n2Success');
+    updateProgress();
+  }
+}
+
+// DAY 3: RAIN
+let n3Rained = 0;
+const CLOUD_TOTAL = 4;
+function n3ClickCloud(idx) {
+  const cloud = document.getElementById('cloud-' + idx);
+  if (!cloud || cloud.classList.contains('rained')) return;
+  cloud.classList.add('rained');
+  n3Rained++;
+  const drops = document.getElementById('rain-drops');
+  for (let i = 0; i < 12; i++) {
+    const drop = document.createElement('div');
+    drop.className = 'rain-drop';
+    drop.textContent = '💧';
+    drop.style.left = (10 + Math.random() * 80) + '%';
+    drop.style.animationDelay = (Math.random() * 0.8) + 's';
+    drop.style.fontSize = (1 + Math.random()) + 'rem';
+    drops.appendChild(drop);
+    setTimeout(() => drop.remove(), 2000);
+  }
+  if (n3Rained >= CLOUD_TOTAL) {
+    completedDays.add(3);
+    showFeedback(t('d3Success'), 'success');
+    document.getElementById('d3-next').style.display = 'block';
+    document.getElementById('rain-hint').textContent = '✅ 完成！';
+    playAudio('n3Success');
+    updateProgress();
+  }
+}
+
+// DAY 4: FLOOD
+let n4Floated = false;
+function n4Float() {
+  if (n4Floated) return;
+  n4Floated = true;
+  document.getElementById('float-btn').style.display = 'none';
+  document.getElementById('water-level').style.height = '70%';
+  setTimeout(() => {
+    document.getElementById('ark-float').classList.add('floating');
+    completedDays.add(4);
+    showFeedback(t('d4Success'), 'success');
+    document.getElementById('d4-next').style.display = 'block';
+    playAudio('n4Success');
+    updateProgress();
+  }, 1800);
+}
+
+// DAY 5: DOVE
+let n5Released = false;
+function n5ReleaseDove() {
+  if (n5Released) return;
+  n5Released = true;
+  const dove = document.getElementById('dove-btn');
+  dove.classList.add('released');
+  dove.onclick = null;
+  setTimeout(() => {
+    document.getElementById('olive-branch').classList.add('show');
+    completedDays.add(5);
+    showFeedback(t('d5Success'), 'success');
+    document.getElementById('d5-next').style.display = 'block';
+    document.getElementById('dove-hint').textContent = '✅ 完成！';
+    playAudio('n5Success');
+    updateProgress();
+  }, 2500);
+}
+
+// DAY 6: RAINBOW
+let n6Done = false;
+function n6ClickRainbow() {
+  if (n6Done) return;
+  n6Done = true;
+  const arc = document.getElementById('rainbow-arc');
+  arc.classList.add('clicked');
+  arc.onclick = null;
+  completedDays.add(6);
+  showFeedback(t('d6Success'), 'success');
+  document.getElementById('d6-next').style.display = 'block';
+  document.getElementById('rainbow-hint').textContent = '✅ 完成！';
+  playAudio('n6Success');
+  updateProgress();
+}
+
+function completeDay(day) {
+  completedDays.add(day);
+  showFeedback(t('d' + day + 'Success') || '完成！', 'success');
+  document.getElementById('d' + day + '-next').style.display = 'block';
+  document.getElementById('d' + day + '-next').onclick = () => goToDay(day + 1);
+  playAudio('n' + day + 'Success');
+  updateProgress();
+}
+
+function initDay6() {
+  const arc = document.getElementById('rainbow-arc');
+  arc.classList.remove('clicked');
+  arc.onclick = n6ClickRainbow;
+  n6Done = false;
+}
+</script>
