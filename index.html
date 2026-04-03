@@ -378,6 +378,7 @@ const stories = {
     {
       id: 'creation',
       icon: '✨',
+      iconImg: 'img/creation-icon.png',
       name: '神的創造',
       nameCN: '神的創造',
       nameEN: "God's Creation",
@@ -508,7 +509,7 @@ function renderStories() {
   oldGrid.innerHTML = stories.oldTestament.map(story => `
     <div class="story-card ${story.available ? '' : 'disabled'}" 
          onclick="selectStory('old', '${story.id}')">
-      <span class="story-icon">${story.icon}</span>
+      ${story.iconImg ? `<img src="${story.iconImg}" class="story-icon-img" alt="${story.name}" style="width:60px;height:60px;border-radius:12px;object-fit:contain;">` : `<span class="story-icon">${story.icon}</span>`}
       <div class="story-name">${story.name}</div>
       <div class="story-desc">${story.available ? '✅ 可遊玩' : '🚧 準備中'}</div>
     </div>
@@ -550,7 +551,12 @@ function selectStory(testament, storyId) {
   selectedStory = story;
   
   // Update preview content
-  document.getElementById('preview-icon').textContent = story.icon;
+  const previewIcon = document.getElementById('preview-icon');
+  if (story.iconImg) {
+    previewIcon.innerHTML = `<img src="${story.iconImg}" style="width:80px;height:80px;border-radius:16px;object-fit:contain;" alt="${story.name}">`;
+  } else {
+    previewIcon.textContent = story.icon;
+  }
   document.getElementById('preview-title').textContent = story.name;
   document.getElementById('preview-desc').textContent = story.desc;
   
