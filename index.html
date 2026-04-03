@@ -508,6 +508,7 @@ function renderStories() {
   // Old Testament Grid
   oldGrid.innerHTML = stories.oldTestament.map(story => `
     <div class="story-card ${story.available ? '' : 'disabled'}" 
+         data-id="${story.id}"
          onclick="selectStory('old', '${story.id}')">
       ${story.iconImg ? `<img src="${story.iconImg}" class="story-icon-img" alt="${story.name}" style="width:60px;height:60px;border-radius:12px;object-fit:contain;">` : `<span class="story-icon">${story.icon}</span>`}
       <div class="story-name">${story.name}</div>
@@ -518,6 +519,7 @@ function renderStories() {
   // New Testament Grid
   newGrid.innerHTML = stories.newTestament.map(story => `
     <div class="story-card ${story.available ? '' : 'disabled'}" 
+         data-id="${story.id}"
          onclick="selectStory('new', '${story.id}')">
       <span class="story-icon">${story.icon}</span>
       <div class="story-name">${story.name}</div>
@@ -578,7 +580,14 @@ function selectStory(testament, storyId) {
   
   // Update card selection
   document.querySelectorAll('.story-card').forEach(card => card.classList.remove('selected'));
-  event.currentTarget.classList.add('selected');
+  // Also clear from list/toggle items
+  document.querySelectorAll('.story-list-item, .toggle-btn').forEach(el => el.classList.remove('selected'));
+  // Find the clicked element safely
+  const clicked = event?.currentTarget;
+  if (clicked) clicked.classList.add('selected');
+  // Highlight matching card in grid
+  const cardEl = document.querySelector(`.story-card[data-id="${storyId}"]`);
+  if (cardEl) cardEl.classList.add('selected');
 }
 
 // Close preview
