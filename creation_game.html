@@ -226,7 +226,7 @@ body {
     <div id="volume-bar-wrap"><div id="volume-bar"></div></div>
     <div id="volume-text" style="color:rgba(255,255,255,0.8);font-size:0.9rem;margin-top:4px;">🎤 請說話...</div>
     <div class="mic-hint" id="mic-hint">大聲講嘢！光就會出現！<br><span style="font-size:0.85rem;opacity:0.7">(或長按麥克風代替)</span></div>
-    <button id="d1-skip" onclick="event.stopPropagation();completeDay1()" style="background:#6C5CE7;color:white;border:none;border-radius:20px;padding:16px 32px;font-size:1.1rem;font-weight:700;margin-top:12px;cursor:pointer;font-family:inherit;min-height:50px;width:90%;max-width:280px;touch-action:manipulation">🫧 無法語音？點呢度跳過</button>
+    <button id="d1-skip" onclick="completeDay1();goToDay(2)" style="background:#6C5CE7;color:white;border:none;border-radius:20px;padding:16px 32px;font-size:1.1rem;font-weight:700;margin-top:12px;cursor:pointer;font-family:inherit;min-height:50px;width:90%;max-width:280px;touch-action:manipulation">🫧 跳過並繼續 ▶</button>
   </div>
   <button class="next-btn" id="d1-next" onclick="goToDay(2)" style="display:none">第二日 ▶</button>
 </div>
