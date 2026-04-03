@@ -588,9 +588,7 @@ function setupLongPressFallback() {
   micArea.addEventListener('mouseup', endPress);
   micArea.addEventListener('mouseleave', endPress);
 
-  document.getElementById('mic-hint').textContent = '🎤 無法使用咪高峰？長按麥克風試試！
-(兩秒成功) 或點擊上方跳過';
-}
+  document.getElementById('mic-hint').textContent = '🎤 無法使用咪高峰？長按麥克風試試！(兩秒成功) 或點擊上方跳過';
 }
 function tickMic() {
   if (!micActive || d1Done) return;
