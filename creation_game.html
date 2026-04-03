@@ -45,7 +45,7 @@ body {
 .hidden { display: none !important; }
 
 /* WELCOME */
-#screen-welcome { background: linear-gradient(180deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); justify-content: flex-start; gap: 12px; overflow-y: auto; padding-top: 80px; }
+#screen-welcome { background: linear-gradient(180deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); justify-content: flex-start; gap: 14px; overflow-y: auto; padding-top: 80px; min-height: 100vh; }
 .welcome-title { font-size: 1.6rem; color: #FFD700; text-shadow: 0 2px 12px rgba(255,215,0,0.5); font-weight: 800; text-align: center; letter-spacing: 1px; margin: 0; }
 .welcome-cross { font-size: 3rem; filter: drop-shadow(0 0 20px rgba(255,215,0,0.6)); animation: crossPulse 2s ease-in-out infinite; }
 @keyframes crossPulse { 0%,100%{transform:scale(1);filter:drop-shadow(0 0 15px rgba(255,215,0,0.4))} 50%{transform:scale(1.1);filter:drop-shadow(0 0 30px rgba(255,215,0,0.8))} }
@@ -209,7 +209,7 @@ body {
   <div class="welcome-narration" id="welcome-text">
     今日我哋一齊聽聖經故事！<br>神用六日創造世界，我哋一齊睇吓第一日創造啲乜！
   </div>
-  <div class="welcome-choices">
+  <div class="welcome-choices" style="margin-bottom:20px">
     <button class="welcome-btn btn-help" onclick="handleHelp(true)">⭕ 幫手</button>
     <button class="welcome-btn btn-no" onclick="handleHelp(false)">❌ 唔幫手</button>
   </div>
@@ -221,13 +221,13 @@ body {
   <div class="day-title">🌟 第一日：光</div>
   <div class="day-verse">創世記 1:3</div>
   <div class="day-narration" id="d1-narration">神說，要有光就有了光</div>
-  <div id="mic-area">
+  <div id="mic-area" onclick="if(!d1Done)completeDay1()">
     <div class="mic-icon">🎤</div>
     <div id="volume-bar-wrap"><div id="volume-bar"></div></div>
-    <div class="mic-hint" id="mic-hint">大聲講嘢！光就會出現！</div>
+    <div class="mic-hint" id="mic-hint">大聲講嘢！光就會出現！<br><span style="font-size:0.85rem;opacity:0.7">(或點擊上方)</span></div>
   </div>
   <button class="next-btn" id="d1-next" onclick="goToDay(2)" style="display:none">第二日 ▶</button>
-  <button class="skip-btn" id="d1-skip" onclick="completeDay1()" style="background:rgba(255,255,255,0.2);color:white;border:none;border-radius:12px;padding:10px 20px;font-size:1rem;margin-top:10px;cursor:pointer">跳過（測試用）</button>
+  <button id="d1-skip" onclick="completeDay1()" style="background:rgba(255,255,255,0.15);color:white;border:2px solid rgba(255,255,255,0.4);border-radius:16px;padding:12px 24px;font-size:1rem;margin-top:10px;cursor:pointer;font-family:inherit">🫧 無法語音？點呢度</button>
 </div>
 
 <!-- ===== SCREEN 2: DAY 2 - SKY ===== -->
@@ -550,7 +550,7 @@ function tickMic() {
   let glow = document.getElementById('light-glow');
   if (!glow) { glow = document.createElement('div'); glow.id = 'light-glow'; glow.textContent = '☀️'; glow.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:8rem;opacity:0;transition:opacity 0.8s;filter:drop-shadow(0 0 40px #FFD700);z-index:5;pointer-events:none;'; document.getElementById('screen-d1').appendChild(glow); }
   glow.style.opacity = pct / 100;
-  if (pct > 55 && !d1Done) completeDay1();
+  if (pct > 35 && !d1Done) completeDay1();
   else requestAnimationFrame(tickMic);
 }
 function completeDay1() {
