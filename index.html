@@ -340,7 +340,7 @@ body {
   <div class="divider" id="divider" onclick="toggleTestaments()"></div>
   
   <!-- NEW TESTAMENT -->
-  <div class="new-testament" id="new-testament">
+  <div class="new-testament collapsed" id="new-testament">
     <div class="section-title">
       <span class="section-icon">✨</span>
       <div>
@@ -621,8 +621,6 @@ function toggleTestaments() {
     // Show new testament (75%), collapse old testament (25%)
     newTestament.classList.remove('collapsed');
     oldTestament.classList.add('collapsed');
-    oldTestament.classList.add('collapsed'); newTestament.classList.remove('collapsed');
-    newTestament.classList.remove('collapsed'); oldTestament.classList.add('collapsed');
   }
 }
 
