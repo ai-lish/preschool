@@ -395,7 +395,7 @@ let currentAudio = null;
 
 const AUDIO_BASE = 'https://raw.githubusercontent.com/ai-lish/preschool/main/audio/noah/';
 const SOUND_BASE = 'https://raw.githubusercontent.com/ai-lish/preschool/main/audio/noah/sounds/';
-const LANG_MAP = { zhHK: 'zhHK', zhCN: 'zhCN', en: 'en', ja: 'ja' };
+const SOUND_LANG_MAP = { zhHK: 'zhHK', zhCN: 'zhCN', en: 'en', ja: 'ja' };
 const ANIMAL_SOUNDS = ['elephant','lion','wolf','sheep','cow','horse','rabbit','deer'];
 let currentSound = null;
 
@@ -412,11 +412,12 @@ function playAnimalSound(speciesIdx) {
   if (currentSound) { currentSound.pause(); currentSound = null; }
   const name = ANIMAL_SOUNDS[speciesIdx];
   if (!name) return;
-  const url = SOUND_BASE + name + '.mp3';
+  const langDir = SOUND_LANG_MAP[lang] || 'zhHK';
+  const url = SOUND_BASE + langDir + '/' + name + '.mp3';
   currentSound = new Audio(url);
   currentSound.volume = 0.7;
   currentSound.play().catch(e => console.log('Sound failed:', e));
-  console.log('Sound:', name);
+  console.log('Sound:', langDir, name);
 }
 
 function t(key) { return (langs[lang] && langs[lang][key]) ? langs[lang][key] : langs.zhHK[key]; }
