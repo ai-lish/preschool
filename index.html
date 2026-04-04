@@ -618,8 +618,11 @@ function toggleTestaments() {
     newTestament.classList.remove('collapsed');
     divider.style.flex = '0 0 4px';
   } else {
+    // Show new testament (75%), collapse old testament (25%)
+    newTestament.classList.remove('collapsed');
     oldTestament.classList.add('collapsed');
-    newTestament.classList.add('collapsed');
+    oldTestament.classList.add('collapsed'); newTestament.classList.remove('collapsed');
+    newTestament.classList.remove('collapsed'); oldTestament.classList.add('collapsed');
   }
 }
 
