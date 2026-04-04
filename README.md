@@ -160,6 +160,7 @@ preschool/
 ## ⚠️ 已知問題
 
 - ⚠️ 粵語 TTS：MiniMax `Cantonese_ProfessionalHost(M)` 並非真正粵語（實際為普通話口音）
+- ⚠️ 普通話（zhCN）音頻：因 TTS 日配額限制，Day 1-6 narration + success + summary 暫缺
 - ⚠️ 日語音頻：挪亞方舟 n4-n6Narr/success + summary 仍缺
 - ⚠️ 創造七日 Day 6：亞當夏娃呼吸動畫問題（待修復）
 
