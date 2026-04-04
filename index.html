@@ -61,6 +61,12 @@ body {
   display: none;
 }
 
+.new-testament.collapsed .section-title,
+.new-testament.collapsed .stories-grid,
+.new-testament.collapsed .story-preview {
+  display: none;
+}
+
 .old-testament.collapsed .stories-list {
   display: flex;
   flex-direction: column;
@@ -81,9 +87,21 @@ body {
 .section-title h2 { font-size: 1.5rem; font-weight: 800; color: var(--gold); }
 .section-title span { font-size: 0.9rem; opacity: 0.7; }
 
-/* STORIES LIST (collapsed mode) */
-.stories-list {
+/* STORIES LIST (collapsed mode only) */
+.old-testament:not(.collapsed) .stories-list {
   display: none;
+}
+
+.old-testament.collapsed .stories-list {
+  display: flex;
+}
+
+.new-testament:not(.collapsed) .testament-toggle {
+  display: none;
+}
+
+.new-testament.collapsed .testament-toggle {
+  display: flex;
 }
 
 .story-list-item {
