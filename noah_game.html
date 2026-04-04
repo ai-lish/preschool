@@ -78,11 +78,13 @@ body {
 .animal-scene { position: relative; width: 95vw; max-width: 500px; height: 52vh; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); background: linear-gradient(180deg, #87CEEB 0%, #55a63d 80%); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 10px; }
 .ark-ship { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); font-size: 6rem; z-index: 5; }
 .animal-pond { position: absolute; top: 0; left: 0; width: 100%; height: 75%; display: flex; flex-wrap: wrap; align-content: flex-start; padding: 10px; gap: 8px; }
-.animal-char { font-size: 2.8rem; cursor: pointer; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2)); transition: all 0.3s; }
+.animal-char { width: 64px; height: 64px; object-fit: cover; border-radius: 12px; cursor: pointer; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2)); transition: all 0.3s; background: rgba(255,255,255,0.3); }
 .animal-char:active { transform: scale(1.3); }
 .animal-char.boarded { opacity: 0.25; transform: scale(0.55); pointer-events: none; }
-.animal-in-ark { position: absolute; bottom: 18px; display: flex; gap: 4px; font-size: 1.8rem; opacity: 0; transition: all 0.5s; z-index: 10; flex-wrap: wrap; justify-content: center; max-width: 90%; }
+.animal-in-ark { position: absolute; bottom: 18px; display: flex; gap: 4px; opacity: 0; transition: all 0.5s; z-index: 10; flex-wrap: wrap; justify-content: center; max-width: 90%; }
 .animal-in-ark.show { opacity: 1; }
+.animal-in-ark img { width: 48px; height: 48px; object-fit: cover; border-radius: 8px; }
+.animal-placeholder { width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; }
 
 /* DAY 3 — RAIN */
 #screen-d3 { background: linear-gradient(180deg, #2d3436 0%, #636e72 100%); }
@@ -314,6 +316,17 @@ body {
 
 
 <script>
+const ANIMAL_IMAGES = [
+  'https://raw.githubusercontent.com/ai-lish/preschool/main/img/noah/animals/elephant.jpg',
+  'https://raw.githubusercontent.com/ai-lish/preschool/main/img/noah/animals/lion.jpg',
+  'https://raw.githubusercontent.com/ai-lish/preschool/main/img/noah/animals/wolf.jpg',
+  'https://raw.githubusercontent.com/ai-lish/preschool/main/img/noah/animals/sheep.jpg',
+  'https://raw.githubusercontent.com/ai-lish/preschool/main/img/noah/animals/cow.jpg',
+  'https://raw.githubusercontent.com/ai-lish/preschool/main/img/noah/animals/horse.jpg',
+  'https://raw.githubusercontent.com/ai-lish/preschool/main/img/noah/animals/rabbit.jpg',
+  'https://raw.githubusercontent.com/ai-lish/preschool/main/img/noah/animals/deer.jpg',
+];
+
 const langs = {
   zhHK: {
     welcome: "今日我哋一齊聽挪亞方舟嘅故事！\n神叫挪亞建造方舟，帶埋動物避開大洪水！",
@@ -325,8 +338,7 @@ const langs = {
     d6Narr: "神以彩虹為記，與挪亞立約，不再毀滅大地", d6Hint: "👆 點擊彩虹完成！", d6Success: "彩虹出現！神嘅約永不改變！🌈",
     summary: "挪亞聽從神的話，建造方舟！<br>第一日：建造方舟 🔨🚢<br>第二日：動物登船 🐾<br>第三日：大雨降臨 🌧️<br>第四日：洪水氾濫 🌊<br>第五日：鴿子探路 🕊️<br>第六日：彩虹之約 🌈<br>神以彩虹為記，與地上一切活物立約！",
     bye: "多謝你一齊聽挪亞方舟的故事！記住神的彩虹之約！",
-    animals: ["🐘","🦁","🐺","🐑","🐄","🐎","🐰","🦌","🐻","🐐"],
-    animalsLabel: ["大象","獅子","狼","羊","牛","馬","兔","鹿","熊","山羊"],
+    animalsLabel: ["大象","獅子","狼","羊","牛","馬","兔","鹿"],
     verse: "創世記 9:16<br>「虹必現在雲彩中，我便記念我與你們...所立的約」",
   },
   zhCN: {
@@ -339,8 +351,7 @@ const langs = {
     d6Narr: "神以彩虹为记，与挪亚立约，不再毁灭大地", d6Hint: "👆 点击彩虹完成！", d6Success: "彩虹出现！神的约永不变！🌈",
     summary: "挪亚听从神的话，建造方舟！<br>第一日：建造方舟 🔨🚢<br>第二日：动物登船 🐾<br>第三日：大雨降临 🌧️<br>第四日：洪水泛滥 🌊<br>第五日：鸽子探路 🕊️<br>第六日：彩虹之约 🌈<br>神以彩虹为记，与地上一切活物立约！",
     bye: "多谢你一齐听挪亚方舟的故事！记住神的彩虹之约！",
-    animals: ["🐘","🦁","🐺","🐑","🐄","🐎","🐰","🦌","🐻","🐐"],
-    animalsLabel: ["大象","狮子","狼","羊","牛","马","兔","鹿","熊","山羊"],
+    animalsLabel: ["大象","狮子","狼","羊","牛","马","兔","鹿"],
     verse: "创世记 9:16<br>「虹必现在云彩中，我便记念我与你们...所立的约」",
   },
   en: {
@@ -353,8 +364,7 @@ const langs = {
     d6Narr: "God set a rainbow in the sky as a sign of His covenant with Noah", d6Hint: "Tap the rainbow to complete!", d6Success: "Rainbow appears! God's promise endures! 🌈",
     summary: "Noah obeyed God and built the ark!<br>Day 1: Build the Ark 🔨🚢<br>Day 2: Animals Board 🐾<br>Day 3: Rain Falls 🌧️<br>Day 4: Flood Rises 🌊<br>Day 5: Dove Sent 🕊️<br>Day 6: Rainbow Covenant 🌈<br>God set a rainbow as a sign of His covenant with all living creatures!",
     bye: "Thanks for hearing Noah's Ark story! Remember God's rainbow promise!",
-    animals: ["🐘","🦁","🐺","🐑","🐄","🐎","🐰","🦌","🐻","🐐"],
-    animalsLabel: ["Elephant","Lion","Wolf","Sheep","Cow","Horse","Rabbit","Deer","Bear","Goat"],
+    animalsLabel: ["Elephant","Lion","Wolf","Sheep","Cow","Horse","Rabbit","Deer"],
     verse: "Genesis 9:16<br>\"The rainbow shall be in the cloud, and I will look on it to remember...the everlasting covenant\"",
   },
   ja: {
@@ -367,8 +377,7 @@ const langs = {
     d6Narr: "神は虹を置いて、ノアと契約を結んだ", d6Hint: "虹をクリックして完成！", d6Success: "虹が出た！神の契約は永遠！🌈",
     summary: "ノアは神に従い箱舟を造的！<br>一日目：箱舟を造的 🔨🚢<br>二日目：動物が乗船 🐾<br>三日目：大雨が降る 🌧️<br>四日目：洪水が氾濫 🌊<br>五日目：鴻子が探る 🕊️<br>六日目：虹の契約 🌈<br>神は虹を置いて、すべての生き物と契約を結んだ！",
     bye: "ノアの箱舟の物語を聴いてくれてありがとう！神様の虹の契約を忘れないでね！",
-    animals: ["🐘","🦁","🐺","🐑","🐄","🐎","🐰","🦌","🐻","🐐"],
-    animalsLabel: ["ぞう","らいおん","おおかみ","ひつじ","うし","うま","うさぎ","じか","くま","やぎ"],
+    animalsLabel: ["ぞう","らいおん","おおかみ","ひつじ","うし","うま","うさぎ","じか"],
     verse: "創世記 9:16<br>「虹が雲の中にあるとき，我便それを覚え...永遠の契約を」",
   },
 };
@@ -509,15 +518,14 @@ const ANIMAL_TOTAL = 8;
 let n2Animals = [];
 function initDay2() {
   n2Boarded = 0;
-  const animals = langs[lang].animals.slice(0, ANIMAL_TOTAL);
-  n2Animals = animals;
+  n2Animals = ANIMAL_IMAGES.slice(0, ANIMAL_TOTAL);
   const pond = document.getElementById('animal-pond');
   pond.innerHTML = '';
-  animals.forEach((emo, i) => {
-    const a = document.createElement('div');
+  ANIMAL_IMAGES.slice(0, ANIMAL_TOTAL).forEach((imgUrl, i) => {
+    const a = document.createElement('img');
     a.className = 'animal-char';
     a.id = 'animal-' + i;
-    a.textContent = emo;
+    a.src = imgUrl;
     a.onclick = () => n2ClickAnimal(i);
     pond.appendChild(a);
     setTimeout(() => a.classList.add('show'), 100 + i * 120);
@@ -532,9 +540,8 @@ function n2ClickAnimal(idx) {
   n2Boarded++;
   const ark = document.getElementById('animal-in-ark');
   ark.classList.add('show');
-  const a = document.createElement('span');
-  a.textContent = n2Animals[idx];
-  a.style.fontSize = '1.8rem';
+  const a = document.createElement('img');
+  a.src = n2Animals[idx];
   ark.appendChild(a);
   showFeedback(langs[lang].animalsLabel[idx], 'success');
   if (n2Boarded >= ANIMAL_TOTAL) {
