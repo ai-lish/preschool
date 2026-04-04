@@ -330,12 +330,14 @@ const ANIMAL_IMAGES = [
   'https://raw.githubusercontent.com/ai-lish/preschool/main/img/noah/animals/rabbit.jpg',
   'https://raw.githubusercontent.com/ai-lish/preschool/main/img/noah/animals/deer.jpg',
 ];
+// Pairs: each species has 2 copies (for Noah's Ark "two by two")
+const ANIMAL_PAIR_COUNT = 8; // 4 pairs × 2 = 8 "units"
 
 const langs = {
   zhHK: {
     welcome: "今日我哋一齊聽挪亞方舟嘅故事！\n神叫挪亞建造方舟，帶埋動物避開大洪水！",
     d1Narr: "挪亞照神的吩咐，用歌斐木建造方舟", d1Hint: "👆 點擊釘子建造方舟！", d1Success: "方舟建造完成！🚢",
-    d2Narr: "挪亞帶各樣牲畜、空中的雀鳥，一對對走入方舟", d2Hint: "👆 拖動物上船！", d2Success: "所有動物都上船了！🐾",
+    d2Narr: "挪亞帶各樣牲畜、空中的雀鳥，一對對走入方舟", d2Hint: "👆 拖動物，一對對上船！", d2Success: "所有動物都上船了！🐾",
     d3Narr: "四十晝夜降大雨在地上，水勢浩大", d3Hint: "👆 點擊所有雲朵落雨！", d3Success: "大雨傾盆而下！🌧️",
     d4Narr: "水勢在地上極大，方舟在水上漂行", d4Hint: "👆 按鈕讓方舟漂浮！", d4Success: "方舟漂浮起來了！🚢🌊",
     d5Narr: "挪亞放出一隻鴿子，試探水退了沒有", d5Hint: "👆 放出鴿子！", d5Success: "鴿子帶回橄榄枝！🕊️🌿",
@@ -348,7 +350,7 @@ const langs = {
   zhCN: {
     welcome: "今天我们一起听挪亚方舟的故事！\n神叫挪亚建造方舟，带动物避开大洪水！",
     d1Narr: "挪亚照神的吩咐，用歌斐木建造方舟", d1Hint: "👆 点击钉子建造方舟！", d1Success: "方舟建造完成！🚢",
-    d2Narr: "挪亚带各样牲畜、空中的雀鸟，一对对走入方舟", d2Hint: "👆 拖动物上船！", d2Success: "所有动物都上船了！🐾",
+    d2Narr: "挪亚带各样牲畜、空中的雀鸟，一对对走入方舟", d2Hint: "👆 拖动物，一对对上船！", d2Success: "所有动物都上船了！🐾",
     d3Narr: "四十昼夜降大雨在地上，水势浩大", d3Hint: "👆 点击所有云朵落雨！", d3Success: "大雨倾盆而下！🌧️",
     d4Narr: "水势在地上极大，方舟在水上漂行", d4Hint: "👆 按钮让方舟漂浮！", d4Success: "方舟漂浮起来了！🚢🌊",
     d5Narr: "挪亚放出一只鸽子，试探水退了没有", d5Hint: "👆 放出鸽子！", d5Success: "鸽子带回橄榄枝！🕊️🌿",
@@ -361,7 +363,7 @@ const langs = {
   en: {
     welcome: "Today we hear the story of Noah's Ark!\nGod told Noah to build an ark to save the animals from the great flood!",
     d1Narr: "Noah built the ark according to God's command using cypress wood", d1Hint: "Tap the nails to build the ark!", d1Success: "Ark built! 🚢",
-    d2Narr: "Noah brought all kinds of animals, two by two, into the ark", d2Hint: "Drag animals onto the ark!", d2Success: "All animals are on the ark! 🐾",
+    d2Narr: "Noah brought all kinds of animals, two by two, into the ark", d2Hint: "Drag — they board in pairs!", d2Success: "All animals are on the ark! 🐾",
     d3Narr: "For forty days and forty nights the great rain fell upon the earth", d3Hint: "Tap all the clouds!", d3Success: "Rain falls heavily! 🌧️",
     d4Narr: "The waters rose greatly upon the earth, and the ark floated on the water", d4Hint: "Press button to float!", d4Success: "Ark floats! 🚢🌊",
     d5Narr: "Noah sent out a dove to see if the waters had receded", d5Hint: "Release the dove!", d5Success: "Dove returns with an olive branch! 🕊️🌿",
@@ -374,7 +376,7 @@ const langs = {
   ja: {
     welcome: "今日はノアの箱舟の物語を聞こう！\n神様はノアに箱舟を造らせ、大洪水から動物を救った！",
     d1Narr: "ノアは神の命令により、柏の木で箱舟を造的", d1Hint: "釘をクリックして箱舟を造的！", d1Success: "箱舟完成！🚢",
-    d2Narr: "ノアは各样の動物を一对一对で箱舟に入れた", d2Hint: "動物を箱舟にドラッグ！", d2Success: "すべての動物が乗った！🐾",
+    d2Narr: "ノアは各样の動物を一对一对で箱舟に入れた", d2Hint: "ドラッグ、一対ずつ乗船！", d2Success: "すべての動物が乗った！🐾",
     d3Narr: "四十日四十夜、大雨が地上に降った", d3Hint: "すべての雲をクリック！", d3Success: "大雨が降り注いだ！🌧️",
     d4Narr: "水は地に甚だ大きくなり、箱舟は水上を漂った", d4Hint: "ボタンで浮かべよう！", d4Success: "箱舟が浮かんだ！🚢🌊",
     d5Narr: "ノアは鴻子を送り、水が引いたか確かめた", d5Hint: "鴻子を放つ！", d5Success: "鴻子が橄榄の枝を持って戻った！🕊️🌿",
@@ -518,38 +520,41 @@ function n1ClickNail(idx) {
 
 // DAY 2: ANIMALS — DRAG & DROP
 let n2Boarded = 0;
-const ANIMAL_TOTAL = 8;
+const ANIMAL_TOTAL = 8; // 8 pairs
+const ANIMAL_DISPLAY = 16; // 8 species × 2 copies (two by two)
 let n2Animals = [];
+let n2BoardedSet = new Set();
 let dragItem = null;
-let dragStartX = 0, dragStartY = 0;
 let dragOffsetX = 0, dragOffsetY = 0;
 
 function initDay2() {
   n2Boarded = 0;
-  n2Animals = ANIMAL_IMAGES.slice(0, ANIMAL_TOTAL);
+  n2BoardedSet = new Set();
+  // Build display list: 2 copies of each species (pairs)
+  n2Animals = [];
+  for (let i = 0; i < ANIMAL_TOTAL; i++) {
+    n2Animals.push(ANIMAL_IMAGES[i]); // copy 1
+    n2Animals.push(ANIMAL_IMAGES[i]); // copy 2 (pair)
+  }
   const pond = document.getElementById('animal-pond');
-  const arkShip = document.getElementById('ark-ship');
   pond.innerHTML = '';
   document.getElementById('ark-animals').innerHTML = '';
 
-  ANIMAL_IMAGES.slice(0, ANIMAL_TOTAL).forEach((imgUrl, i) => {
+  n2Animals.forEach((imgUrl, i) => {
     const a = document.createElement('img');
     a.className = 'animal-char';
     a.id = 'animal-' + i;
     a.src = imgUrl;
     a.draggable = true;
-    // Mouse drag
+    // Mouse
     a.addEventListener('dragstart', e => n2DragStart(e, i));
     a.addEventListener('dragend', n2DragEnd);
-    // Touch drag
+    // Touch
     a.addEventListener('touchstart', e => n2TouchStart(e, i), { passive: false });
     a.addEventListener('touchmove', n2TouchMove, { passive: false });
     a.addEventListener('touchend', n2TouchEnd);
     pond.appendChild(a);
   });
-
-  document.getElementById('ark-ship').addEventListener('pointerup', n2CheckDrop);
-  document.getElementById('ark-ship').addEventListener('pointerenter', n2CheckDrop);
 }
 
 function n2DragStart(e, idx) {
@@ -604,7 +609,7 @@ function n2TouchEnd(e) {
   if (t.clientX >= arkRect.left && t.clientX <= arkRect.right &&
       t.clientY >= arkRect.top && t.clientY <= arkRect.bottom) {
     const idx = parseInt(dragItem.id.split('-')[1]);
-    boardAnimal(idx);
+    boardPair(idx);
   }
   dragItem.style.position = '';
   dragItem.style.zIndex = '';
@@ -619,21 +624,39 @@ function n2TouchEnd(e) {
 function n2CheckDrop() {
   if (!dragItem) return;
   const idx = parseInt(dragItem.id.split('-')[1]);
-  boardAnimal(idx);
+  boardPair(idx);
 }
 
-function boardAnimal(idx) {
-  const el = document.getElementById('animal-' + idx);
-  if (!el || el.classList.contains('boarded')) return;
-  el.classList.add('boarded');
+// Board a species pair (two by two)
+function boardPair(idx) {
+  // Find species index (0-7)
+  const speciesIdx = idx % ANIMAL_TOTAL;
+  if (n2BoardedSet.has(speciesIdx)) return; // already boarded this pair
+
+  n2BoardedSet.add(speciesIdx);
   n2Boarded++;
-  // Show animal inside ark
+
   const ark = document.getElementById('ark-animals');
-  const a = document.createElement('img');
-  a.className = 'animal-in-ark';
-  a.src = n2Animals[idx];
-  ark.appendChild(a);
-  showFeedback(langs[lang].animalsLabel[idx], 'success');
+
+  // Board BOTH copies of this species (same speciesIdx in list = both copies)
+  n2Animals.forEach((imgUrl, i) => {
+    if (i % ANIMAL_TOTAL === speciesIdx) {
+      const el = document.getElementById('animal-' + i);
+      if (el) el.classList.add('boarded');
+    }
+  });
+
+  // Show pair in ark (show image twice side by side)
+  const imgUrl = ANIMAL_IMAGES[speciesIdx];
+  for (let k = 0; k < 2; k++) {
+    const a = document.createElement('img');
+    a.className = 'animal-in-ark';
+    a.src = imgUrl;
+    ark.appendChild(a);
+  }
+
+  showFeedback(langs[lang].animalsLabel[speciesIdx] + ' x2', 'success');
+
   if (n2Boarded >= ANIMAL_TOTAL) {
     completedDays.add(2);
     showFeedback(t('d2Success'), 'success');
