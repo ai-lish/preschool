@@ -400,7 +400,7 @@ const ANIMAL_SOUNDS = ['elephant','lion','wolf','sheep','cow','horse','rabbit','
 let currentSound = null;
 
 function playAudio(key) {
-  const langSuffix = LANG_MAP[lang] || 'zhHK';
+  const langSuffix = SOUND_LANG_MAP[lang] || 'zhHK';
   const audioUrl = AUDIO_BASE + key + '_' + langSuffix + '.mp3';
   if (currentAudio) { currentAudio.pause(); currentAudio = null; }
   currentAudio = new Audio(audioUrl);
@@ -783,7 +783,7 @@ function completeDay(day) {
   completedDays.add(day);
   showFeedback(t('d' + day + 'Success') || '完成！', 'success');
   document.getElementById('d' + day + '-next').style.display = 'block';
-  document.getElementById('d' + day + '-next').onclick = () => goToDay(day + 1);
+  document.getElementById('d' + day + '-next').onclick = day === 6 ? showSummary : () => goToDay(day + 1);
   playAudio('n' + day + 'Success');
   updateProgress();
 }
