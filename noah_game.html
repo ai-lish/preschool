@@ -308,6 +308,7 @@ body {
   <div class="summary-text" id="summary-text">
     挪亞聽從神的話，建造方舟！<br>第一日：建造方舟 🔨🚢<br>第二日：動物登船 🐾<br>第三日：大雨降臨 🌧️<br>第四日：洪水氾濫 🌊<br>第五日：鴿子探路 🕊️<br>第六日：彩虹之約 🌈<br>神以彩虹為記，與地上一切活物立約！
   </div>
+  <button class="welcome-btn btn-skip" onclick="showScreen('screen-bye')" style="margin-top:16px;background:linear-gradient(135deg,#a29bfe,#6c5ce7)">👋 再見！</button>
 </div>
 
 <!-- ===== BYE ===== -->
@@ -388,7 +389,7 @@ const langs = {
   },
 };
 
-let lang = 'en';
+let lang = 'zhHK';
 let currentDay = 0;
 let completedDays = new Set();
 let currentAudio = null;
@@ -448,6 +449,7 @@ function replayNarration() { playAudio('n' + currentDay + 'Narr'); }
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+  if (id === 'screen-bye') document.getElementById('bye-text').textContent = t('bye');
 }
 function handleStart() {
   showScreen('screen-d1'); currentDay = 1; updateProgress();
