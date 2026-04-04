@@ -630,7 +630,7 @@ function n2CheckDrop() {
 // Board a species pair (two by two)
 function boardPair(idx) {
   // Find species index (0-7)
-  const speciesIdx = idx % ANIMAL_TOTAL;
+  const speciesIdx = Math.floor(idx / 2);
   if (n2BoardedSet.has(speciesIdx)) return; // already boarded this pair
 
   n2BoardedSet.add(speciesIdx);
@@ -640,7 +640,7 @@ function boardPair(idx) {
 
   // Board BOTH copies of this species (same speciesIdx in list = both copies)
   n2Animals.forEach((imgUrl, i) => {
-    if (i % ANIMAL_TOTAL === speciesIdx) {
+    if (Math.floor(i / 2) === speciesIdx) {
       const el = document.getElementById('animal-' + i);
       if (el) el.classList.add('boarded');
     }
@@ -675,12 +675,12 @@ function boardPair(idx) {
     e.preventDefault();
     ark.classList.remove('drag-over');
     const idx = parseInt(e.dataTransfer.getData('text/plain'));
-    boardAnimal(idx);
+    boardPair(idx);
   });
 })();
 
 // DAY 2 alias for backward compat
-function n2ClickAnimal(idx) { boardAnimal(idx); }
+function n2ClickAnimal(idx) { boardPair(idx); }
 
 // DAY 3: RAIN
 let n3Rained = 0;
