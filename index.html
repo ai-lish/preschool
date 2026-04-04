@@ -154,6 +154,11 @@ body {
 }
 
 .new-testament.collapsed .testament-toggle {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
 
 .testament-header {
   text-align: center;
@@ -182,40 +187,11 @@ body {
 .testament-header .header-hint {
   font-size: 0.75rem;
   opacity: 0.7;
-  display: flex;
 }
 
 /* TESTAMENT TOGGLE (shown when collapsed) */
 .testament-toggle {
-
-.testament-header {
-  text-align: center;
-  padding: 16px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.testament-header:hover {
-  background: rgba(255,255,255,0.15);
-}
-
-.testament-header .header-icon {
-  font-size: 2rem;
-  margin-bottom: 6px;
-}
-
-.testament-header .header-title {
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.testament-header .header-hint {
-  font-size: 0.75rem;
-  opacity: 0.7;
-  display: none;
+  display: flex;
   flex-direction: column;
   gap: 12px;
   align-items: center;
@@ -271,6 +247,11 @@ body {
 .story-card.selected {
   border-color: var(--gold);
   background: rgba(255,215,0,0.15);
+}
+
+.story-card.disabled {
+  opacity: 0.55;
+  cursor: default;
 }
 
 .story-icon { font-size: 3rem; margin-bottom: 10px; display: block; }
