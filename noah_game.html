@@ -75,16 +75,18 @@ body {
 
 /* DAY 2 — ANIMALS BOARD */
 #screen-d2 { background: linear-gradient(180deg, #74b9ff 0%, #55a63d 100%); }
-.animal-scene { position: relative; width: 95vw; max-width: 500px; height: 52vh; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); background: linear-gradient(180deg, #87CEEB 0%, #55a63d 80%); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 10px; }
-.ark-ship { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); font-size: 6rem; z-index: 5; }
-.animal-pond { position: absolute; top: 0; left: 0; width: 100%; height: 75%; display: flex; flex-wrap: wrap; align-content: flex-start; padding: 10px; gap: 8px; }
-.animal-char { width: 64px; height: 64px; object-fit: cover; border-radius: 12px; cursor: pointer; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2)); transition: all 0.3s; background: rgba(255,255,255,0.3); }
-.animal-char:active { transform: scale(1.3); }
-.animal-char.boarded { opacity: 0.25; transform: scale(0.55); pointer-events: none; }
-.animal-in-ark { position: absolute; bottom: 18px; display: flex; gap: 4px; opacity: 0; transition: all 0.5s; z-index: 10; flex-wrap: wrap; justify-content: center; max-width: 90%; }
-.animal-in-ark.show { opacity: 1; }
-.animal-in-ark img { width: 48px; height: 48px; object-fit: cover; border-radius: 8px; }
-.animal-placeholder { width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; }
+.animal-scene { position: relative; width: 95vw; max-width: 500px; height: 52vh; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); background: linear-gradient(180deg, #87CEEB 0%, #55a63d 80%); display: flex; }
+.animal-pond { flex: 1; display: flex; flex-wrap: wrap; align-content: flex-start; padding: 12px; gap: 10px; justify-content: center; overflow-y: auto; }
+.ark-ship { position: relative; width: 40%; min-width: 140px; background: linear-gradient(180deg, #8B5A2B 0%, #6B3E1A 100%); border-left: 4px solid #5C3317; border-radius: 0 var(--radius) var(--radius) 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 12px 8px; transition: all 0.3s; }
+.ark-ship.drag-over { background: linear-gradient(180deg, #7CB342 0%, #558B2F 100%); transform: scale(1.05); box-shadow: 0 0 30px rgba(124,179,66,0.6); }
+.ark-ship-label { font-size: 1.5rem; }
+.ark-animals { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; max-width: 100%; }
+.animal-char { width: 72px; height: 72px; object-fit: cover; border-radius: 14px; cursor: grab; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2)); transition: transform 0.2s, opacity 0.3s; touch-action: none; user-select: none; -webkit-user-select: none; background: rgba(255,255,255,0.4); }
+.animal-char:active { cursor: grabbing; transform: scale(1.15); }
+.animal-char.boarded { opacity: 0.2; transform: scale(0.5); pointer-events: none; }
+.animal-char.dragging { opacity: 0.5; transform: scale(1.2); z-index: 1000; }
+.animal-in-ark { width: 44px; height: 44px; object-fit: cover; border-radius: 8px; animation: animalBoard 0.5s ease forwards; }
+@keyframes animalBoard { 0%{transform:scale(0) rotate(-20deg);opacity:0} 60%{transform:scale(1.2) rotate(5deg);opacity:1} 100%{transform:scale(1) rotate(0deg);opacity:1} }
 
 /* DAY 3 — RAIN */
 #screen-d3 { background: linear-gradient(180deg, #2d3436 0%, #636e72 100%); }
@@ -225,9 +227,11 @@ body {
   <div class="day-verse">創世記 7:2-3</div>
   <div class="day-narration" id="d2-narration">挪亞帶各樣牲畜、空中的雀鳥，一對對走入方舟</div>
   <div class="animal-scene" id="animal-scene">
-    <div class="ark-ship">🚢</div>
     <div class="animal-pond" id="animal-pond"></div>
-    <div class="animal-in-ark" id="animal-in-ark"></div>
+    <div class="ark-ship" id="ark-ship">
+      <div class="ark-ship-label">🚢</div>
+      <div class="ark-animals" id="ark-animals"></div>
+    </div>
   </div>
   <button class="next-btn" id="d2-next" onclick="goToDay(3)">第三日 ▶</button>
   <button class="skip-btn" id="d2-skip" onclick="completeDay(2)">⏩ 跳過 ▶</button>
@@ -331,7 +335,7 @@ const langs = {
   zhHK: {
     welcome: "今日我哋一齊聽挪亞方舟嘅故事！\n神叫挪亞建造方舟，帶埋動物避開大洪水！",
     d1Narr: "挪亞照神的吩咐，用歌斐木建造方舟", d1Hint: "👆 點擊釘子建造方舟！", d1Success: "方舟建造完成！🚢",
-    d2Narr: "挪亞帶各樣牲畜、空中的雀鳥，一對對走入方舟", d2Hint: "👆 點擊所有動物上船！", d2Success: "所有動物都上船了！🐾",
+    d2Narr: "挪亞帶各樣牲畜、空中的雀鳥，一對對走入方舟", d2Hint: "👆 拖動物上船！", d2Success: "所有動物都上船了！🐾",
     d3Narr: "四十晝夜降大雨在地上，水勢浩大", d3Hint: "👆 點擊所有雲朵落雨！", d3Success: "大雨傾盆而下！🌧️",
     d4Narr: "水勢在地上極大，方舟在水上漂行", d4Hint: "👆 按鈕讓方舟漂浮！", d4Success: "方舟漂浮起來了！🚢🌊",
     d5Narr: "挪亞放出一隻鴿子，試探水退了沒有", d5Hint: "👆 放出鴿子！", d5Success: "鴿子帶回橄榄枝！🕊️🌿",
@@ -344,7 +348,7 @@ const langs = {
   zhCN: {
     welcome: "今天我们一起听挪亚方舟的故事！\n神叫挪亚建造方舟，带动物避开大洪水！",
     d1Narr: "挪亚照神的吩咐，用歌斐木建造方舟", d1Hint: "👆 点击钉子建造方舟！", d1Success: "方舟建造完成！🚢",
-    d2Narr: "挪亚带各样牲畜、空中的雀鸟，一对对走入方舟", d2Hint: "👆 点击所有动物上船！", d2Success: "所有动物都上船了！🐾",
+    d2Narr: "挪亚带各样牲畜、空中的雀鸟，一对对走入方舟", d2Hint: "👆 拖动物上船！", d2Success: "所有动物都上船了！🐾",
     d3Narr: "四十昼夜降大雨在地上，水势浩大", d3Hint: "👆 点击所有云朵落雨！", d3Success: "大雨倾盆而下！🌧️",
     d4Narr: "水势在地上极大，方舟在水上漂行", d4Hint: "👆 按钮让方舟漂浮！", d4Success: "方舟漂浮起来了！🚢🌊",
     d5Narr: "挪亚放出一只鸽子，试探水退了没有", d5Hint: "👆 放出鸽子！", d5Success: "鸽子带回橄榄枝！🕊️🌿",
@@ -357,7 +361,7 @@ const langs = {
   en: {
     welcome: "Today we hear the story of Noah's Ark!\nGod told Noah to build an ark to save the animals from the great flood!",
     d1Narr: "Noah built the ark according to God's command using cypress wood", d1Hint: "Tap the nails to build the ark!", d1Success: "Ark built! 🚢",
-    d2Narr: "Noah brought all kinds of animals, two by two, into the ark", d2Hint: "Tap all animals to board!", d2Success: "All animals are on the ark! 🐾",
+    d2Narr: "Noah brought all kinds of animals, two by two, into the ark", d2Hint: "Drag animals onto the ark!", d2Success: "All animals are on the ark! 🐾",
     d3Narr: "For forty days and forty nights the great rain fell upon the earth", d3Hint: "Tap all the clouds!", d3Success: "Rain falls heavily! 🌧️",
     d4Narr: "The waters rose greatly upon the earth, and the ark floated on the water", d4Hint: "Press button to float!", d4Success: "Ark floats! 🚢🌊",
     d5Narr: "Noah sent out a dove to see if the waters had receded", d5Hint: "Release the dove!", d5Success: "Dove returns with an olive branch! 🕊️🌿",
@@ -370,7 +374,7 @@ const langs = {
   ja: {
     welcome: "今日はノアの箱舟の物語を聞こう！\n神様はノアに箱舟を造らせ、大洪水から動物を救った！",
     d1Narr: "ノアは神の命令により、柏の木で箱舟を造的", d1Hint: "釘をクリックして箱舟を造的！", d1Success: "箱舟完成！🚢",
-    d2Narr: "ノアは各样の動物を一对一对で箱舟に入れた", d2Hint: "すべての動物をクリック！", d2Success: "すべての動物が乗った！🐾",
+    d2Narr: "ノアは各样の動物を一对一对で箱舟に入れた", d2Hint: "動物を箱舟にドラッグ！", d2Success: "すべての動物が乗った！🐾",
     d3Narr: "四十日四十夜、大雨が地上に降った", d3Hint: "すべての雲をクリック！", d3Success: "大雨が降り注いだ！🌧️",
     d4Narr: "水は地に甚だ大きくなり、箱舟は水上を漂った", d4Hint: "ボタンで浮かべよう！", d4Success: "箱舟が浮かんだ！🚢🌊",
     d5Narr: "ノアは鴻子を送り、水が引いたか確かめた", d5Hint: "鴻子を放つ！", d5Success: "鴻子が橄榄の枝を持って戻った！🕊️🌿",
@@ -512,35 +516,121 @@ function n1ClickNail(idx) {
   }
 }
 
-// DAY 2: ANIMALS
+// DAY 2: ANIMALS — DRAG & DROP
 let n2Boarded = 0;
 const ANIMAL_TOTAL = 8;
 let n2Animals = [];
+let dragItem = null;
+let dragStartX = 0, dragStartY = 0;
+let dragOffsetX = 0, dragOffsetY = 0;
+
 function initDay2() {
   n2Boarded = 0;
   n2Animals = ANIMAL_IMAGES.slice(0, ANIMAL_TOTAL);
   const pond = document.getElementById('animal-pond');
+  const arkShip = document.getElementById('ark-ship');
   pond.innerHTML = '';
+  document.getElementById('ark-animals').innerHTML = '';
+
   ANIMAL_IMAGES.slice(0, ANIMAL_TOTAL).forEach((imgUrl, i) => {
     const a = document.createElement('img');
     a.className = 'animal-char';
     a.id = 'animal-' + i;
     a.src = imgUrl;
-    a.onclick = () => n2ClickAnimal(i);
+    a.draggable = true;
+    // Mouse drag
+    a.addEventListener('dragstart', e => n2DragStart(e, i));
+    a.addEventListener('dragend', n2DragEnd);
+    // Touch drag
+    a.addEventListener('touchstart', e => n2TouchStart(e, i), { passive: false });
+    a.addEventListener('touchmove', n2TouchMove, { passive: false });
+    a.addEventListener('touchend', n2TouchEnd);
     pond.appendChild(a);
-    setTimeout(() => a.classList.add('show'), 100 + i * 120);
   });
-  document.getElementById('animal-in-ark').classList.remove('show');
-  document.getElementById('animal-in-ark').innerHTML = '';
+
+  document.getElementById('ark-ship').addEventListener('pointerup', n2CheckDrop);
+  document.getElementById('ark-ship').addEventListener('pointerenter', n2CheckDrop);
 }
-function n2ClickAnimal(idx) {
+
+function n2DragStart(e, idx) {
+  dragItem = document.getElementById('animal-' + idx);
+  dragItem.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', idx);
+}
+function n2DragEnd() {
+  if (dragItem) dragItem.classList.remove('dragging');
+  dragItem = null;
+  document.getElementById('ark-ship').classList.remove('drag-over');
+}
+
+// Touch support
+function n2TouchStart(e, idx) {
+  e.preventDefault();
+  dragItem = document.getElementById('animal-' + idx);
+  const t = e.touches[0];
+  const rect = dragItem.getBoundingClientRect();
+  dragOffsetX = t.clientX - rect.left;
+  dragOffsetY = t.clientY - rect.top;
+  dragItem.classList.add('dragging');
+  dragItem.style.position = 'fixed';
+  dragItem.style.zIndex = '1000';
+  dragItem.style.left = (t.clientX - dragOffsetX) + 'px';
+  dragItem.style.top = (t.clientY - dragOffsetY) + 'px';
+  dragItem.style.pointerEvents = 'none';
+}
+function n2TouchMove(e) {
+  e.preventDefault();
+  if (!dragItem) return;
+  const t = e.touches[0];
+  dragItem.style.left = (t.clientX - dragOffsetX) + 'px';
+  dragItem.style.top = (t.clientY - dragOffsetY) + 'px';
+  // Highlight ark on hover
+  const ark = document.getElementById('ark-ship');
+  const arkRect = ark.getBoundingClientRect();
+  if (t.clientX >= arkRect.left && t.clientX <= arkRect.right &&
+      t.clientY >= arkRect.top && t.clientY <= arkRect.bottom) {
+    ark.classList.add('drag-over');
+  } else {
+    ark.classList.remove('drag-over');
+  }
+}
+function n2TouchEnd(e) {
+  if (!dragItem) return;
+  const t = e.changedTouches[0];
+  const ark = document.getElementById('ark-ship');
+  const arkRect = ark.getBoundingClientRect();
+  ark.classList.remove('drag-over');
+  if (t.clientX >= arkRect.left && t.clientX <= arkRect.right &&
+      t.clientY >= arkRect.top && t.clientY <= arkRect.bottom) {
+    const idx = parseInt(dragItem.id.split('-')[1]);
+    boardAnimal(idx);
+  }
+  dragItem.style.position = '';
+  dragItem.style.zIndex = '';
+  dragItem.style.left = '';
+  dragItem.style.top = '';
+  dragItem.style.pointerEvents = '';
+  dragItem.classList.remove('dragging');
+  dragItem = null;
+}
+
+// Desktop drag-drop via pointer events on the scene
+function n2CheckDrop() {
+  if (!dragItem) return;
+  const idx = parseInt(dragItem.id.split('-')[1]);
+  boardAnimal(idx);
+}
+
+function boardAnimal(idx) {
   const el = document.getElementById('animal-' + idx);
   if (!el || el.classList.contains('boarded')) return;
   el.classList.add('boarded');
   n2Boarded++;
-  const ark = document.getElementById('animal-in-ark');
-  ark.classList.add('show');
+  // Show animal inside ark
+  const ark = document.getElementById('ark-animals');
   const a = document.createElement('img');
+  a.className = 'animal-in-ark';
   a.src = n2Animals[idx];
   ark.appendChild(a);
   showFeedback(langs[lang].animalsLabel[idx], 'success');
@@ -552,6 +642,22 @@ function n2ClickAnimal(idx) {
     updateProgress();
   }
 }
+
+// Wire up ark as HTML5 drag-drop target (runs after DOM ready)
+(function() {
+  const ark = document.getElementById('ark-ship');
+  ark.addEventListener('dragover', e => { e.preventDefault(); ark.classList.add('drag-over'); });
+  ark.addEventListener('dragleave', () => ark.classList.remove('drag-over'));
+  ark.addEventListener('drop', e => {
+    e.preventDefault();
+    ark.classList.remove('drag-over');
+    const idx = parseInt(e.dataTransfer.getData('text/plain'));
+    boardAnimal(idx);
+  });
+})();
+
+// DAY 2 alias for backward compat
+function n2ClickAnimal(idx) { boardAnimal(idx); }
 
 // DAY 3: RAIN
 let n3Rained = 0;
