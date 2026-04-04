@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>摩西過紅海</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--p:#E17055;--s:#00C851;--g:#FFD700;--sh:0 4px 20px rgba(0,0,0,0.15);--r:24px}
+body{font-family:'Noto Sans TC','PingFang HK','Microsoft JhengHei',sans-serif;background:#74b9ff;height:100vh;width:100vw;position:relative;overflow:hidden}
+#navbar{position:fixed;top:12px;left:10px;right:10px;z-index:999;display:flex;gap:8px;align-items:center;touch-action:manipulation}
+.nav-btn{background:rgba(255,255,255,0.92);border:none;border-radius:14px;padding:9px 14px;font-size:1.1rem;cursor:pointer;box-shadow:var(--sh)}
+#lang-wrap{position:relative}
+#lang-menu{display:none;flex-direction:column;gap:4px;position:absolute;top:110%;left:0;background:rgba(255,255,255,0.97);border-radius:14px;padding:8px;box-shadow:var(--sh);min-width:90px}
+#lang-menu.show{display:flex}
+.lang-btn{background:var(--p);color:white;border:none;padding:8px 14px;border-radius:10px;font-size:.95rem;cursor:pointer;text-align:left}
+#progress-bar{position:fixed;top:0;left:0;width:100%;height:7px;background:rgba(255,255,255,0.3);z-index:1000}
+#progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#FFD700,#E17055);transition:width .6s}
+.screen{display:none;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100vh;padding:70px 20px 20px;position:absolute;top:0;left:0}
+.screen.active{display:flex}
+#sw{background:linear-gradient(180deg,#2d3436,#6c5ce7);justify-content:flex-start;gap:14px;padding-top:80px;min-height:100vh;overflow-y:auto}
+.wi{font-size:4rem;animation:wf 3s ease-in-out infinite}
+@keyframes wf{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.wt{font-size:1.8rem;color:#FFD700;font-weight:800;text-align:center}
+.wn{background:rgba(255,255,255,.12);color:white;border-radius:var(--r);padding:14px 18px;max-width:90vw;font-size:1rem;line-height:1.5;text-align:center;backdrop-filter:blur(6px)}
+.wb{border:none;border-radius:20px;padding:16px 36px;font-size:1.15rem;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .2s;box-shadow:var(--sh);min-height:50px;touch-action:manipulation;background:linear-gradient(135deg,#00C851,#007E33);color:white;display:inline-block}
+.wb:active{transform:scale(0.93)}
+.day-screen{justify-content:flex-start;padding-top:70px;gap:10px}
+.dt{font-size:1.5rem;font-weight:800;color:white;text-shadow:0 2px 8px rgba(0,0,0,.25);text-align:center}
+.dn{background:rgba(255,255,255,.92);border-radius:var(--r);padding:12px 18px;font-size:1.05rem;color:#333;max-width:90vw;text-align:center;box-shadow:var(--sh);line-height:1.5}
+.dh{color:rgba(255,255,255,.85);font-size:.95rem;text-align:center}
+.si{width:95vw;max-width:480px;height:26vh;object-fit:cover;border-radius:var(--r);box-shadow:var(--sh);margin-bottom:4px}
+#sd1{background:linear-gradient(180deg,#fdcb6e,#e17055)}
+.pa{position:relative;width:95vw;max-width:480px;height:26vh;background:rgba(255,255,255,.15);border-radius:var(--r);display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;padding:12px}
+.pi{font-size:2.2rem;cursor:pointer;user-select:none;filter:drop-shadow(0 3px 6px rgba(0,0,0,.2));transition:transform .15s;padding:4px;border-radius:8px;background:rgba(255,255,255,.2)}
+.pi:active{transform:scale(1.3)}
+.pi.dn{opacity:.3;pointer-events:none;filter:grayscale(1)}
+.pc{position:absolute;top:6px;right:10px;background:rgba(255,255,255,.9);border-radius:20px;padding:3px 10px;font-size:.85rem;font-weight:700;color:#333}
+#sd2{background:linear-gradient(180deg,#74b9ff,#fdcb6e)}
+.es{position:relative;width:95vw;max-width:480px;height:24vh;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);background:#fdcb6e}
+.eg{position:absolute;bottom:0;left:0;right:0;height:35%;background:linear-gradient(180deg,#c9a86c,#a68b5b)}
+.eks{position:absolute;top:0;left:0;right:0;height:65%;background:linear-gradient(180deg,#74b9ff,#a29bfe)}
+.py{position:absolute;bottom:35%;font-size:3rem;opacity:.6}
+.pyL{left:5%}.pyR{right:5%}
+.ig{position:absolute;bottom:36%;display:flex;gap:4px;font-size:1.5rem;transition:left 1.2s ease;left:10%}
+.wt2{position:absolute;bottom:8%;left:5%;right:5%;height:10px;background:rgba(255,255,255,.2);border-radius:5px}
+.wb3{height:100%;width:0%;background:linear-gradient(90deg,#E17055,#00C851);border-radius:5px;transition:width .8s ease}
+#sd3{background:linear-gradient(180deg,#a29bfe,#0984e3)}
+.ps{position:relative;width:95vw;max-width:480px;height:26vh;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);background:linear-gradient(180deg,#6c5ce7,#0984e3);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.rwl,.rwr{position:absolute;top:0;height:100%;background:linear-gradient(180deg,#0984e3,#01579b);display:flex;align-items:center;justify-content:center;font-size:3rem;width:45%}
+.rwl{left:0}.rwr{right:0}
+.pr{position:absolute;width:80px;height:80px;border-radius:50%;border:4px solid rgba(255,215,0,.6);pointer-events:none;z-index:5}
+.mp{position:absolute;z-index:10;font-size:3.5rem;cursor:pointer;user-select:none;transition:all .3s;filter:drop-shadow(0 4px 12px rgba(0,0,0,.3));touch-action:manipulation}
+.mp.praying{animation:pp .8s ease infinite}
+@keyframes pp{0%,100%{transform:scale(1);filter:drop-shadow(0 4px 12px rgba(255,215,0,.5))}50%{transform:scale(1.15);filter:drop-shadow(0 0 30px rgba(255,215,0,.9))}}
+.pp{position:absolute;bottom:8%;width:80%;max-width:280px;height:12px;background:rgba(255,255,255,.2);border-radius:6px;overflow:hidden}
+.pf{height:100%;width:0%;background:linear-gradient(90deg,#FFD700,#E17055);border-radius:6px;transition:width .1s}
+#sd4{background:linear-gradient(180deg,#0984e3,#00C851)}
+.ssc{position:relative;width:95vw;max-width:480px;height:26vh;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);background:linear-gradient(180deg,#74b9ff,#0984e3);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.cc{position:absolute;top:6px;right:10px;background:rgba(255,255,255,.9);border-radius:20px;padding:3px 10px;font-size:.85rem;font-weight:700}
+.sw{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;justify-content:space-between;padding:0 2%;pointer-events:none}
+.swl,.swr{background:linear-gradient(180deg,#0984e3,#01579b);transition:width 1.2s ease;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:rgba(255,255,255,.4);height:100%;width:45%}
+.swl.nl,.swr.nl{width:18%!important}
+.spa{position:absolute;top:0;left:50%;transform:translateX(-50%);width:0%;height:100%;background:linear-gradient(180deg,#fdcb6e,#c9a86c);transition:width 1.2s ease;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.spa.op{width:54%}
+.sb{font-size:3.5rem;cursor:pointer;user-select:none;filter:drop-shadow(0 4px 12px rgba(0,0,0,.3));transition:transform .15s;touch-action:manipulation;position:absolute}
+.sb:active{transform:scale(1.3) rotate(15deg)}
+#sd5{background:linear-gradient(180deg,#00C851,#74b9ff)}
+.csc{position:relative;width:95vw;max-width:480px;height:24vh;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);background:linear-gradient(180deg,#c9a86c,#a68b5b)}
+.sc2{position:absolute;top:6px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.9);border-radius:20px;padding:3px 10px;font-size:.85rem;font-weight:700}
+.sl,.sr{position:absolute;top:0;height:100%;background:linear-gradient(180deg,#0984e3,#01579b);display:flex;align-items:center;justify-content:center;font-size:1.4rem;transition:width .8s ease}
+.sl{left:0;width:25%}.sr{right:0;width:25%}
+.cp2{position:absolute;top:0;left:25%;right:25%;height:100%;background:linear-gradient(180deg,#fdcb6e,#c9a86c);display:flex;align-items:center;justify-content:center;transition:all .8s ease}
+.cpe2{font-size:1.8rem;display:flex;flex-direction:column;align-items:center;gap:2px}
+.fb{position:absolute;bottom:6%;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#00C851,#007E33);color:white;border:none;border-radius:18px;padding:10px 26px;font-size:1.05rem;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 4px 12px rgba(0,200,81,.4);transition:transform .2s;z-index:20;touch-action:manipulation}
+.fb:active{transform:translateX(-50%) scale(.92)}
+#sd6{background:linear-gradient(180deg,#6c5ce7,#2d3436)}
+.clsc{position:relative;width:95vw;max-width:480px;height:24vh;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);background:linear-gradient(180deg,#a29bfe,#74b9ff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.ss{position:absolute;right:0;top:0;bottom:0;width:30%;background:linear-gradient(180deg,#55a63d,#3d8b2f);display:flex;align-items:center;justify-content:center}
+.ssp{font-size:1.6rem;display:flex;flex-direction:column;gap:2px}
+.swv{position:absolute;left:0;top:0;right:30%;height:100%;background:linear-gradient(180deg,#0984e3,#01579b);display:flex;align-items:center;justify-content:center;transition:all 1s ease;overflow:hidden}
+.swv.cl{right:0;border-radius:20px 0 0 20px}
+.wtx{font-size:2.4rem;animation:wa 2s ease-in-out infinite}
+@keyframes wa{0%,100%{transform:rotate(-5deg) scale(1)}50%{transform:rotate(5deg) scale(1.1)}}
+.ah{position:absolute;top:6px;left:50%;transform:translateX(-50%);background:rgba(255,100,100,.85);color:white;border-radius:10px;padding:3px 10px;font-size:.8rem}
+.csb2{font-size:3rem;cursor:pointer;user-select:none;filter:drop-shadow(0 4px 12px rgba(0,0,0,.3));transition:transform .15s;z-index:10;touch-action:manipulation}
+.csb2:active{transform:scale(1.3)}
+.nb{background:linear-gradient(135deg,#00C851,#007E33);color:white;border:none;border-radius:20px;padding:12px 30px;font-size:1.1rem;font-weight:700;cursor:pointer;font-family:inherit;margin-top:6px;box-shadow:0 4px 12px rgba(0,200,81,.4);transition:transform .2s;display:none}
+.nb:active{transform:scale(.92)}
+.fb2{position:fixed;bottom:16%;left:50%;transform:translateX(-50%);background:white;border-radius:var(--r);padding:12px 20px;max-width:90vw;font-size:1rem;text-align:center;box-shadow:var(--sh);z-index:500;opacity:0;pointer-events:none;transition:all .4s}
+.fb2.show{opacity:1;pointer-events:auto}
+.fb2.suc{border:3px solid #00C851}
+.fb2.fail{border:3px solid #FF6B6B}
+.cp3{position:fixed;width:10px;height:10px;z-index:200;pointer-events:none;animation:cf 2.5s ease-out forwards}
+@keyframes cf{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+#lo{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(45,52,54,.92);z-index:800;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px;backdrop-filter:blur(6px)}
+#lo.show{display:flex}
+.lc{background:white;border-radius:var(--r);padding:16px 20px;max-width:90vw;width:360px;box-shadow:0 8px 32px rgba(0,0,0,.3);text-align:center}
+.lt{font-size:1.2rem;font-weight:800;color:#E17055;margin-bottom:6px}
+.ld{font-size:.9rem;color:#555;margin-bottom:12px;line-height:1.5}
+.la{min-height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.lcl{background:#E17055;color:white;border:none;border-radius:14px;padding:10px 24px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;margin-top:6px}
+.cpg{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:250px}
+.cpg2{font-size:1.8rem;padding:4px 8px;background:#fdcb6e;border-radius:8px;cursor:pointer;transition:transform .15s;border:2px solid transparent}
+.cpg2:active{transform:scale(1.2)}
+.cpg2.sel{background:#00C851;color:white}
+.cdis{font-size:1.6rem;font-weight:800;color:#333}
+.cins{font-size:.8rem;color:#777}
+.ci{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.cid{width:24px;height:24px;background:#6C5CE7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:white;font-weight:700;cursor:pointer;transition:all .15s}
+.cid:active{background:#5a4fcf;transform:scale(1.15)}
+.ta{position:relative;width:220px;height:64px}
+.tc{width:100%;height:100%;border:2px dashed #aaa;border-radius:12px;background:#f8f8f8;cursor:crosshair}
+.tt2{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:2rem;pointer-events:none}
+.ssl{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:6px}
+.ss2{width:44px;height:44px;border:3px dashed #aaa;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;background:#f8f8f8}
+.ss2.f{border-style:solid;border-color:#00C851;background:#e8f5e9}
+.si2{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.si3{font-size:1.8rem;padding:4px 8px;background:#e8f5e9;border-radius:8px;cursor:pointer;transition:all .15s;border:2px solid transparent}
+.si3:active{transform:scale(1.2);border-color:#00C851}
+.si3.u{opacity:.4;pointer-events:none}
+.cc2{display:flex;flex-direction:column;align-items:center;gap:6px}
+.cr2{display:flex;gap:4px;flex-wrap:wrap;justify-content:center}
+.cp3{font-size:1.4rem;cursor:pointer;transition:transform .15s;padding:2px}
+.cp3:active{transform:scale(1.3)}
+.cp3.cd{filter:grayscale(.5);opacity:.6}
+.ct2{font-size:1.5rem;font-weight:800;color:#333}
+.ca{display:flex;flex-direction:column;gap:8px;align-items:center}
+.ci2{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.ci3{font-size:1.6rem;padding:4px 8px;background:#f0f0f0;border-radius:8px;cursor:pointer;transition:all .15s}
+.ci3:active{transform:scale(1.2)}
+.cb2{display:flex;gap:8px}
+.cb3{display:flex;flex-direction:column;align-items:center;gap:4px}
+.bl{font-size:.7rem;font-weight:700;color:#555;background:#eee;padding:2px 8px;border-radius:8px}
+.bc2{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;min-height:36px;min-width:68px;border:2px dashed #ccc;border-radius:10px;padding:4px;background:#fafafa}
+.bi{font-size:1.2rem}
+#ss{background:linear-gradient(180deg,#2d3436,#6c5ce7);justify-content:center;gap:12px}
+.st{font-size:1.7rem;color:#FFD700;font-weight:800;text-align:center;text-shadow:0 2px 12px rgba(255,215,0,.5)}
+.st2{background:rgba(255,255,255,.1);color:white;border-radius:var(--r);padding:14px 18px;max-width:90vw;font-size:1rem;line-height:1.7;text-align:center;backdrop-filter:blur(6px)}
+.st3{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:90vw}
+.db{background:rgba(255,255,255,.15);color:white;border-radius:10px;padding:4px 10px;font-size:.75rem;border:1px solid rgba(255,255,255,.2)}
+@media(max-width:400px){.wt{font-size:1.8rem}.dt{font-size:1.3rem}.dn{font-size:1rem}}
+</style>
+</head>
+<body>
+<div id="navbar">
+  <button class="nav-btn" onclick="location.href='index.html'">🏠</button>
+  <div id="lang-wrap">
+    <button class="nav-btn" id="lang-switch" onclick="toggleLang()">🌐 <span id="lang-label">粵</span></button>
+    <div id="lang-menu">
+      <button class="lang-btn" onclick="setLang('zhHK')">粵語</button>
+      <button class="lang-btn" onclick="setLang('zhCN')">普通话</button>
+      <button class="lang-btn" onclick="setLang('en')">English</button>
+      <button class="lang-btn" onclick="setLang('ja')">日本語</button>
+    </div>
+  </div>
+  <button class="nav-btn" onclick="replayNarration()">🔊</button>
+</div>
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<div class="screen active" id="sw">
+  <div class="wi">🌊✝️</div>
+  <div class="wt">摩西過紅海</div>
+  <div class="wn" id="welcome-text">今日我哋一齊聽聖經故事！<br>摩西點樣帶領以色列人過紅海呢？</div>
+  <button class="wb" onclick="startGame()" style="margin-top:10px">▶ 開始</button>
+</div>
+
+<div class="screen day-screen" id="sd1">
+  <img class="si" src="img/moses/scene1_plagues.png" alt="埃及十災" onerror="this.style.display='none'">
+  <div class="dt">🏺 第一日：埃及十災</div>
+  <div class="dn" id="d1-n">法老不讓以色列人離開，神降下十個災殃</div>
+  <div class="pa" id="pa"><div class="pc" id="pc">0/10</div></div>
+  <div class="dh" id="d1-h">點擊瘟疫，趕走佢！</div>
+  <button class="nb" id="d1-nb" onclick="goToDay(2)">第二日 ▶</button>
+</div>
+
+<div class="screen day-screen" id="sd2">
+  <img class="si" src="img/moses/scene2_exodus.png" alt="離開埃及" onerror="this.style.display='none'">
+  <div class="dt">🚶 第二日：離開埃及</div>
+  <div class="dn" id="d2-n">摩西帶領以色列人離開埃及</div>
+  <div class="es">
+    <div class="eks"><span class="py pyL">🏛️</span><span class="py pyR">🏛️</span></div>
+    <div class="eg"></div>
+    <div class="ig" id="ig">🚶🚶🚶</div>
+  </div>
+  <div class="wt2"><div class="wb3" id="wb3"></div></div>
+  <div class="dh" id="d2-h">👆 滑動帶領以色列人離開！</div>
+  <button class="nb" id="d2-nb" onclick="goToDay(3)">第三日 ▶</button>
+</div>
+
+<div class="screen day-screen" id="sd3">
+  <img class="si" src="img/moses/scene3_redsea.png" alt="紅海在前" onerror="this.style.display='none'">
+  <div class="dt">⛰️ 第三日：紅海在前</div>
+  <div class="dn" id="d3-n">紅海阻路，摩西向神祈禱</div>
+  <div class="ps">
+    <div class="rwl">🌊</div><div class="rwr">🌊</div>
+    <div class="pr" id="pr"></div>
+    <div class="mp" id="mp">👳🤲</div>
+    <div class="pp"><div class="pf" id="pf"></div></div>
+  </div>
+  <div class="dh" id="d3-h">長按摩西祈禱 3 秒！</div>
+  <button class="nb" id="d3-nb" onclick="goToDay(4)">第四日 ▶</button>
+</div>
+
+<div class="screen day-screen" id="sd4">
+  <img class="si" src="img/moses/scene4_part.png" alt="分開紅海" onerror="this.style.display='none'">
+  <div class="dt">🌊 第四日：分開紅海</div>
+  <div class="dn" id="d4-n">摩西向海伸杖，海水分開</div>
+  <div class="ssc">
+    <div class="cc" id="cc">0/5</div>
+    <div class="sw">
+      <div class="swl" id="swl">🌊</div>
+      <div class="swr" id="swr">🌊</div>
+    </div>
+    <div class="spa" id="spa"><span style="font-size:1.2rem;opacity:.6">🐟🐠🐡</span></div>
+    <div class="sb" id="sb" onclick="clickStaff()">👳⚡</div>
+  </div>
+  <div class="dh" id="d4-h">點擊摩西杖 5 次！</div>
+  <button class="nb" id="d4-nb" onclick="goToDay(5)">第五日 ▶</button>
+</div>
+
+<div class="screen day-screen" id="sd5">
+  <img class="si" src="img/moses/scene5_cross.png" alt="百姓過海" onerror="this.style.display='none'">
+  <div class="dt">🐟 第五日：百姓過海</div>
+  <div class="dn" id="d5-n">以色列人在海底走乾地，兩旁海水如牆</div>
+  <div class="csc">
+    <div class="sc2" id="sc2">0/3</div>
+    <div class="sl" id="sl">🌊</div>
+    <div class="sr" id="sr">🌊</div>
+    <div class="cp2" id="cp2"><div class="cpe2" id="cpe2">🚶‍♂️🚶‍♀️</div></div>
+    <button class="fb" id="fb" onclick="clickForward()">前行 ▶</button>
+  </div>
+  <div class="dh" id="d5-h">點擊前行，帶領百姓走過海底！</div>
+  <button class="nb" id="d5-nb" onclick="goToDay(6)">第六日 ▶</button>
+</div>
+
+<div class="screen day-screen" id="sd6">
+  <img class="si" src="img/moses/scene6_rescue.png" alt="海水合回" onerror="this.style.display='none'">
+  <div class="dt">🌊💀 第六日：海合歸回</div>
+  <div class="dn" id="d6-n">百姓上岸，摩西最後上岸，海水合回</div>
+  <div class="clsc">
+    <div class="ah">⚔️ 法老軍隊被淹沒</div>
+    <div class="swv" id="swv"><div class="wtx">🌊😭🌊</div></div>
+    <div class="ss"><div class="ssp">🙌🎉</div></div>
+    <div class="csb2" id="csb2" onclick="closeSea()">👳⚡</div>
+  </div>
+  <div class="dh" id="d6-h">點擊摩西杖，海水合回！</div>
+  <button class="nb" id="d6-nb" onclick="showSummary()">完成！🎉</button>
+</div>
+
+<div class="screen" id="ss">
+  <div class="st">🎉 摩西過紅海完成！</div>
+  <div class="st2" id="st2">摩西帶領以色列人過紅海，神分開大海，拯救祂的百姓！</div>
+  <div class="st3">
+    <span class="db">🏺十災</span><span class="db">🚶離開</span><span class="db">⛰️祈禱</span>
+    <span class="db">🌊分海</span><span class="db">🐟過海</span><span class="db">💀拯救</span>
+  </div>
+  <button class="wb" onclick="location.href='index.html'" style="margin-top:12px">🏠 返去主頁</button>
+</div>
+
+<div id="lo">
+  <div class="lc">
+    <div class="lt" id="lt">學習活動</div>
+    <div class="ld" id="ld">一齊學習啦！</div>
+    <div class="la" id="la"></div>
+    <button class="lcl" onclick="closeLearning()">完成 ✓</button>
+  </div>
+</div>
+
+<script>
+var lang='zhHK',curD=0,cd={},d1p=0,d2w=0,d3pp=0,d3pt=null,d4c=0,d5s=0,d6c=false,audio=null;
+var AB='https://raw.githubusercontent.com/ai-lish/preschool/main/audio/moses/';
+function play(k){try{if(audio){audio.pause();}audio=new Audio(AB+k+'_'+lang+'.mp3');audio.play().catch(function(){});}catch(e){}}
+var T={
+  zhHK:{
+    w:"今日我哋一齊聽聖經故事！\n摩西點樣帶領以色列人過紅海呢？",
+    d1n:"法老不讓以色列人離開，神降下十個災殃",d1h:"點擊瘟疫，趕走佢！",d1s:"十個瘟疫都趕走了！🏺",
+    d2n:"摩西帶領以色列人離開埃及",d2h:"👆 滑動帶領以色列人離開！",d2s:"以色列人離開埃及！🚶",
+    d3n:"紅海阻路，摩西向神祈禱",d3h:"長按摩西祈禱 3 秒！",d3s:"神聽見祈禱！⛰️",
+    d4n:"摩西向海伸杖，海水分開",d4h:"點擊摩西杖 5 次！",d4s:"海水分開了！🌊",
+    d5n:"以色列人在海底走乾地，兩旁海水如牆",d5h:"點擊前行，帶領百姓走過海底！",d5s:"百姓安全通過！🐟",
+    d6n:"百姓上岸，摩西最後上岸，海水合回",d6h:"點擊摩西杖，海水合回！",d6s:"神拯救以色列人！🎉",
+    sum:"摩西帶領以色列人過紅海，神分開大海，拯救祂的百姓！",
+    lt:["數數災殃 🏺","數數以色列人 🚶","運筆描杖 ⛰️","序列排列 🌊","數數上岸人數 🐟","分類遊戲 🚶"],
+    ld:["數吓有幾多個瘟疫！","數吓有多少以色列人！","跟住虛線描摩西杖！","將數字由小到大排列！","數吓有多少人上岸！","將人和軍隊分類！"]
+  },
+  zhCN:{
+    w:"今天我们一起听圣经故事！\n摩西怎样带领以色列人过红海呢？",
+    d1n:"法老不让以色列人离开，神降下十个灾殃",d1h:"点击灾殃，赶走它！",d1s:"十个灾殃都赶走了！🏺",
+    d2n:"摩西带领以色列人离开埃及",d2h:"👆 滑动带领以色列人离开！",d2s:"以色列人离开埃及！🚶",
+    d3n:"红海阻路，摩西向神祈祷",d3h:"长按摩西祈祷 3 秒！",d3s:"神听见祈祷！⛰️",
+    d4n:"摩西向海伸杖，海水分开",d4h:"点击摩西杖 5 次！",d4s:"海水分开了！🌊",
+    d5n:"以色列人在海底走干地，两旁海水如墙",d5h:"点击前行，带领百姓走过海底！",d5s:"百姓安全通过！🐟",
+    d6n:"百姓上岸，摩西最后上岸，海水合回",d6h:"点击摩西杖，海水合回！",d6s:"神拯救以色列人！🎉",
+    sum:"摩西带领以色列人过红海，神分开大海，拯救祂的百姓！",
+    lt:["数数灾殃 🏺","数数以色列人 🚶","运笔描杖 ⛰️","序列排列 🌊","数数上岸人数 🐟","分类游戏 🚶"],
+    ld:["数下有多少个灾殃！","数下有多少以色列人！","跟着虚线描摩西杖！","将数字由小到大排列！","数下有多少人上岸！","将人和军队分类！"]
+  },
+  en:{
+    w:"Today we hear a Bible story!\nHow did Moses lead Israel through the Red Sea?",
+    d1n:"Pharaoh refused to let Israel go. God sent ten plagues.",d1h:"Tap the plagues to drive them away!",d1s:"All ten plagues are gone! 🏺",
+    d2n:"Moses led Israel out of Egypt",d2h:"👆 Swipe to lead Israel out!",d2s:"Israel left Egypt! 🚶",
+    d3n:"Red Sea blocked the path. Moses prayed to God",d3h:"Hold Moses to pray for 3 seconds!",d3s:"God heard the prayer! ⛰️",
+    d4n:"Moses stretched out his staff. The sea divided",d4h:"Tap Moses' staff 5 times!",d4s:"The sea parted! 🌊",
+    d5n:"Israel walked on dry ground between the walls of water",d5h:"Tap Forward to lead the people!",d5s:"The people crossed safely! 🐟",
+    d6n:"All crossed. Moses struck the sea. It closed.",d6h:"Tap Moses' staff to close the sea!",d6s:"God saved Israel! 🎉",
+    sum:"Moses led Israel through the Red Sea. God parted the waters and saved His people!",
+    lt:["Count Plagues 🏺","Count Israelites 🚶","Trace Staff ⛰️","Sequence 🌊","Count Crossed 🐟","Classify 🚶"],
+    ld:["How many plagues are there?","How many Israelites?","Trace the staff line!","Arrange numbers small to big!","How many people crossed?","Sort people and army!"]
+  },
+  ja:{
+    w:"今日はいっしょに聖書の話を聞こう！\nモーセはどのように紅海を渡ったの？",
+    d1n:"ファラオが以色列の出ることを許さなかった。神は十の災いを送られた。",d1h:"災いをタップして追い払おう！",d1s:"十の災いが全部なくなった！🏺",
+    d2n:"モーセは以色列をエジプトから導いた",d2h:"👆 スワイプして以色列を導こう！",d2s:"以色列がエジプトを出た！🚶",
+    d3n:"紅海が道ふさいだ。モーセが神に祈った",d3h:"モーセを3秒間ロングプレス！",d3s:"神様が祈りを聞いてくださった！⛰️",
+    d4n:"モーセが杖を海に差し出した。海が分かれた",d4h:"モーセの杖を5回タップ！",d4s:"海が分かれた！🌊",
+    d5n:"以色列が海底の乾いた地面を歩いた",d5h:"前進をタップして民を導こう！",d5s:"民が安全に渡った！🐟",
+    d6n:"民が渡り終えた。モーセが杖で海を打った",d6h:"モーセの杖をタップして海を閉じよう！",d6s:"神様が以色列を救った！🎉",
+    sum:"モーセが紅海を渡り、神が海を分け、民を救われた！",
+    lt:["災いの数 🏺","以色列の数 🚶","杖なぞり ⛰️","順序並べ 🌊","渡った人数 🐟","分類 🚶"],
+    ld:["災いはいくつある？","以色列人は何人？","杖の線を書こう！","数字を小さい順に並べよう！","渡ったのは何人？","民と軍隊を分類しよう！"]
+  }
+};
+var PLAGUES=['🐸青蛙','🦟蒼蠅','🦗蝗蟲','⚡雷電','🌾蝗災','🐛蟲災','☁️瘧蚊','🔥瘟疫','🐀鼠疫','💀瘋狗'];
+
+function tl(k){return (T[lang]&&T[lang][k])?T[lang][k]:T.zhHK[k];}
+function toggleLang(){document.getElementById('lang-menu').classList.toggle('show');}
+function setLang(l){
+  lang=l;
+  var labels={zhHK:'粵',zhCN:'普',en:'EN',ja:'日'};
+  document.getElementById('lang-label').textContent=labels[l];
+  document.getElementById('lang-menu').classList.remove('show');
+  applyLang();
+}
+function applyLang(){
+  document.getElementById('welcome-text').innerHTML=tl('w').replace(/\n/g,'<br>');
+  for(var i=1;i<=6;i++){
+    var n=document.getElementById('d'+i+'-n');
+    if(n)n.textContent=tl('d'+i+'n');
+    var h=document.getElementById('d'+i+'-h');
+    if(h)h.textContent=tl('d'+i+'h');
+  }
+  document.getElementById('st2').innerHTML=tl('sum').replace(/\n/g,'<br>');
+  updateProgress();
+}
+function replayNarration(){play('m'+curD+'Narr');}
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  document.getElementById(id).classList.add('active');
+}
+function updateProgress(){
+  var cnt=Object.keys(cd).length;
+  document.getElementById('progress-fill').style.width=Math.round(cnt/6*100)+'%';
+}
+function showFeedback(msg,type){
+  var el=document.getElementById('fb2')||(function(){
+    var d=document.createElement('div');d.id='fb2';document.body.appendChild(d);return d;
+  })();
+  el.textContent=msg;el.className='fb2 show '+(type==='success'?'suc':'fail');
+  clearTimeout(el._t);
+  el._t=setTimeout(function(){el.classList.remove('show');},2800);
+}
+function spawnConfetti(){
+  var colors=['#FFD700','#FF6B6B','#00C851','#74b9ff','#a29bfe','#fd79a8'];
+  for(var i=0;i<35;i++){
+    var p=document.createElement('div');
+    p.className='cp3';
+    p.style.cssText='left:'+(Math.random()*100)+'vw;top:-10px;background:'+colors[i%colors.length]+';border-radius:'+(Math.random()>.5?'50%':'2px')+';animation-delay:'+(Math.random()*1.5)+'s';
+    document.body.appendChild(p);
+    setTimeout(function(){p.remove();},4000);
+  }
+}
+function startGame(){
+  showScreen('sd1');curD=1;play('m1Narr');
+  initDay1();
+  updateProgress();
+}
+function goToDay(n){
+  showScreen('sd'+n);curD=n;
+  if(n===2)initDay2();
+  if(n===3)initDay3();
+  if(n===6)initDay6();
+  play('m'+n+'Narr');
+  updateProgress();
+}
+function showSummary(){
+  showScreen('ss');curD=7;spawnConfetti();play('summary');
+  updateProgress();
+}
+function completeDay(d,msg){
+  cd[d]=true;
+  if(msg)showFeedback(msg,'success');
+  document.getElementById('d'+d+'-nb').style.display='inline-block';
+  play('m'+d+'Success');
+  updateProgress();
+  setTimeout(function(){showLearningActivity(d);},1200);
+}
+
+// ── DAY 1 ──
+function initDay1(){
+  d1p=0;
+  var pa=document.getElementById('pa');
+  pa.innerHTML='<div class="pc" id="pc">0/10</div>';
+  PLAGUES.forEach(function(p,i){
+    var el=document.createElement('div');
+    el.className='pi';el.textContent=p;
+    el.onclick=function(){clickPlague(el,i);};
+    pa.appendChild(el);
+  });
+}
+function clickPlague(el){
+  if(el.classList.contains('dn'))return;
+  el.classList.add('dn');d1p++;
+  document.getElementById('pc').textContent=d1p+'/10';
+  if(d1p>=3)play('m1Success');
+  if(d1p>=10)completeDay(1,tl('d1s'));
+}
+
+// ── DAY 2 ──
+var d2startX,d2el;
+function initDay2(){d2w=0;document.getElementById('wb3').style.width='0%';document.getElementById('ig').style.left='10%';}
+function d2Swipe(el){
+  el.addEventListener('touchstart',function(e){d2startX=e.touches[0].clientX;},{passive:true});
+  el.addEventListener('touchmove',function(e){
+    var dx=e.touches[0].clientX-d2startX;
+    var pct=Math.min(100,Math.max(0,dx/window.innerWidth*100*3));
+    document.getElementById('wb3').style.width=pct+'%';
+    var ig=document.getElementById('ig');
+    ig.style.left=(10+Math.min(60,pct*0.6))+'%';
+    if(dx>80&&!el.dataset.swiped){
+      el.dataset.swiped='1';d2w++;
+      play('m2Success');
+      if(d2w>=1){document.getElementById('wb3').style.width='100%';document.getElementById('ig').style.left='70%';setTimeout(function(){completeDay(2,tl('d2s'));},600);}
+    }
+  },{passive:true});
+}
+document.addEventListener('DOMContentLoaded',function(){d2Swipe(document.getElementById('wb3'));});
+document.getElementById('wb3').addEventListener('touchstart',function(e){d2startX=e.touches[0].clientX;},{passive:true});
+document.getElementById('wb3').addEventListener('touchmove',function(e){
+  var dx=e.touches[0].clientX-d2startX;
+  var pct=Math.min(100,Math.max(0,dx/window.innerWidth*100*3));
+  document.getElementById('wb3').style.width=pct+'%';
+  var ig=document.getElementById('ig');
+  ig.style.left=(10+Math.min(60,pct*0.6))+'%';
+  if(dx>80&&!this.dataset.swiped){
+    this.dataset.swiped='1';d2w++;
+    play('m2Success');
+    if(d2w>=1){document.getElementById('wb3').style.width='100%';document.getElementById('ig').style.left='70%';setTimeout(function(){completeDay(2,tl('d2s'));},600);}
+  }
+},{passive:true});
+
+// ── DAY 3 ──
+var d3pressing=false;
+function initDay3(){d3pp=0;d3pressing=false;document.getElementById('pf').style.width='0%';document.getElementById('mp').classList.remove('praying');}
+function startPrayer(e){
+  e.preventDefault();d3pressing=true;document.getElementById('mp').classList.add('praying');
+  var step=1000/30;
+  d3pt=setInterval(function(){
+    if(!d3pressing){clearInterval(d3pt);return;}
+    d3pp+=100/(3000/step);
+    document.getElementById('pf').style.width=Math.min(100,d3pp)+'%';
+    if(d3pp>=100){
+      clearInterval(d3pt);d3pressing=false;
+      document.getElementById('mp').classList.remove('praying');
+      document.getElementById('mp').textContent='👳✨';
+      completeDay(3,tl('d3s'));
+    }
+  },step);
+}
+function endPrayer(){d3pressing=false;clearInterval(d3pt);document.getElementById('mp').classList.remove('praying');document.getElementById('pf').style.width='0%';d3pp=0;}
+document.getElementById('mp').addEventListener('touchstart',startPrayer,{passive:false});
+document.getElementById('mp').addEventListener('touchend',endPrayer);
+document.getElementById('mp').addEventListener('touchcancel',endPrayer);
+document.getElementById('mp').addEventListener('mousedown',startPrayer);
+document.getElementById('mp').addEventListener('mouseup',endPrayer);
+document.getElementById('mp').addEventListener('mouseleave',endPrayer);
+
+// ── DAY 4 ──
+function clickStaff(){
+  d4c++;
+  document.getElementById('cc').textContent=d4c+'/5';
+  var walls=document.querySelectorAll('.swl, .swr');
+  var passage=document.getElementById('spa');
+  var pct=d4c/5;
+  walls.forEach(function(w){w.classList.toggle('nl',pct>=0.4);});
+  passage.classList.toggle('op',pct>=0.4);
+  play('m4Narr');
+  if(d4c>=5)completeDay(4,tl('d4s'));
+}
+function initDay4(){d4c=0;document.getElementById('cc').textContent='0/5';document.querySelectorAll('.swl,.swr').forEach(function(w){w.classList.remove('nl');});document.getElementById('spa').classList.remove('op');}
+
+// ── DAY 5 ──
+function clickForward(){
+  d5s++;
+  document.getElementById('sc2').textContent=d5s+'/3';
+  var sl=document.getElementById('sl'),sr=document.getElementById('sr');
+  var w=Math.max(5,25-d5s*6);
+  sl.style.width=w+'%';sr.style.width=w+'%';
+  play('m5Narr');
+  if(d5s>=3){
+    document.getElementById('fb').style.display='none';
+    document.getElementById('cpe2').textContent='🙌🚶';
+    setTimeout(function(){completeDay(5,tl('d5s'));},800);
+  }
+}
+function initDay5(){d5s=0;document.getElementById('sc2').textContent='0/3';document.getElementById('sl').style.width='25%';document.getElementById('sr').style.width='25%';document.getElementById('cpe2').textContent='🚶‍♂️🚶‍♀️';document.getElementById('fb').style.display='block';}
+
+// ── DAY 6 ──
+function closeSea(){
+  if(d6c)return;d6c=true;
+  document.getElementById('swv').classList.add('cl');
+  play('m6Narr');
+  setTimeout(function(){document.getElementById('ah').textContent='✅ 海水合回';document.getElementById('ah').style.background='rgba(0,200,81,0.85)';completeDay(6,tl('d6s'));},1200);
+}
+function initDay6(){d6c=false;document.getElementById('swv').classList.remove('cl');document.getElementById('ah').textContent='⚔️ 法老軍隊被淹沒';document.getElementById('ah').style.background='rgba(255,100,100,0.85)';}
+
+// ── LEARNING ACTIVITIES ──
+var learnTarget=null;
+function showLearningActivity(d){
+  document.getElementById('lt').textContent=tl('lt')[d-1]||'學習活動';
+  document.getElementById('ld').textContent=tl('ld')[d-1]||'一齊學習啦！';
+  var la=document.getElementById('la');la.innerHTML='';
+  if(d===1){showLearnCounting(la);}
+  else if(d===2){showLearnIsraelites(la);}
+  else if(d===3){showLearnTrace(la);}
+  else if(d===4){showLearnSequence(la);}
+  else if(d===5){showLearnCountCrossed(la);}
+  else if(d===6){showLearnClassify(la);}
+  document.getElementById('lo').classList.add('show');
+  play('mosesLearn'+d);
+}
+function closeLearning(){
+  document.getElementById('lo').classList.remove('show');
+}
+
+function showLearnCounting(la){
+  la.innerHTML='<div class="cpg" id="lpg"></div><div class="cdis" id="ldis">0</div><div class="cins">點擊瘟疫，數吓有幾多個！</div>';
+  var selected=0;
+  var plagues=['🐸','🦟','🦗','⚡','🌾','🐛','☁️','🔥','🐀','💀'];
+  plagues.forEach(function(p){
+    var el=document.createElement('div');el.className='cpg2';el.textContent=p;
+    el.onclick=function(){
+      if(el.classList.contains('sel')){el.classList.remove('sel');selected--;}
+      else{el.classList.add('sel');selected++;}
+      document.getElementById('ldis').textContent=selected;
+    };
+    document.getElementById('lpg').appendChild(el);
+  });
+}
+
+function showLearnIsraelites(la){
+  la.innerHTML='<div class="ci" id="lci"></div><div class="cdis" id="ldis2">0</div><div class="cins">點擊每一個人，数吓有多少！</div>';
+  var count=0;
+  for(var i=0;i<12;i++){
+    var el=document.createElement('div');el.className='cid';el.textContent='🚶';
+    el.onclick=function(){count++;document.getElementById('ldis2').textContent=count;};
+    document.getElementById('lci').appendChild(el);
+  }
+}
+
+function showLearnTrace(la){
+  la.innerHTML='<div class="ta"><canvas class="tc" id="tcanvas" width="220" height="64"></canvas><div class="tt2">👳⚡</div></div><div class="cins">喺上面畫線！</div>';
+  var canvas=document.getElementById('tcanvas');
+  var ctx=canvas.getContext('2d');var drawing=false;
+  canvas.addEventListener('mousedown',function(e){drawing=true;ctx.moveTo(e.offsetX,e.offsetY);});
+  canvas.addEventListener('mousemove',function(e){if(drawing){ctx.lineTo(e.offsetX,e.offsetY);ctx.strokeStyle='#E17055';ctx.lineWidth=3;ctx.stroke();}});
+  canvas.addEventListener('mouseup',function(){drawing=false;});
+  canvas.addEventListener('touchstart',function(e){e.preventDefault();var t=e.touches[0];var r=canvas.getBoundingClientRect();drawing=true;ctx.moveTo(t.clientX-r.left,t.clientY-r.top);},{passive:false});
+  canvas.addEventListener('touchmove',function(e){e.preventDefault();var t=e.touches[0];var r=canvas.getBoundingClientRect();if(drawing){ctx.lineTo(t.clientX-r.left,t.clientY-r.top);ctx.strokeStyle='#E17055';ctx.lineWidth=3;ctx.stroke();}},{passive:false});
+  canvas.addEventListener('touchend',function(){drawing=false;});
+}
+
+function showLearnSequence(la){
+  la.innerHTML='<div class="ssl" id="lssl"></div><div class="si2" id="lsi2"></div><div class="cins">將 1-4 由小到大排列！</div>';
+  var nums=[3,1,4,2];var slots=[null,null,null,null];var filled=0;
+  var items=document.createElement('div');items.className='si2';items.id='lsi2';
+  nums.forEach(function(n){
+    var el=document.createElement('div');el.className='si3';el.textContent=n;el.dataset.n=n;
+    el.onclick=function(){
+      if(el.classList.contains('u'))return;
+      var slotIdx=slots.indexOf(null);
+      if(slotIdx===-1)return;
+      el.classList.add('u');slots[slotIdx]=n;filled++;
+      document.getElementById('slot'+slotIdx).textContent=n;document.getElementById('slot'+slotIdx).classList.add('f');
+      if(filled===4){
+        var correct=slots[0]===1&&slots[1]===2&&slots[2]===3&&slots[3]===4;
+        if(correct)showFeedback('啱啦！排序正確！','success');
+        else showFeedback('再試多次！','fail');
+      }
+    };
+    items.appendChild(el);
+  });
+  la.appendChild(items);
+  var slotsDiv=document.getElementById('lssl');
+  for(var i=0;i<4;i++){
+    var s=document.createElement('div');s.className='ss2';s.id='slot'+i;
+    slotsDiv.appendChild(s);
+  }
+  la.insertBefore(slotsDiv,items);
+}
+
+function showLearnCountCrossed(la){
+  la.innerHTML='<div class="cc2"><div class="cr2" id="lcr2"></div><div class="ct2" id="lct2">0</div></div><div class="cins">點擊每一個上岸的人！</div>';
+  var count=0;
+  for(var i=0;i<10;i++){
+    var el=document.createElement('div');el.className='cp3';el.textContent='🚶';
+    el.onclick=function(){
+      if(this.classList.contains('cd'))return;
+      this.classList.add('cd');count++;
+      document.getElementById('lct2').textContent=count;
+    };
+    document.getElementById('lcr2').appendChild(el);
+  }
+}
+
+function showLearnClassify(la){
+  la.innerHTML='<div class="ci2" id="lci3"></div><div class="cb2" id="lcb2"></div><div class="cins">將人和軍隊分類！</div>';
+  var items=['🚶','🚶','⚔️','⚔️','🚶','⚔️','🚶','⚔️'];
+  var shuffled=items.slice().sort(function(){return Math.random()-0.5;});
+  var b0=[],b1=[];
+  shuffled.forEach(function(it){
+    var el=document.createElement('div');el.className='ci3';el.textContent=it;el.dataset.t=it;
+    el.onclick=function(){
+      if(this.dataset.placed)return;
+      this.dataset.placed='1';
+      var bucket=it==='🚶'?0:1;
+      var bc=document.getElementById('bc'+bucket);
+      var bi=document.createElement('div');bi.className='bi';bi.textContent=it;
+      bc.appendChild(bi);
+      if(bucket===0)b0.push(it);else b1.push(it);
+      if(b0.length===4&&b1.length===4)showFeedback('啱啦！分類正確！','success');
+    };
+    document.getElementById('lci3').appendChild(el);
+  });
+  var labels=['🚶 人','⚔️ 軍隊'];
+  labels.forEach(function(lbl,i){
+    var b=document.createElement('div');b.className='cb3';
+    b.innerHTML='<div class="bl">'+lbl+'</div><div class="bc2" id="bc'+i+'"></div>';
+    document.getElementById('lcb2').appendChild(b);
+  });
+}
+
+// init
+document.addEventListener('DOMContentLoaded',function(){applyLang();});
+</script>
+</body>
+</html>
