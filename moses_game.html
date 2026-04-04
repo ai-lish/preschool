@@ -184,7 +184,7 @@ body{font-family:'Noto Sans TC','PingFang HK','Microsoft JhengHei',sans-serif;ba
     <div class="ig" id="ig">🚶🚶🚶</div>
   </div>
   <div class="wt2"><div class="wb3" id="wb3"></div></div>
-  <div class="dh" id="d2-h">👆 滑動帶領以色列人離開！</div>
+  <div class="dh" id="d2-h">👆 滑動 3 次帶領以色列人離開！</div>
   <button class="nb" id="d2-nb" onclick="goToDay(3)">第三日 ▶</button>
 </div>
 
@@ -198,7 +198,7 @@ body{font-family:'Noto Sans TC','PingFang HK','Microsoft JhengHei',sans-serif;ba
     <div class="mp" id="mp">👳🤲</div>
     <div class="pp"><div class="pf" id="pf"></div></div>
   </div>
-  <div class="dh" id="d3-h">長按摩西祈禱 3 秒！</div>
+  <div class="dh" id="d3-h">點擊摩西祈禱！</div>
   <button class="nb" id="d3-nb" onclick="goToDay(4)">第四日 ▶</button>
 </div>
 
@@ -275,8 +275,8 @@ var T={
   zhHK:{
     w:"今日我哋一齊聽聖經故事！\n摩西點樣帶領以色列人過紅海呢？",
     d1n:"法老不讓以色列人離開，神降下十個災殃",d1h:"點擊瘟疫，趕走佢！",d1s:"十個瘟疫都趕走了！🏺",
-    d2n:"摩西帶領以色列人離開埃及",d2h:"👆 滑動帶領以色列人離開！",d2s:"以色列人離開埃及！🚶",
-    d3n:"紅海阻路，摩西向神祈禱",d3h:"長按摩西祈禱 3 秒！",d3s:"神聽見祈禱！⛰️",
+    d2n:"摩西帶領以色列人離開埃及",d2h:"👆 滑動 3 次帶領以色列人離開！",d2s:"以色列人離開埃及！🚶",
+    d3n:"紅海阻路，摩西向神祈禱",d3h:"點擊摩西祈禱！",d3s:"神聽見祈禱！⛰️",
     d4n:"摩西向海伸杖，海水分開",d4h:"點擊摩西杖 5 次！",d4s:"海水分開了！🌊",
     d5n:"以色列人在海底走乾地，兩旁海水如牆",d5h:"點擊前行，帶領百姓走過海底！",d5s:"百姓安全通過！🐟",
     d6n:"百姓上岸，摩西最後上岸，海水合回",d6h:"點擊摩西杖，海水合回！",d6s:"神拯救以色列人！🎉",
@@ -287,8 +287,8 @@ var T={
   zhCN:{
     w:"今天我们一起听圣经故事！\n摩西怎样带领以色列人过红海呢？",
     d1n:"法老不让以色列人离开，神降下十个灾殃",d1h:"点击灾殃，赶走它！",d1s:"十个灾殃都赶走了！🏺",
-    d2n:"摩西带领以色列人离开埃及",d2h:"👆 滑动带领以色列人离开！",d2s:"以色列人离开埃及！🚶",
-    d3n:"红海阻路，摩西向神祈祷",d3h:"长按摩西祈祷 3 秒！",d3s:"神听见祈祷！⛰️",
+    d2n:"摩西带领以色列人离开埃及",d2h:"👆 滑动 3 次带领以色列人离开！",d2s:"以色列人离开埃及！🚶",
+    d3n:"红海阻路，摩西向神祈祷",d3h:"点击摩西祈祷！",d3s:"神听见祈祷！⛰️",
     d4n:"摩西向海伸杖，海水分开",d4h:"点击摩西杖 5 次！",d4s:"海水分开了！🌊",
     d5n:"以色列人在海底走干地，两旁海水如墙",d5h:"点击前行，带领百姓走过海底！",d5s:"百姓安全通过！🐟",
     d6n:"百姓上岸，摩西最后上岸，海水合回",d6h:"点击摩西杖，海水合回！",d6s:"神拯救以色列人！🎉",
@@ -299,8 +299,8 @@ var T={
   en:{
     w:"Today we hear a Bible story!\nHow did Moses lead Israel through the Red Sea?",
     d1n:"Pharaoh refused to let Israel go. God sent ten plagues.",d1h:"Tap the plagues to drive them away!",d1s:"All ten plagues are gone! 🏺",
-    d2n:"Moses led Israel out of Egypt",d2h:"👆 Swipe to lead Israel out!",d2s:"Israel left Egypt! 🚶",
-    d3n:"Red Sea blocked the path. Moses prayed to God",d3h:"Hold Moses to pray for 3 seconds!",d3s:"God heard the prayer! ⛰️",
+    d2n:"Moses led Israel out of Egypt",d2h:"👆 Swipe 3 times to lead Israel out!",d2s:"Israel left Egypt! 🚶",
+    d3n:"Red Sea blocked the path. Moses prayed to God",d3h:"Tap Moses to pray!",d3s:"God heard the prayer! ⛰️",
     d4n:"Moses stretched out his staff. The sea divided",d4h:"Tap Moses' staff 5 times!",d4s:"The sea parted! 🌊",
     d5n:"Israel walked on dry ground between the walls of water",d5h:"Tap Forward to lead the people!",d5s:"The people crossed safely! 🐟",
     d6n:"All crossed. Moses struck the sea. It closed.",d6h:"Tap Moses' staff to close the sea!",d6s:"God saved Israel! 🎉",
@@ -312,7 +312,7 @@ var T={
     w:"今日はいっしょに聖書の話を聞こう！\nモーセはどのように紅海を渡ったの？",
     d1n:"ファラオが以色列の出ることを許さなかった。神は十の災いを送られた。",d1h:"災いをタップして追い払おう！",d1s:"十の災いが全部なくなった！🏺",
     d2n:"モーセは以色列をエジプトから導いた",d2h:"👆 スワイプして以色列を導こう！",d2s:"以色列がエジプトを出た！🚶",
-    d3n:"紅海が道ふさいだ。モーセが神に祈った",d3h:"モーセを3秒間ロングプレス！",d3s:"神様が祈りを聞いてくださった！⛰️",
+    d3n:"紅海が道ふさいだ。モーセが神に祈った",d3h:"モーセをタップして祈ろう！",d3s:"神様が祈りを聞いてくださった！⛰️",
     d4n:"モーセが杖を海に差し出した。海が分かれた",d4h:"モーセの杖を5回タップ！",d4s:"海が分かれた！🌊",
     d5n:"以色列が海底の乾いた地面を歩いた",d5h:"前進をタップして民を導こう！",d5s:"民が安全に渡った！🐟",
     d6n:"民が渡り終えた。モーセが杖で海を打った",d6h:"モーセの杖をタップして海を閉じよう！",d6s:"神様が以色列を救った！🎉",
@@ -443,10 +443,12 @@ document.getElementById('wb3').addEventListener('touchmove',function(e){
   document.getElementById('wb3').style.width=pct+'%';
   var ig=document.getElementById('ig');
   ig.style.left=(10+Math.min(60,pct*0.6))+'%';
-  if(dx>80&&!this.dataset.swiped){
-    this.dataset.swiped='1';d2w++;
+  if(dx>80&&!this.dataset['swiped'+d2w]){
+    this.dataset['swiped'+d2w]='1';d2w++;
     play('m2Success');
-    if(d2w>=1){document.getElementById('wb3').style.width='100%';document.getElementById('ig').style.left='70%';setTimeout(function(){completeDay(2,tl('d2s'));},600);}
+    document.getElementById('wb3').style.width=(d2w/3*100)+'%';
+    document.getElementById('ig').style.left=(10+d2w*20)+'%';
+    if(d2w>=3){document.getElementById('wb3').style.width='100%';document.getElementById('ig').style.left='70%';setTimeout(function(){completeDay(2,tl('d2s'));},600);}
   }
 },{passive:true});
 
@@ -455,18 +457,14 @@ var d3pressing=false;
 function initDay3(){d3pp=0;d3pressing=false;document.getElementById('pf').style.width='0%';document.getElementById('mp').classList.remove('praying');}
 function startPrayer(e){
   e.preventDefault();d3pressing=true;document.getElementById('mp').classList.add('praying');
-  var step=1000/30;
-  d3pt=setInterval(function(){
-    if(!d3pressing){clearInterval(d3pt);return;}
-    d3pp+=100/(3000/step);
-    document.getElementById('pf').style.width=Math.min(100,d3pp)+'%';
-    if(d3pp>=100){
-      clearInterval(d3pt);d3pressing=false;
+  document.getElementById('pf').style.width='100%';
+  setTimeout(function(){
+    if(d3pressing){
       document.getElementById('mp').classList.remove('praying');
       document.getElementById('mp').textContent='👳✨';
       completeDay(3,tl('d3s'));
     }
-  },step);
+  },600);
 }
 function endPrayer(){d3pressing=false;clearInterval(d3pt);document.getElementById('mp').classList.remove('praying');document.getElementById('pf').style.width='0%';d3pp=0;}
 document.getElementById('mp').addEventListener('touchstart',startPrayer,{passive:false});
