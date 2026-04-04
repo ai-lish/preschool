@@ -331,7 +331,12 @@ body {
       <!-- Stories will be populated by JS -->
     </div>
     
-    <div class="stories-list" id="old-stories-list" onclick="expandTestament('old')" style="cursor:pointer;">
+    <div class="stories-list" id="old-stories-list" onclick="expandTestament('old')" style="cursor:pointer;display:flex;flex-direction:column;gap:8px;">
+      <div class="story-list-item" style="background:rgba(255,255,255,0.1);border-radius:12px;padding:16px;text-align:center;">
+        <div style="font-size:1.5rem;">📜</div>
+        <div style="font-size:0.9rem;margin-top:4px;">舊約聖經</div>
+        <div style="font-size:0.7rem;opacity:0.7;margin-top:4px;">👈 點擊展開</div>
+      </div>
     </div>
   </div>
   
@@ -352,11 +357,11 @@ body {
       <!-- Stories will be populated by JS -->
     </div>
     
-    <div class="testament-toggle" id="new-toggles" onclick="expandTestament('new')">
-      <div class="toggle-btn" style="cursor:pointer;">
-        <div class="toggle-icon">✨</div>
-        <div class="toggle-name">新約聖經</div>
-        <div class="toggle-hint">👈 點擊展開</div>
+    <div class="testament-toggle" id="new-toggles" onclick="expandTestament('new')" style="cursor:pointer;">
+      <div style="text-align:center;padding:16px;">
+        <div style="font-size:1.8rem;">✨</div>
+        <div style="font-size:0.9rem;margin-top:4px;">新約聖經</div>
+        <div style="font-size:0.7rem;opacity:0.7;margin-top:4px;">👈 點擊展開</div>
       </div>
     </div>
   </div>
