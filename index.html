@@ -136,11 +136,67 @@ body {
 }
 
 .new-testament.collapsed .testament-toggle {
+
+.testament-header {
+  text-align: center;
+  padding: 16px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.testament-header:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+.testament-header .header-icon {
+  font-size: 2rem;
+  margin-bottom: 6px;
+}
+
+.testament-header .header-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.testament-header .header-hint {
+  font-size: 0.75rem;
+  opacity: 0.7;
   display: flex;
 }
 
 /* TESTAMENT TOGGLE (shown when collapsed) */
 .testament-toggle {
+
+.testament-header {
+  text-align: center;
+  padding: 16px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.testament-header:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+.testament-header .header-icon {
+  font-size: 2rem;
+  margin-bottom: 6px;
+}
+
+.testament-header .header-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.testament-header .header-hint {
+  font-size: 0.75rem;
+  opacity: 0.7;
   display: none;
   flex-direction: column;
   gap: 12px;
@@ -536,21 +592,23 @@ function renderStories() {
     </div>
   `).join('');
   
-  // Old Testament Collapsed List
-  oldList.innerHTML = stories.oldTestament.map(story => `
-    <div class="story-list-item" onclick="selectStory('old', '${story.id}')">
-      <div class="list-icon">${story.icon}</div>
-      <div class="list-name">${story.name}</div>
+  // Old Testament Collapsed List - show a single clickable header
+  oldList.innerHTML = `
+    <div class="testament-header" onclick="expandTestament('old')">
+      <div class="header-icon">📜</div>
+      <div class="header-title">舊約聖經</div>
+      <div class="header-hint">👈 點擊展開</div>
     </div>
-  `).join('');
+  `;
   
-  // New Testament Collapsed Toggles
-  newToggles.innerHTML = stories.newTestament.map(story => `
-    <div class="toggle-btn" onclick="selectStory('new', '${story.id}')">
-      <div class="toggle-icon">${story.icon}</div>
-      <div class="toggle-name">${story.name}</div>
+  // New Testament Collapsed Toggles - show a single clickable header
+  newToggles.innerHTML = `
+    <div class="testament-header" onclick="expandTestament('new')">
+      <div class="header-icon">✨</div>
+      <div class="header-title">新約聖經</div>
+      <div class="header-hint">👈 點擊展開</div>
     </div>
-  `).join('');
+  `;
 }
 
 // Select story
