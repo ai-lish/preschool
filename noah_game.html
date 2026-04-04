@@ -394,7 +394,10 @@ let completedDays = new Set();
 let currentAudio = null;
 
 const AUDIO_BASE = 'https://raw.githubusercontent.com/ai-lish/preschool/main/audio/noah/';
+const SOUND_BASE = 'https://raw.githubusercontent.com/ai-lish/preschool/main/audio/noah/sounds/';
 const LANG_MAP = { zhHK: 'zhHK', zhCN: 'zhCN', en: 'en', ja: 'ja' };
+const ANIMAL_SOUNDS = ['elephant','lion','wolf','sheep','cow','horse','rabbit','deer'];
+let currentSound = null;
 
 function playAudio(key) {
   const langSuffix = LANG_MAP[lang] || 'zhHK';
@@ -403,6 +406,17 @@ function playAudio(key) {
   currentAudio = new Audio(audioUrl);
   currentAudio.play().catch(e => console.log('Audio play failed:', e));
   console.log('Play:', key, langSuffix);
+}
+
+function playAnimalSound(speciesIdx) {
+  if (currentSound) { currentSound.pause(); currentSound = null; }
+  const name = ANIMAL_SOUNDS[speciesIdx];
+  if (!name) return;
+  const url = SOUND_BASE + name + '.mp3';
+  currentSound = new Audio(url);
+  currentSound.volume = 0.7;
+  currentSound.play().catch(e => console.log('Sound failed:', e));
+  console.log('Sound:', name);
 }
 
 function t(key) { return (langs[lang] && langs[lang][key]) ? langs[lang][key] : langs.zhHK[key]; }
@@ -655,6 +669,7 @@ function boardPair(idx) {
     ark.appendChild(a);
   }
 
+  playAnimalSound(speciesIdx);
   showFeedback(langs[lang].animalsLabel[speciesIdx] + ' x2', 'success');
 
   if (n2Boarded >= ANIMAL_TOTAL) {
