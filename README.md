@@ -174,6 +174,71 @@ preschool/
 
 ---
 
+## ✅ 新增功能與自動化
+
+- 家長提示「知心一點點」：每個 Day 有 1-2 句家長提示（來源注明），遊戲右下角可點選顯示/關閉。
+- 自動生成框架：每日凌晨（HK 04:05）Cron 會生成 prototype（BRIEF + HTML + 圖片 + 文本），若配額足夠會產生 TTS 音頻，否則排入下一日。
+- 小詩研究：每日 03:00 自動執行，研究幼兒發展理論並回報可加入的教學元素。
+
+## 🔉 Voice IDs
+
+| 語言 | Voice ID |
+|------|----------|
+| 粵語 | `Cantonese_GentleLady` |
+| 國語 | `female-tianmei` |
+| 英文 | `English_Trustworthy_Man` |
+| 日文 | `Japanese_KindLady` |
+
+## 🔢 音頻命名規則
+
+- 創造：`cr_d<day>_<key>_<lang>.mp3` 或 `cr_d<day>_<key>_<zhHK|zhCN|en|ja>.mp3`
+- 挪亞：`n<day><Key>_<lang>.mp3`
+- 摩西：`m<day>...`
+- 耶穌：`j<day>...`
+
+範例：`j1Narr_zhHK.mp3`, `n2Success_en.mp3`
+
+---
+
+## 📂 圖片資源結構
+
+```
+img/
+├── creation/
+├── noah/
+├── moses/
+└── parent/    # 家長提示用的 infographic/icons
+```
+
+優先生成順序：icon → 場景首圖 → 主要互動圖 → 黑白/虛線變體
+
+---
+
+## 🔜 待建故事（優先順序）
+
+1. 耶穌降生 (BRIEF 已完成)
+2. 五餅二魚
+3. 大衛與歌利亞
+4. 耶穌復活
+5. 浪子回頭
+
+---
+
+## 🛠️ 工具與生成腳本
+
+- `gen_parent_tips.py`：生成家長提示卡與圖片
+- `gen_sounds.py`：音頻生成隊列管理腳本（呼叫 MiniMax TTS / 本地處理）
+
+---
+
+## 🔧 修復流程
+
+1. **T仔測試** → 發現問題 → 記錄失敗項目
+2. **師弟修復** → 代碼修改
+3. **T仔再測** → 確認修復
+
+---
+
 ## 👥 團隊
 
 - **發起人：** Zach Li（李老師）
