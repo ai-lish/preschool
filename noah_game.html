@@ -180,7 +180,7 @@ body {
 <div id="navbar">
   <button class="nav-btn" onclick="location.href='index.html'">🏠</button>
   <div id="lang-wrap">
-    <button class="nav-btn" id="lang-switch" onclick="toggleLang()">🌐 <span id="lang-label">粵</span></button>
+    <button class="nav-btn" id="lang-switch" onclick="toggleLang()">🌐 <span id="lang-label">EN</span></button>
     <div id="lang-menu">
       <button class="lang-btn" onclick="setLang('zhHK')">粵語</button>
       <button class="lang-btn" onclick="setLang('zhCN')">普通话</button>
@@ -197,50 +197,50 @@ body {
 <!-- ===== SCREEN 0: WELCOME ===== -->
 <div class="screen active" id="screen-welcome">
   <div class="welcome-ark">🚢</div>
-  <div class="welcome-title">挪亞方舟</div>
+  <div class="welcome-title" id="welcome-title">Noah's Ark</div>
   <div class="welcome-narration" id="welcome-text">
-    今日我哋一齊聽挪亞方舟嘅故事！<br>神叫挪亞建造方舟，帶埋動物避開大洪水！
+    Today we hear the story of Noah's Ark!<br>God told Noah to build an ark to save the animals from the great flood!
   </div>
   <div class="welcome-choices" style="margin-bottom:20px">
-    <button class="welcome-btn btn-start" onclick="handleStart()">🚢 開始故事</button>
-    <button class="welcome-btn btn-skip" onclick="handleSkip()">⏩ 跳過測試</button>
+    <button class="welcome-btn btn-start" id="btn-start" onclick="handleStart()">🚢 Start Story</button>
+    <button class="welcome-btn btn-skip" id="btn-skip" onclick="handleSkip()">⏩ Skip Test</button>
   </div>
 </div>
 
 <!-- ===== SCREEN 1: DAY 1 - BUILD ARK ===== -->
 <div class="screen day-screen" id="screen-d1">
-  <div class="day-title">🔨 第一日：建造方舟</div>
-  <div class="day-verse">創世記 6:14-16</div>
+  <div class="day-title" id="d1-title">🔨 Day 1: Build the Ark</div>
+  <div class="day-verse" id="d1-verse">Genesis 6:14-16</div>
   <div class="day-narration" id="d1-narration">挪亞照神的吩咐，用歌斐木建造方舟</div>
   <div class="build-scene" id="build-scene">
-    <div class="ark-progress" id="ark-progress">🔨 建造進度：0%</div>
+    <div class="ark-progress" id="ark-progress">🔨 Build: 0%</div>
     <div class="ark-build" id="ark-build">🚢</div>
     <div class="build-nails" id="build-nails"></div>
   </div>
-  <button class="next-btn" id="d1-next" onclick="goToDay(2)">第二日 ▶</button>
-  <button class="skip-btn" id="d1-skip" onclick="completeDay(1)">⏩ 跳過 ▶</button>
+  <button class="next-btn" id="d1-next" onclick="goToDay(2)">Day 2 ▶</button>
+  <button class="skip-btn" id="d1-skip" onclick="completeDay(1)">⏩ Skip ▶</button>
 </div>
 
 <!-- ===== SCREEN 2: DAY 2 - ANIMALS ===== -->
 <div class="screen day-screen" id="screen-d2">
-  <div class="day-title">🐾 第二日：動物登船</div>
-  <div class="day-verse">創世記 7:2-3</div>
+  <div class="day-title" id="d2-title">🐾 Day 2: Animals Board</div>
+  <div class="day-verse" id="d2-verse">Genesis 7:2-3</div>
   <div class="day-narration" id="d2-narration">挪亞帶各樣牲畜、空中的雀鳥，一對對走入方舟</div>
   <div class="animal-scene" id="animal-scene">
     <div class="animal-pond" id="animal-pond"></div>
     <div class="ark-ship" id="ark-ship">
-      <div class="ark-ship-label">🚢</div>
+      <div class="ark-ship-label" id="ark-label">🚢</div>
       <div class="ark-animals" id="ark-animals"></div>
     </div>
   </div>
-  <button class="next-btn" id="d2-next" onclick="goToDay(3)">第三日 ▶</button>
-  <button class="skip-btn" id="d2-skip" onclick="completeDay(2)">⏩ 跳過 ▶</button>
+  <button class="next-btn" id="d2-next" onclick="goToDay(3)">Day 3 ▶</button>
+  <button class="skip-btn" id="d2-skip" onclick="completeDay(2)">⏩ Skip ▶</button>
 </div>
 
 <!-- ===== SCREEN 3: DAY 3 - RAIN ===== -->
 <div class="screen day-screen" id="screen-d3">
-  <div class="day-title">🌧️ 第三日：大雨降臨</div>
-  <div class="day-verse">創世記 7:4</div>
+  <div class="day-title" id="d3-title">🌧️ Day 3: Rain Falls</div>
+  <div class="day-verse" id="d3-verse">Genesis 7:4</div>
   <div class="day-narration" id="d3-narration">四十晝夜降大雨在地上，水勢浩大</div>
   <div class="rain-scene" id="rain-scene">
     <div class="cloud-row" id="cloud-row">
@@ -250,30 +250,30 @@ body {
       <div class="cloud-btn" id="cloud-3" onclick="n3ClickCloud(3)">☁️</div>
     </div>
     <div class="rain-drops" id="rain-drops"></div>
-    <div class="rain-hint" id="rain-hint">👆 點擊所有雲朵！</div>
+    <div class="rain-hint" id="rain-hint">👆 Tap all clouds!</div>
   </div>
-  <button class="next-btn" id="d3-next" onclick="goToDay(4)">第四日 ▶</button>
-  <button class="skip-btn" id="d3-skip" onclick="completeDay(3)">⏩ 跳過 ▶</button>
+  <button class="next-btn" id="d3-next" onclick="goToDay(4)">Day 4 ▶</button>
+  <button class="skip-btn" id="d3-skip" onclick="completeDay(3)">⏩ Skip ▶</button>
 </div>
 
 <!-- ===== SCREEN 4: DAY 4 - FLOOD ===== -->
 <div class="screen day-screen" id="screen-d4">
-  <div class="day-title">🌊 第四日：洪水氾濫</div>
-  <div class="day-verse">創世記 7:17-20</div>
+  <div class="day-title" id="d4-title">🌊 Day 4: Flood Rises</div>
+  <div class="day-verse" id="d4-verse">Genesis 7:17-20</div>
   <div class="day-narration" id="d4-narration">水勢在地上極大，方舟在水上漂行</div>
   <div class="flood-scene" id="flood-scene">
     <div class="water-level" id="water-level"></div>
     <div class="ark-float" id="ark-float">🚢</div>
-    <button class="float-btn" id="float-btn" onclick="n4Float()">🌊 讓方舟漂浮！</button>
+    <button class="float-btn" id="float-btn" onclick="n4Float()">🌊 Float the Ark!</button>
   </div>
-  <button class="next-btn" id="d4-next" onclick="goToDay(5)">第五日 ▶</button>
-  <button class="skip-btn" id="d4-skip" onclick="completeDay(4)">⏩ 跳過 ▶</button>
+  <button class="next-btn" id="d4-next" onclick="goToDay(5)">Day 5 ▶</button>
+  <button class="skip-btn" id="d4-skip" onclick="completeDay(4)">⏩ Skip ▶</button>
 </div>
 
 <!-- ===== SCREEN 5: DAY 5 - DOVE ===== -->
 <div class="screen day-screen" id="screen-d5">
-  <div class="day-title">🕊️ 第五日：鴿子探路</div>
-  <div class="day-verse">創世記 8:6-12</div>
+  <div class="day-title" id="d5-title">🕊️ Day 5: Dove Sent</div>
+  <div class="day-verse" id="d5-verse">Genesis 8:6-12</div>
   <div class="day-narration" id="d5-narration">挪亞放出一隻鴿子，試探水退了沒有</div>
   <div class="dove-scene" id="dove-scene">
     <div class="ocean-sky"></div>
@@ -281,42 +281,42 @@ body {
     <div class="ark-silhouette">🚢</div>
     <div class="olive-branch" id="olive-branch">🌿</div>
     <div class="dove-btn" id="dove-btn" onclick="n5ReleaseDove()">🕊️</div>
-    <div class="dove-hint" id="dove-hint">👆 放出鴿子！</div>
+    <div class="dove-hint" id="dove-hint">👆 Release the dove!</div>
   </div>
-  <button class="next-btn" id="d5-next" onclick="goToDay(6)">第六日 ▶</button>
-  <button class="skip-btn" id="d5-skip" onclick="completeDay(5)">⏩ 跳過 ▶</button>
+  <button class="next-btn" id="d5-next" onclick="goToDay(6)">Day 6 ▶</button>
+  <button class="skip-btn" id="d5-skip" onclick="completeDay(5)">⏩ Skip ▶</button>
 </div>
 
 <!-- ===== SCREEN 6: DAY 6 - RAINBOW ===== -->
 <div class="screen day-screen" id="screen-d6">
-  <div class="day-title">🌈 第六日：彩虹之約</div>
-  <div class="day-verse">創世記 9:12-17</div>
+  <div class="day-title" id="d6-title">🌈 Day 6: Rainbow Covenant</div>
+  <div class="day-verse" id="d6-verse">Genesis 9:12-17</div>
   <div class="day-narration" id="d6-narration">神以彩虹為記，與挪亞立約，不再毀滅大地</div>
   <div class="rainbow-scene" id="rainbow-scene">
     <div class="rainbow-arc" id="rainbow-arc" onclick="n6ClickRainbow()">🌈</div>
-    <div class="rainbow-hint" id="rainbow-hint">👆 點擊彩虹完成！</div>
+    <div class="rainbow-hint" id="rainbow-hint">👆 Tap rainbow to complete!</div>
   </div>
-  <button class="next-btn" id="d6-next" onclick="showSummary()">完成！🎉</button>
-  <button class="skip-btn" id="d6-skip" onclick="completeDay(6)">⏩ 跳過 ▶</button>
+  <button class="next-btn" id="d6-next" onclick="showSummary()">Finish! 🎉</button>
+  <button class="skip-btn" id="d6-skip" onclick="completeDay(6)">⏩ Skip ▶</button>
 </div>
 
 <!-- ===== SUMMARY ===== -->
 <div class="screen" id="screen-summary">
   <div class="summary-rainbow">🌈</div>
-  <div class="summary-title">🎉 挪亞方舟故事完成！</div>
-  <div class="summary-verse" id="summary-verse">創世記 9:16<br>「虹必現在雲彩中，我便記念我與你們...所立的約」</div>
+  <div class="summary-title" id="summary-title">🎉 Noah's Ark Complete!</div>
+  <div class="summary-verse" id="summary-verse">Genesis 9:16<br>"The rainbow shall be in the cloud, and I will look on it to remember...the everlasting covenant"</div>
   <div class="summary-text" id="summary-text">
     挪亞聽從神的話，建造方舟！<br>第一日：建造方舟 🔨🚢<br>第二日：動物登船 🐾<br>第三日：大雨降臨 🌧️<br>第四日：洪水氾濫 🌊<br>第五日：鴿子探路 🕊️<br>第六日：彩虹之約 🌈<br>神以彩虹為記，與地上一切活物立約！
   </div>
-  <button class="welcome-btn btn-skip" onclick="showScreen('screen-bye')" style="margin-top:16px;background:linear-gradient(135deg,#a29bfe,#6c5ce7)">👋 再見！</button>
+  <button class="welcome-btn btn-skip" onclick="showScreen('screen-bye')" style="margin-top:16px;background:linear-gradient(135deg,#a29bfe,#6c5ce7)">👋 Bye!</button>
 </div>
 
 <!-- ===== BYE ===== -->
 <div class="screen" id="screen-bye">
   <div class="summary-rainbow">🌈</div>
-  <div class="bye-text" id="bye-text">多謝你一齊聽挪亞方舟的故事！</div>
-  <div class="bye-sub">記住神的彩虹之約！</div>
-  <button class="welcome-btn btn-start" onclick="location.href='index.html'" style="margin-top:16px">🏠 返去主頁</button>
+  <div class="bye-text" id="bye-text">Thanks for hearing Noah's Ark story!</div>
+  <div class="bye-sub" id="bye-sub">Remember God's rainbow promise!</div>
+  <button class="welcome-btn btn-start" onclick="location.href='index.html'" id="btn-home" style="margin-top:16px">🏠 Back to Home</button>
 </div>
 
 
@@ -346,7 +346,43 @@ const langs = {
     summary: "挪亞聽從神的話，建造方舟！<br>第一日：建造方舟 🔨🚢<br>第二日：動物登船 🐾<br>第三日：大雨降臨 🌧️<br>第四日：洪水氾濫 🌊<br>第五日：鴿子探路 🕊️<br>第六日：彩虹之約 🌈<br>神以彩虹為記，與地上一切活物立約！",
     bye: "多謝你一齊聽挪亞方舟的故事！記住神的彩虹之約！",
     animalsLabel: ["大象","獅子","狼","羊","牛","馬","兔","鹿"],
-    verse: "創世記 9:16<br>「虹必現在雲彩中，我便記念我與你們...所立的約」",
+    verse: "創世記 9:16<br>「虹必現在雲彩中，我便記念我與你們...所立的約」",,
+    welcomeTitle: "挪亞方舟",
+    summaryTitle: "🎉 挪亞方舟故事完成！",
+    d1Title: "🔨 第一日：建造方舟",
+    d2Title: "🐾 第二日：動物登船",
+    d3Title: "🌧️ 第三日：大雨降臨",
+    d4Title: "🌊 第四日：洪水氾濫",
+    d5Title: "🕊️ 第五日：鴿子探路",
+    d6Title: "🌈 第六日：彩虹之約",
+    d1Verse: "創世記 6:14-16",
+    d2Verse: "創世記 7:2-3",
+    d3Verse: "創世記 7:4",
+    d4Verse: "創世記 7:17-20",
+    d5Verse: "創世記 8:6-12",
+    d6Verse: "創世記 9:12-17",
+    btnStart: "🚢 開始故事",
+    btnSkip: "⏩ 跳過測試",
+    d1Next: "第二日 ▶",
+    d2Next: "第三日 ▶",
+    d3Next: "第四日 ▶",
+    d4Next: "第五日 ▶",
+    d5Next: "第六日 ▶",
+    d6Next: "完成！🎉",
+    d1Skip: "⏩ 跳過 ▶",
+    d2Skip: "⏩ 跳過 ▶",
+    d3Skip: "⏩ 跳過 ▶",
+    d4Skip: "⏩ 跳過 ▶",
+    d5Skip: "⏩ 跳過 ▶",
+    d6Skip: "⏩ 跳過 ▶",
+    arkLabel: "🚢",
+    floatBtn: "🌊 讓方舟漂浮！",
+    rainHint: "👆 點擊所有雲朵！",
+    doveHint: "👆 放出鴿子！",
+    rainbowHint: "👆 點擊彩虹完成！",
+    btnBye: "👋 再見！",
+    btnHome: "🏠 返去主頁",
+    byeSub: "記住神的彩虹之約！"
   },
   zhCN: {
     welcome: "今天我们一起听挪亚方舟的故事！\n神叫挪亚建造方舟，带动物避开大洪水！",
@@ -359,7 +395,43 @@ const langs = {
     summary: "挪亚听从神的话，建造方舟！<br>第一日：建造方舟 🔨🚢<br>第二日：动物登船 🐾<br>第三日：大雨降临 🌧️<br>第四日：洪水泛滥 🌊<br>第五日：鸽子探路 🕊️<br>第六日：彩虹之约 🌈<br>神以彩虹为记，与地上一切活物立约！",
     bye: "多谢你一齐听挪亚方舟的故事！记住神的彩虹之约！",
     animalsLabel: ["大象","狮子","狼","羊","牛","马","兔","鹿"],
-    verse: "创世记 9:16<br>「虹必现在云彩中，我便记念我与你们...所立的约」",
+    verse: "创世记 9:16<br>「虹必现在云彩中，我便记念我与你们...所立的约」",,
+    welcomeTitle: "挪亚方舟",
+    summaryTitle: "🎉 挪亚方舟故事完成！",
+    d1Title: "🔨 第一日：建造方舟",
+    d2Title: "🐾 第二日：动物登船",
+    d3Title: "🌧️ 第三日：大雨降临",
+    d4Title: "🌊 第四日：洪水泛滥",
+    d5Title: "🕊️ 第五日：鸽子探路",
+    d6Title: "🌈 第六日：彩虹之约",
+    d1Verse: "創世記 6:14-16",
+    d2Verse: "創世記 7:2-3",
+    d3Verse: "創世記 7:4",
+    d4Verse: "創世記 7:17-20",
+    d5Verse: "創世記 8:6-12",
+    d6Verse: "創世記 9:12-17",
+    btnStart: "🚢 开始故事",
+    btnSkip: "⏩ 跳过测试",
+    d1Next: "第二日 ▶",
+    d2Next: "第三日 ▶",
+    d3Next: "第四日 ▶",
+    d4Next: "第五日 ▶",
+    d5Next: "第六日 ▶",
+    d6Next: "完成！🎉",
+    d1Skip: "⏩ 跳过 ▶",
+    d2Skip: "⏩ 跳过 ▶",
+    d3Skip: "⏩ 跳过 ▶",
+    d4Skip: "⏩ 跳过 ▶",
+    d5Skip: "⏩ 跳过 ▶",
+    d6Skip: "⏩ 跳过 ▶",
+    arkLabel: "🚢",
+    floatBtn: "🌊 让方舟漂浮！",
+    rainHint: "👆 点击所有云朵！",
+    doveHint: "👆 放出鸽子！",
+    rainbowHint: "👆 点击彩虹完成！",
+    btnBye: "👋 再见！",
+    btnHome: "🏠 返回主页",
+    byeSub: "记住神的彩虹之约！"
   },
   en: {
     welcome: "Today we hear the story of Noah's Ark!\nGod told Noah to build an ark to save the animals from the great flood!",
@@ -372,7 +444,43 @@ const langs = {
     summary: "Noah obeyed God and built the ark!<br>Day 1: Build the Ark 🔨🚢<br>Day 2: Animals Board 🐾<br>Day 3: Rain Falls 🌧️<br>Day 4: Flood Rises 🌊<br>Day 5: Dove Sent 🕊️<br>Day 6: Rainbow Covenant 🌈<br>God set a rainbow as a sign of His covenant with all living creatures!",
     bye: "Thanks for hearing Noah's Ark story! Remember God's rainbow promise!",
     animalsLabel: ["Elephant","Lion","Wolf","Sheep","Cow","Horse","Rabbit","Deer"],
-    verse: "Genesis 9:16<br>\"The rainbow shall be in the cloud, and I will look on it to remember...the everlasting covenant\"",
+    verse: "Genesis 9:16<br>\"The rainbow shall be in the cloud, and I will look on it to remember...the everlasting covenant\"",,
+    welcomeTitle: "Noah's Ark",
+    summaryTitle: "🎉 Noah's Ark Complete!",
+    d1Title: "🔨 Day 1: Build the Ark",
+    d2Title: "🐾 Day 2: Animals Board",
+    d3Title: "🌧️ Day 3: Rain Falls",
+    d4Title: "🌊 Day 4: Flood Rises",
+    d5Title: "🕊️ Day 5: Dove Sent",
+    d6Title: "🌈 Day 6: Rainbow Covenant",
+    d1Verse: "Genesis 6:14-16",
+    d2Verse: "Genesis 7:2-3",
+    d3Verse: "Genesis 7:4",
+    d4Verse: "Genesis 7:17-20",
+    d5Verse: "Genesis 8:6-12",
+    d6Verse: "Genesis 9:12-17",
+    btnStart: "🚢 Start Story",
+    btnSkip: "⏩ Skip Test",
+    d1Next: "Day 2 ▶",
+    d2Next: "Day 3 ▶",
+    d3Next: "Day 4 ▶",
+    d4Next: "Day 5 ▶",
+    d5Next: "Day 6 ▶",
+    d6Next: "Finish! 🎉",
+    d1Skip: "⏩ Skip ▶",
+    d2Skip: "⏩ Skip ▶",
+    d3Skip: "⏩ Skip ▶",
+    d4Skip: "⏩ Skip ▶",
+    d5Skip: "⏩ Skip ▶",
+    d6Skip: "⏩ Skip ▶",
+    arkLabel: "🚢",
+    floatBtn: "🌊 Float the Ark!",
+    rainHint: "👆 Tap all clouds!",
+    doveHint: "👆 Release the dove!",
+    rainbowHint: "👆 Tap rainbow to complete!",
+    btnBye: "👋 Bye!",
+    btnHome: "🏠 Back to Home",
+    byeSub: "Remember God's rainbow promise!"
   },
   ja: {
     welcome: "今日はノアの箱舟の物語を聞こう！\n神様はノアに箱舟を造らせ、大洪水から動物を救った！",
@@ -385,11 +493,47 @@ const langs = {
     summary: "ノアは神に従い箱舟を造的！<br>一日目：箱舟を造的 🔨🚢<br>二日目：動物が乗船 🐾<br>三日目：大雨が降る 🌧️<br>四日目：洪水が氾濫 🌊<br>五日目：鴻子が探る 🕊️<br>六日目：虹の契約 🌈<br>神は虹を置いて、すべての生き物と契約を結んだ！",
     bye: "ノアの箱舟の物語を聴いてくれてありがとう！神様の虹の契約を忘れないでね！",
     animalsLabel: ["ぞう","らいおん","おおかみ","ひつじ","うし","うま","うさぎ","じか"],
-    verse: "創世記 9:16<br>「虹が雲の中にあるとき，我便それを覚え...永遠の契約を」",
+    verse: "創世記 9:16<br>「虹が雲の中にあるとき，我便それを覚え...永遠の契約を」",,
+    welcomeTitle: "ノアの箱舟",
+    summaryTitle: "🎉 ノアの箱舟完了！",
+    d1Title: "🔨 一日目：箱舟を造的",
+    d2Title: "🐾 二日目：動物が乗船",
+    d3Title: "🌧️ 三日目：大雨が降る",
+    d4Title: "🌊 四日目：洪水が氾濫",
+    d5Title: "🕊️ 五日目：鴻子が探る",
+    d6Title: "🌈 六日目：虹の契約",
+    d1Verse: "創世記 6:14-16",
+    d2Verse: "創世記 7:2-3",
+    d3Verse: "創世記 7:4",
+    d4Verse: "創世記 7:17-20",
+    d5Verse: "創世記 8:6-12",
+    d6Verse: "創世記 9:12-17",
+    btnStart: "🚢 物語を始める",
+    btnSkip: "⏩ スキップ",
+    d1Next: "二日目 ▶",
+    d2Next: "三日目 ▶",
+    d3Next: "四日目 ▶",
+    d4Next: "五日目 ▶",
+    d5Next: "六日目 ▶",
+    d6Next: "完成！🎉",
+    d1Skip: "⏩ スキップ ▶",
+    d2Skip: "⏩ スキップ ▶",
+    d3Skip: "⏩ スキップ ▶",
+    d4Skip: "⏩ スキップ ▶",
+    d5Skip: "⏩ スキップ ▶",
+    d6Skip: "⏩ スキップ ▶",
+    arkLabel: "🚢",
+    floatBtn: "🌊 箱舟を浮かべよう！",
+    rainHint: "👆 すべての雲をクリック！",
+    doveHint: "👆 鴻子を放つ！",
+    rainbowHint: "👆 虹をクリックして完成！",
+    btnBye: "👋 さようなら！",
+    btnHome: "🏠 主页に戻る",
+    byeSub: "神様の虹の契約を忘れないでね！"
   },
 };
 
-let lang = 'zhHK';
+let lang = 'en'; applyLang(); // init English UI
 let currentDay = 0;
 let completedDays = new Set();
 let currentAudio = null;
@@ -432,16 +576,32 @@ function setLang(l) {
   applyLang();
 }
 function applyLang() {
-  document.getElementById('welcome-text').innerHTML = t('welcome').replace(/\\n/g, '<br>');
-  document.getElementById('d1-narration').textContent = t('d1Narr');
-  document.getElementById('d2-narration').textContent = t('d2Narr');
-  document.getElementById('d3-narration').textContent = t('d3Narr');
-  document.getElementById('d4-narration').textContent = t('d4Narr');
-  document.getElementById('d5-narration').textContent = t('d5Narr');
-  document.getElementById('d6-narration').textContent = t('d6Narr');
-  document.getElementById('summary-text').innerHTML = t('summary');
-  document.getElementById('summary-verse').innerHTML = t('verse');
-  document.getElementById('bye-text').textContent = t('bye');
+  const el = id => document.getElementById(id);
+  const set = (id, val) => { const e = el(id); if (e) e.textContent = val; };
+  const html = (id, val) => { const e = el(id); if (e) e.innerHTML = val; };
+  set('welcome-title', t('welcomeTitle'));
+  html('welcome-text', t('welcome').replace(/\\n/g, '<br>'));
+  for (let i = 1; i <= 6; i++) {
+    set('d'+i+'-title', t('d'+i+'Title'));
+    set('d'+i+'-verse', t('d'+i+'Verse'));
+    set('d'+i+'-narration', t('d'+i+'Narr'));
+    set('d'+i+'-next', t('d'+i+'Next'));
+    set('d'+i+'-skip', t('d'+i+'Skip'));
+  }
+  set('btn-start', t('btnStart'));
+  set('btn-skip', t('btnSkip'));
+  set('ark-label', t('arkLabel'));
+  set('float-btn', t('floatBtn'));
+  set('rain-hint', t('rainHint'));
+  set('dove-hint', t('doveHint'));
+  set('rainbow-hint', t('rainbowHint'));
+  html('summary-text', t('summary'));
+  html('summary-verse', t('verse'));
+  set('summary-title', t('summaryTitle'));
+  set('bye-text', t('bye'));
+  set('bye-sub', t('byeSub'));
+  set('btn-bye', t('btnBye'));
+  set('btn-home', t('btnHome'));
   updateProgress();
 }
 function replayNarration() { playAudio('n' + currentDay + 'Narr'); }
@@ -449,7 +609,7 @@ function replayNarration() { playAudio('n' + currentDay + 'Narr'); }
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  if (id === 'screen-bye') document.getElementById('bye-text').textContent = t('bye');
+  if (id === 'screen-bye') { document.getElementById('bye-text').textContent = t('bye'); if (document.getElementById('bye-sub')) document.getElementById('bye-sub').textContent = t('byeSub'); if (document.getElementById('btn-home')) document.getElementById('btn-home').textContent = t('btnHome'); }
 }
 function handleStart() {
   showScreen('screen-d1'); currentDay = 1; updateProgress();
@@ -503,7 +663,7 @@ const nailPositions = [
 ];
 function initDay1() {
   n1Nails = 0;
-  document.getElementById('ark-progress').textContent = '🔨 建造進度：0/' + NAIL_TOTAL;
+  document.getElementById('ark-progress').textContent = '🔨 Build: 0/' + NAIL_TOTAL;
   document.getElementById('ark-build').classList.remove('built');
   const nailsEl = document.getElementById('build-nails');
   nailsEl.innerHTML = '';
@@ -524,7 +684,7 @@ function n1ClickNail(idx) {
   if (!nail || nail.classList.contains('placed')) return;
   nail.classList.add('placed');
   n1Nails++;
-  document.getElementById('ark-progress').textContent = '🔨 建造進度：' + n1Nails + '/' + NAIL_TOTAL;
+  document.getElementById('ark-progress').textContent = '🔨 Build: ' + n1Nails + '/' + NAIL_TOTAL;
   if (n1Nails >= NAIL_TOTAL) {
     document.getElementById('ark-build').classList.add('built');
     completedDays.add(1);
@@ -723,7 +883,7 @@ function n3ClickCloud(idx) {
     completedDays.add(3);
     showFeedback(t('d3Success'), 'success');
     document.getElementById('d3-next').style.display = 'block';
-    document.getElementById('rain-hint').textContent = '✅ 完成！';
+    document.getElementById('rain-hint').textContent = '✅ Done!';
     playAudio('n3Success');
     updateProgress();
   }
@@ -759,7 +919,7 @@ function n5ReleaseDove() {
     completedDays.add(5);
     showFeedback(t('d5Success'), 'success');
     document.getElementById('d5-next').style.display = 'block';
-    document.getElementById('dove-hint').textContent = '✅ 完成！';
+    document.getElementById('dove-hint').textContent = '✅ Done!';
     playAudio('n5Success');
     updateProgress();
   }, 2500);
@@ -776,14 +936,14 @@ function n6ClickRainbow() {
   completedDays.add(6);
   showFeedback(t('d6Success'), 'success');
   document.getElementById('d6-next').style.display = 'block';
-  document.getElementById('rainbow-hint').textContent = '✅ 完成！';
+  document.getElementById('rainbow-hint').textContent = '✅ Done!';
   playAudio('n6Success');
   updateProgress();
 }
 
 function completeDay(day) {
   completedDays.add(day);
-  showFeedback(t('d' + day + 'Success') || '完成！', 'success');
+  showFeedback(t('d' + day + 'Success') || 'Done!', 'success');
   document.getElementById('d' + day + '-next').style.display = 'block';
   document.getElementById('d' + day + '-next').onclick = day === 6 ? showSummary : () => goToDay(day + 1);
   playAudio('n' + day + 'Success');
