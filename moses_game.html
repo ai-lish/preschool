@@ -335,7 +335,7 @@ var T={
     ld:["災いはいくつある？","以色列人は何人？","杖の線を書こう！","数字を小さい順に並べよう！","渡ったのは何人？","民と軍隊を分類しよう！"]
   }
 };
-var PLAGUES=['🐸青蛙','🦟蒼蠅','🦗蝗蟲','⚡雷電','🌾蝗災','🐛蟲災','☁️瘧蚊','🔥瘟疫','🐀鼠疫','💀瘋狗'];
+var PLAGUES=['🐸青蛙','🦟蒼蠅','🦗蝗蟲','⚡雷電','🌾蝗災','🐛蟲災','☁️瘧蚊','🔥瘟疫','🐀鼠疫','👶長子'];
 
 function tl(k){return (T[lang]&&T[lang][k])?T[lang][k]:T.zhHK[k];}
 function toggleLang(){document.getElementById('lang-menu').classList.toggle('show');}
@@ -548,7 +548,7 @@ function closeLearning(){
 function showLearnCounting(la){
   la.innerHTML='<div class="cpg" id="lpg"></div><div class="cdis" id="ldis">0</div><div class="cins">點擊瘟疫，數吓有幾多個！</div>';
   var selected=0;
-  var plagues=['🐸','🦟','🦗','⚡','🌾','🐛','☁️','🔥','🐀','💀'];
+  var plagues=['🐸','🦟','🦗','⚡','🌾','🐛','☁️','🔥','🐀','👶'];
   plagues.forEach(function(p){
     var el=document.createElement('div');el.className='cpg2';el.textContent=p;
     el.onclick=function(){
