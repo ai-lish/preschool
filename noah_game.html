@@ -51,6 +51,12 @@ body {
 @keyframes arkBob { 0%,100%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(-10px) rotate(2deg)} }
 .welcome-narration { background: rgba(255,255,255,0.12); color: white; border-radius: var(--radius); padding: 14px 18px; max-width: 90vw; font-size: 1rem; line-height: 1.4; text-align: center; backdrop-filter: blur(6px); }
 .welcome-choices { display: flex; gap: 16px; margin-top: 10px; flex-wrap: wrap; justify-content: center; }
+.lang-pick { background: rgba(255,255,255,0.15); border-radius: var(--radius); padding: 12px 18px; margin-bottom: 14px; text-align: center; backdrop-filter: blur(6px); }
+.lang-pick-label { color: white; font-size: 1rem; margin-bottom: 10px; }
+.lang-pick-btns { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.lang-pick-btn { background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.3); color: white; border-radius: 12px; padding: 8px 14px; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+.lang-pick-btn:hover { background: rgba(255,255,255,0.4); }
+.lang-pick-btn.active { background: var(--primary); border-color: var(--primary); font-weight: 700; }
 .welcome-btn { border: none; border-radius: 20px; padding: 16px 40px; font-size: 1.2rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: transform 0.2s; box-shadow: var(--shadow); min-height: 50px; min-width: 120px; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 .welcome-btn:active { transform: scale(0.95); opacity: 0.9; }
 .btn-start { background: linear-gradient(135deg, #00C851, #007E33); color: white; }
@@ -200,6 +206,15 @@ body {
   <div class="welcome-title" id="welcome-title">Noah's Ark</div>
   <div class="welcome-narration" id="welcome-text">
     Today we hear the story of Noah's Ark!<br>God told Noah to build an ark to save the animals from the great flood!
+  </div>
+  <div class="lang-pick" id="lang-pick">
+    <div class="lang-pick-label">🌐 Choose Language</div>
+    <div class="lang-pick-btns">
+      <button class="lang-pick-btn" onclick="pickLang('zhHK')">🇭🇰 粵語</button>
+      <button class="lang-pick-btn" onclick="pickLang('zhCN')">🇨🇳 普通话</button>
+      <button class="lang-pick-btn active" onclick="pickLang('en')">🇺🇸 English</button>
+      <button class="lang-pick-btn" onclick="pickLang('ja')">🇯🇵 日本語</button>
+    </div>
   </div>
   <div class="welcome-choices" style="margin-bottom:20px">
     <button class="welcome-btn btn-start" id="btn-start" onclick="handleStart()">🚢 Start Story</button>
@@ -533,7 +548,7 @@ const langs = {
   },
 };
 
-let lang = 'en'; applyLang(); // init English UI
+let lang = 'en'; window.addEventListener('DOMContentLoaded', () => { applyLang(); pickLang('en'); });
 let currentDay = 0;
 let completedDays = new Set();
 let currentAudio = null;
@@ -575,6 +590,15 @@ function setLang(l) {
   document.getElementById('lang-menu').classList.remove('show');
   applyLang();
 }
+function pickLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-pick-btn').forEach(b => b.classList.remove('active'));
+  const langLabels = { zhHK: 'zhHK', zhCN: 'zhCN', en: 'en', ja: 'ja' };
+  const labels = { zhHK: '粵', zhCN: '普', en: 'EN', ja: '日' };
+  document.getElementById('lang-label').textContent = labels[l];
+  applyLang();
+}
+
 function applyLang() {
   const el = id => document.getElementById(id);
   const set = (id, val) => { const e = el(id); if (e) e.textContent = val; };
