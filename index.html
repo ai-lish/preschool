@@ -367,6 +367,7 @@ body {
       <button class="lang-btn" onclick="setLang('zhHK')" style="background:var(--primary)">🌐 粵</button>
       <button class="lang-btn" onclick="setLang('zhCN')" style="background:#666">簡</button>
       <button class="lang-btn" onclick="setLang('en')" style="background:#666">EN</button>
+      <button class="lang-btn" onclick="setLang('ja')" style="background:#666">日</button>
     </div>
   </div>
 </nav>
@@ -426,6 +427,22 @@ body {
 
 <!-- OVERLAY -->
 <div class="overlay" id="overlay" onclick="closePreview()"></div>
+
+<!-- WELCOME OVERLAY -->
+<div class="overlay show" id="welcome-overlay" style="background:linear-gradient(180deg,#1a1a2e 0%,#16213e 60%,#0f3460 100%);display:flex;align-items:center;justify-content:center;">
+  <div style="text-align:center;color:white;padding:20px;max-width:400px;">
+    <div style="font-size:4rem;margin-bottom:20px;">📖</div>
+    <h1 style="font-size:1.8rem;margin-bottom:10px;text-shadow:0 2px 12px rgba(255,215,0,0.5);">聖經故事</h1>
+    <p style="opacity:0.8;margin-bottom:30px;">幼兒聖經故事互動學習平台</p>
+    <p style="margin-bottom:20px;">請選擇語言：</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <button class="lang-btn" onclick="welcomeSetLang('zhHK')" style="background:var(--primary);padding:12px 24px;font-size:1.1rem;">🌐 粵語</button>
+      <button class="lang-btn" onclick="welcomeSetLang('zhCN')" style="background:#666;padding:12px 24px;font-size:1.1rem;">🌐 普通話</button>
+      <button class="lang-btn" onclick="welcomeSetLang('en')" style="background:#666;padding:12px 24px;font-size:1.1rem;">🌐 English</button>
+      <button class="lang-btn" onclick="welcomeSetLang('ja')" style="background:#666;padding:12px 24px;font-size:1.1rem;">🌐 日本語</button>
+    </div>
+  </div>
+</div>
 
 <!-- STORY PREVIEW -->
 <div class="story-preview" id="story-preview">
@@ -544,9 +561,24 @@ const stories = {
 };
 
 // State
-let currentLang = 'zhHK';
+let currentLang = localStorage.getItem('preschoolLang') || 'zhHK';
 let isOldTestamentExpanded = true;
 let selectedStory = null;
+
+// Welcome screen
+if (currentLang && document.getElementById('welcome-overlay')) {
+  document.getElementById('welcome-overlay').classList.remove('show');
+  document.getElementById('welcome-overlay').style.display = 'none';
+}
+
+function welcomeSetLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('preschoolLang', lang);
+  document.getElementById('welcome-overlay').classList.remove('show');
+  document.getElementById('welcome-overlay').style.display = 'none';
+  applyLang();
+  updateLangUI();
+}
 
 // Translations
 const langNames = {
@@ -561,6 +593,7 @@ const langNames = {
 
 // Initialize
 function init() {
+  updateLangUI();
   renderStories();
 }
 
@@ -712,18 +745,20 @@ function toggleLang() {
   menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
 }
 
+function updateLangUI() {
+  const labels = { zhHK: '🌐 粵', zhCN: '🌐 簡', en: '🌐 EN', ja: '🌐 日' };
+  document.querySelector('.nav-btn').textContent = labels[currentLang] || '🌐 粵';
+  document.querySelector('#old-testament .section-title h2').textContent = langNames.oldTestament[currentLang];
+  document.querySelector('#old-testament .section-title span').textContent = langNames.subtitle.oldTestament[currentLang];
+  document.querySelector('#new-testament .section-title h2').textContent = langNames.newTestament[currentLang];
+  document.querySelector('#new-testament .section-title span').textContent = langNames.subtitle.newTestament[currentLang];
+}
+
 function setLang(lang) {
   currentLang = lang;
+  localStorage.setItem('preschoolLang', lang);
   document.getElementById('lang-menu').style.display = 'none';
-  document.querySelector('.nav-btn').textContent = lang === 'zhHK' ? '🌐 粵' : lang === 'zhCN' ? '🌐 簡' : '🌐 EN';
-  
-  // Update section titles
-  document.querySelector('#old-testament .section-title h2').textContent = langNames.oldTestament[lang];
-  document.querySelector('#old-testament .section-title span').textContent = langNames.subtitle.oldTestament[lang];
-  document.querySelector('#new-testament .section-title h2').textContent = langNames.newTestament[lang];
-  document.querySelector('#new-testament .section-title span').textContent = langNames.subtitle.newTestament[lang];
-  
-  // Re-render stories
+  updateLangUI();
   renderStories();
 }
 
