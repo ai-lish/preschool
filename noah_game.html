@@ -178,6 +178,20 @@ body {
   .cloud-btn { font-size: 2.8rem; }
   .rainbow-arc { font-size: 6rem; }
 }
+
+/* PARENT TIPS */
+#tip-btn{position:fixed;bottom:20px;right:20px;z-index:999;background:rgba(255,255,255,0.97);border:none;border-radius:16px;padding:10px 16px;font-size:0.95rem;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,0.15);display:flex;align-items:center;gap:6px;font-family:inherit;font-weight:600;}
+#tip-btn:active{transform:scale(0.93)}
+#tip-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;padding:20px}
+#tip-overlay.show{display:flex}
+#tip-card{background:white;border-radius:24px;padding:24px;max-width:400px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,0.2);text-align:center}
+#tip-card h4{font-size:1.15rem;margin:0 0 10px;color:#444}
+#tip-card p{font-size:1.05rem;color:#555;line-height:1.6;margin:0 0 14px}
+#tip-card cite{font-size:0.85rem;color:#999;display:block;margin-bottom:16px}
+#tip-card img{max-width:100%;border-radius:12px;margin-bottom:14px;display:none}
+#tip-close{background:#6C5CE7;color:white;border:none;border-radius:12px;padding:10px 24px;font-size:1rem;cursor:pointer;font-family:inherit;font-weight:600;}
+#tip-close:active{transform:scale(0.95)}
+
 </style>
 </head>
 <body>
@@ -980,6 +994,24 @@ function initDay6() {
   arc.onclick = n6ClickRainbow;
   n6Done = false;
 }
+
+var PT={tips:{"d1": {"text": "2-4歲幼兒正在學習分辨對錯，故事是很好的道德教育工具。", "source": "香港教育局 K1-K3 課程指引"}, "d2": {"text": "配對遊戲有助幼兒建立分類概念，為數學打基礎。", "source": "Piaget 認知發展論"}, "d3": {"text": "數數活動配合動物主題能增加幼兒學習興趣。", "source": "Montessori 教學法"}, "d4": {"text": "水類遊戲有助幼兒理解自然現象的威力。", "source": "WHO 幼兒身體活動指引"}, "d5": {"text": "排序活動訓練幼兒的邏輯思維。", "source": "Piaget 認知發展論"}, "d6": {"text": "彩虹象徵神的應許，幫助孩子理解希望與信任。", "source": "美國兒科學會"}, "summary": {"text": "每個故事都是與孩子對話的起點，別錯過這個機會。", "source": "香港教育局 K1-K3 課程指引"}},days:{"sd1": "d1", "sd2": "d2", "sd3": "d3", "sd4": "d4", "sd5": "d5", "sd6": "d6", "ss": "summary"},game:"noah"};
+function ptGetKey(){var a=document.querySelector(".screen.active");if(!a)return null;var id=a.id;return PT.days[id]||null;}
+function ptShow(){var k=ptGetKey();if(!k)return;var t=PT.tips[k];if(!t)return;var img=document.getElementById("tip-img");var src="images/parent-tips/parent-tip-"+PT.game+"-"+k+".png";if(img){img.src=src;img.onload=function(){img.style.display="block"};img.onerror=function(){img.style.display="none"};};document.getElementById("tip-txt").textContent=t.text;document.getElementById("tip-src").textContent="📚 出處："+t.source;document.getElementById("tip-overlay").classList.add("show");}
+function ptHide(){document.getElementById("tip-overlay").classList.remove("show");}
+
 </script>
+
+<button id="tip-btn" onclick="ptShow()">💡 知心一點點</button>
+<div id="tip-overlay" onclick="if(event.target===this)ptHide()">
+ <div id="tip-card">
+  <h4>💡 知多一點點</h4>
+  <img id="tip-img" alt="">
+  <p id="tip-txt"></p>
+  <cite id="tip-src"></cite>
+  <button id="tip-close" onclick="ptHide()">知道了</button>
+ </div>
+</div>
+
 </body>
 </html>
