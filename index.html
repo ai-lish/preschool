@@ -619,11 +619,11 @@ body {
     <div class="feedback-field">
       <label id="feedback-label-story"></label>
       <select id="feedback-story">
-        <option value=""></option>
-        <option value="creation"></option>
-        <option value="noah"></option>
-        <option value="moses"></option>
-        <option value="general"></option>
+        <option value="">請選擇...</option>
+        <option value="creation">✨ 神的創造</option>
+        <option value="noah">🐘 挪亞方舟</option>
+        <option value="moses">🌊 摩西過紅海</option>
+        <option value="general">📖 整體平台</option>
       </select>
     </div>
 
@@ -1049,11 +1049,13 @@ function updateFeedbackUI() {
   document.getElementById('feedback-thanks').textContent = t.thanks;
   document.getElementById('feedback-thanks-msg').textContent = t.thanksMsg;
 
-  // Update story select options
+  // Update story select options - use storyValues as the source of truth
   const sel = document.getElementById('feedback-story');
   const storyValues = ['', 'creation', 'noah', 'moses', 'general'];
-  t.storyOptions.forEach((label, i) => {
-    if (sel.options[i]) sel.options[i].text = label;
+  storyValues.forEach((val, i) => {
+    if (i < t.storyOptions.length && sel.options[i]) {
+      sel.options[i].text = t.storyOptions[i];
+    }
   });
 }
 
@@ -1088,7 +1090,16 @@ function submitFeedback() {
   const enjoy = document.getElementById('feedback-enjoy').value.trim();
   const improve = document.getElementById('feedback-improve').value.trim();
 
-  // Save to localStorage
+  // Basic validation: require at least a star rating
+  if (feedbackRating === 0) {
+    document.getElementById('feedback-label-rating').style.color = '#ff6b6b';
+    setTimeout(() => {
+      document.getElementById('feedback-label-rating').style.color = '';
+    }, 1500);
+    return;
+  }
+
+  // Save to localStorage with error handling
   const entry = {
     ts: new Date().toISOString(),
     lang: currentLang,
@@ -1098,9 +1109,13 @@ function submitFeedback() {
     improve
   };
   const key = 'preschoolFeedback';
-  const existing = JSON.parse(localStorage.getItem(key) || '[]');
-  existing.push(entry);
-  localStorage.setItem(key, JSON.stringify(existing));
+  try {
+    const existing = JSON.parse(localStorage.getItem(key) || '[]');
+    existing.push(entry);
+    localStorage.setItem(key, JSON.stringify(existing));
+  } catch (e) {
+    // localStorage unavailable or parse error — continue to show success anyway
+  }
 
   // Show success
   document.getElementById('feedback-form-view').style.display = 'none';
