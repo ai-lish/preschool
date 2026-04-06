@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>耶穌降生遊戲</title>
+<link rel="stylesheet" href="/preschool/css/style.css">
+<style>
+/* minimal page-specific styles to match existing games */
+body { font-family: 'Noto Sans TC', sans-serif; background: linear-gradient(#0f3460,#16213e); color:#fff; }
+.container { padding: 14px; max-width:900px; margin:0 auto; }
+.screen { display:none; min-height:70vh; align-items:center; justify-content:center; }
+.screen.active{display:flex}
+.controls{display:flex;gap:8px;margin-top:12px}
+.btn{background:#fff;color:#222;padding:10px 14px;border-radius:12px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>耶穌降生 — 故事遊戲</h1>
+    <div class="controls">
+      <select id="lang-select"><option value="ja">日本語</option><option value="zhCN">普通話</option><option value="en">English</option><option value="zhHK">粵語</option></select>
+      <button id="startBtn" class="btn">開始</button>
+      <button id="homeBtn" class="btn">返回</button>
+    </div>
+  </header>
+
+  <main>
+    <div id="welcome" class="screen active">
+      <div>
+        <p class="day-narration" id="welcomeNarr">歡迎來到耶穌降生故事遊戲。按「開始」跟住7日故事。</p>
+      </div>
+    </div>
+
+    <!-- Day screens placeholders -->
+    <div id="dayScreens">
+      <!-- Generate 7 day screens via JS -->
+    </div>
+
+    <div id="summary" class="screen">
+      <div>
+        <p id="summaryText">故事總結</p>
+        <div class="controls"><button id="replayBtn" class="btn">重玩</button></div>
+      </div>
+    </div>
+  </main>
+
+  <footer style="margin-top:18px;color:rgba(255,255,255,0.8)"><small>本遊戲使用 localStorage 儲存進度。無需網絡。</small></footer>
+</div>
+
+<script>
+const AUDIO_BASE = '/preschool/audio/jesus';
+const LANG_ORDER = ['ja','zhCN','en','zhHK'];
+const keys = [
+  'j1Narr','j1Hint','j1Fail','j1Success',
+  'j2Narr','j2Hint','j2Fail','j2Success',
+  'j3Narr','j3Hint','j3Fail','j3Success',
+  'j4Narr','j4Hint','j4Fail','j4Success',
+  'j5Narr','j5Hint','j5Fail','j5Success',
+  'j6Narr','j6Hint','j6Fail','j6Success',
+  'j7Narr','j7Hint','j7Fail','j7Success',
+  'summary'
+];
+
+function makeDay(id,title){
+  const el = document.createElement('section');
+  el.className='screen'; el.id='screen-d'+id;
+  el.innerHTML = `<div><h2>第${id}日 — ${title}</h2><p class="day-narration" id="d${id}Narr"></p><div class="controls"><button class="btn action" data-day="${id}">互動</button><button class="btn next" data-day="${id}">下一步</button></div></div>`;
+  return el;
+}
+
+const titles = ['天使報信','馬利亞探訪伊利沙伯','約瑟的夢','伯利恆之旅','耶穌降生','牧羊人來訪','博士來朝'];
+const dayScreens = document.getElementById('dayScreens');
+for(let i=0;i<7;i++) dayScreens.appendChild(makeDay(i+1,titles[i]));
+
+// audio loader
+function audioPath(lang,key){ return `${AUDIO_BASE}/${lang}/${key}.mp3`; }
+function playKey(lang,key){
+  const path = audioPath(lang,key);
+  const a = new Audio(path);
+  a.onerror = ()=> console.warn('audio missing',path);
+  a.play().catch(e=>console.warn('play error',e));
+  return a;
+}
+
+// UI logic
+const startBtn = document.getElementById('startBtn');
+const langSelect = document.getElementById('lang-select');
+let currentDay = 0;
+startBtn.addEventListener('click',()=>{
+  currentDay = 1; showDay(currentDay);
+  playKey(langSelect.value,`j${currentDay}Narr`);
+});
+function showDay(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const sel = document.getElementById('screen-d'+n) || document.getElementById('summary');
+  if(sel) sel.classList.add('active');
+  updateProgress();
+}
+
+// generic action handlers
+document.body.addEventListener('click',e=>{
+  if(e.target.matches('.action')){
+    const d = e.target.dataset.day; playKey(langSelect.value,`j${d}Hint`);
+  }
+  if(e.target.matches('.next')){
+    const d = Number(e.target.dataset.day);
+    playKey(langSelect.value,`j${d}Success`);
+    if(d<7){ currentDay = d+1; setTimeout(()=>{ showDay(currentDay); playKey(langSelect.value,`j${currentDay}Narr`);},700); }
+    else { document.getElementById('summary').classList.add('active'); playKey(langSelect.value,'summary'); }
+  }
+});
+
+function updateProgress(){
+  const pct = Math.round((currentDay/7)*100);
+  // placeholder for progress
+}
+
+// replay
+document.getElementById('replayBtn').addEventListener('click',()=>{ currentDay=1; showDay(1); playKey(langSelect.value,'j1Narr'); });
+
+// expose for testing
+window._jesus = {playKey,keys,LANG_ORDER};
+</script>
+</body>
+</html>
