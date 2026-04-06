@@ -511,7 +511,7 @@ body {
 <nav id="navbar">
   <span class="nav-title">📖 聖經故事</span>
   <div style="display:flex;align-items:center;gap:6px;">
-    <button class="feedback-btn" onclick="openFeedback()" id="feedback-nav-btn">💬 意見</button>
+    <button class="feedback-btn" onclick="openFeedback()" id="feedback-nav-btn"></button>
     <div id="lang-wrap">
       <button class="nav-btn" onclick="toggleLang()">🌐 粵</button>
       <div id="lang-menu" style="display:none;position:absolute;top:110%;right:0;background:white;border-radius:12px;padding:8px;box-shadow:0 4px 20px rgba(0,0,0,0.2);">
@@ -614,21 +614,21 @@ body {
 
   <!-- Form view -->
   <div id="feedback-form-view">
-    <h3 id="feedback-title">💬 使用意見</h3>
+    <h3 id="feedback-title"></h3>
 
     <div class="feedback-field">
-      <label id="feedback-label-story">📖 使用了哪個故事？</label>
+      <label id="feedback-label-story"></label>
       <select id="feedback-story">
-        <option value="">請選擇...</option>
-        <option value="creation">✨ 神的創造</option>
-        <option value="noah">🐘 挪亞方舟</option>
-        <option value="moses">🌊 摩西過紅海</option>
-        <option value="general">📖 整體平台</option>
+        <option value=""></option>
+        <option value="creation"></option>
+        <option value="noah"></option>
+        <option value="moses"></option>
+        <option value="general"></option>
       </select>
     </div>
 
     <div class="feedback-field">
-      <label id="feedback-label-rating">⭐ 整體評分</label>
+      <label id="feedback-label-rating"></label>
       <div class="star-rating" id="star-rating">
         <span class="star" data-value="1" onclick="setRating(1)">★</span>
         <span class="star" data-value="2" onclick="setRating(2)">★</span>
@@ -639,23 +639,23 @@ body {
     </div>
 
     <div class="feedback-field">
-      <label id="feedback-label-enjoy">😊 孩子喜歡哪部分？</label>
-      <textarea id="feedback-enjoy" rows="2" placeholder="例如：喜歡拖動動物上船..."></textarea>
+      <label id="feedback-label-enjoy"></label>
+      <textarea id="feedback-enjoy" rows="2"></textarea>
     </div>
 
     <div class="feedback-field">
-      <label id="feedback-label-improve">💡 有什麼改善建議？</label>
-      <textarea id="feedback-improve" rows="2" placeholder="例如：希望有更多語言..."></textarea>
+      <label id="feedback-label-improve"></label>
+      <textarea id="feedback-improve" rows="2"></textarea>
     </div>
 
-    <button class="feedback-submit" id="feedback-submit-btn" onclick="submitFeedback()">✉️ 提交意見</button>
+    <button class="feedback-submit" id="feedback-submit-btn" onclick="submitFeedback()"></button>
   </div>
 
   <!-- Success view -->
   <div class="feedback-success" id="feedback-success-view">
     <div class="success-icon">🙏</div>
-    <h3 id="feedback-thanks">謝謝你的意見！</h3>
-    <p id="feedback-thanks-msg">你的寶貴意見有助我們改善這個平台，讓更多小朋友受益。</p>
+    <h3 id="feedback-thanks"></h3>
+    <p id="feedback-thanks-msg"></p>
   </div>
 </div>
 
