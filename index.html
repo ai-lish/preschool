@@ -354,6 +354,155 @@ body {
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: rgba(255,255,255,0.1); }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 3px; }
+
+/* FEEDBACK BUTTON */
+.feedback-btn {
+  background: rgba(255,255,255,0.9);
+  border: none;
+  border-radius: 12px;
+  padding: 8px 14px;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  margin-right: 8px;
+}
+
+/* FEEDBACK MODAL */
+.feedback-modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #2d2d4a 0%, #1a1a2e 100%);
+  border-radius: var(--radius);
+  padding: 28px 24px 24px;
+  width: 92%;
+  max-width: 420px;
+  max-height: 88vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  z-index: 1100;
+  border: 2px solid rgba(255,215,0,0.3);
+  color: white;
+}
+
+.feedback-modal.show {
+  display: block;
+  animation: popIn 0.3s ease;
+}
+
+.feedback-modal h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--gold);
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.feedback-modal .close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.feedback-field {
+  margin-bottom: 16px;
+}
+
+.feedback-field label {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+  opacity: 0.85;
+}
+
+.feedback-field select,
+.feedback-field textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  color: white;
+  font-family: inherit;
+  resize: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.feedback-field select option {
+  background: #2d2d4a;
+  color: white;
+}
+
+.feedback-field textarea::placeholder {
+  color: rgba(255,255,255,0.4);
+}
+
+/* STAR RATING */
+.star-rating {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 4px 0;
+}
+
+.star-rating .star {
+  font-size: 2rem;
+  cursor: pointer;
+  opacity: 0.35;
+  transition: opacity 0.15s, transform 0.15s;
+  user-select: none;
+}
+
+.star-rating .star.active {
+  opacity: 1;
+}
+
+.star-rating .star:active {
+  transform: scale(1.2);
+}
+
+/* SUBMIT BUTTON */
+.feedback-submit {
+  display: block;
+  width: 100%;
+  background: linear-gradient(135deg, var(--primary), #5a4fcf);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+  font-family: inherit;
+  transition: transform 0.2s;
+}
+
+.feedback-submit:active {
+  transform: scale(0.97);
+}
+
+/* SUCCESS MESSAGE */
+.feedback-success {
+  display: none;
+  text-align: center;
+  padding: 20px 0 8px;
+}
+
+.feedback-success .success-icon {
+  font-size: 3.5rem;
+  margin-bottom: 12px;
+}
+
+.feedback-success p {
+  font-size: 1rem;
+  line-height: 1.6;
+  opacity: 0.9;
+}
 </style>
 </head>
 <body>
@@ -361,13 +510,16 @@ body {
 <!-- NAVBAR -->
 <nav id="navbar">
   <span class="nav-title">📖 聖經故事</span>
-  <div id="lang-wrap">
-    <button class="nav-btn" onclick="toggleLang()">🌐 粵</button>
-    <div id="lang-menu" style="display:none;position:absolute;top:110%;right:0;background:white;border-radius:12px;padding:8px;box-shadow:0 4px 20px rgba(0,0,0,0.2);">
-      <button class="lang-btn" onclick="setLang('zhHK')" style="background:var(--primary)">🌐 粵</button>
-      <button class="lang-btn" onclick="setLang('zhCN')" style="background:#666">簡</button>
-      <button class="lang-btn" onclick="setLang('en')" style="background:#666">EN</button>
-      <button class="lang-btn" onclick="setLang('ja')" style="background:#666">日</button>
+  <div style="display:flex;align-items:center;gap:6px;">
+    <button class="feedback-btn" onclick="openFeedback()" id="feedback-nav-btn">💬 意見</button>
+    <div id="lang-wrap">
+      <button class="nav-btn" onclick="toggleLang()">🌐 粵</button>
+      <div id="lang-menu" style="display:none;position:absolute;top:110%;right:0;background:white;border-radius:12px;padding:8px;box-shadow:0 4px 20px rgba(0,0,0,0.2);">
+        <button class="lang-btn" onclick="setLang('zhHK')" style="background:var(--primary)">🌐 粵</button>
+        <button class="lang-btn" onclick="setLang('zhCN')" style="background:#666">簡</button>
+        <button class="lang-btn" onclick="setLang('en')" style="background:#666">EN</button>
+        <button class="lang-btn" onclick="setLang('ja')" style="background:#666">日</button>
+      </div>
     </div>
   </div>
 </nav>
@@ -451,6 +603,60 @@ body {
   <div class="preview-title" id="preview-title"></div>
   <div class="preview-desc" id="preview-desc"></div>
   <button class="enter-btn" id="enter-btn" onclick="enterStory()">進入遊戲 ▶</button>
+</div>
+
+<!-- FEEDBACK OVERLAY -->
+<div class="overlay" id="feedback-overlay" onclick="closeFeedback()"></div>
+
+<!-- FEEDBACK MODAL -->
+<div class="feedback-modal" id="feedback-modal">
+  <button class="close-btn" onclick="closeFeedback()">✕</button>
+
+  <!-- Form view -->
+  <div id="feedback-form-view">
+    <h3 id="feedback-title">💬 使用意見</h3>
+
+    <div class="feedback-field">
+      <label id="feedback-label-story">📖 使用了哪個故事？</label>
+      <select id="feedback-story">
+        <option value="">請選擇...</option>
+        <option value="creation">✨ 神的創造</option>
+        <option value="noah">🐘 挪亞方舟</option>
+        <option value="moses">🌊 摩西過紅海</option>
+        <option value="general">📖 整體平台</option>
+      </select>
+    </div>
+
+    <div class="feedback-field">
+      <label id="feedback-label-rating">⭐ 整體評分</label>
+      <div class="star-rating" id="star-rating">
+        <span class="star" data-value="1" onclick="setRating(1)">★</span>
+        <span class="star" data-value="2" onclick="setRating(2)">★</span>
+        <span class="star" data-value="3" onclick="setRating(3)">★</span>
+        <span class="star" data-value="4" onclick="setRating(4)">★</span>
+        <span class="star" data-value="5" onclick="setRating(5)">★</span>
+      </div>
+    </div>
+
+    <div class="feedback-field">
+      <label id="feedback-label-enjoy">😊 孩子喜歡哪部分？</label>
+      <textarea id="feedback-enjoy" rows="2" placeholder="例如：喜歡拖動動物上船..."></textarea>
+    </div>
+
+    <div class="feedback-field">
+      <label id="feedback-label-improve">💡 有什麼改善建議？</label>
+      <textarea id="feedback-improve" rows="2" placeholder="例如：希望有更多語言..."></textarea>
+    </div>
+
+    <button class="feedback-submit" id="feedback-submit-btn" onclick="submitFeedback()">✉️ 提交意見</button>
+  </div>
+
+  <!-- Success view -->
+  <div class="feedback-success" id="feedback-success-view">
+    <div class="success-icon">🙏</div>
+    <h3 id="feedback-thanks">謝謝你的意見！</h3>
+    <p id="feedback-thanks-msg">你的寶貴意見有助我們改善這個平台，讓更多小朋友受益。</p>
+  </div>
 </div>
 
 <script>
@@ -752,6 +958,7 @@ function updateLangUI() {
   document.querySelector('#old-testament .section-title span').textContent = langNames.subtitle.oldTestament[currentLang];
   document.querySelector('#new-testament .section-title h2').textContent = langNames.newTestament[currentLang];
   document.querySelector('#new-testament .section-title span').textContent = langNames.subtitle.newTestament[currentLang];
+  updateFeedbackUI();
 }
 
 function setLang(lang) {
@@ -760,6 +967,147 @@ function setLang(lang) {
   document.getElementById('lang-menu').style.display = 'none';
   updateLangUI();
   renderStories();
+}
+
+// ========== FEEDBACK FORM ==========
+let feedbackRating = 0;
+
+const feedbackI18n = {
+  zhHK: {
+    btnLabel: '💬 意見',
+    title: '💬 使用意見',
+    labelStory: '📖 使用了哪個故事？',
+    storyOptions: ['請選擇...', '✨ 神的創造', '🐘 挪亞方舟', '🌊 摩西過紅海', '📖 整體平台'],
+    labelRating: '⭐ 整體評分',
+    labelEnjoy: '😊 孩子喜歡哪部分？',
+    enjoyPlaceholder: '例如：喜歡拖動動物上船...',
+    labelImprove: '💡 有什麼改善建議？',
+    improvePlaceholder: '例如：希望有更多語言...',
+    submitBtn: '✉️ 提交意見',
+    thanks: '謝謝你的意見！',
+    thanksMsg: '你的寶貴意見有助我們改善這個平台，讓更多小朋友受益。'
+  },
+  zhCN: {
+    btnLabel: '💬 意见',
+    title: '💬 使用意见',
+    labelStory: '📖 使用了哪个故事？',
+    storyOptions: ['请选择...', '✨ 神的创造', '🐘 诺亚方舟', '🌊 摩西过红海', '📖 整体平台'],
+    labelRating: '⭐ 整体评分',
+    labelEnjoy: '😊 孩子喜欢哪部分？',
+    enjoyPlaceholder: '例如：喜欢拖动动物上船...',
+    labelImprove: '💡 有什么改善建议？',
+    improvePlaceholder: '例如：希望有更多语言...',
+    submitBtn: '✉️ 提交意见',
+    thanks: '谢谢你的意见！',
+    thanksMsg: '你的宝贵意见有助我们改善这个平台，让更多小朋友受益。'
+  },
+  en: {
+    btnLabel: '💬 Feedback',
+    title: '💬 Share Feedback',
+    labelStory: '📖 Which story did you use?',
+    storyOptions: ['Please select...', "✨ God's Creation", '🐘 Noah\'s Ark', '🌊 Moses & Red Sea', '📖 General Platform'],
+    labelRating: '⭐ Overall Rating',
+    labelEnjoy: '😊 What did your child enjoy?',
+    enjoyPlaceholder: 'e.g. Loved dragging animals onto the ark...',
+    labelImprove: '💡 Any suggestions for improvement?',
+    improvePlaceholder: 'e.g. Would love more language options...',
+    submitBtn: '✉️ Submit Feedback',
+    thanks: 'Thank you for your feedback!',
+    thanksMsg: 'Your input helps us improve this platform for more children.'
+  },
+  ja: {
+    btnLabel: '💬 ご意見',
+    title: '💬 ご意見・ご感想',
+    labelStory: '📖 使ったお話は？',
+    storyOptions: ['選んでください...', '✨ 神の創造', '🐘 ノアの箱舟', '🌊 モーセと紅海', '📖 プラットフォーム全体'],
+    labelRating: '⭐ 総合評価',
+    labelEnjoy: '😊 お子さんが楽しんだ部分は？',
+    enjoyPlaceholder: '例：動物を箱舟に乗せるのが好きでした...',
+    labelImprove: '💡 改善のご提案は？',
+    improvePlaceholder: '例：もっと言語オプションがあると良いです...',
+    submitBtn: '✉️ 意見を送る',
+    thanks: 'ご意見ありがとうございます！',
+    thanksMsg: 'いただいたご意見はプラットフォーム改善に役立てます。'
+  }
+};
+
+function updateFeedbackUI() {
+  const lang = currentLang in feedbackI18n ? currentLang : 'zhHK';
+  const t = feedbackI18n[lang];
+
+  const navBtn = document.getElementById('feedback-nav-btn');
+  if (navBtn) navBtn.textContent = t.btnLabel;
+
+  document.getElementById('feedback-title').textContent = t.title;
+  document.getElementById('feedback-label-story').textContent = t.labelStory;
+  document.getElementById('feedback-label-rating').textContent = t.labelRating;
+  document.getElementById('feedback-label-enjoy').textContent = t.labelEnjoy;
+  document.getElementById('feedback-enjoy').placeholder = t.enjoyPlaceholder;
+  document.getElementById('feedback-label-improve').textContent = t.labelImprove;
+  document.getElementById('feedback-improve').placeholder = t.improvePlaceholder;
+  document.getElementById('feedback-submit-btn').textContent = t.submitBtn;
+  document.getElementById('feedback-thanks').textContent = t.thanks;
+  document.getElementById('feedback-thanks-msg').textContent = t.thanksMsg;
+
+  // Update story select options
+  const sel = document.getElementById('feedback-story');
+  const storyValues = ['', 'creation', 'noah', 'moses', 'general'];
+  t.storyOptions.forEach((label, i) => {
+    if (sel.options[i]) sel.options[i].text = label;
+  });
+}
+
+function openFeedback() {
+  // Reset form
+  feedbackRating = 0;
+  document.getElementById('feedback-story').value = '';
+  document.getElementById('feedback-enjoy').value = '';
+  document.getElementById('feedback-improve').value = '';
+  document.querySelectorAll('#star-rating .star').forEach(s => s.classList.remove('active'));
+  document.getElementById('feedback-form-view').style.display = 'block';
+  document.getElementById('feedback-success-view').style.display = 'none';
+
+  document.getElementById('feedback-overlay').classList.add('show');
+  document.getElementById('feedback-modal').classList.add('show');
+}
+
+function closeFeedback() {
+  document.getElementById('feedback-overlay').classList.remove('show');
+  document.getElementById('feedback-modal').classList.remove('show');
+}
+
+function setRating(value) {
+  feedbackRating = value;
+  document.querySelectorAll('#star-rating .star').forEach(star => {
+    star.classList.toggle('active', parseInt(star.dataset.value) <= value);
+  });
+}
+
+function submitFeedback() {
+  const story = document.getElementById('feedback-story').value;
+  const enjoy = document.getElementById('feedback-enjoy').value.trim();
+  const improve = document.getElementById('feedback-improve').value.trim();
+
+  // Save to localStorage
+  const entry = {
+    ts: new Date().toISOString(),
+    lang: currentLang,
+    story,
+    rating: feedbackRating,
+    enjoy,
+    improve
+  };
+  const key = 'preschoolFeedback';
+  const existing = JSON.parse(localStorage.getItem(key) || '[]');
+  existing.push(entry);
+  localStorage.setItem(key, JSON.stringify(existing));
+
+  // Show success
+  document.getElementById('feedback-form-view').style.display = 'none';
+  document.getElementById('feedback-success-view').style.display = 'block';
+
+  // Auto-close after 2.5s
+  setTimeout(closeFeedback, 2500);
 }
 
 // Start
