@@ -94,6 +94,25 @@ body {
 .animal-in-ark { width: 44px; height: 44px; object-fit: cover; border-radius: 8px; animation: animalBoard 0.5s ease forwards; }
 @keyframes animalBoard { 0%{transform:scale(0) rotate(-20deg);opacity:0} 60%{transform:scale(1.2) rotate(5deg);opacity:1} 100%{transform:scale(1) rotate(0deg);opacity:1} }
 
+/* DAY 2 — MEMORY MATCHING */
+#memory-area { display: none; flex-direction: column; align-items: center; width: 95vw; max-width: 480px; gap: 8px; }
+#memory-area.active { display: flex; }
+.memory-stats { display: flex; gap: 16px; }
+.memory-stat { background: rgba(255,255,255,0.9); border-radius: 12px; padding: 6px 14px; font-size: 0.95rem; font-weight: 600; color: #333; }
+#memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; width: 100%; aspect-ratio: 1; }
+.memory-card { perspective: 900px; cursor: pointer; }
+.memory-card-inner { width: 100%; height: 0; padding-bottom: 100%; position: relative; transition: transform 0.4s; transform-style: preserve-3d; }
+.memory-card.flipped .memory-card-inner { transform: rotateY(180deg); }
+.memory-front { position: absolute; inset: 0; background: linear-gradient(135deg, #6C5CE7, #a29bfe); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 3px 12px rgba(108,92,231,0.4); }
+.memory-back { position: absolute; inset: 0; background: white; border-radius: 14px; transform: rotateY(180deg); backface-visibility: hidden; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 12px rgba(0,0,0,0.2); overflow: hidden; }
+.memory-back img { width: 85%; height: 85%; object-fit: contain; }
+.memory-card.matched .memory-front { background: linear-gradient(135deg, #00C851, #00e676); }
+.memory-success { display: none; flex-direction: column; align-items: center; gap: 10px; margin-top: 6px; }
+.memory-success.show { display: flex; }
+.memory-success-msg { background: #FFD700; color: #333; border-radius: 16px; padding: 10px 20px; font-size: 1rem; font-weight: 700; text-align: center; }
+.memory-ark-msg { font-size: 2.5rem; animation: arkBob 2s ease-in-out infinite; }
+@keyframes arkBob { 0%,100%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(-8px) rotate(2deg)} }
+
 /* DAY 3 — RAIN */
 #screen-d3 { background: linear-gradient(180deg, #2d3436 0%, #636e72 100%); }
 .rain-scene { position: relative; width: 95vw; max-width: 500px; height: 52vh; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); background: linear-gradient(180deg, #636e72 0%, #2d3436 100%); }
@@ -255,11 +274,26 @@ body {
   <div class="day-title" id="d2-title">🐾 Day 2: Animals Board</div>
   <div class="day-verse" id="d2-verse">Genesis 7:2-3</div>
   <div class="day-narration" id="d2-narration">挪亞帶各樣牲畜、空中的雀鳥，一對對走入方舟</div>
+  <div style="display:flex;gap:8px;margin-bottom:6px;">
+    <button class="skip-btn" id="d2-drag-btn" onclick="switchToDrag()" style="background:rgba(255,255,255,0.85)">🚢 登船模式</button>
+    <button class="skip-btn" id="d2-mem-btn" onclick="switchToMemory()" style="background:#6C5CE7;color:white;border:2px solid white">🎮 記憶配對</button>
+  </div>
   <div class="animal-scene" id="animal-scene">
     <div class="animal-pond" id="animal-pond"></div>
     <div class="ark-ship" id="ark-ship">
       <div class="ark-ship-label" id="ark-label">🚢</div>
       <div class="ark-animals" id="ark-animals"></div>
+    </div>
+  </div>
+  <div id="memory-area">
+    <div class="memory-stats">
+      <div class="memory-stat">⏱️ <span id="mem-timer">0:00</span></div>
+      <div class="memory-stat">👆 <span id="mem-moves">0</span> 步</div>
+    </div>
+    <div id="memory-grid"></div>
+    <div class="memory-success" id="memory-success">
+      <div class="memory-ark-msg">🚢✨</div>
+      <div class="memory-success-msg" id="mem-success-msg">全部配對成功！動物已上船！</div>
     </div>
   </div>
   <button class="next-btn" id="d2-next" onclick="goToDay(3)">Day 3 ▶</button>
@@ -898,7 +932,113 @@ function boardPair(idx) {
 // DAY 2 alias for backward compat
 function n2ClickAnimal(idx) { boardPair(idx); }
 
-// DAY 3: RAIN
+// ── DAY 2: MEMORY MATCHING ───────────────────────────────────
+let memMode = 'drag';
+let memMoves = 0, memMatched = 0, memSeconds = 0;
+let memFlipped = [], memLocked = false;
+let memTimer = null;
+
+const MEM_ANIMALS = [
+  { id: 'elephant', emoji: '🐘' }, { id: 'lion', emoji: '🦁' },
+  { id: 'wolf', emoji: '🐺' }, { id: 'sheep', emoji: '🐑' },
+  { id: 'cow', emoji: '🐄' }, { id: 'horse', emoji: '🐴' },
+  { id: 'rabbit', emoji: '🐰' }, { id: 'deer', emoji: '🦌' }
+];
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function switchToMemory() {
+  memMode = 'memory';
+  document.getElementById('animal-scene').style.display = 'none';
+  document.getElementById('memory-area').classList.add('active');
+  document.getElementById('d2-drag-btn').style.background = 'rgba(255,255,255,0.85)';
+  document.getElementById('d2-drag-btn').style.color = '#333';
+  document.getElementById('d2-mem-btn').style.background = '#6C5CE7';
+  document.getElementById('d2-mem-btn').style.color = 'white';
+  document.getElementById('memory-success').classList.remove('show');
+  initMemory();
+  startMemTimer();
+}
+
+function switchToDrag() {
+  memMode = 'drag';
+  stopMemTimer();
+  document.getElementById('animal-scene').style.display = 'flex';
+  document.getElementById('memory-area').classList.remove('active');
+  document.getElementById('d2-drag-btn').style.background = '#6C5CE7';
+  document.getElementById('d2-drag-btn').style.color = 'white';
+  document.getElementById('d2-mem-btn').style.background = 'rgba(255,255,255,0.85)';
+  document.getElementById('d2-mem-btn').style.color = '#333';
+}
+
+function initMemory() {
+  memMoves = 0; memMatched = 0; memFlipped = []; memLocked = false; memSeconds = 0;
+  document.getElementById('mem-moves').textContent = '0';
+  document.getElementById('mem-timer').textContent = '0:00';
+  const grid = document.getElementById('memory-grid');
+  grid.innerHTML = '';
+  const deck = shuffle([...MEM_ANIMALS, ...MEM_ANIMALS]);
+  deck.forEach((animal, idx) => {
+    const card = document.createElement('div');
+    card.className = 'memory-card';
+    card.dataset.animal = animal.id;
+    card.innerHTML = `<div class="memory-card-inner"><div class="memory-front">🐾</div><div class="memory-back"><img src="img/noah/animals/${animal.id}.jpg" alt="${animal.id}" onerror="this.parentElement.textContent='${animal.emoji}';this.style.display='none'"></div></div>`;
+    card.addEventListener('click', () => flipMemCard(card));
+    grid.appendChild(card);
+  });
+}
+
+function flipMemCard(card) {
+  if (memLocked) return;
+  if (card.classList.contains('flipped') || card.classList.contains('matched')) return;
+  card.classList.add('flipped');
+  memFlipped.push(card);
+  if (memFlipped.length === 2) {
+    memMoves++;
+    document.getElementById('mem-moves').textContent = memMoves;
+    const [a, b] = memFlipped;
+    if (a.dataset.animal === b.dataset.animal) {
+      a.classList.add('matched'); b.classList.add('matched');
+      memFlipped = [];
+      memMatched++;
+      if (memMatched === 8) {
+        stopMemTimer();
+        setTimeout(() => {
+          document.getElementById('memory-success').classList.add('show');
+          document.getElementById('mem-success-msg').textContent = lang === 'zhHK' ? '全部配對成功！動物已上船！' : lang === 'zhCN' ? '全部配对成功！动物已上船！' : 'All matched! Animals boarded!';
+          completedDays.add(2);
+          document.getElementById('d2-next').style.display = 'block';
+          updateProgress();
+        }, 500);
+      }
+    } else {
+      memLocked = true;
+      setTimeout(() => {
+        a.classList.remove('flipped'); b.classList.remove('flipped');
+        memFlipped = []; memLocked = false;
+      }, 700);
+    }
+  }
+}
+
+function startMemTimer() {
+  memTimer = setInterval(() => {
+    memSeconds++;
+    const m = Math.floor(memSeconds / 60), s = memSeconds % 60;
+    document.getElementById('mem-timer').textContent = m + ':' + (s < 10 ? '0' : '') + s;
+  }, 1000);
+}
+
+function stopMemTimer() { clearInterval(memTimer); }
+
+// ── DAY 3: RAIN
 let n3Rained = 0;
 const CLOUD_TOTAL = 4;
 function n3ClickCloud(idx) {

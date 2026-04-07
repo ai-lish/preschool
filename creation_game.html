@@ -145,6 +145,37 @@ body {
 .breathe-btn:active { transform: translateX(-50%) scale(0.93); }
 .eve-form { position: absolute; bottom: 8px; right: 10%; font-size: 3.5rem; opacity: 0; transition: all 1.5s ease; z-index: 15; }
 
+/* DAY 6 — EDEN GARDEN INTERACTIVE */
+.eden-stage { position: relative; width: 95vw; max-width: 500px; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); background: linear-gradient(180deg, #87CEEB 0%, #90EE90 50%, #228B22 100%); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 14px; min-height: 38vh; gap: 20px; }
+.eden-char { cursor: pointer; transition: transform 0.3s; user-select: none; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25)); }
+#adam-char { width: 90px; }
+#eve-char { width: 80px; }
+@keyframes edenJump { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-35px)} }
+@keyframes edenClap { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-15deg)} 75%{transform:rotate(15deg)} }
+@keyframes edenDance { 0%{transform:rotate(0) scale(1)} 25%{transform:rotate(-12deg) scale(1.08)} 75%{transform:rotate(12deg) scale(1.08)} 100%{transform:rotate(0) scale(1)} }
+.eden-char.jumping { animation: edenJump 0.6s ease-in-out; }
+.eden-char.clapping { animation: edenClap 0.4s ease-in-out; }
+.eden-char.dancing { animation: edenDance 0.8s ease-in-out infinite; }
+.eden-actions { position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; z-index: 30; }
+.eden-action-btn { background: rgba(255,255,255,0.95); border: none; border-radius: 14px; padding: 8px 14px; font-size: 0.9rem; font-weight: 600; cursor: pointer; font-family: inherit; color: #6C5CE7; box-shadow: var(--shadow); }
+.eden-action-btn:active { transform: scale(0.93); }
+
+/* DAY 6 — FRUIT MATCHING MINI-GAME */
+.fruit-game-area { display: none; flex-direction: column; align-items: center; gap: 10px; width: 95vw; max-width: 400px; }
+.fruit-game-area.active { display: flex; }
+.fruit-lives { display: flex; gap: 6px; font-size: 1.3rem; }
+.fruit-hint { background: rgba(255,255,255,0.85); border-radius: 12px; padding: 8px 16px; font-size: 0.95rem; color: #333; text-align: center; }
+.fruit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
+.fruit-card { background: white; border-radius: 16px; padding: 12px 8px; text-align: center; cursor: pointer; transition: transform 0.2s; box-shadow: 0 3px 10px rgba(0,0,0,0.12); }
+.fruit-card:active { transform: scale(0.93); }
+.fruit-card.matched { background: #d4ffd4; }
+.fruit-card.wrong { background: #ffd4d4; animation: fruitShake 0.4s; }
+@keyframes fruitShake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+.fruit-emoji { font-size: 2.2rem; display: block; }
+.fruit-label { font-size: 0.85rem; color: #555; font-weight: 600; margin-top: 2px; }
+.fruit-reveal { display: block; font-size: 2.2rem; }
+.fruit-nav-btn { background: linear-gradient(135deg, #6C5CE7, #a29bfe); color: white; border: none; border-radius: 16px; padding: 10px 20px; font-size: 0.95rem; font-weight: 700; cursor: pointer; font-family: inherit; }
+
 /* FEEDBACK */
 .feedback-bubble { position: fixed; bottom: 18%; left: 50%; transform: translateX(-50%); background: white; border-radius: var(--radius); padding: 18px 26px; max-width: 90vw; font-size: 1.15rem; text-align: center; box-shadow: var(--shadow); z-index: 500; opacity: 0; pointer-events: none; transition: all 0.4s; }
 .feedback-bubble.show { opacity: 1; pointer-events: auto; }
@@ -321,6 +352,8 @@ body {
   <div class="day-title">🐾 第六日：動物與人</div>
   <div class="day-verse">創世記 1:24-31</div>
   <div class="day-narration" id="d6-narration">地要生出活物來...神就照著自己的形像造人</div>
+
+  <!-- ORIGINAL: Animal parade + Adam/Eve creation -->
   <div class="animal-stage" id="animal-stage">
     <div class="animal-queue" id="animal-queue">
       <div class="animal-char" id="animal-0" onclick="d6ClickAnimal(0)">🐕</div>
@@ -333,10 +366,36 @@ body {
       <div class="animal-char" id="animal-7" onclick="d6ClickAnimal(7)"><img src="img/creation/羊羊.png" alt="羊" style="width:60px;height:60px;object-fit:contain;"></div>
     </div>
     <div class="dirt-pile" id="dirt-pile" onclick="d6DirtClick()">🪨</div>
-    <div class="adam-form" id="adam-form">🧍</div>
+    <div class="adam-form" id="adam-form"><img src="img/creation/亞當人形.png" alt="Adam" style="width:60px;height:80px;object-fit:contain;"></div>
     <button class="breathe-btn" id="breathe-btn" onclick="d6Breathe()">💨 對住個MON吹氣！</button>
-    <div class="eve-form" id="eve-form">👩</div>
+    <div class="eve-form" id="eve-form"><img src="img/creation/夏娃.png" alt="Eve" style="width:55px;height:75px;object-fit:contain;"></div>
   </div>
+
+  <!-- NEW: Eden Garden Interactive (shown after Eve appears) -->
+  <div id="eden-area" style="display:none;flex-direction:column;align-items:center;gap:8px;width:95vw;max-width:500px;">
+    <div class="eden-stage" id="eden-stage">
+      <img id="adam-char" class="eden-char" src="img/creation/亞當人形.png" alt="Adam" onclick="edenDo('adam')">
+      <img id="eve-char" class="eden-char" src="img/creation/夏娃.png" alt="Eve" onclick="edenDo('eve')">
+      <div class="eden-actions">
+        <button class="eden-action-btn" onclick="edenDo('jump')">🦘 跳</button>
+        <button class="eden-action-btn" onclick="edenDo('clap')">👏 拍手</button>
+        <button class="eden-action-btn" onclick="edenDo('dance')">💃 跳舞</button>
+        <button class="eden-action-btn" onclick="edenDo('wave')">👋 揮手</button>
+      </div>
+    </div>
+    <div id="fruit-game-area" class="fruit-game-area">
+      <div class="fruit-lives" id="fruit-lives">❤️❤️❤️</div>
+      <div class="fruit-hint" id="fruit-hint">點擊相同的水果配對！</div>
+      <div class="fruit-grid" id="fruit-grid"></div>
+      <div style="display:flex;gap:8px;margin-top:4px;">
+        <button class="fruit-nav-btn" onclick="edenShowGarden()">◀ 伊甸園</button>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:2px;">
+      <button class="next-btn show" id="eden-fruit-btn" onclick="edenShowFruit()" style="display:none;background:linear-gradient(135deg,#FFD700,#FF8C00);color:#333;">🍎 水果配對 ▶</button>
+    </div>
+  </div>
+
   <button class="next-btn" id="d6-next" onclick="showSummary()">完成！🎉</button>
 </div>
 
@@ -961,7 +1020,7 @@ function d6Breathe() {
     adam.classList.add('alive'); playAudio('d6AdamBreathe');
     // Adam sleeps, rib appears, Eve
     setTimeout(() => {
-      adam.textContent = '😴'; playAudio('d6AdamSleep');
+      adam.innerHTML += '<span style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);font-size:1.5rem;">😴</span>'; playAudio('d6AdamSleep');
       setTimeout(() => {
         const rib = document.createElement('div');
         rib.textContent = '🦴'; rib.style.cssText = 'position:absolute;bottom:15%;left:42%;font-size:2.5rem;animation:confettiFall 1s ease forwards;z-index:18;';
@@ -975,11 +1034,111 @@ function d6Breathe() {
           playAudio('d6Eve');
           completedDays.add(6); showFeedback(t('d6Success'), 'success');
           document.getElementById('d6-next').style.display = 'block';
+          // Show Eden Garden interactive
+          setTimeout(() => {
+            document.getElementById('eden-area').style.display = 'flex';
+            document.getElementById('eden-fruit-btn').style.display = 'block';
+          }, 1500);
           updateProgress();
         }, 1200);
       }, 1500);
     }, 1200);
   }
+}
+
+// ── DAY 6: EDEN GARDEN INTERACTIVE ────────────────────────────
+function edenDo(action) {
+  const adam = document.getElementById('adam-char');
+  const eve = document.getElementById('eve-char');
+  [adam, eve].forEach(el => {
+    el.classList.remove('jumping','clapping','dancing');
+    void el.offsetWidth;
+  });
+  if (action === 'jump') {
+    (Math.random() > 0.5 ? adam : eve).classList.add('jumping');
+  } else if (action === 'clap') {
+    adam.classList.add('clapping');
+    setTimeout(() => eve.classList.add('clapping'), 200);
+  } else if (action === 'dance') {
+    adam.classList.add('dancing'); eve.classList.add('dancing');
+  }
+}
+
+function edenShowGarden() {
+  document.getElementById('fruit-game-area').classList.remove('active');
+  document.getElementById('eden-stage').style.display = 'flex';
+}
+
+// ── DAY 6: FRUIT MATCHING MINI-GAME ─────────────────────────
+let fruitLives = 3, fruitMatched = 0;
+let flippedFruits = [], lockedFruits = false;
+
+const FRUITS = [
+  { id: 'apple', emoji: '🍎', name: { zhHK: '蘋果', zhCN: '苹果', en: 'Apple' } },
+  { id: 'banana', emoji: '🍌', name: { zhHK: '香蕉', zhCN: '香蕉', en: 'Banana' } },
+  { id: 'grape', emoji: '🍇', name: { zhHK: '葡萄', zhCN: '葡萄', en: 'Grape' } },
+  { id: 'orange', emoji: '🍊', name: { zhHK: '橙', zhCN: '橙', en: 'Orange' } },
+  { id: 'strawberry', emoji: '🍓', name: { zhHK: '士多啤梨', zhCN: '草莓', en: 'Strawberry' } },
+  { id: 'watermelon', emoji: '🍉', name: { zhHK: '西瓜', zhCN: '西瓜', en: 'Watermelon' } }
+];
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function edenShowFruit() {
+  fruitLives = 3; fruitMatched = 0; flippedFruits = []; lockedFruits = false;
+  updateFruitLives();
+  document.getElementById('eden-stage').style.display = 'none';
+  document.getElementById('fruit-game-area').classList.add('active');
+  const grid = document.getElementById('fruit-grid');
+  grid.innerHTML = '';
+  const deck = shuffle([...FRUITS, ...FRUITS].slice(0, 6));
+  deck.forEach((fruit) => {
+    const card = document.createElement('div');
+    card.className = 'fruit-card';
+    card.dataset.fruit = fruit.id;
+    card.innerHTML = `<span class="fruit-reveal">❓</span><span class="fruit-label">${fruit.name[lang]}</span>`;
+    card.addEventListener('click', () => flipFruit(card, fruit));
+    grid.appendChild(card);
+  });
+}
+
+function flipFruit(card, fruit) {
+  if (lockedFruits) return;
+  if (card.classList.contains('matched') || card.classList.contains('flipped')) return;
+  card.classList.add('flipped');
+  card.querySelector('.fruit-reveal').textContent = fruit.emoji;
+  flippedFruits.push({ card, fruit });
+  if (flippedFruits.length === 2) {
+    lockedFruits = true;
+    const [a, b] = flippedFruits;
+    if (a.fruit.id === b.fruit.id) {
+      a.card.classList.add('matched'); b.card.classList.add('matched');
+      flippedFruits = []; lockedFruits = false;
+      fruitMatched++;
+    } else {
+      fruitLives--; updateFruitLives();
+      a.card.classList.add('wrong'); b.card.classList.add('wrong');
+      setTimeout(() => {
+        a.card.classList.remove('wrong','flipped');
+        b.card.classList.remove('wrong','flipped');
+        a.card.querySelector('.fruit-reveal').textContent = '❓';
+        b.card.querySelector('.fruit-reveal').textContent = '❓';
+        flippedFruits = []; lockedFruits = false;
+        if (fruitLives <= 0) setTimeout(edenShowFruit, 800);
+      }, 700);
+    }
+  }
+}
+
+function updateFruitLives() {
+  document.getElementById('fruit-lives').textContent = '❤️'.repeat(Math.max(0, fruitLives)) + '🖤'.repeat(Math.max(0, 3 - fruitLives));
 }
 
 // Init: watch for screen-d1 becoming active
