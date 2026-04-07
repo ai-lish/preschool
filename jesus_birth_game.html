@@ -1,127 +1,278 @@
 <!DOCTYPE html>
 <html lang="zh-HK">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>耶穌降生遊戲</title>
-<link rel="stylesheet" href="/preschool/css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>耶穌降生 — 故事遊戲</title>
 <style>
-/* minimal page-specific styles to match existing games */
-body { font-family: 'Noto Sans TC', sans-serif; background: linear-gradient(#0f3460,#16213e); color:#fff; }
-.container { padding: 14px; max-width:900px; margin:0 auto; }
-.screen { display:none; min-height:70vh; align-items:center; justify-content:center; }
-.screen.active{display:flex}
-.controls{display:flex;gap:8px;margin-top:12px}
-.btn{background:#fff;color:#222;padding:10px 14px;border-radius:12px;cursor:pointer}
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; overflow: hidden; touch-action: manipulation; }
+:root { --primary: #6C5CE7; --gold: #FFD700; --success: #00C851; --shadow: 0 4px 20px rgba(0,0,0,0.18); --radius: 22px; }
+body { font-family: 'Noto Sans TC','PingFang HK','Microsoft JhengHei',sans-serif; background: #16213e; height: 100vh; width: 100vw; position: relative; overflow: hidden; }
+#navbar { position: fixed; top: 10px; left: 10px; right: 10px; z-index: 999; display: flex; gap: 8px; align-items: center; touch-action: manipulation; }
+.nav-btn { background: rgba(255,255,255,0.92); border: none; border-radius: 14px; padding: 9px 14px; font-size: 1.05rem; cursor: pointer; box-shadow: var(--shadow); transition: transform 0.15s; }
+.nav-btn:active { transform: scale(0.93); }
+#lang-wrap { position: relative; }
+#lang-menu { display: none; flex-direction: column; gap: 4px; position: absolute; top: 110%; left: 0; background: rgba(255,255,255,0.97); border-radius: 14px; padding: 8px; box-shadow: var(--shadow); min-width: 95px; }
+#lang-menu.show { display: flex; }
+.lang-btn { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 10px; font-size: 0.95rem; cursor: pointer; text-align: left; }
+.lang-btn.active { background: #e17055; }
+#progress-bar { position: fixed; top: 0; left: 0; width: 100%; height: 7px; background: rgba(255,255,255,0.2); z-index: 1000; }
+#progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg,#FFD700,#FF6B6B); transition: width 0.6s ease; }
+.screen { display: none; flex-direction: column; align-items: center; justify-content: flex-start; width: 100%; height: 100vh; padding: 68px 14px 18px; position: absolute; top: 0; left: 0; overflow-y: auto; }
+.screen.active { display: flex; }
+#screen-welcome { background: linear-gradient(180deg,#1a1a2e 0%,#0f3460 100%); justify-content: center; gap: 18px; }
+.welcome-star { font-size: 4rem; animation: starPulse 2s ease-in-out infinite; filter: drop-shadow(0 0 24px rgba(255,215,0,0.7)); }
+@keyframes starPulse { 0%,100%{transform:scale(1);filter:drop-shadow(0 0 15px rgba(255,215,0,0.5))} 50%{transform:scale(1.15);filter:drop-shadow(0 0 35px rgba(255,215,0,0.9))} }
+.welcome-title { font-size: 1.9rem; color: var(--gold); text-shadow: 0 2px 14px rgba(255,215,0,0.5); font-weight: 800; text-align: center; }
+.welcome-cross { font-size: 2.5rem; }
+.welcome-narr { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.9); border-radius: var(--radius); padding: 14px 20px; font-size: 1rem; line-height: 1.5; max-width: 90vw; text-align: center; backdrop-filter: blur(6px); }
+.welcome-days { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.welcome-day { background: rgba(255,255,255,0.15); border-radius: 14px; padding: 8px 14px; color: rgba(255,255,255,0.8); font-size: 0.88rem; }
+.start-btn { border: none; border-radius: 24px; padding: 18px 56px; font-size: 1.3rem; font-weight: 700; cursor: pointer; font-family: inherit; background: linear-gradient(135deg,#FFD700,#FF9500); color: #222; box-shadow: 0 6px 24px rgba(255,215,0,0.4); transition: transform 0.2s; touch-action: manipulation; }
+.start-btn:active { transform: scale(0.95); }
+#screen-d1 { background: linear-gradient(180deg,#1a1a2e,#16213e); }
+#screen-d2 { background: linear-gradient(180deg,#74b9ff,#a29bfe); }
+#screen-d3 { background: linear-gradient(180deg,#2d3561,#16213e); }
+#screen-d4 { background: linear-gradient(180deg,#d3944a,#a05c2c); }
+#screen-d5 { background: linear-gradient(180deg,#1a1a2e,#0f3460); }
+#screen-d6 { background: linear-gradient(180deg,#16213e,#1a1a2e); }
+#screen-d7 { background: linear-gradient(180deg,#0f3460,#16213e); }
+.day-title { font-size: 1.5rem; font-weight: 800; color: white; text-shadow: 0 2px 8px rgba(0,0,0,0.3); margin-bottom: 6px; text-align: center; }
+.day-narr { background: rgba(255,255,255,0.92); border-radius: var(--radius); padding: 14px 18px; font-size: 1.05rem; color: #333; max-width: 95vw; text-align: center; box-shadow: var(--shadow); margin-bottom: 12px; line-height: 1.5; }
+.action-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+.action-btn { border: none; border-radius: 20px; padding: 14px 30px; font-size: 1.05rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: transform 0.2s; touch-action: manipulation; min-height: 48px; }
+.action-btn:active { transform: scale(0.95); }
+.btn-next { background: linear-gradient(135deg,#00C851,#007E33); color: white; box-shadow: 0 4px 16px rgba(0,200,81,0.35); }
+.btn-hint { background: linear-gradient(135deg,#74b9ff,#0984e3); color: white; box-shadow: 0 4px 16px rgba(116,185,255,0.35); }
+.btn-replay { background: linear-gradient(135deg,#a29bfe,#6c5ce7); color: white; box-shadow: 0 4px 16px rgba(162,155,254,0.35); }
+#d1-scene { width: 96vw; max-width: 480px; height: 48vh; position: relative; overflow: hidden; }
+.d1-angel { position: absolute; top: 8%; right: -30%; font-size: 3.5rem; cursor: pointer; transition: all 1.2s cubic-bezier(0.25,0.46,0.45,0.94); z-index: 20; filter: drop-shadow(0 0 18px rgba(255,215,0,0.8)); }
+.d1-angel.fly { right: 25%; top: 25%; }
+.d1-click-count { position: absolute; top: 8px; right: 12px; background: rgba(0,0,0,0.5); color: white; border-radius: 20px; padding: 6px 14px; font-size: 0.9rem; z-index: 30; }
+#d2-scene { width: 96vw; max-width: 480px; height: 48vh; position: relative; overflow: hidden; }
+.d2-mary { position: absolute; bottom: 14%; left: 8%; font-size: 3.2rem; cursor: pointer; transition: left 1.5s ease; z-index: 10; }
+.d2-mary.walk { left: 42%; }
+.d2-mary.arrive { left: 42%; animation: babyKick 0.6s ease infinite; }
+@keyframes babyKick { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+.d2-elizabeth { position: absolute; bottom: 14%; right: 8%; font-size: 3.2rem; opacity: 0.5; transition: opacity 0.5s; }
+.d2-elizabeth.show { opacity: 1; }
+.d2-cloud { position: absolute; top: 6%; font-size: 2.5rem; animation: cloudFloat 3s ease-in-out infinite; }
+@keyframes cloudFloat { 0%,100%{transform:translateX(0)} 50%{transform:translateX(12px)} }
+#d3-scene { width: 96vw; max-width: 480px; height: 48vh; position: relative; overflow: hidden; }
+.d3-room { width: 100%; height: 100%; background: linear-gradient(180deg,#1a1a2e,#2d3561); position: absolute; inset: 0; }
+.d3-moon { position: absolute; top: 8%; right: 12%; font-size: 2.5rem; opacity: 0.4; }
+.d3-bed { position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%); font-size: 3.2rem; cursor: pointer; transition: all 0.3s; }
+.d3-bed:active { transform: translateX(-50%) scale(1.1); }
+.d3-dream { position: absolute; top: 5%; left: 50%; transform: translate(-50%,0) scale(0); width: 75%; background: rgba(255,255,200,0.95); border-radius: var(--radius); padding: 16px; text-align: center; font-size: 0.95rem; color: #333; transition: transform 0.8s cubic-bezier(0.34,1.56,0.64,1); z-index: 20; }
+.d3-dream.show { transform: translate(-50%,0) scale(1); }
+.d3-angel-dream { font-size: 2.5rem; margin-bottom: 8px; display: block; }
+#d4-scene { width: 96vw; max-width: 480px; height: 48vh; position: relative; overflow: hidden; }
+.d4-donkey { position: absolute; bottom: 22%; left: 6%; font-size: 3rem; cursor: grab; user-select: none; z-index: 10; touch-action: none; }
+.d4-progress { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 80%; height: 8px; background: rgba(255,255,255,0.25); border-radius: 4px; overflow: hidden; }
+.d4-progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg,#FFD700,#FF9500); border-radius: 4px; transition: width 0.4s ease; }
+#d5-scene { width: 96vw; max-width: 480px; height: 48vh; position: relative; overflow: hidden; }
+.d5-star { position: absolute; top: 4%; left: 50%; transform: translateX(-50%); font-size: 3.2rem; cursor: pointer; animation: starTwinkle 1.5s ease-in-out infinite; filter: drop-shadow(0 0 20px rgba(255,215,0,0.9)); z-index: 20; }
+@keyframes starTwinkle { 0%,100%{transform:translateX(-50%) scale(1);filter:drop-shadow(0 0 20px rgba(255,215,0,0.9))} 50%{transform:translateX(-50%) scale(1.25);filter:drop-shadow(0 0 40px rgba(255,215,0,1))} }
+.d5-star.done { animation: none; cursor: default; }
+.d5-jesus { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%) scale(0); font-size: 3.5rem; transition: transform 1s cubic-bezier(0.34,1.56,0.64,1), opacity 0.5s; opacity: 0; z-index: 15; }
+.d5-jesus.show { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+.d5-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 120px; height: 120px; background: radial-gradient(circle,rgba(255,215,0,0.7) 0%,transparent 70%); border-radius: 50%; opacity: 0; transition: opacity 1s; z-index: 14; pointer-events: none; }
+.d5-glow.show { opacity: 1; }
+#d6-scene { width: 96vw; max-width: 480px; height: 48vh; position: relative; overflow: hidden; }
+.d6-sheep { position: absolute; bottom: 18%; left: 12%; font-size: 2.8rem; cursor: pointer; animation: sheepIdle 2s ease-in-out infinite; }
+@keyframes sheepIdle { 0%,100%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(-5px) rotate(2deg)} }
+.d6-shepherd { position: absolute; bottom: 16%; right: 10%; font-size: 2.8rem; opacity: 0; transition: opacity 0.8s; }
+.d6-shepherd.show { opacity: 1; }
+.d6-angel { position: absolute; top: 5%; left: 50%; transform: translateX(-50%) scale(0); font-size: 3rem; filter: drop-shadow(0 0 24px rgba(255,215,0,0.9)); transition: transform 1s cubic-bezier(0.34,1.56,0.64,1); z-index: 20; }
+.d6-angel.show { transform: translateX(-50%) scale(1); }
+#d7-scene { width: 96vw; max-width: 480px; height: 48vh; position: relative; overflow: hidden; }
+.d7-star { position: absolute; top: 5%; left: 50%; transform: translateX(-50%); font-size: 3rem; cursor: pointer; animation: starTwinkle 1.5s ease-in-out infinite; filter: drop-shadow(0 0 20px rgba(255,215,0,0.9)); transition: top 2s ease; z-index: 20; }
+.d7-star.moved { top: 35%; }
+.d7-magi { position: absolute; bottom: 18%; left: 10%; font-size: 2.8rem; transition: all 2s ease; }
+.d7-magi.walk { left: 55%; bottom: 28%; }
+.d7-gift { position: absolute; bottom: 22%; right: 12%; font-size: 2.5rem; opacity: 0; transition: opacity 1s; }
+.d7-gift.show { opacity: 1; }
+#success-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 800; align-items: center; justify-content: center; flex-direction: column; gap: 14px; }
+#success-overlay.show { display: flex; }
+.success-card { background: white; border-radius: var(--radius); padding: 24px 30px; text-align: center; max-width: 85vw; box-shadow: 0 8px 40px rgba(0,0,0,0.3); }
+.success-emoji { font-size: 3.5rem; margin-bottom: 10px; }
+.success-text { font-size: 1.05rem; color: #333; line-height: 1.5; margin-bottom: 14px; }
+#screen-summary { background: linear-gradient(180deg,#1a1a2e,#0f3460); justify-content: center; gap: 16px; }
+.summary-card { background: rgba(255,255,255,0.12); border-radius: var(--radius); padding: 22px 24px; max-width: 90vw; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.15); }
+.summary-title { font-size: 1.5rem; color: var(--gold); text-align: center; margin-bottom: 10px; }
+.summary-text { font-size: 1rem; color: rgba(255,255,255,0.9); line-height: 1.6; text-align: center; }
+.summary-stars { text-align: center; font-size: 2.2rem; margin: 10px 0; }
+#parent-tip { display: none; background: rgba(255,255,255,0.12); border-radius: var(--radius); padding: 14px 18px; max-width: 95vw; backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.15); margin-top: 8px; }
+#parent-tip.show { display: block; }
+.tip-label { font-size: 0.78rem; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.tip-text { font-size: 0.88rem; color: rgba(255,255,255,0.85); line-height: 1.5; }
+.feedback-flash { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: rgba(0,0,0,0.75); color: white; padding: 14px 28px; border-radius: 20px; font-size: 1.1rem; z-index: 900; pointer-events: none; animation: fadeFlash 1.5s ease forwards; }
+@keyframes fadeFlash { 0%{opacity:0;transform:translate(-50%,-50%) scale(0.8)} 20%{opacity:1;transform:translate(-50%,-50%) scale(1)} 80%{opacity:1} 100%{opacity:0;transform:translate(-50%,-50%) scale(1)} }
 </style>
 </head>
 <body>
-<div class="container">
-  <header>
-    <h1>耶穌降生 — 故事遊戲</h1>
-    <div class="controls">
-      <select id="lang-select"><option value="ja">日本語</option><option value="zhCN">普通話</option><option value="en">English</option><option value="zhHK">粵語</option></select>
-      <button id="startBtn" class="btn">開始</button>
-      <button id="homeBtn" class="btn">返回</button>
+<div id="progress-bar"><div id="progress-fill"></div></div>
+<div id="navbar">
+  <button class="nav-btn" id="btn-home">🏠</button>
+  <div id="lang-wrap">
+    <button class="nav-btn" id="btn-lang">🌐 粵</button>
+    <div id="lang-menu">
+      <button class="lang-btn" data-lang="zhHK">粵語</button>
+      <button class="lang-btn" data-lang="zhCN">普通話</button>
+      <button class="lang-btn" data-lang="en">English</button>
+      <button class="lang-btn" data-lang="ja">日本語</button>
     </div>
-  </header>
-
-  <main>
-    <div id="welcome" class="screen active">
-      <div>
-        <p class="day-narration" id="welcomeNarr">歡迎來到耶穌降生故事遊戲。按「開始」跟住7日故事。</p>
-      </div>
-    </div>
-
-    <!-- Day screens placeholders -->
-    <div id="dayScreens">
-      <!-- Generate 7 day screens via JS -->
-    </div>
-
-    <div id="summary" class="screen">
-      <div>
-        <p id="summaryText">故事總結</p>
-        <div class="controls"><button id="replayBtn" class="btn">重玩</button></div>
-      </div>
-    </div>
-  </main>
-
-  <footer style="margin-top:18px;color:rgba(255,255,255,0.8)"><small>本遊戲使用 localStorage 儲存進度。無需網絡。</small></footer>
+  </div>
 </div>
 
-<script>
-const AUDIO_BASE = '/preschool/audio/jesus';
-const LANG_ORDER = ['ja','zhCN','en','zhHK'];
-const keys = [
-  'j1Narr','j1Hint','j1Fail','j1Success',
-  'j2Narr','j2Hint','j2Fail','j2Success',
-  'j3Narr','j3Hint','j3Fail','j3Success',
-  'j4Narr','j4Hint','j4Fail','j4Success',
-  'j5Narr','j5Hint','j5Fail','j5Success',
-  'j6Narr','j6Hint','j6Fail','j6Success',
-  'j7Narr','j7Hint','j7Fail','j7Success',
-  'summary'
-];
+<div id="screen-welcome" class="screen active">
+  <div class="welcome-cross">✝️</div>
+  <div class="welcome-title">耶穌降生</div>
+  <div class="welcome-star">⭐</div>
+  <div class="welcome-narr" id="welcome-narr">歡迎來到耶穌降生故事遊戲！跟住7日行程，聽故事、玩互動遊戲。</div>
+  <div class="welcome-days">
+    <div class="welcome-day">第1日 天使報信</div>
+    <div class="welcome-day">第2日 馬利亞探訪</div>
+    <div class="welcome-day">第3日 約瑟的夢</div>
+    <div class="welcome-day">第4日 伯利恆之旅</div>
+    <div class="welcome-day">第5日 耶穌降生</div>
+    <div class="welcome-day">第6日 牧羊人來訪</div>
+    <div class="welcome-day">第7日 博士來朝</div>
+  </div>
+  <button class="start-btn" id="btn-start">開始旅程 ✨</button>
+</div>
 
-function makeDay(id,title){
-  const el = document.createElement('section');
-  el.className='screen'; el.id='screen-d'+id;
-  el.innerHTML = `<div><h2>第${id}日 — ${title}</h2><p class="day-narration" id="d${id}Narr"></p><div class="controls"><button class="btn action" data-day="${id}">互動</button><button class="btn next" data-day="${id}">下一步</button></div></div>`;
-  return el;
-}
+<div id="screen-d1" class="screen">
+  <div class="day-title">第1日 — 天使報信</div>
+  <div class="day-narr" id="d1-narr"></div>
+  <div id="d1-scene">
+    <img src="/preschool/img/jesus/scene1_angel_annunciation.png" alt="" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" onerror="this.style.display='none'">
+    <img id="d1-mary" src="/preschool/img/jesus/mary.png" alt="Mary" style="position:absolute;bottom:12%;left:50%;transform:translateX(-50%);width:64px;height:64px;object-fit:contain;z-index:10;" onerror="this.style.display='none'">
+    <div class="d1-click-count" id="d1-counter">0 / 3</div>
+    <img id="d1-angel" class="d1-angel" src="/preschool/img/jesus/angel_gabriel.png" alt="Angel" style="width:64px;height:64px;object-fit:contain;" onerror="this.style.display='none';this.remove()">
+  </div>
+  <div class="action-row">
+    <button class="action-btn btn-hint" id="d1-btn-hint">💡 提示</button>
+    <button class="action-btn btn-next" id="d1-btn-next">下一步 ➡️</button>
+  </div>
+  <div id="d1-tip-wrap" class="parent-tip"><div class="tip-label">💡 知多一點點</div><div class="tip-text" id="d1-tip"></div></div>
+</div>
 
-const titles = ['天使報信','馬利亞探訪伊利沙伯','約瑟的夢','伯利恆之旅','耶穌降生','牧羊人來訪','博士來朝'];
-const dayScreens = document.getElementById('dayScreens');
-for(let i=0;i<7;i++) dayScreens.appendChild(makeDay(i+1,titles[i]));
+<div id="screen-d2" class="screen">
+  <div class="day-title">第2日 — 馬利亞探訪伊利沙伯</div>
+  <div class="day-narr" id="d2-narr"></div>
+  <div id="d2-scene">
+    <img src="/preschool/img/jesus/scene2_mary_visit.png" alt="" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" onerror="this.style.display='none'">
+    <div class="d2-cloud" style="left:15%">☁️</div>
+    <div class="d2-cloud" style="left:55%;animation-delay:-1s">☁️</div>
+    <img id="d2-mary" src="/preschool/img/jesus/mary.png" alt="Mary" style="position:absolute;bottom:14%;left:8%;width:60px;height:60px;object-fit:contain;z-index:10;" onerror="this.style.display='none'">
+    <img id="d2-elizabeth" src="/preschool/img/jesus/mary.png" alt="Elizabeth" style="position:absolute;bottom:14%;right:8%;width:60px;height:60px;object-fit:contain;opacity:0.5;" onerror="this.style.display='none'">
+  </div>
+  <div class="action-row">
+    <button class="action-btn btn-hint" id="d2-btn-hint">💡 提示</button>
+    <button class="action-btn btn-next" id="d2-btn-next">下一步 ➡️</button>
+  </div>
+  <div id="d2-tip-wrap" class="parent-tip"><div class="tip-label">💡 知多一點點</div><div class="tip-text" id="d2-tip"></div></div>
+</div>
 
-// audio loader
-function audioPath(lang,key){ return `${AUDIO_BASE}/${lang}/${key}.mp3`; }
-function playKey(lang,key){
-  const path = audioPath(lang,key);
-  const a = new Audio(path);
-  a.onerror = ()=> console.warn('audio missing',path);
-  a.play().catch(e=>console.warn('play error',e));
-  return a;
-}
+<div id="screen-d3" class="screen">
+  <div class="day-title">第3日 — 約瑟的夢</div>
+  <div class="day-narr" id="d3-narr"></div>
+  <div id="d3-scene">
+    <div class="d3-room"><div class="d3-moon">🌙</div></div>
+    <img id="d3-bed" src="/preschool/img/jesus/joseph.png" alt="Joseph" style="position:absolute;bottom:10%;left:50%;transform:translateX(-50%);width:72px;height:72px;object-fit:contain;cursor:pointer;" onerror="this.style.display='none'">
+    <div class="d3-dream" id="d3-dream"><span class="d3-angel-dream">👼</span><div id="d3-dream-text"></div></div>
+  </div>
+  <div class="action-row">
+    <button class="action-btn btn-hint" id="d3-btn-hint">💡 提示</button>
+    <button class="action-btn btn-next" id="d3-btn-next">下一步 ➡️</button>
+  </div>
+  <div id="d3-tip-wrap" class="parent-tip"><div class="tip-label">💡 知多一點點</div><div class="tip-text" id="d3-tip"></div></div>
+</div>
 
-// UI logic
-const startBtn = document.getElementById('startBtn');
-const langSelect = document.getElementById('lang-select');
-let currentDay = 0;
-startBtn.addEventListener('click',()=>{
-  currentDay = 1; showDay(currentDay);
-  playKey(langSelect.value,`j${currentDay}Narr`);
-});
-function showDay(n){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  const sel = document.getElementById('screen-d'+n) || document.getElementById('summary');
-  if(sel) sel.classList.add('active');
-  updateProgress();
-}
+<div id="screen-d4" class="screen">
+  <div class="day-title">第4日 — 伯利恆之旅</div>
+  <div class="day-narr" id="d4-narr"></div>
+  <div id="d4-scene">
+    <img src="/preschool/img/jesus/scene4_journey.png" alt="" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" onerror="this.style.display='none'">
+    <div id="d4-donkey" style="position:absolute;bottom:22%;left:6%;font-size:3rem;cursor:grab;z-index:10;touch-action:none;">🫏</div>
+    <div style="position:absolute;bottom:10%;right:5%;font-size:2rem;opacity:0.7;">🏛️ 伯利恆</div>
+    <div class="d4-progress"><div class="d4-progress-fill" id="d4-progress-fill"></div></div>
+  </div>
+  <div class="action-row">
+    <button class="action-btn btn-hint" id="d4-btn-hint">💡 提示</button>
+    <button class="action-btn btn-next" id="d4-btn-next">下一步 ➡️</button>
+  </div>
+  <div id="d4-tip-wrap" class="parent-tip"><div class="tip-label">💡 知多一點點</div><div class="tip-text" id="d4-tip"></div></div>
+</div>
 
-// generic action handlers
-document.body.addEventListener('click',e=>{
-  if(e.target.matches('.action')){
-    const d = e.target.dataset.day; playKey(langSelect.value,`j${d}Hint`);
-  }
-  if(e.target.matches('.next')){
-    const d = Number(e.target.dataset.day);
-    playKey(langSelect.value,`j${d}Success`);
-    if(d<7){ currentDay = d+1; setTimeout(()=>{ showDay(currentDay); playKey(langSelect.value,`j${currentDay}Narr`);},700); }
-    else { document.getElementById('summary').classList.add('active'); playKey(langSelect.value,'summary'); }
-  }
-});
+<div id="screen-d5" class="screen">
+  <div class="day-title">第5日 — 耶穌降生</div>
+  <div class="day-narr" id="d5-narr"></div>
+  <div id="d5-scene">
+    <img src="/preschool/img/jesus/scene5_nativity.png" alt="" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" onerror="this.style.display='none'">
+    <div class="d5-glow" id="d5-glow"></div>
+    <div class="d5-star" id="d5-star">⭐</div>
+    <img id="d5-jesus" src="/preschool/img/jesus/baby_jesus.png" alt="Baby Jesus" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);width:72px;height:72px;object-fit:contain;z-index:15;opacity:0;" onerror="this.style.display='none'">
+  </div>
+  <div class="action-row">
+    <button class="action-btn btn-hint" id="d5-btn-hint">💡 提示</button>
+    <button class="action-btn btn-next" id="d5-btn-next">下一步 ➡️</button>
+  </div>
+  <div id="d5-tip-wrap" class="parent-tip"><div class="tip-label">💡 知多一點點</div><div class="tip-text" id="d5-tip"></div></div>
+</div>
 
-function updateProgress(){
-  const pct = Math.round((currentDay/7)*100);
-  // placeholder for progress
-}
+<div id="screen-d6" class="screen">
+  <div class="day-title">第6日 — 牧羊人來訪</div>
+  <div class="day-narr" id="d6-narr"></div>
+  <div id="d6-scene">
+    <img src="/preschool/img/jesus/scene6_shepherds.png" alt="" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" onerror="this.style.display='none'">
+    <div id="d6-sheep" style="position:absolute;bottom:18%;left:12%;font-size:2.8rem;animation:sheepIdle 2s ease-in-out infinite;">🐑</div>
+    <div class="d6-angel" id="d6-angel">👼✨</div>
+    <img id="d6-shepherd" src="/preschool/img/jesus/shepherd.png" alt="Shepherd" style="position:absolute;bottom:16%;right:10%;width:64px;height:64px;object-fit:contain;opacity:0;" onerror="this.style.display='none'">
+  </div>
+  <div class="action-row">
+    <button class="action-btn btn-hint" id="d6-btn-hint">💡 提示</button>
+    <button class="action-btn btn-next" id="d6-btn-next">下一步 ➡️</button>
+  </div>
+  <div id="d6-tip-wrap" class="parent-tip"><div class="tip-label">💡 知多一點點</div><div class="tip-text" id="d6-tip"></div></div>
+</div>
 
-// replay
-document.getElementById('replayBtn').addEventListener('click',()=>{ currentDay=1; showDay(1); playKey(langSelect.value,'j1Narr'); });
+<div id="screen-d7" class="screen">
+  <div class="day-title">第7日 — 博士來朝</div>
+  <div class="day-narr" id="d7-narr"></div>
+  <div id="d7-scene">
+    <img src="/preschool/img/jesus/scene7_magi.png" alt="" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" onerror="this.style.display='none'">
+    <div class="d7-star" id="d7-star">⭐</div>
+    <img id="d7-magi" src="/preschool/img/jesus/magi_king.png" alt="Magi" style="position:absolute;bottom:18%;left:10%;width:64px;height:64px;object-fit:contain;" onerror="this.style.display='none'">
+    <div class="d7-gift" id="d7-gift">🎁👑🌿</div>
+  </div>
+  <div class="action-row">
+    <button class="action-btn btn-hint" id="d7-btn-hint">💡 提示</button>
+    <button class="action-btn btn-next" id="d7-btn-next">完成 ✅</button>
+  </div>
+  <div id="d7-tip-wrap" class="parent-tip"><div class="tip-label">💡 知多一點點</div><div class="tip-text" id="d7-tip"></div></div>
+</div>
 
-// expose for testing
-window._jesus = {playKey,keys,LANG_ORDER};
-</script>
+<div id="screen-summary" class="screen">
+  <div class="welcome-cross">✝️</div>
+  <div class="summary-card">
+    <div class="summary-title" id="summary-title">故事完成！</div>
+    <div class="summary-stars">⭐⭐⭐⭐⭐⭐⭐</div>
+    <div class="summary-text" id="summary-text"></div>
+  </div>
+  <button class="start-btn btn-replay" id="btn-replay">再玩一次 🔄</button>
+</div>
+
+<div id="success-overlay">
+  <div class="success-card">
+    <div class="success-emoji">🎉</div>
+    <div class="success-text" id="success-text"></div>
+    <button class="action-btn btn-next" id="success-continue">繼續 ➡️</button>
+  </div>
+</div>
+
+<script src="_jesus_game.js"></script>
 </body>
 </html>
