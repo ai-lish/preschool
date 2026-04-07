@@ -1,0 +1,1 @@
+{"text": "Adam", "segments": [{"id": 0, "seek": 0, "start": 0.0, "end": 1.0, "text": "Adam", "tokens": [50364, 32937, 50414], "temperature": 0.0, "avg_logprob": -0.6071528196334839, "compression_ratio": 0.3333333333333333, "no_speech_prob": 0.11621399223804474}], "language": "Chinese"}
