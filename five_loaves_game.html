@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="zh-HK">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>五餅二魚遊戲</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:'Noto Sans TC',system-ui,Arial;background:#fff8f0;color:#333;margin:0;padding:16px}
+    .wrap{max-width:900px;margin:0 auto}
+    header{display:flex;align-items:center;gap:12px}
+    header img{width:64px}
+    .controls{margin:12px 0;display:flex;gap:8px;align-items:center}
+    .scene{border-radius:12px;overflow:hidden;background:#fff;padding:12px;margin:12px 0;box-shadow:0 4px 12px rgba(0,0,0,0.06)}
+    .scene img.bg{width:100%;height:220px;object-fit:cover;border-radius:8px}
+    .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    button, .lang-select{background:#ffefdf;border:1px solid #ffd9b8;padding:8px 12px;border-radius:8px}
+    .small{font-size:14px;padding:6px 8px}
+    .draggable{cursor:grab}
+    .tip{background:#fff4f0;padding:8px;border-radius:8px;margin-top:8px}
+    .hidden{display:none}
+    .basket-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+    .basket{width:64px;height:64px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#fff}
+    .feedback{position:fixed;right:16px;bottom:16px;background:#fff;padding:12px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.12)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <img src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/five-loaves-icon.png" alt="icon">
+      <div>
+        <h1>五餅二魚遊戲</h1>
+        <div style="font-size:14px;color:#666">互動故事：5日 | 適合 K1-K3</div>
+      </div>
+    </header>
+
+    <div class="controls">
+      <label for="lang">語言</label>
+      <select id="lang" class="lang-select">
+        <option value="zhHK">粵語</option>
+        <option value="zhCN">簡體</option>
+        <option value="enUS">English</option>
+        <option value="jaJP">日本語</option>
+      </select>
+      <div style="margin-left:auto">
+        <button class="small" onclick="goToDay(1)">Day1</button>
+        <button class="small" onclick="goToDay(2)">Day2</button>
+        <button class="small" onclick="goToDay(3)">Day3</button>
+        <button class="small" onclick="goToDay(4)">Day4</button>
+        <button class="small" onclick="goToDay(5)">Day5</button>
+      </div>
+    </div>
+
+    <!-- Scenes -->
+    <div id="days">
+      <!-- Day1 -->
+      <section id="day-1" class="scene">
+        <img class="bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/five_loaves/scene1_crowd.png" alt="crowd">
+        <div class="row">
+          <button onclick="playAudio('f1Narr')">播放敘述</button>
+          <button onclick="playAudio('f1Hint')">提示</button>
+          <div class="tip" id="day1-tip">請點擊畫面上的人物來數一數。</div>
+        </div>
+      </section>
+
+      <!-- Day2 -->
+      <section id="day-2" class="scene hidden">
+        <img class="bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/five_loaves/scene2_basket.png" alt="basket">
+        <div class="row">
+          <button onclick="f2ShowLunch()">打開籃子</button>
+          <button onclick="playAudio('f2Hint')">提示</button>
+          <div id="lunch-area" class="row" style="align-items:center"></div>
+        </div>
+      </section>
+
+      <!-- Day3 -->
+      <section id="day-3" class="scene hidden">
+        <img class="bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/five_loaves/scene3_bless.png" alt="bless">
+        <div class="row">
+          <button onclick="playAudio('f3Narr')">播放敘述</button>
+          <button onclick="playAudio('f3Hint')">提示</button>
+          <button onclick="f3BlessFood()">祝福食物</button>
+          <div id="bless-area" class="row"></div>
+        </div>
+      </section>
+
+      <!-- Day4 -->
+      <section id="day-4" class="scene hidden">
+        <img class="bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/five_loaves/scene4_feeding.png" alt="feeding">
+        <div class="row">
+          <button onclick="playAudio('f4Narr')">播放敘述</button>
+          <button onclick="playAudio('f4Hint')">提示</button>
+          <div class="row" id="food-source"></div>
+        </div>
+      </section>
+
+      <!-- Day5 -->
+      <section id="day-5" class="scene hidden">
+        <img class="bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/five_loaves/scene5_baskets.png" alt="baskets">
+        <div class="row">
+          <button onclick="playAudio('f5Narr')">播放敘述</button>
+          <button onclick="playAudio('f5Hint')">提示</button>
+          <div class="basket-grid" id="basket-grid" style="margin-top:12px"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Parent tips -->
+    <section class="scene">
+      <h3>家長提示（知心一點點）</h3>
+      <ul>
+        <li><strong>第1日：</strong>分享概念：和孩子談談群體與分享。</li>
+        <li><strong>第2日：</strong>數數配合實物操作，幫助建立數量概念。</li>
+        <li><strong>第3日：</strong>飯前祈禱，培養感恩心。</li>
+        <li><strong>第4日：</strong>公平與慷慨：鼓勵孩子分給每個人。</li>
+        <li><strong>第5日：</strong>數12個籃子，可延伸簡單減法遊戲。</li>
+      </ul>
+    </section>
+
+  </div>
+
+  <div id="feedback" class="feedback hidden"></div>
+
+  <script>
+    const rawBase = 'https://raw.githubusercontent.com/ai-lish/preschool/main';
+    const langSelect = document.getElementById('lang');
+    function lang(){return langSelect.value}
+
+    function showFeedback(msg,type='info'){ const el=document.getElementById('feedback'); el.textContent=msg; el.classList.remove('hidden'); if(type==='success') el.style.border='2px solid #7bd389'; if(type==='fail') el.style.border='2px solid #ff9aa2'; setTimeout(()=>el.classList.add('hidden'),2500)}
+
+    function goToDay(n){ for(let i=1;i<=5;i++){document.getElementById('day-'+i).classList.add('hidden')} document.getElementById('day-'+n).classList.remove('hidden'); playAudio('f'+n+'Narr'); }
+    function completeDay(d){ showFeedback('第'+d+'日完成', 'success') }
+
+    // Audio helper
+    function audioUrl(key){ return rawBase + '/audio/five_loaves/' + key + '_' + lang() + '.mp3' }
+    function playAudio(key){ const a = new Audio(audioUrl(key)); a.play().catch(e=>console.warn('audio play failed',e)); }
+
+    // Day2: show lunch
+    function f2ShowLunch(){ const area=document.getElementById('lunch-area'); area.innerHTML='';
+      const loafUrl = rawBase + '/img/five_loaves/loaf.png';
+      const fishUrl = rawBase + '/img/five_loaves/fish.png';
+      for(let i=0;i<5;i++){ const img=document.createElement('img'); img.src=loafUrl; img.alt='loaf'; img.style.width='64px'; img.className='draggable'; area.appendChild(img)}
+      for(let i=0;i<2;i++){ const img=document.createElement('img'); img.src=fishUrl; img.alt='fish'; img.style.width='64px'; img.className='draggable'; area.appendChild(img)}
+      playAudio('f2Narr'); showFeedback('打開籃子，見到5個餅和2條魚！','info')
+    }
+
+    // Day3: blessing animation (simple)
+    function f3BlessFood(){ const area=document.getElementById('bless-area'); area.innerHTML='';
+      const loafUrl = rawBase + '/img/five_loaves/loaf.png';
+      const fishUrl = rawBase + '/img/five_loaves/fish.png';
+      for(let i=0;i<7;i++){ const img=document.createElement('img'); img.src = (i<5?loafUrl:fishUrl); img.style.width='64px'; img.style.margin='6px'; img.className='draggable'; area.appendChild(img)}
+      // simple sparkle
+      document.body.style.transition='background 0.6s'; document.body.style.background='#fffef6'; setTimeout(()=>document.body.style.background='#fff8f0',600);
+      playAudio('f3Narr'); showFeedback('耶穌祝福了食物！','success')
+    }
+
+    // Day4: drag & drop distribution
+    function setupDragAndDrop(){ const src = document.getElementById('food-source'); src.innerHTML='';
+      const loafUrl = rawBase + '/img/five_loaves/loaf.png';
+      const fishUrl = rawBase + '/img/five_loaves/fish.png';
+      // create draggable food (many)
+      for(let i=0;i<10;i++){ const img=document.createElement('img'); img.src=(i<8?loafUrl:fishUrl); img.style.width='56px'; img.draggable=true; img.className='draggable'; img.addEventListener('dragstart',e=>e.dataTransfer.setData('text/plain', img.src)); src.appendChild(img)}
+      // target children
+      const feeding = document.querySelector('#day-4 .scene') || document.getElementById('day-4');
+      // place invisible drop targets over child positions by reading image area (simple: create 3 targets)
+      for(let i=1;i<=3;i++){ const t=document.createElement('div'); t.style.width='88px'; t.style.height='88px'; t.style.border='2px dashed rgba(0,0,0,0.06)'; t.style.borderRadius='8px'; t.style.display='inline-flex'; t.style.alignItems='center'; t.style.justifyContent='center'; t.style.margin='6px'; t.addEventListener('dragover',e=>e.preventDefault()); t.addEventListener('drop',e=>{ e.preventDefault(); const srcUrl=e.dataTransfer.getData('text/plain'); const im=document.createElement('img'); im.src=srcUrl; im.style.width='48px'; t.appendChild(im); checkDistribution(); }); document.getElementById('day-4').querySelector('#food-source').appendChild(t) }
+    }
+    function checkDistribution(){ // simple check: if each target has >=1 img -> success
+      const targets = Array.from(document.getElementById('day-4').querySelectorAll('#food-source > div'));
+      if(targets.length && targets.every(t=>t.querySelectorAll('img').length>0)){ playAudio('f4Success'); showFeedback('每個小朋友都得到食物！','success'); completeDay(4) }
+    }
+
+    // Day5: collect 12 baskets
+    function setupBaskets(){ const grid=document.getElementById('basket-grid'); grid.innerHTML='';
+      const empty = rawBase + '/img/five_loaves/basket_empty.png';
+      for(let i=1;i<=12;i++){ const d=document.createElement('div'); d.className='basket'; const im=document.createElement('img'); im.src=empty; im.style.width='56px'; im.dataset.index=i; d.appendChild(im); d.addEventListener('click',()=>{ im.src = rawBase + '/img/five_loaves/basket_full.png'; im.dataset.collected='1'; checkBaskets(); }); grid.appendChild(d) }
+    }
+    function checkBaskets(){ const all = document.querySelectorAll('#basket-grid img'); const done = Array.from(all).filter(i=>i.dataset.collected==='1').length; if(done>=12){ playAudio('f5Success'); showFeedback('你收集到12個籃子！','success'); completeDay(5) }}
+
+    // helpers to init scenes
+    function init(){ goToDay(1); setupDragAndDrop(); setupBaskets(); }
+    // map audio keys to existing files (some keys may be missing); wrapper to include lang
+    // Preload a few audio files to avoid delay
+    window.addEventListener('load',()=>{ init(); });
+  </script>
+</body>
+</html>
