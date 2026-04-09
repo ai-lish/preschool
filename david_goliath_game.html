@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="zh-HK">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>大衛與歌利亞遊戲</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:'Noto Sans TC',system-ui,Arial;background:#f0f4ff;color:#333;margin:0;padding:16px}
+    .wrap{max-width:900px;margin:0 auto}
+    header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+    header img{width:64px;height:64px;border-radius:12px;object-fit:cover}
+    h1{margin:0;font-size:24px}
+    .controls{margin:12px 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .scene{border-radius:12px;overflow:hidden;background:#fff;padding:12px;margin:12px 0;box-shadow:0 4px 12px rgba(0,0,0,0.08);position:relative}
+    .scene img.bg{width:100%;height:240px;object-fit:cover;border-radius:8px;display:block}
+    .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;align-items:center}
+    button, .lang-select{background:#e8eeff;border:1px solid #c0d0ff;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:14px}
+    button:hover{background:#d0deff}
+    .small{font-size:13px;padding:5px 10px}
+    .tip{background:#f0f4ff;padding:8px 12px;border-radius:8px;margin-top:8px;font-size:14px;color:#555}
+    .hidden{display:none}
+    .scene-wrap{position:relative;display:inline-block;width:100%}
+    .clickable-spot{position:absolute;border-radius:50%;background:rgba(255,220,80,0.4);border:2px solid rgba(255,200,0,0.7);cursor:pointer;transition:all 0.2s}
+    .clickable-spot:hover{background:rgba(255,220,80,0.7);transform:scale(1.1)}
+    .clickable-spot.done{background:rgba(100,220,100,0.5);border-color:#5cb85c}
+    .overlay-btn{position:absolute;cursor:pointer;border:none;border-radius:12px;font-size:16px;padding:10px 16px;background:rgba(255,255,255,0.9);box-shadow:0 2px 8px rgba(0,0,0,0.15);transition:transform 0.2s}
+    .overlay-btn:hover{transform:scale(1.05)}
+    #feedback{border-radius:12px;padding:14px 20px;position:fixed;bottom:24px;left:50%;transform:translateX(-50%);font-size:16px;font-weight:bold;z-index:999;display:none;max-width:90%}
+    #feedback.show{display:block}
+    #feedback.success{background:#d4edda;color:#155724;border:2px solid #28a745}
+    #feedback.fail{background:#f8d7da;color:#721c24;border:2px solid #dc3545}
+    .parent-tip{background:#fff8e1;padding:12px;border-radius:12px;margin-top:12px}
+    .parent-tip h3{color:#e65100;margin:0 0 8px;font-size:16px}
+    .parent-tip ul{margin:0;padding-left:20px;font-size:14px}
+    .day-title{font-size:18px;font-weight:bold;color:#2c3e50;margin-bottom:8px}
+    .progress{margin:8px 0;font-size:13px;color:#888}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <img src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/david_goliath/david-goliath-icon.png" alt="icon" onerror="this.style.display='none'">
+      <div>
+        <h1>🪨 大衛與歌利亞</h1>
+        <div style="font-size:14px;color:#666">互動聖經故事：5日 | 適合 K1-K3</div>
+      </div>
+    </header>
+
+    <div class="controls">
+      <label for="lang">🌐 語言</label>
+      <select id="lang" class="lang-select" onchange="if(currDay)playAudio('d'+currDay+'Narr')">
+        <option value="zhHK">粵語</option>
+        <option value="zhCN">簡體</option>
+        <option value="enUS">English</option>
+        <option value="jaJP">日本語</option>
+      </select>
+      <div style="margin-left:auto;display:flex;gap:6px">
+        <button class="small" onclick="goToDay(1)">Day1</button>
+        <button class="small" onclick="goToDay(2)">Day2</button>
+        <button class="small" onclick="goToDay(3)">Day3</button>
+        <button class="small" onclick="goToDay(4)">Day4</button>
+        <button class="small" onclick="goToDay(5)">Day5</button>
+      </div>
+    </div>
+
+    <div id="days">
+
+      <!-- ========== DAY 1: 大衛牧羊 ========== -->
+      <section id="day-1" class="scene">
+        <div class="day-title">第1日：🐑 大衛牧羊</div>
+        <div class="scene-wrap" id="day1-wrap">
+          <img class="bg" id="d1-bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/david_goliath/scene1_sheep.png" alt="sheep" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 300%22><rect fill=%22%2387CEEB%22 width=%22800%22 height=%22300%22/><text x=%22400%22 y=%22150%22 text-anchor=%22middle%22 font-size=%2240%22>🐑 大衛牧羊</text></svg>'">
+          <button class="overlay-btn" id="d1-sheep-btn" style="bottom:30px;right:30px;font-size:22px" onclick="d1ProtectSheep()">🛡️ 保護羊羔</button>
+        </div>
+        <div class="row">
+          <button onclick="playAudio('d1Narr')">▶️ 播放敘述</button>
+          <button onclick="playAudio('d1Hint')">💡 提示</button>
+          <button onclick="playAudio('d1Fail')">❌ 失敗音</button>
+          <button onclick="playAudio('d1Success')">✅ 成功音</button>
+        </div>
+        <div class="tip" id="day1-tip">💬 點擊「保護羊羔」，幫大衛趕走大野狼！</div>
+        <div class="progress" id="d1-progress"></div>
+      </section>
+
+      <!-- ========== DAY 2: 父親差遣 ========== -->
+      <section id="day-2" class="scene hidden">
+        <div class="day-title">第2日：📜 父親差遣</div>
+        <div class="scene-wrap" id="day2-wrap">
+          <img class="bg" id="d2-bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/david_goliath/scene2_letter.png" alt="letter" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 300%22><rect fill=%22%23DEB887%22 width=%22800%22 height=%22300%22/><text x=%22400%22 y=%22150%22 text-anchor=%22middle%22 font-size=%2240%22>📜 父親差遣</text></svg>'">
+          <button class="overlay-btn" id="d2-letter-btn" style="top:50%;left:50%;transform:translate(-50%,-50%)" onclick="d2StartJourney()">✉️ 點擊出發</button>
+        </div>
+        <div class="row">
+          <button onclick="playAudio('d2Narr')">▶️ 播放敘述</button>
+          <button onclick="playAudio('d2Hint')">💡 提示</button>
+          <button onclick="playAudio('d2Fail')">❌ 失敗音</button>
+          <button onclick="playAudio('d2Success')">✅ 成功音</button>
+        </div>
+        <div class="tip" id="day2-tip">💬 點擊書信，帶大衛出發去軍營！</div>
+        <div class="progress" id="d2-progress"></div>
+      </section>
+
+      <!-- ========== DAY 3: 歌利亞挑戰 ========== -->
+      <section id="day-3" class="scene hidden">
+        <div class="day-title">第3日：💪 歌利亞挑戰</div>
+        <div class="scene-wrap" id="day3-wrap">
+          <img class="bg" id="d3-bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/david_goliath/scene3_goliath.png" alt="goliath" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 300%22><rect fill=%22%23654321%22 width=%22800%22 height=%22300%22/><text x=%22400%22 y=%22150%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22white%22>💪 歌利亞</text></svg>'">
+          <button class="overlay-btn" id="d3-goliath-btn" style="bottom:40px;left:50%;transform:translateX(-50%)" onclick="d3MeetGoliath()">👹 點擊歌利亞</button>
+        </div>
+        <div class="row">
+          <button onclick="playAudio('d3Narr')">▶️ 播放敘述</button>
+          <button onclick="playAudio('d3Hint')">💡 提示</button>
+          <button onclick="playAudio('d3Fail')">❌ 失敗音</button>
+          <button onclick="playAudio('d3Success')">✅ 成功音</button>
+        </div>
+        <div class="tip" id="day3-tip">💬 點擊大巨人歌利亞，睇下佢有幾高大！</div>
+        <div class="progress" id="d3-progress"></div>
+      </section>
+
+      <!-- ========== DAY 4: 甩石出奇蹟 ========== -->
+      <section id="day-4" class="scene hidden">
+        <div class="day-title">第4日：🎯 甩石出奇蹟</div>
+        <div class="scene-wrap" id="day4-wrap">
+          <img class="bg" id="d4-bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/david_goliath/scene4_sling.png" alt="sling" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 300%22><rect fill=%22%23f4a460%22 width=%22800%22 height=%22300%22/><text x=%22400%22 y=%22150%22 text-anchor=%22middle%22 font-size=%2240%22>🎯 甩石出奇蹟</text></svg>'">
+          <button class="overlay-btn" id="d4-sling-btn" style="top:40%;right:25%" onclick="d4SlingShot()">🪨 拉弦發射</button>
+        </div>
+        <div class="row">
+          <button onclick="playAudio('d4Narr')">▶️ 播放敘述</button>
+          <button onclick="playAudio('d4Hint')">💡 提示</button>
+          <button onclick="playAudio('d4Fail')">❌ 失敗音</button>
+          <button onclick="playAudio('d4Success')">✅ 成功音</button>
+        </div>
+        <div class="tip" id="day4-tip">💬 點擊甩石機弦，向歌利亞發射石頭！</div>
+        <div class="progress" id="d4-progress"></div>
+      </section>
+
+      <!-- ========== DAY 5: 得勝回營 ========== -->
+      <section id="day-5" class="scene hidden">
+        <div class="day-title">第5日：💃 得勝回營</div>
+        <div class="scene-wrap" id="day5-wrap">
+          <img class="bg" id="d5-bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/david_goliath/scene5_victory.png" alt="victory" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 300%22><rect fill=%22%23FFD700%22 width=%22800%22 height=%22300%22/><text x=%22400%22 y=%22150%22 text-anchor=%22middle%22 font-size=%2240%22>🎉 得勝回營</text></svg>'">
+          <button class="overlay-btn" id="d5-celebrate-btn" style="bottom:30px;left:50%;transform:translateX(-50%)" onclick="d5Celebrate()">🎊 歡呼慶祝</button>
+        </div>
+        <div class="row">
+          <button onclick="playAudio('d5Narr')">▶️ 播放敘述</button>
+          <button onclick="playAudio('d5Hint')">💡 提示</button>
+          <button onclick="playAudio('d5Fail')">❌ 失敗音</button>
+          <button onclick="playAudio('d5Success')">✅ 成功音</button>
+          <button onclick="playAudio('dSummary')">📖 故事總結</button>
+        </div>
+        <div class="tip" id="day5-tip">💬 點擊慶祝，與大衛一齊歡呼！</div>
+        <div class="progress" id="d5-progress"></div>
+      </section>
+
+    </div>
+
+    <!-- 家長提示「知心一點點」 -->
+    <section class="parent-tip">
+      <h3>👨‍👩‍👧 家長提示（知心一點點）</h3>
+      <ul>
+        <li><strong>第1日：</strong>牧羊人大衛學習照顧羊群，可借此討論「你鐘意照顧邊個？」</li>
+        <li><strong>第2日：</strong>聽從父母係美德，可借此討論「爸爸媽媽叫你做咩？」</li>
+        <li><strong>第3日：</strong>面對大巨人要靠主，可借此討論「你幾時覺得害怕？」</li>
+        <li><strong>第4日：</strong>用自己擅長的方式服事神，可借此討論「你擅長啲咩？」</li>
+        <li><strong>第5日：</strong>靠主得勝要謙卑，可借此討論「贏咗點算？」</li>
+      </ul>
+    </section>
+
+    <!-- Learning Activities -->
+    <section class="scene">
+      <h3>📚 學習活動</h3>
+      <ul>
+        <li><strong>第1日：</strong>數數 — 數羊群有幾多隻羊</li>
+        <li><strong>第2日：</strong>方向認知 — 邊個方向係軍營？</li>
+        <li><strong>第3日：</strong>大小認知 — 比較大小（歌利亞 VS 大衛）</li>
+        <li><strong>第4日：</strong>方向認知 — 甩石飛向邊個方向？</li>
+        <li><strong>第5日：</strong>情感認知 — 邊個表情係「開心」？</li>
+      </ul>
+    </section>
+
+  </div>
+
+  <div id="feedback"></div>
+
+  <script>
+    const rawBase = 'https://raw.githubusercontent.com/ai-lish/preschool/main';
+    const langSelect = document.getElementById('lang');
+    const feedback = document.getElementById('feedback');
+    let currDay = 1;
+    const dayDone = {1:false,2:false,3:false,4:false,5:false};
+
+    function lang(){return langSelect.value}
+
+    function audioUrl(key){
+      return rawBase + '/audio/david_goliath/' + key + '_' + lang() + '.mp3';
+    }
+
+    function playAudio(key){
+      const a = new Audio(audioUrl(key));
+      a.play().catch(e => console.warn('audio play failed:', e));
+    }
+
+    function showFeedback(msg, type='info'){
+      feedback.textContent = msg;
+      feedback.className = 'show ' + type;
+      setTimeout(() => { feedback.className = ''; }, 2800);
+    }
+
+    function goToDay(n){
+      for(let i=1;i<=5;i++){
+        document.getElementById('day-'+i).classList.add('hidden');
+      }
+      document.getElementById('day-'+n).classList.remove('hidden');
+      currDay = n;
+      playAudio('d'+n+'Narr');
+    }
+
+    function markDone(day, btnId){
+      dayDone[day] = true;
+      if(btnId){
+        const btn = document.getElementById(btnId);
+        if(btn){ btn.disabled = true; btn.textContent = '✅ 完成！'; btn.style.background='#d4edda'; }
+      }
+      updateProgress(day);
+      playAudio('d'+day+'Success');
+      showFeedback('🎉 第'+day+'日完成！', 'success');
+    }
+
+    function updateProgress(day){
+      const el = document.getElementById('d'+day+'-progress');
+      if(!el) return;
+      const done = Object.values(dayDone).filter(Boolean).length;
+      el.textContent = '已完成：' + done + '/5 日';
+    }
+
+    // ---- Day 1: 點擊保護羊羔 ----
+    let d1Clicks = 0;
+    function d1ProtectSheep(){
+      d1Clicks++;
+      const btn = document.getElementById('d1-sheep-btn');
+      if(d1Clicks >= 1){
+        btn.textContent = '🛡️ 已保護！';
+        btn.style.background = '#d4edda';
+        btn.disabled = true;
+        setTimeout(() => {
+          playAudio('d1Success');
+          showFeedback('🦸 大衛好勇敢，保護晒所有羊羔！', 'success');
+          markDone(1, 'd1-sheep-btn');
+        }, 400);
+      } else {
+        playAudio('d1Fail');
+        showFeedback('再點擊一次！', 'fail');
+      }
+    }
+
+    // ---- Day 2: 點擊書信出發 ----
+    let d2Clicked = false;
+    function d2StartJourney(){
+      if(d2Clicked) return;
+      d2Clicked = true;
+      const btn = document.getElementById('d2-letter-btn');
+      btn.textContent = '🏃 出發了！';
+      btn.style.background = '#d4edda';
+      btn.disabled = true;
+      setTimeout(() => {
+        playAudio('d2Success');
+        showFeedback('🏃 大衛到咗軍營，聽見歌利亞既挑戰！', 'success');
+        markDone(2, 'd2-letter-btn');
+      }, 500);
+    }
+
+    // ---- Day 3: 點擊歌利亞 ----
+    let d3Clicked = false;
+    function d3MeetGoliath(){
+      if(d3Clicked) return;
+      d3Clicked = true;
+      const btn = document.getElementById('d3-goliath-btn');
+      btn.textContent = '👹 好高大！';
+      btn.style.background = '#ffe0b2';
+      setTimeout(() => {
+        playAudio('d3Success');
+        showFeedback('💪 歌利亞好大隻，但大衛唔驚！因为大衛知道神會幫佢！', 'success');
+        markDone(3, 'd3-goliath-btn');
+      }, 500);
+    }
+
+    // ---- Day 4: 甩石發射 ----
+    let d4Fired = false;
+    function d4SlingShot(){
+      if(d4Fired) return;
+      d4Fired = true;
+      const btn = document.getElementById('d4-sling-btn');
+      btn.textContent = '🪨 石頭飛出！';
+      btn.style.background = '#ffe0b2';
+      // Animate: briefly flash the bg
+      const bg = document.getElementById('d4-bg');
+      bg.style.transition = 'opacity 0.3s';
+      bg.style.opacity = '0.5';
+      setTimeout(() => { bg.style.opacity = '1'; }, 400);
+      setTimeout(() => {
+        btn.textContent = '💥 命中！';
+        btn.style.background = '#d4edda';
+        btn.disabled = true;
+        playAudio('d4Success');
+        showFeedback('💥 石頭飛向歌利亞，打中佢既頭！巨人倒下喇！', 'success');
+        markDone(4, 'd4-sling-btn');
+      }, 800);
+    }
+
+    // ---- Day 5: 慶祝 ----
+    let d5Celebrated = false;
+    function d5Celebrate(){
+      if(d5Celebrated) return;
+      d5Celebrated = true;
+      const btn = document.getElementById('d5-celebrate-btn');
+      btn.textContent = '🎊 超開心！';
+      btn.style.background = '#fff3cd';
+      // Bounce animation
+      btn.style.animation = 'bounce 0.5s ease';
+      setTimeout(() => {
+        btn.textContent = '🏆 靠主得勝！';
+        btn.style.background = '#d4edda';
+        btn.disabled = true;
+        playAudio('d5Success');
+        showFeedback('🏆 靠主凡事都能！大衛雖然年輕，但佢既勇氣來自神！', 'success');
+        markDone(5, 'd5-celebrate-btn');
+        // Play summary after short delay
+        setTimeout(() => playAudio('dSummary'), 1500);
+      }, 600);
+    }
+
+    // Add bounce keyframe
+    const style = document.createElement('style');
+    style.textContent = '@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-20px)} }';
+    document.head.appendChild(style);
+
+    // Init
+    goToDay(1);
+  </script>
+</body>
+</html>
