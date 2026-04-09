@@ -21,7 +21,11 @@
     .hidden{display:none}
     .basket-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
     .basket{width:64px;height:64px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#fff}
-    .feedback{position:fixed;right:16px;bottom:16px;background:#fff;padding:12px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.12)}
+        .clickable-spot{position:absolute;border-radius:50%;background:rgba(255,255,255,0.25);border:2px solid rgba(255,255,255,0.6);cursor:pointer;transition:all 0.2s;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+    .clickable-spot:hover{background:rgba(255,220,100,0.5);transform:scale(1.15)}
+    .clickable-spot.clicked{background:rgba(123,211,137,0.5);border-color:#7bd389}
+    .clickable-spot .count{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:18px;font-weight:bold;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.4)}
+    .scene-wrap{position:relative;display:inline-block;width:100%}
   </style>
 </head>
 <body>
@@ -55,11 +59,14 @@
     <div id="days">
       <!-- Day1 -->
       <section id="day-1" class="scene">
-        <img class="bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/five_loaves/scene1_crowd.png" alt="crowd">
+        <div class="scene-wrap" id="day1-wrap">
+          <img class="bg" id="day1-bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/five_loaves/scene1_crowd.png" alt="crowd" style="width:100%;display:block">
+          <div id="clickable-overlay" style="position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none"></div>
+        </div>
         <div class="row">
           <button onclick="playAudio('f1Narr')">播放敘述</button>
           <button onclick="playAudio('f1Hint')">提示</button>
-          <div class="tip" id="day1-tip">請點擊畫面上的人物來數一數。</div>
+          <div class="tip" id="day1-tip">請點擊畫面上閃閃發光的人物來數一數！</div>
         </div>
       </section>
 
@@ -177,11 +184,75 @@
     }
     function checkBaskets(){ const all = document.querySelectorAll('#basket-grid img'); const done = Array.from(all).filter(i=>i.dataset.collected==='1').length; if(done>=12){ playAudio('f5Success'); showFeedback('你收集到12個籃子！','success'); completeDay(5) }}
 
+    // Day1: setup clickable spots on the crowd scene
+    const day1Positions = [
+      {x: 15, y: 30, label: '1'},
+      {x: 35, y: 55, label: '2'},
+      {x: 58, y: 38, label: '3'},
+      {x: 72, y: 60, label: '4'},
+      {x: 88, y: 42, label: '5'},
+      {x: 48, y: 72, label: '6'},
+    ];
+    let day1ClickedCount = 0;
+    function setupDay1Clickables(){
+      const overlay = document.getElementById('clickable-overlay');
+      const bg = document.getElementById('day1-bg');
+      overlay.innerHTML = '';
+      day1ClickedCount = 0;
+      day1Positions.forEach((pos, idx) => {
+        const btn = document.createElement('div');
+        btn.className = 'clickable-spot';
+        btn.style.left = pos.x + '%';
+        btn.style.top = pos.y + '%';
+        btn.style.width = '44px';
+        btn.style.height = '44px';
+        btn.style.pointerEvents = 'auto';
+        const label = document.createElement('span');
+        label.className = 'count';
+        label.textContent = '?';
+        btn.appendChild(label);
+        btn.addEventListener('click', () => {
+          if (btn.classList.contains('clicked')) return;
+          btn.classList.add('clicked');
+          label.textContent = pos.label;
+          day1ClickedCount++;
+          playAudio('f1Hint');
+          if (day1ClickedCount >= 5) {
+            setTimeout(() => {
+              playAudio('f1Success');
+              showFeedback('真係好多人呀！耶穌教導群眾！', 'success');
+              completeDay(1);
+            }, 300);
+          } else {
+            showFeedback('數到 ' + day1ClickedCount + ' 個人了！', 'info');
+          }
+        });
+        overlay.appendChild(btn);
+      });
+    }
+
+    // Resize handler to keep overlay in sync
+    window.addEventListener('resize', () => {
+      const overlay = document.getElementById('clickable-overlay');
+      const bg = document.getElementById('day1-bg');
+      if (bg && overlay) {
+        overlay.style.width = bg.offsetWidth + 'px';
+        overlay.style.height = bg.offsetHeight + 'px';
+      }
+    });
+
     // helpers to init scenes
-    function init(){ goToDay(1); setupDragAndDrop(); setupBaskets(); }
+    function init(){ goToDay(1); setupDragAndDrop(); setupBaskets(); setupDay1Clickables(); }
     // map audio keys to existing files (some keys may be missing); wrapper to include lang
     // Preload a few audio files to avoid delay
     window.addEventListener('load',()=>{ init(); });
+    // fix overlay sizing after images load
+    document.getElementById('day1-bg').addEventListener('load', () => {
+      const overlay = document.getElementById('clickable-overlay');
+      const bg = document.getElementById('day1-bg');
+      overlay.style.width = bg.offsetWidth + 'px';
+      overlay.style.height = bg.offsetHeight + 'px';
+    });
   </script>
 </body>
 </html>
