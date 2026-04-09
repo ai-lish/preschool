@@ -607,13 +607,36 @@ const SOUND_LANG_MAP = { zhHK: 'zhHK', zhCN: 'zhCN', en: 'en', ja: 'ja' };
 const ANIMAL_SOUNDS = ['elephant','lion','wolf','sheep','cow','horse','rabbit','deer'];
 let currentSound = null;
 
-function playAudio(key) {
+async function playAudio(key) {
   const langSuffix = SOUND_LANG_MAP[lang] || 'zhHK';
-  const audioUrl = AUDIO_BASE + key + '_' + langSuffix + '.mp3';
-  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
-  currentAudio = new Audio(audioUrl);
-  currentAudio.play().catch(e => console.log('Audio play failed:', e));
-  console.log('Play:', key, langSuffix);
+  const candidates = [langSuffix, 'zhHK', 'en'];
+  const tried = new Set();
+
+  for (const suffix of candidates) {
+    if (tried.has(suffix)) continue;
+    tried.add(suffix);
+    const audioUrl = AUDIO_BASE + key + '_' + suffix + '.mp3';
+
+    try {
+      if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+      currentAudio = new Audio(audioUrl);
+
+      await new Promise((resolve, reject) => {
+        currentAudio.addEventListener('canplaythrough', resolve, { once: true });
+        currentAudio.addEventListener('error', reject, { once: true });
+        currentAudio.load();
+        setTimeout(() => reject(new Error('timeout')), 5000);
+      });
+
+      await currentAudio.play();
+      console.log('Play:', key, suffix);
+      return;
+    } catch (e) {
+      console.log('Play failed for', key, suffix, ':', e.message);
+    }
+  }
+
+  console.log('Audio unavailable for:', key, langSuffix);
 }
 
 function playAnimalSound(speciesIdx) {
@@ -676,7 +699,7 @@ function applyLang() {
   set('btn-home', t('btnHome'));
   updateProgress();
 }
-function replayNarration() { playAudio('n' + currentDay + 'Narr'); }
+async function replayNarration() { await playAudio('n' + currentDay + 'Narr'); }
 
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -685,21 +708,21 @@ function showScreen(id) {
 }
 function handleStart() {
   showScreen('screen-d1'); currentDay = 1; updateProgress();
-  initDay1(); playAudio('n1Narr');
+  initDay1(); await playAudio('n1Narr');
 }
 function handleSkip() {
   showScreen('screen-summary'); currentDay = 7; updateProgress();
-  spawnConfetti(); playAudio('summary');
+  spawnConfetti(); await playAudio('summary');
 }
 function goToDay(n) {
   showScreen('screen-d' + n); currentDay = n; updateProgress();
   if (n === 2) initDay2();
   if (n === 6) initDay6();
-  playAudio('n' + n + 'Narr');
+  await playAudio('n' + n + 'Narr');
 }
-function showSummary() {
+async function showSummary() {
   showScreen('screen-summary'); currentDay = 7; updateProgress();
-  spawnConfetti(); playAudio('n6Success');
+  spawnConfetti(); await playAudio('n6Success');
 }
 function updateProgress() {
   document.getElementById('progress-fill').style.width = Math.round((completedDays.size / 6) * 100) + '%';
@@ -762,7 +785,7 @@ function n1ClickNail(idx) {
     completedDays.add(1);
     showFeedback(t('d1Success'), 'success');
     document.getElementById('d1-next').style.display = 'block';
-    playAudio('n1Success');
+    await playAudio('n1Success');
     updateProgress();
   }
 }
@@ -911,7 +934,7 @@ function boardPair(idx) {
     completedDays.add(2);
     showFeedback(t('d2Success'), 'success');
     document.getElementById('d2-next').style.display = 'block';
-    playAudio('n2Success');
+    await playAudio('n2Success');
     updateProgress();
   }
 }
@@ -1062,7 +1085,7 @@ function n3ClickCloud(idx) {
     showFeedback(t('d3Success'), 'success');
     document.getElementById('d3-next').style.display = 'block';
     document.getElementById('rain-hint').textContent = '✅ Done!';
-    playAudio('n3Success');
+    await playAudio('n3Success');
     updateProgress();
   }
 }
@@ -1079,7 +1102,7 @@ function n4Float() {
     completedDays.add(4);
     showFeedback(t('d4Success'), 'success');
     document.getElementById('d4-next').style.display = 'block';
-    playAudio('n4Success');
+    await playAudio('n4Success');
     updateProgress();
   }, 1800);
 }
@@ -1098,7 +1121,7 @@ function n5ReleaseDove() {
     showFeedback(t('d5Success'), 'success');
     document.getElementById('d5-next').style.display = 'block';
     document.getElementById('dove-hint').textContent = '✅ Done!';
-    playAudio('n5Success');
+    await playAudio('n5Success');
     updateProgress();
   }, 2500);
 }
@@ -1115,7 +1138,7 @@ function n6ClickRainbow() {
   showFeedback(t('d6Success'), 'success');
   document.getElementById('d6-next').style.display = 'block';
   document.getElementById('rainbow-hint').textContent = '✅ Done!';
-  playAudio('n6Success');
+  await playAudio('n6Success');
   updateProgress();
 }
 
@@ -1124,7 +1147,7 @@ function completeDay(day) {
   showFeedback(t('d' + day + 'Success') || 'Done!', 'success');
   document.getElementById('d' + day + '-next').style.display = 'block';
   document.getElementById('d' + day + '-next').onclick = day === 6 ? showSummary : () => goToDay(day + 1);
-  playAudio('n' + day + 'Success');
+  await playAudio('n' + day + 'Success');
   updateProgress();
 }
 
