@@ -31,7 +31,7 @@
 <body>
   <div class="wrap">
     <header>
-      <img src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/five-loaves-icon.png" alt="icon">
+      <img src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/five_loaves/five-loaves-icon.png" alt="icon">
       <div>
         <h1>五餅二魚遊戲</h1>
         <div style="font-size:14px;color:#666">互動故事：5日 | 適合 K1-K3</div>
@@ -66,7 +66,7 @@
         <div class="row">
           <button onclick="playAudio('f1Narr')">播放敘述</button>
           <button onclick="playAudio('f1Hint')">提示</button>
-          <div class="tip" id="day1-tip">請點擊畫面上閃閃發光的人物來數一數！</div>
+          <div class="tip" id="day1-tip">請點擊6個發光的位置，每個位置會顯示數字！</div>
         </div>
       </section>
 
@@ -156,8 +156,15 @@
       const loafUrl = rawBase + '/img/five_loaves/loaf.png';
       const fishUrl = rawBase + '/img/five_loaves/fish.png';
       for(let i=0;i<7;i++){ const img=document.createElement('img'); img.src = (i<5?loafUrl:fishUrl); img.style.width='64px'; img.style.margin='6px'; img.className='draggable'; area.appendChild(img)}
-      // simple sparkle
-      document.body.style.transition='background 0.6s'; document.body.style.background='#fffef6'; setTimeout(()=>document.body.style.background='#fff8f0',600);
+      // blessing animation: golden glow + food multiply
+      const sceneEl = document.getElementById('day-3');
+      sceneEl.style.transition='box-shadow 0.8s';
+      sceneEl.style.boxShadow='0 0 40px rgba(255,215,0,0.6)';
+      setTimeout(()=>{ sceneEl.style.boxShadow='none'; }, 1200);
+      area.querySelectorAll('img').forEach((img,i)=>{
+        img.style.transition='transform 0.4s';
+        setTimeout(()=>{ img.style.transform='scale(1.3)'; setTimeout(()=>img.style.transform='scale(1)',300); }, i*120);
+      });
       playAudio('f3Narr'); showFeedback('耶穌祝福了食物！','success')
     }
 
@@ -170,7 +177,7 @@
       // target children
       const feeding = document.querySelector('#day-4 .scene') || document.getElementById('day-4');
       // place invisible drop targets over child positions by reading image area (simple: create 3 targets)
-      for(let i=1;i<=3;i++){ const t=document.createElement('div'); t.style.width='88px'; t.style.height='88px'; t.style.border='2px dashed rgba(0,0,0,0.06)'; t.style.borderRadius='8px'; t.style.display='inline-flex'; t.style.alignItems='center'; t.style.justifyContent='center'; t.style.margin='6px'; t.addEventListener('dragover',e=>e.preventDefault()); t.addEventListener('drop',e=>{ e.preventDefault(); const srcUrl=e.dataTransfer.getData('text/plain'); const im=document.createElement('img'); im.src=srcUrl; im.style.width='48px'; t.appendChild(im); checkDistribution(); }); document.getElementById('day-4').querySelector('#food-source').appendChild(t) }
+      for(let i=1;i<=3;i++){ const t=document.createElement('div'); t.style.width='88px'; t.style.height='88px'; t.style.border='3px dashed rgba(255,100,100,0.5)'; t.style.background='rgba(255,240,240,0.6)'; t.style.borderRadius='8px'; t.style.display='inline-flex'; t.style.alignItems='center'; t.style.justifyContent='center'; t.style.margin='6px'; t.innerHTML='👦'; t.style.fontSize='32px'; t.addEventListener('dragover',e=>e.preventDefault()); t.addEventListener('drop',e=>{ e.preventDefault(); const srcUrl=e.dataTransfer.getData('text/plain'); const im=document.createElement('img'); im.src=srcUrl; im.style.width='48px'; t.innerHTML=''; t.appendChild(im); checkDistribution(); }); document.getElementById('day-4').querySelector('#food-source').appendChild(t) }
     }
     function checkDistribution(){ // simple check: if each target has >=1 img -> success
       const targets = Array.from(document.getElementById('day-4').querySelectorAll('#food-source > div'));
@@ -216,15 +223,16 @@
           btn.classList.add('clicked');
           label.textContent = pos.label;
           day1ClickedCount++;
-          playAudio('f1Hint');
-          if (day1ClickedCount >= 5) {
+          if (day1ClickedCount >= 6) {
+            playAudio('f1Hint');
             setTimeout(() => {
               playAudio('f1Success');
               showFeedback('真係好多人呀！耶穌教導群眾！', 'success');
               completeDay(1);
             }, 300);
           } else {
-            showFeedback('數到 ' + day1ClickedCount + ' 個人了！', 'info');
+            playAudio('f1Hint');
+            showFeedback('數到 ' + day1ClickedCount + ' 個位置！再點 ' + (6 - day1ClickedCount) + ' 個！', 'info');
           }
         });
         overlay.appendChild(btn);
