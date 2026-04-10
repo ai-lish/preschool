@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<title>浪子回頭 — 五日互動故事</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;font-family:'Noto Sans TC',system-ui,Arial;background:linear-gradient(180deg,#f7f9ff,#dff1ff);overflow:hidden}
+:root{--primary:#6C5CE7;--accent:#FFB74D;--success:#00C851;--danger:#FF6B6B;--radius:18px;--shadow:0 6px 24px rgba(0,0,0,0.12)}
+#navbar{position:fixed;top:12px;left:12px;right:12px;display:flex;gap:8px;align-items:center;z-index:60}
+.nav-btn{background:rgba(255,255,255,0.95);border-radius:14px;padding:8px 12px;border:none;box-shadow:var(--shadow);font-weight:700}
+#progress-bar{position:fixed;top:0;left:0;width:100%;height:8px;background:rgba(0,0,0,0.06);z-index:70}
+#progress-fill{height:100%;width:0;background:linear-gradient(90deg,#FFD700,#FF6B6B);transition:width .5s}
+.screen{position:absolute;inset:0;padding:84px 18px 18px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:12px}
+.screen.hidden{display:none}
+.title{font-size:1.6rem;color:#222;font-weight:900;text-shadow:0 2px 6px rgba(0,0,0,0.06)}
+.card{width:100%;max-width:760px;background:rgba(255,255,255,0.95);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)}
+.narr{font-size:1.05rem;color:#333;line-height:1.5;text-align:center}
+.scene{width:100%;max-width:760px;height:52vh;border-radius:14px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center}
+.scene img{max-width:100%;max-height:100%;pointer-events:none}
+.controls{display:flex;gap:8px;justify-content:center;margin-top:10px}
+.btn{background:var(--primary);color:#fff;border:none;padding:12px 18px;border-radius:12px;font-weight:800;cursor:pointer;box-shadow:0 6px 18px rgba(108,92,231,0.18)}
+.btn.secondary{background:#fff;color:#333;border:1px solid rgba(0,0,0,0.06)}
+.feedback{position:fixed;left:50%;transform:translateX(-50%);bottom:16%;background:#fff;padding:16px 20px;border-radius:16px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:all .35s}
+.feedback.show{opacity:1;pointer-events:auto}
+.feedback.success{border:3px solid var(--success)}
+.feedback.fail{border:3px solid var(--danger)}
+.progress-dots{display:flex;gap:6px;align-items:center}
+.dot{width:10px;height:10px;border-radius:50%;background:rgba(0,0,0,0.08)}
+.dot.active{background:var(--primary)}
+.lang-switch{margin-left:auto}
+.tip-btn{position:fixed;right:16px;bottom:16px;background:#fff;padding:10px 14px;border-radius:14px;box-shadow:var(--shadow);border:none}
+.small{font-size:0.95rem}
+/* interactions */
+.gift{width:120px;cursor:pointer;transition:transform .15s}
+.gift.clicked{transform:translateY(-12px) scale(0.98)}
+.drag-foot{width:80px;position:absolute;bottom:18%;left:16%;touch-action:none}
+.drop-here{position:absolute;right:10%;bottom:18%;width:140px;height:160px;border-radius:12px;border:3px dashed rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;color:#666}
+.icon-small{width:64px}
+.embrace-area{position:relative;width:60%;max-width:360px}
+.clothes{width:100px;cursor:pointer}
+@media (max-width:480px){.narr{font-size:0.98rem}.title{font-size:1.3rem}}
+</style>
+</head>
+<body>
+<div id="navbar">
+  <button class="nav-btn" onclick="goToDay(0)">🏠</button>
+  <div class="progress-dots" id="dots"></div>
+  <div class="lang-switch nav-btn" style="margin-left:auto">
+    <select id="lang" onchange="setLang(this.value)">
+      <option value="zhHK">粵</option>
+      <option value="zhCN">中</option>
+      <option value="en">EN</option>
+      <option value="ja">日</option>
+    </select>
+  </div>
+  <button class="nav-btn" onclick="replayNarr()">🔊</button>
+</div>
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<!-- WELCOME -->
+<section class="screen" id="screen-0">
+  <div class="card">
+    <div class="title">浪子回頭 — 五日互動故事</div>
+    <p class="narr" id="welcome-narr">從前有個父親，兩個仔。讓我們在五日內一起看細仔的旅程。</p>
+    <div class="controls" style="margin-top:12px">
+      <button class="btn" onclick="startGame()">開始 ▶</button>
+      <button class="btn secondary" onclick="showTip()">知心一點點</button>
+    </div>
+  </div>
+</section>
+
+<!-- DAY 1: 分家產 -->
+<section class="screen hidden" id="screen-1">
+  <div class="title">第 1 日：父親分家產</div>
+  <div class="card">
+    <p class="narr" id="d1-narr">父親把兩份礼物放在桌上。試下點擊禮物數一數。</p>
+    <div class="scene" id="d1-scene" style="background:linear-gradient(180deg,#fff8e6,#fff2d9);">
+      <img src="img/prodigal_son/bg_home.png" alt="home-bg" style="position:absolute;inset:0;object-fit:cover;opacity:0.9">
+      <img id="gift1" class="gift" src="img/prodigal_son/gift_1.png" style="position:absolute;left:22%;bottom:20%" onclick="d1Click(1)">
+      <img id="gift2" class="gift" src="img/prodigal_son/gift_2.png" style="position:absolute;left:52%;bottom:20%" onclick="d1Click(2)">
+      <img src="img/prodigal_son/father.png" style="position:absolute;right:6%;bottom:6%;width:18%">
+    </div>
+    <div class="controls">
+      <button class="btn secondary" onclick="playAudio('p1Hint')">提示 🔈</button>
+      <button class="btn" id="d1-next" onclick="goToDay(2)" style="display:none">下一日 ▶</button>
+    </div>
+  </div>
+</section>
+
+<!-- DAY 2: 遠走 -->
+<section class="screen hidden" id="screen-2">
+  <div class="title">第 2 日：小兒子遠走</div>
+  <div class="card">
+    <p class="narr" id="d2-narr">細仔拿住財產，離開屋企。請拖動腳向右面「離開」區域。</p>
+    <div class="scene" id="d2-scene" style="background:linear-gradient(180deg,#dff4ff,#cdeaff)">
+      <img src="img/prodigal_son/bg_road.png" alt="road" style="position:absolute;inset:0;object-fit:cover;opacity:0.95">
+      <img id="foot" class="drag-foot" src="img/prodigal_son/prodigal_son_icon.png" style="touch-action:none">
+      <div class="drop-here" id="leave-zone">離開這裡 →</div>
+    </div>
+    <div class="controls">
+      <button class="btn secondary" onclick="playAudio('p2Hint')">提示 🔈</button>
+      <button class="btn" id="d2-next" onclick="goToDay(3)" style="display:none">下一日 ▶</button>
+    </div>
+  </div>
+</section>
+
+<!-- DAY 3: 艱苦度日 -->
+<section class="screen hidden" id="screen-3">
+  <div class="title">第 3 日：艱苦度日</div>
+  <div class="card">
+    <p class="narr" id="d3-narr">後來荒年來到，試點擊風雨和飢餓圖示，感受細仔的辛苦。</p>
+    <div class="scene" id="d3-scene" style="background:linear-gradient(180deg,#f0f3f6,#e6edf4)">
+      <img src="img/prodigal_son/scene3_hard.png" alt="hard" style="position:absolute;inset:0;object-fit:cover;opacity:0.95">
+      <div style="position:absolute;left:12%;top:12%;display:flex;flex-direction:column;gap:10px">
+        <img id="icon-rain" src="img/prodigal_son/scene3_hard.png" style="width:76px;opacity:0.9;cursor:pointer" onclick="d3Click('rain')">
+      </div>
+      <div style="position:absolute;right:12%;top:12%;display:flex;flex-direction:column;gap:10px">
+        <img id="icon-hunger" src="img/prodigal_son/younger_son_poor.png" style="width:92px;opacity:0.95;cursor:pointer" onclick="d3Click('hunger')">
+      </div>
+    </div>
+    <div class="controls">
+      <button class="btn secondary" onclick="playAudio('p3Hint')">提示 🔈</button>
+      <button class="btn" id="d3-next" onclick="goToDay(4)" style="display:none">下一日 ▶</button>
+    </div>
+  </div>
+</section>
+
+<!-- DAY 4: 醒悟回家 -->
+<section class="screen hidden" id="screen-4">
+  <div class="title">第 4 日：醒悟回家</div>
+  <div class="card">
+    <p class="narr" id="d4-narr">細仔決定回家。請點擊轉向箭頭，幫佢轉身回家。</p>
+    <div class="scene" id="d4-scene" style="background:linear-gradient(180deg,#fff7f2,#ffeedd)">
+      <img src="img/prodigal_son/scene4_return.png" alt="return" style="position:absolute;inset:0;object-fit:cover;opacity:0.95">
+      <button class="btn" id="turn-btn" style="position:absolute;bottom:14%;left:50%;transform:translateX(-50%);" onclick="p4TurnBack()">↶ 轉身回家</button>
+    </div>
+    <div class="controls">
+      <button class="btn secondary" onclick="playAudio('p4Hint')">提示 🔈</button>
+      <button class="btn" id="d4-next" onclick="goToDay(5)" style="display:none">下一日 ▶</button>
+    </div>
+  </div>
+</section>
+
+<!-- DAY 5: 父親接納 -->
+<section class="screen hidden" id="screen-5">
+  <div class="title">第 5 日：父親接納</div>
+  <div class="card">
+    <p class="narr" id="d5-narr">父親見到兒子，立刻接納。請點擊擁抱，並替細仔着上新袍。</p>
+    <div class="scene" id="d5-scene" style="background:linear-gradient(180deg,#fffaf0,#fff3e6)">
+      <img src="img/prodigal_son/scene5_embrace.png" alt="embrace" style="position:absolute;inset:0;object-fit:cover;opacity:0.95">
+      <div class="embrace-area" style="position:absolute;left:18%;bottom:8%;display:flex;gap:12px;align-items:center;justify-content:center">
+        <img id="son-img" src="img/prodigal_son/younger_son_poor.png" style="width:140px">
+        <img id="father-img" src="img/prodigal_son/father.png" style="width:160px">
+      </div>
+      <img id="new-clothes" class="clothes" src="img/prodigal_son/new_clothes.png" style="position:absolute;right:10%;bottom:22%;opacity:0;transition:all .35s;cursor:pointer" onclick="p5Embrace()">
+    </div>
+    <div class="controls">
+      <button class="btn secondary" onclick="playAudio('p5Hint')">提示 🔈</button>
+      <button class="btn" id="finish-btn" onclick="completeStory()" style="display:none">完成並閱讀總結</button>
+    </div>
+  </div>
+</section>
+
+<!-- SUMMARY -->
+<section class="screen hidden" id="screen-summary">
+  <div class="title">總結</div>
+  <div class="card">
+    <p class="narr" id="summary-text">今日我哋學咗浪子回頭的故事：細仔離開，但父親日日等佢回來，當細仔回家，父親立刻接納並慶祝。</p>
+    <div style="margin-top:12px;display:flex;gap:8px;justify-content:center">
+      <button class="btn" onclick="goToDay(0)">🏠 回主頁</button>
+    </div>
+  </div>
+</section>
+
+<div id="feedback" class="feedback"></div>
+<button id="tip-btn" class="tip-btn" onclick="showTip()">💡 知心一點點</button>
+
+<script>
+// State
+let lang='zhHK';
+let progress=0; // 0..5
+const total=5;
+const dotsEl=document.getElementById('dots');
+for(let i=0;i<total;i++){const d=document.createElement('div');d.className='dot'+(i===0?' active':'');dotsEl.appendChild(d)}
+function updateProgress(){const pct=Math.round((progress/total)*100);document.getElementById('progress-fill').style.width=pct+'%';const ds=document.querySelectorAll('.dot');ds.forEach((n,i)=>n.classList.toggle('active', i<progress));}
+
+function setLang(l){lang=l;document.getElementById('lang').value=l;applyLang();}
+function applyLang(){const S={
+ zhHK:{welcome:'從前有個父親，兩個仔。讓我們在五日內一起看細仔的旅程。',
+ d1:'父親把兩份禮物放在桌上。試下點擊禮物數一數。',p1Hint:'試下點擊禮物，睇下父親分咗啲咩俾細仔！'},
+ zhCN:{welcome:'从前有个父亲，两个儿子。让我们在五天内一起看小儿子的旅程。',d1:'父亲把两份礼物放在桌上。试点击礼物数一数。',p1Hint:'试点点击礼物，看看父亲分了什么给小儿子！'},
+ en:{welcome:'Once there was a father and two sons. Over five days we will follow the younger son.',d1:'The father places two gifts. Tap the gifts to count them.',p1Hint:'Try tapping the gifts to see what the father gave!'},
+ ja:{welcome:'昔、父と二人の息子がいました。五日にわたり、弟の旅を見ましょう。',d1:'父は二つの贈り物を置きます。贈り物をタップして数えてみよう。',p1Hint:'贈り物をタップしてみてね！'} };
+ document.getElementById('welcome-narr').textContent=S[lang].welcome;
+ document.getElementById('d1-narr').textContent=S[lang].d1;
+}
+applyLang();
+
+function startGame(){goToDay(1);playAudio('p1Narr');}
+function goToDay(n){progress=Math.max(0,Math.min(total,n));updateProgress();document.querySelectorAll('.screen').forEach(s=>s.classList.add('hidden'));
+ if(n===0)document.getElementById('screen-0').classList.remove('hidden');
+ if(n===1)document.getElementById('screen-1').classList.remove('hidden');
+ if(n===2)document.getElementById('screen-2').classList.remove('hidden');
+ if(n===3)document.getElementById('screen-3').classList.remove('hidden');
+ if(n===4)document.getElementById('screen-4').classList.remove('hidden');
+ if(n===5)document.getElementById('screen-5').classList.remove('hidden');
+ if(n===6)document.getElementById('screen-summary').classList.remove('hidden');
+ // update nav buttons
+}
+
+// Feedback
+function showFeedback(msg,type='info'){const el=document.getElementById('feedback');el.textContent=msg;el.className='feedback show '+(type==='success'?'success':type==='fail'?'fail':'');setTimeout(()=>el.classList.remove('show'),2200)}
+
+// Audio placeholder (plays remote mp3 if exists) or silent
+function playAudio(key){const url=`https://raw.githubusercontent.com/ai-lish/preschool/main/audio/prodigal_son/${key}_zhHK.mp3`;const a=new Audio(url);a.play().catch(()=>{console.log('audio not available for',key)});}
+function replayNarr(){playAudio('p'+progress+'Narr');}
+
+// DAY 1 interactions
+let d1Count=0;function d1Click(i){const el=document.getElementById('gift'+i);el.classList.add('clicked');d1Count++;showFeedback((lang==='en'?'Count: ':'已點: ')+d1Count,'info');if(d1Count>=2){document.getElementById('d1-next').style.display='inline-block';playAudio('p1Success');showFeedback('完成！細仔得到財產，準備離開屋企','success')}}
+
+// DAY 2 drag
+let dragging=false, startX=0, origX=0;const foot=document.getElementById('foot');
+foot.addEventListener('pointerdown',e=>{dragging=true;startX=e.clientX;origX=foot.getBoundingClientRect().left;foot.setPointerCapture(e.pointerId)});
+document.addEventListener('pointermove',e=>{if(!dragging)return;const dx=e.clientX-startX;foot.style.left=(Math.max(6, (origX+dx)/window.innerWidth*100))+'%';});
+document.addEventListener('pointerup',e=>{if(!dragging)return;dragging=false;const zone=document.getElementById('leave-zone').getBoundingClientRect();const f=foot.getBoundingClientRect();if(f.right>zone.left+10){document.getElementById('d2-next').style.display='inline-block';playAudio('p2Success');showFeedback('細仔離開咗屋企','success')}else{playAudio('p2Fail');showFeedback('拖遠啲！','fail')}});
+
+function p2DragFeet(){/* kept for API compatibility */}
+
+// DAY 3 interactions
+let d3Clicks=0;function d3Click(kind){d3Clicks++;if(d3Clicks>=2){document.getElementById('d3-next').style.display='inline-block';playAudio('p3Success');showFeedback('細仔決定返屋企','success')}else{playAudio('p3Fail');showFeedback('再點擊一次！','info')}}
+
+// DAY 4
+function p4TurnBack(){document.getElementById('turn-btn').disabled=true;document.getElementById('d4-next').style.display='inline-block';playAudio('p4Success');showFeedback('細仔轉身跑回家！','success')}
+
+// DAY 5
+let embraced=false;function p5Embrace(){if(embraced)return;embraced=true;document.getElementById('new-clothes').style.opacity=1;document.getElementById('son-img').src='img/prodigal_son/younger_son.png';document.getElementById('finish-btn').style.display='inline-block';playAudio('p5Success');showFeedback('父親接納，慶祝！','success')}
+
+function p5EmbraceAPI(){p5Embrace()} // alias
+
+function completeStory(){goToDay(6);playAudio('pSummary');}
+function completeDay(d){goToDay(d+1);} // compatibility
+
+// Parent tips
+const PARENTS={
+ d1:'公平分享適合2-3歲，可借此討論「你鐘意分享嗎？」',
+ d2:'離家冒險係幼兒常見心理，可借此討論「你幾時想自己試？」',
+ d3:'吃苦後醒悟係學習方式，可借此討論「辛苦點算？」',
+ d4:'決定改變需要勇氣，可借此討論「知錯能改係好事」',
+ d5:'完全饒恕接納係神的性情，可借此認識父神既愛 (約翰福音 3:16)'
+}
+function showTip(){alert(PARENTS['d'+Math.max(1,progress)||1]);}
+
+// expose key functions
+window.goToDay=goToDay;window.completeDay=completeDay;window.playAudio=playAudio;window.showFeedback=showFeedback;window.p2DragFeet=p2DragFeet;window.p4TurnBack=p4TurnBack;window.p5Embrace=p5Embrace;window.setLang=setLang
+
+// Init
+updateProgress();
+</script>
+</body>
+</html>
