@@ -774,7 +774,7 @@ function initDay1() {
     setTimeout(() => nail.classList.add('show'), 200 + i * 150);
   });
 }
-function n1ClickNail(idx) {
+async function n1ClickNail(idx) {
   const nail = document.getElementById('nail-' + idx);
   if (!nail || nail.classList.contains('placed')) return;
   nail.classList.add('placed');
@@ -900,7 +900,7 @@ function n2CheckDrop() {
 }
 
 // Board a species pair (two by two)
-function boardPair(idx) {
+async function boardPair(idx) {
   // Find species index (0-7)
   const speciesIdx = Math.floor(idx / 2);
   if (n2BoardedSet.has(speciesIdx)) return; // already boarded this pair
@@ -1064,7 +1064,7 @@ function stopMemTimer() { clearInterval(memTimer); }
 // ── DAY 3: RAIN
 let n3Rained = 0;
 const CLOUD_TOTAL = 4;
-function n3ClickCloud(idx) {
+async function n3ClickCloud(idx) {
   const cloud = document.getElementById('cloud-' + idx);
   if (!cloud || cloud.classList.contains('rained')) return;
   cloud.classList.add('rained');
@@ -1092,12 +1092,12 @@ function n3ClickCloud(idx) {
 
 // DAY 4: FLOOD
 let n4Floated = false;
-function n4Float() {
+async function n4Float() {
   if (n4Floated) return;
   n4Floated = true;
   document.getElementById('float-btn').style.display = 'none';
   document.getElementById('water-level').style.height = '70%';
-  setTimeout(() => {
+  setTimeout(async () => {
     document.getElementById('ark-float').classList.add('floating');
     completedDays.add(4);
     showFeedback(t('d4Success'), 'success');
@@ -1109,13 +1109,13 @@ function n4Float() {
 
 // DAY 5: DOVE
 let n5Released = false;
-function n5ReleaseDove() {
+async function n5ReleaseDove() {
   if (n5Released) return;
   n5Released = true;
   const dove = document.getElementById('dove-btn');
   dove.classList.add('released');
   dove.onclick = null;
-  setTimeout(() => {
+  setTimeout(async () => {
     document.getElementById('olive-branch').classList.add('show');
     completedDays.add(5);
     showFeedback(t('d5Success'), 'success');
@@ -1128,7 +1128,7 @@ function n5ReleaseDove() {
 
 // DAY 6: RAINBOW
 let n6Done = false;
-function n6ClickRainbow() {
+async function n6ClickRainbow() {
   if (n6Done) return;
   n6Done = true;
   const arc = document.getElementById('rainbow-arc');
