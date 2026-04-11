@@ -706,15 +706,15 @@ function showScreen(id) {
   document.getElementById(id).classList.add('active');
   if (id === 'screen-bye') { document.getElementById('bye-text').textContent = t('bye'); if (document.getElementById('bye-sub')) document.getElementById('bye-sub').textContent = t('byeSub'); if (document.getElementById('btn-home')) document.getElementById('btn-home').textContent = t('btnHome'); }
 }
-function handleStart() {
+async function handleStart() {
   showScreen('screen-d1'); currentDay = 1; updateProgress();
   initDay1(); await playAudio('n1Narr');
 }
-function handleSkip() {
+async function handleSkip() {
   showScreen('screen-summary'); currentDay = 7; updateProgress();
   spawnConfetti(); await playAudio('summary');
 }
-function goToDay(n) {
+async function goToDay(n) {
   showScreen('screen-d' + n); currentDay = n; updateProgress();
   if (n === 2) initDay2();
   if (n === 6) initDay6();
@@ -1142,7 +1142,7 @@ function n6ClickRainbow() {
   updateProgress();
 }
 
-function completeDay(day) {
+async function completeDay(day) {
   completedDays.add(day);
   showFeedback(t('d' + day + 'Success') || 'Done!', 'success');
   document.getElementById('d' + day + '-next').style.display = 'block';
