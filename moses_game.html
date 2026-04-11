@@ -357,7 +357,7 @@ function applyLang(){
   document.getElementById('st2').innerHTML=tl('sum').replace(/\n/g,'<br>');
   updateProgress();
 }
-function replayNarration(){play('m'+curD+'Narr');}
+function replayNarration(){play(curD===7?'summary':'m'+curD+'Narr');}
 
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
@@ -522,9 +522,9 @@ function closeSea(){
   if(d6c)return;d6c=true;
   document.getElementById('swv').classList.add('cl');
   play('m6Narr');
-  setTimeout(function(){document.getElementById('ah').textContent='✅ 海水合回';document.getElementById('ah').style.background='rgba(0,200,81,0.85)';completeDay(6,tl('d6s'));},1200);
+  setTimeout(function(){var ah=document.querySelector('.ah');if(ah){ah.textContent='✅ 海水合回';ah.style.background='rgba(0,200,81,0.85)';}completeDay(6,tl('d6s'));},1200);
 }
-function initDay6(){d6c=false;document.getElementById('swv').classList.remove('cl');document.getElementById('ah').textContent='⚔️ 法老軍隊被淹沒';document.getElementById('ah').style.background='rgba(255,100,100,0.85)';}
+function initDay6(){d6c=false;document.getElementById('swv').classList.remove('cl');var ah=document.querySelector('.ah');if(ah){ah.textContent='⚔️ 法老軍隊被淹沒';ah.style.background='rgba(255,100,100,0.85)';}
 
 // ── LEARNING ACTIVITIES ──
 var learnTarget=null;
