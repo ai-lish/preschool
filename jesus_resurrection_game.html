@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<title>耶穌復活 — 五日互動故事</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>/* 基本樣式，沿用 preschool 風格模板（精簡版） */
+body{font-family:'Noto Sans TC',system-ui;background:linear-gradient(180deg,#f7f9ff,#dff1ff);color:#222;margin:0}
+.container{max-width:900px;margin:36px auto;padding:18px}
+.title{font-size:1.6rem;font-weight:900;margin-bottom:12px}
+.card{background:#fff;padding:14px;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,0.08)}
+.scene{width:100%;height:48vh;border-radius:12px;overflow:hidden;margin-top:12px;display:flex;align-items:center;justify-content:center;background:#f3f6ff}
+.controls{display:flex;gap:8px;justify-content:center;margin-top:12px}
+.btn{background:#6C5CE7;color:#fff;border:none;padding:10px 14px;border-radius:12px;cursor:pointer}
+.small{font-size:0.95rem;color:#555}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="title">耶穌復活 — 五日互動故事</div>
+  <div class="card">
+    <p class="small">此遊戲由 preschool 團隊製作。語言：粵語 / 普通話 / 英文 / 日文。以下為五日故事日程：</p>
+    <ol>
+      <li>棕枝主日 — 驢仔進城（互動：點擊驢仔）</li>
+      <li>最後晚餐 — 聖餐互動（互動：點擊餅與杯）</li>
+      <li>十架犧牲 — 情緒理解（互動：點擊十字架/心）</li>
+      <li>空坟墓 — 石頭打開（互動：點擊石頭）</li>
+      <li>耶穌復活 — 顯現與慶祝（互動：點擊天使/耶穌）</li>
+    </ol>
+    <div class="scene" id="scene">
+      <img src="img/jesus_resurrection/scene4_tomb.png" alt="空坟墓" style="max-width:100%;max-height:100%;object-fit:cover">
+    </div>
+    <div class="controls">
+      <button class="btn" onclick="playAudio('r1Narr')">🔊 朗讀</button>
+      <button class="btn" onclick="showTip()">💡 提示</button>
+    </div>
+    <p class="small" style="margin-top:12px">音頻與圖像資源請放置於 <code>audio/jesus_resurrection/</code> 與 <code>img/jesus_resurrection/</code></p>
+  </div>
+</div>
+<script>
+function playAudio(k){const url=`/preschool/audio/jesus_resurrection/${k}_zhHK.mp3`;const a=new Audio(url);a.play().catch(()=>alert('音頻未找到'));}
+function showTip(){alert('提示：點擊場景中的互動元素，按指示完成每天任務。');}
+</script>
+</body>
+</html>
