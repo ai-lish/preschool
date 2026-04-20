@@ -361,13 +361,16 @@ body {
 <!-- NAVBAR -->
 <nav id="navbar">
   <span class="nav-title">📖 聖經故事</span>
-  <div id="lang-wrap">
-    <button class="nav-btn" onclick="toggleLang()">🌐 粵</button>
-    <div id="lang-menu" style="display:none;position:absolute;top:110%;right:0;background:white;border-radius:12px;padding:8px;box-shadow:0 4px 20px rgba(0,0,0,0.2);">
-      <button class="lang-btn" onclick="setLang('zhHK')" style="background:var(--primary)">🌐 粵</button>
-      <button class="lang-btn" onclick="setLang('zhCN')" style="background:#666">簡</button>
-      <button class="lang-btn" onclick="setLang('en')" style="background:#666">EN</button>
-      <button class="lang-btn" onclick="setLang('ja')" style="background:#666">日</button>
+  <div style="display:flex;gap:8px;align-items:center;">
+    <a href="references.html" class="nav-btn" style="text-decoration:none;background:rgba(255,215,0,0.9);color:#333;font-weight:600;">📚 資源</a>
+    <div id="lang-wrap">
+      <button class="nav-btn" onclick="toggleLang()">🌐 粵</button>
+      <div id="lang-menu" style="display:none;position:absolute;top:110%;right:0;background:white;border-radius:12px;padding:8px;box-shadow:0 4px 20px rgba(0,0,0,0.2);">
+        <button class="lang-btn" onclick="setLang('zhHK')" style="background:var(--primary)">🌐 粵</button>
+        <button class="lang-btn" onclick="setLang('zhCN')" style="background:#666">簡</button>
+        <button class="lang-btn" onclick="setLang('en')" style="background:#666">EN</button>
+        <button class="lang-btn" onclick="setLang('ja')" style="background:#666">日</button>
+      </div>
     </div>
   </div>
 </nav>
