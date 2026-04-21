@@ -2,390 +2,551 @@
 <html lang="zh-HK">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-  <title>耶穌復活 — 五日互動故事</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,maximum-scale=1">
+  <title>耶穌復活</title>
   <style>
-    :root {
-      --gold: #FFD700;
-      --purple: #6C5CE7;
-      --pink: #ff6b9d;
-      --cross-red: #C41E3A;
-      --tomb-dark: #2c2c3e;
-      --resurrect-gold: #FFE066;
-      --bg-resurrect: linear-gradient(180deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:system-ui,Arial,sans-serif;
+      background:#1a1a2e;
+      min-height:100vh;
+      overflow:hidden;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      user-select:none;
     }
-    body{font-family:'Noto Sans TC',system-ui,Arial;background:var(--bg-resurrect);color:#fff;margin:0;padding:16px;min-height:100vh}
-    .wrap{max-width:900px;margin:0 auto;padding-bottom:40px}
-    header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:12px 0}
-    header img{width:64px;height:64px;border-radius:12px;object-fit:cover}
-    header h1{font-size:1.5rem;font-weight:900;margin:0;color:var(--gold)}
-    .subtitle{font-size:13px;color:rgba(255,255,255,0.65);margin-top:2px}
-    .controls{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
-    .controls label{font-size:14px}
-    .lang-select{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:7px 10px;border-radius:8px;font-size:14px}
-    .day-btns{display:flex;gap:4px;margin-left:auto}
-    .day-btn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#fff;padding:7px 10px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;transition:all 0.2s}
-    .day-btn:hover{background:rgba(255,255,255,0.22)}
-    .day-btn.active{background:var(--purple);border-color:var(--purple)}
-    .scene{background:rgba(255,255,255,0.08);border-radius:16px;padding:14px;margin-bottom:14px;border:2px solid rgba(255,255,255,0.1);transition:all 0.3s}
-    .scene-banner{font-size:1.1rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-    .scene-wrap{position:relative;border-radius:12px;overflow:hidden;margin-bottom:12px;background:rgba(0,0,0,0.3)}
-    .scene-wrap img{width:100%;height:220px;object-fit:cover;display:block;transition:opacity 0.4s}
-    .clickable-spot{position:absolute;border-radius:50%;background:rgba(255,220,0,0.35);border:3px solid rgba(255,215,0,0.7);cursor:pointer;transition:all 0.25s;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 14px rgba(255,215,0,0.4)}
-    .clickable-spot:hover{background:rgba(255,215,0,0.6);transform:scale(1.15)}
-    .clickable-spot.done{background:rgba(123,211,137,0.6);border-color:#7bd389;pointer-events:none}
-    .row{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
-    .ctrl-btn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);color:#fff;padding:8px 13px;border-radius:10px;cursor:pointer;font-size:14px;transition:all 0.2s}
-    .ctrl-btn:hover{background:rgba(255,255,255,0.22)}
-    .ctrl-btn.primary{background:var(--purple);border-color:var(--purple)}
-    .ctrl-btn.gold{background:rgba(255,215,0,0.85);color:#333;border-color:var(--gold);font-weight:700}
-    .tip-box{background:rgba(255,255,255,0.06);border-radius:10px;padding:10px 14px;margin-top:10px;font-size:13px;line-height:1.5;border-left:3px solid var(--gold)}
-    .tip-box strong{color:var(--gold)}
-    .feedback{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.85);color:#fff;padding:12px 22px;border-radius:14px;font-size:15px;font-weight:700;z-index:999;opacity:0;transition:opacity 0.3s;pointer-events:none;border:2px solid var(--gold)}
-    .feedback.show{opacity:1}
-    .feedback.success{border-color:#7bd389}
-    .feedback.fail{border-color:#ff9aa2}
-    .hidden{display:none!important}
-    .progress-bar{display:flex;gap:4px;margin-bottom:14px}
-    .progress-dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.2);transition:background 0.3s}
-    .progress-dot.done{background:#7bd389}
-    .progress-dot.active{background:var(--gold)}
-    /* Day 3 cross theme */
-    body.cross-theme{--bg-resurrect: linear-gradient(180deg,#1a0a0a 0%,#2a0a0a 50%,#1a0505 100%)}
-    /* Day 4 tomb theme */
-    body.tomb-theme{--bg-resurrect: linear-gradient(180deg,#0a0a1a 0%,#0a0a20 50%,#050510 100%)}
-    /* Day 5 resurrection theme */
-    body.resurrect-theme{--bg-resurrect: linear-gradient(180deg,#1a1a00 0%,#2a2a00 50%,#1a1500 100%);color:#000}
-    .parent-tips{background:rgba(255,255,255,0.05);border-radius:12px;padding:12px 16px;margin-top:16px;border:1px solid rgba(255,255,255,0.1)}
-    .parent-tips h3{font-size:13px;color:var(--gold);margin:0 0 8px;font-weight:700}
-    .parent-tips table{width:100%;border-collapse:collapse;font-size:12px}
-    .parent-tips td{padding:4px 8px;border-bottom:1px solid rgba(255,255,255,0.06);vertical-align:top}
-    .parent-tips td:first-child{font-weight:700;color:var(--pink);white-space:nowrap}
-    @media(max-width:500px){
-      header h1{font-size:1.2rem}
-      .day-btns{margin-left:0;width:100%}
-      .scene-wrap img{height:180px}
+    /* ── NAV BAR ── */
+    .navbar{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:10px 14px;
+      background:rgba(0,0,0,0.35);
     }
+    .nav-icon{
+      width:44px;height:44px;border-radius:12px;
+      background:rgba(255,255,255,0.15);
+      border:2px solid rgba(255,255,255,0.3);
+      display:flex;align-items:center;justify-content:center;
+      font-size:22px;cursor:pointer;
+      transition:transform 0.15s,background 0.15s;
+    }
+    .nav-icon:active{transform:scale(0.92);background:rgba(255,255,255,0.3)}
+    .lang-menu{
+      position:absolute;top:58px;right:14px;
+      background:rgba(20,20,40,0.97);
+      border:2px solid rgba(255,215,0,0.5);
+      border-radius:14px;
+      padding:6px;z-index:200;
+      display:none;flex-direction:column;gap:4px;
+    }
+    .lang-menu.show{display:flex}
+    .lang-btn{
+      padding:10px 18px;border-radius:10px;
+      background:rgba(255,255,255,0.1);border:none;
+      color:#fff;font-size:15px;cursor:pointer;
+      text-align:left;
+    }
+    .lang-btn:active{background:rgba(255,215,0,0.35)}
+    .lang-btn.selected{background:rgba(255,215,0,0.3);color:#FFD700;font-weight:700}
+    /* ── PROGRESS DOTS ── */
+    .progress{
+      position:fixed;top:68px;left:50%;transform:translateX(-50%);
+      display:flex;gap:8px;z-index:100;
+    }
+    .pdot{
+      width:14px;height:14px;border-radius:50%;
+      background:rgba(255,255,255,0.25);
+      transition:all 0.4s;
+    }
+    .pdot.done{background:#7bd389}
+    .pdot.active{background:#FFD700;box-shadow:0 0 8px #FFD700}
+    /* ── SCENE ── */
+    .scene{
+      position:fixed;inset:0;
+      display:flex;flex-direction:column;
+      align-items:center;justify-content:center;
+    }
+    .scene img.bg{
+      position:absolute;inset:0;
+      width:100%;height:100%;
+      object-fit:cover;
+    }
+    /* Dark overlay so tappable items pop */
+    .scene::after{
+      content:'';position:absolute;inset:0;
+      background:rgba(0,0,0,0.15);pointer-events:none;
+    }
+    /* ── TAPPABLE SPOTS ── */
+    .spot{
+      position:absolute;
+      border-radius:50%;
+      cursor:pointer;
+      z-index:10;
+      transition:transform 0.2s;
+    }
+    .spot::before{
+      content:'';position:absolute;inset:-6px;
+      border-radius:50%;border:3px solid rgba(255,215,0,0);
+      animation:spotPulse 2s ease-in-out infinite;
+    }
+    .spot:not(.done):active{transform:scale(1.2)}
+    .spot.done{
+      background:rgba(100,220,100,0.5)!important;
+      border-color:#7bd389!important;
+      pointer-events:none;
+    }
+    .spot.done::before{display:none}
+    @keyframes spotPulse{
+      0%,100%{box-shadow:0 0 0 0 rgba(255,215,0,0.5)}
+      50%{box-shadow:0 0 0 12px rgba(255,215,0,0)}
+    }
+    /* ── CELEBRATION OVERLAY ── */
+    #celebrate{
+      position:fixed;inset:0;z-index:300;
+      display:none;flex-direction:column;
+      align-items:center;justify-content:center;
+      background:rgba(0,0,0,0.7);
+    }
+    #celebrate.show{display:flex}
+    .cel-icon{
+      font-size:90px;animation:celBounce 0.6s ease;
+    }
+    @keyframes celBounce{
+      0%{transform:scale(0)}100%{transform:scale(1)}
+    }
+    .cel-glow{
+      position:absolute;width:220px;height:220px;
+      border-radius:50%;background:radial-gradient(circle,rgba(255,215,0,0.5),transparent);
+      animation:celGlow 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes celGlow{
+      from{transform:scale(0.8);opacity:0.6}
+      to{transform:scale(1.3);opacity:1}
+    }
+    /* ── ADVANCE HINT ── */
+    #advance{
+      position:fixed;bottom:60px;left:50%;transform:translateX(-50%);
+      z-index:300;display:none;
+      flex-direction:column;align-items:center;gap:10px;
+    }
+    #advance.show{display:flex}
+    .adv-glow{
+      width:90px;height:90px;border-radius:50%;
+      background:radial-gradient(circle,#FFD700,transparent);
+      animation:advPulse 1s ease-in-out infinite;
+    }
+    @keyframes advPulse{
+      0%,100%{transform:scale(1);opacity:0.8}
+      50%{transform:scale(1.3);opacity:1}
+    }
+    .adv-arrow{
+      font-size:36px;color:#FFD700;
+      animation:advBounce 0.7s ease-in-out infinite;
+    }
+    @keyframes advBounce{
+      0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}
+    }
+    /* ── FINAL CELEBRATION ── */
+    #final{
+      position:fixed;inset:0;z-index:400;
+      display:none;flex-direction:column;
+      align-items:center;justify-content:center;
+      background:linear-gradient(135deg,#1a1a2e,#2a1a3e,#1a2a1a);
+    }
+    #final.show{display:flex}
+    .final-stars{
+      position:absolute;inset:0;overflow:hidden;pointer-events:none;
+    }
+    .star{
+      position:absolute;font-size:28px;
+      animation:starFall linear infinite;
+    }
+    @keyframes starFall{
+      0%{transform:translateY(-40px) rotate(0deg);opacity:1}
+      100%{transform:translateY(110vh) rotate(360deg);opacity:0.3}
+    }
+    .final-content{
+      position:relative;z-index:10;
+      display:flex;flex-direction:column;align-items:center;gap:20px;
+      text-align:center;
+    }
+    .final-title{
+      font-size:52px;animation:finalZoom 0.8s ease;
+    }
+    @keyframes finalZoom{
+      0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}
+    }
+    .final-sub{font-size:28px;color:#FFD700}
+    .final-restart{
+      margin-top:10px;
+      padding:16px 32px;border-radius:20px;
+      background:#FFD700;color:#1a1a2e;
+      border:none;font-size:20px;font-weight:700;
+      cursor:pointer;
+    }
+    .final-restart:active{transform:scale(0.95)}
+    /* ── SOUND ICONS (visual feedback) ── */
+    .sound-wave{
+      position:fixed;bottom:20px;right:16px;
+      font-size:26px;opacity:0.7;z-index:90;
+      animation:soundWave 1.5s ease-in-out infinite;
+      pointer-events:none;display:none;
+    }
+    .sound-wave.playing{display:block}
+    @keyframes soundWave{
+      0%,100%{transform:scale(1)}50%{transform:scale(1.3)}
+    }
+    /* ── SPOT SIZE BY DAY ── */
+    .spot-s{width:60px;height:60px}
+    .spot-m{width:80px;height:80px}
+    .spot-l{width:100px;height:100px}
+    /* ── DAY-SPECIFIC THEMES ── */
+    body.d3{background:#1a0505}
+    body.d4{background:#05051a}
+    body.d5{background:#1a1a00}
+    /* ── NARRATION BANNER (brief visual cue) ── */
+    .day-emoji{
+      position:fixed;top:90px;left:50%;transform:translateX(-50%);
+      font-size:70px;z-index:90;opacity:0;transition:opacity 0.5s;
+      text-shadow:0 0 20px rgba(255,215,0,0.8);
+      pointer-events:none;
+    }
+    .day-emoji.show{opacity:1}
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <img src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/jesus_resurrection/jesus-resurrection-icon.png" alt="icon" onerror="this.style.display='none'">
-      <div>
-        <h1>✝️ 耶穌復活</h1>
-        <div class="subtitle">五日互動聖經故事 | 適合 K1-K3</div>
-      </div>
-    </header>
 
-    <div class="progress-bar" id="progress-bar">
-      <div class="progress-dot" id="dot-1"></div>
-      <div class="progress-dot" id="dot-2"></div>
-      <div class="progress-dot" id="dot-3"></div>
-      <div class="progress-dot" id="dot-4"></div>
-      <div class="progress-dot" id="dot-5"></div>
-    </div>
+<!-- NAV: home + language -->
+<div class="navbar">
+  <div class="nav-icon" onclick="goHome()" title="首頁">🏠</div>
+  <div class="nav-icon" onclick="toggleLang()" id="langIcon" title="語言">🌍</div>
+</div>
+<div class="lang-menu" id="langMenu">
+  <button class="lang-btn selected" onclick="setLang('zhHK')">🇭🇰 粵語</button>
+  <button class="lang-btn" onclick="setLang('zhCN')">🇨🇳 普通話</button>
+  <button class="lang-btn" onclick="setLang('enUS')">🇺🇸 English</button>
+  <button class="lang-btn" onclick="setLang('jaJP')">🇯🇵 日本語</button>
+</div>
 
-    <div class="controls">
-      <label>🌐</label>
-      <select id="lang" class="lang-select">
-        <option value="zhHK">粵語</option>
-        <option value="zhCN">簡體</option>
-        <option value="enUS">English</option>
-        <option value="jaJP">日本語</option>
-      </select>
-      <div class="day-btns">
-        <button class="day-btn active" onclick="goToDay(1)">棕枝主日</button>
-        <button class="day-btn" onclick="goToDay(2)">最後晚餐</button>
-        <button class="day-btn" onclick="goToDay(3)">十架犧牲</button>
-        <button class="day-btn" onclick="goToDay(4)">空坟墓</button>
-        <button class="day-btn" onclick="goToDay(5)">耶穌復活</button>
-      </div>
-    </div>
+<!-- Progress dots -->
+<div class="progress" id="progress"></div>
 
-    <!-- DAY 1: Palm Sunday -->
-    <section id="day-1" class="scene">
-      <div class="scene-banner">🐴 第1日：棕枝主日</div>
-      <div class="scene-wrap" id="day1-wrap">
-        <img id="day1-bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/jesus_resurrection/scene1_palm.png" alt="Palm Sunday" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 300%22><rect fill=%22%23f4a460%22 width=%22800%22 height=%22300%22/><text x=%22400%22 y=%22150%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22white%22>🐴 棕枝主日</text></svg>'">
-        <div id="day1-overlay" style="position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none"></div>
-      </div>
-      <div class="row">
-        <button class="ctrl-btn primary" onclick="r1ClickDonkey()">🐴 點擊驢仔</button>
-        <button class="ctrl-btn" onclick="playAudio('r1Narr')">🔊 朗讀</button>
-        <button class="ctrl-btn" onclick="playAudio('r1Hint')">💡 提示</button>
-      </div>
-      <div class="tip-box" id="day1-tip">👆 點擊驢仔，幫耶穌進入耶路撒冷！</div>
-    </section>
+<!-- Day emoji cue -->
+<div class="day-emoji" id="dayEmoji"></div>
 
-    <!-- DAY 2: Last Supper -->
-    <section id="day-2" class="scene hidden">
-      <div class="scene-banner">🍞 第2日：最後晚餐</div>
-      <div class="scene-wrap" id="day2-wrap">
-        <img id="day2-bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/jesus_resurrection/scene2_supper.png" alt="Last Supper" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 300%22><rect fill=%22%23d4a574%22 width=%22800%22 height=%22300%22/><text x=%22400%22 y=%22150%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22white%22>🍞 最後晚餐</text></svg>'">
-        <div id="day2-overlay" style="position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none"></div>
-      </div>
-      <div class="row">
-        <button class="ctrl-btn primary" onclick="r2ClickBread()">🍞 點擊餅</button>
-        <button class="ctrl-btn primary" onclick="r2ClickCup()">🍷 點擊杯</button>
-        <button class="ctrl-btn" onclick="playAudio('r2Narr')">🔊 朗讀</button>
-        <button class="ctrl-btn" onclick="playAudio('r2Hint')">💡 提示</button>
-      </div>
-      <div class="tip-box" id="day2-tip">👆 點擊餅和杯，與耶穌一齊領聖餐！</div>
-    </section>
+<!-- Sound wave indicator -->
+<div class="sound-wave" id="soundWave">🔊</div>
 
-    <!-- DAY 3: Cross -->
-    <section id="day-3" class="scene hidden">
-      <div class="scene-banner">✝️ 第3日：十架犧牲</div>
-      <div class="scene-wrap" id="day3-wrap">
-        <img id="day3-bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/jesus_resurrection/scene3_cross.png" alt="Cross" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 300%22><rect fill=%22%23222%22 width=%22800%22 height=%22300%22/><text x=%22400%22 y=%22150%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22%23ff4444%22>✝️ 十架犧牲</text></svg>'">
-        <div id="day3-overlay" style="position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none"></div>
-      </div>
-      <div class="row">
-        <button class="ctrl-btn primary" onclick="r3ClickCross()">✝️ 點擊十字架</button>
-        <button class="ctrl-btn gold" onclick="r3ClickHeart()">❤️ 點擊耶穌的心</button>
-        <button class="ctrl-btn" onclick="playAudio('r3Narr')">🔊 朗讀</button>
-        <button class="ctrl-btn" onclick="playAudio('r3Hint')">💡 提示</button>
-      </div>
-      <div class="tip-box" id="day3-tip">👆 點擊十字架，然後點擊耶穌的心，感受耶穌的愛！</div>
-    </section>
-
-    <!-- DAY 4: Empty Tomb -->
-    <section id="day-4" class="scene hidden">
-      <div class="scene-banner">💎 第4日：空坟墓</div>
-      <div class="scene-wrap" id="day4-wrap">
-        <img id="day4-bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/jesus_resurrection/scene4_tomb.png" alt="Empty Tomb" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 300%22><rect fill=%22%230a0a1a%22 width=%22800%22 height=%22300%22/><text x=%22400%22 y=%22150%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22%23FFD700%22>💎 空坟墓</text></svg>'">
-        <div id="day4-overlay" style="position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none"></div>
-      </div>
-      <div class="row">
-        <button class="ctrl-btn primary" onclick="r4OpenTomb()">🪨 點擊石頭</button>
-        <button class="ctrl-btn" onclick="playAudio('r4Narr')">🔊 朗讀</button>
-        <button class="ctrl-btn" onclick="playAudio('r4Hint')">💡 提示</button>
-      </div>
-      <div class="tip-box" id="day4-tip">👆 點擊大石頭，讓天使打開坟墓！</div>
-    </section>
-
-    <!-- DAY 5: Resurrection -->
-    <section id="day-5" class="scene hidden">
-      <div class="scene-banner">👼 第5日：耶穌復活</div>
-      <div class="scene-wrap" id="day5-wrap">
-        <img id="day5-bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/jesus_resurrection/scene5_appear.png" alt="Resurrection" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 300%22><rect fill=%22%23FFD700%22 width=%22800%22 height=%22300%22/><text x=%22400%22 y=%22150%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22%231a1a2e%22>👼 耶穌復活</text></svg>'">
-        <div id="day5-overlay" style="position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none"></div>
-      </div>
-      <div class="row">
-        <button class="ctrl-btn primary gold" onclick="r5ClickAngel()">👼 迎接耶穌</button>
-        <button class="ctrl-btn" onclick="playAudio('r5Narr')">🔊 朗讀</button>
-        <button class="ctrl-btn" onclick="playAudio('r5Hint')">💡 提示</button>
-      </div>
-      <div class="tip-box" id="day5-tip">👆 點擊天使，迎接復活的耶穌！</div>
-    </section>
-
-    <!-- Parent Tips -->
-    <div class="parent-tips" id="parent-tips">
-      <h3>👨‍👩‍👧 知心一點點（家長提示）</h3>
-      <table>
-        <tr><td>第1日：</td><td>耶穌溫柔地騎驢進入，可借此討論「溫柔係點嘅？」<br><small>📖 馬太福音 21:5</small></td></tr>
-        <tr><td>第2日：</td><td>耶穌為門徒洗腳，可借此討論「你願意服事人嗎？」<br><small>📖 約翰福音 13:34</small></td></tr>
-        <tr><td>第3日：</td><td>耶穌為我犧牲，可借此討論「愛係願意為人付出」<br><small>📖 約翰福音 3:16</small></td></tr>
-        <tr><td>第4日：</td><td>死亡唔係終點，可借此討論「復活係咩意思？」<br><small>📖 馬太福音 28:6</small></td></tr>
-        <tr><td>第5日：</td><td>耶穌活在我哋心中，可借此討論「耶穌依舊活潑」<br><small>📖 約翰福音 11:25</small></td></tr>
-      </table>
-    </div>
-
-    <!-- Learning Activities -->
-    <div class="parent-tips" style="margin-top:12px">
-      <h3>📚 學習活動</h3>
-      <table>
-        <tr><td>第1日：</td><td>大小認知 — 比較驢仔與棕櫚枝</td></tr>
-        <tr><td>第2日：</td><td>數數 — 數有多少個餅和杯</td></tr>
-        <tr><td>第3日：</td><td>情感認知 — 邊個表情係「愛」？</td></tr>
-        <tr><td>第4日：</td><td>方向認知 — 石頭打開，邊個方向打開？</td></tr>
-        <tr><td>第5日：</td><td>情感認知 — 邊個表情係「開心」？</td></tr>
-      </table>
-    </div>
+<!-- SCENES (one per day) -->
+<!-- DAY 1: Palm Sunday — tap the donkey -->
+<div class="scene" id="scene-1">
+  <img class="bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/jesus_resurrection/scene1_palm.png" alt="">
+  <!-- Donkey spot -->
+  <div class="spot spot-l" id="spot-1"
+    style="top:42%;left:35%;background:rgba(255,215,0,0.25);border:4px solid rgba(255,215,0,0.7)"
+    onclick="day1Click()">
   </div>
+</div>
 
-  <div class="feedback" id="feedback"></div>
+<!-- DAY 2: Last Supper — tap bread AND cup -->
+<div class="scene" id="scene-2" style="display:none">
+  <img class="bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/jesus_resurrection/scene2_supper.png" alt="">
+  <div class="spot spot-m" id="spot-2a"
+    style="top:38%;left:30%;background:rgba(255,215,0,0.25);border:4px solid rgba(255,215,0,0.7)"
+    onclick="day2a()">
+  </div>
+  <div class="spot spot-m" id="spot-2b"
+    style="top:38%;left:55%;background:rgba(255,215,0,0.25);border:4px solid rgba(255,215,0,0.7)"
+    onclick="day2b()">
+  </div>
+</div>
 
-  <script>
-    const BASE = 'https://raw.githubusercontent.com/ai-lish/preschool/main';
-    const langEl = document.getElementById('lang');
+<!-- DAY 3: Cross — tap cross THEN heart -->
+<div class="scene" id="scene-3" style="display:none">
+  <img class="bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/jesus_resurrection/scene3_cross.png" alt="">
+  <div class="spot spot-l" id="spot-3a"
+    style="top:28%;left:40%;background:rgba(255,215,0,0.2);border:4px solid rgba(255,215,0,0.6)"
+    onclick="day3a()">
+  </div>
+  <div class="spot spot-m" id="spot-3b"
+    style="top:18%;left:42%;background:rgba(255,100,100,0.3);border:4px solid rgba(255,100,100,0.7)"
+    onclick="day3b()">
+  </div>
+</div>
 
-    function lang() { return langEl.value; }
+<!-- DAY 4: Empty Tomb — tap stone -->
+<div class="scene" id="scene-4" style="display:none">
+  <img class="bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/jesus_resurrection/scene4_tomb.png" alt="">
+  <div class="spot spot-l" id="spot-4"
+    style="top:32%;left:58%;background:rgba(255,215,0,0.2);border:4px solid rgba(255,215,0,0.6)"
+    onclick="day4Click()">
+  </div>
+</div>
 
-    // Progress dots
-    const completed = new Set();
+<!-- DAY 5: Resurrection — tap angel -->
+<div class="scene" id="scene-5" style="display:none">
+  <img class="bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/jesus_resurrection/scene5_appear.png" alt="">
+  <div class="spot spot-l" id="spot-5"
+    style="top:28%;left:48%;background:rgba(255,255,255,0.2);border:4px solid rgba(255,255,255,0.7)"
+    onclick="day5Click()">
+  </div>
+</div>
 
-    function updateDots(day) {
-      for (let i = 1; i <= 5; i++) {
-        const dot = document.getElementById('dot-' + i);
-        dot.className = 'progress-dot';
-        if (completed.has(i)) dot.classList.add('done');
-        if (i === day) dot.classList.add('active');
-      }
+<!-- CELEBRATION overlay (per-day) -->
+<div id="celebrate">
+  <div class="cel-glow"></div>
+  <div class="cel-icon" id="celIcon">⭐</div>
+</div>
+
+<!-- ADVANCE overlay (tap to go next) -->
+<div id="advance" onclick="nextDay()">
+  <div class="adv-glow"></div>
+  <div class="adv-arrow">▶</div>
+</div>
+
+<!-- FINAL celebration -->
+<div id="final">
+  <div class="final-stars" id="finalStars"></div>
+  <div class="final-content">
+    <div class="final-title">🎉</div>
+    <div class="final-sub">耶穌活喇！</div>
+    <button class="final-restart" onclick="restart()">再玩一次 🔄</button>
+    <button class="final-restart" style="background:rgba(255,255,255,0.15);color:#fff;margin-top:8px" onclick="goHome()">返去首頁 🏠</button>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════
+   CONSTANTS
+═══════════════════════════════════ */
+const BASE = 'https://raw.githubusercontent.com/ai-lish/preschool/main';
+const T = {
+  zhHK: {d1Emoji:'🐴',d2Emoji:'🍞',d3Emoji:'✝️',d4Emoji:'💎',d5Emoji:'👼',final:'耶穌活喇！'},
+  zhCN: {d1Emoji:'🐴',d2Emoji:'🍞',d3Emoji:'✝️',d4Emoji:'💎',d5Emoji:'👼',final:'耶穌活了！'},
+  enUS: {d1Emoji:'🐴',d2Emoji:'🍞',d3Emoji:'✝️',d4Emoji:'💎',d5Emoji:'👼',final:'Jesus is Alive!'},
+  jaJP: {d1Emoji:'🐴',d2Emoji:'🍞',d3Emoji:'✝️',d4Emoji:'💎',d5Emoji:'👼',final:'イエスは生きておられます！'},
+};
+const AUDIO_KEYS = {
+  1:{n:'r1Narr',s:'r1Success',f:'r1Fail'},
+  2:{n:'r2Narr',s:'r2Success',f:'r2Fail'},
+  3:{n:'r3Narr',s:'r3Success',f:'r3Fail'},
+  4:{n:'r4Narr',s:'r4Success',f:'r4Fail'},
+  5:{n:'r5Narr',s:'r5Success',f:'r5Fail'},
+};
+const CELEMOJIS = ['⭐','🌟','✨','🎉','💫'];
+
+/* ═══════════════════════════════════
+   STATE
+═══════════════════════════════════ */
+let currentDay = 1;
+let completedDays = new Set();
+let d2a=false,d2b=false;
+let d3a=false,d3b=false;
+let audioLock = false; // prevent double-play
+
+/* ═══════════════════════════════════
+   AUDIO
+═══════════════════════════════════ */
+function audioUrl(key) {
+  return BASE + '/audio/jesus_resurrection/' + key + '_' + lang + '.mp3';
+}
+
+function playAudio(key) {
+  if (audioLock) return;
+  audioLock = true;
+  const a = new Audio(audioUrl(key));
+  a.play().catch(()=>{});
+  document.getElementById('soundWave').classList.add('playing');
+  a.onended = () => {
+    audioLock = false;
+    document.getElementById('soundWave').classList.remove('playing');
+  };
+  // Auto-unlock after 8s fallback
+  setTimeout(()=>{ audioLock = false; document.getElementById('soundWave').classList.remove('playing'); }, 8000);
+}
+
+/* ═══════════════════════════════════
+   NAV
+═══════════════════════════════════ */
+let lang = 'zhHK';
+const langNames = {zhHK:'zhHK',zhCN:'zhCN',enUS:'enUS',jaJP:'jaJP'};
+
+function toggleLang() {
+  document.getElementById('langMenu').classList.toggle('show');
+}
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('selected', b.textContent.includes(
+      l==='zhHK'?'粵':l==='zhCN'?'普通':l==='enUS'?'Eng':l==='jaJP'?'日本':''
+    ));
+  });
+  document.getElementById('langMenu').classList.remove('show');
+  // Re-render current day with new lang narration
+  showDay(currentDay);
+}
+function goHome() {
+  window.location.href = 'index.html';
+}
+
+/* ═══════════════════════════════════
+   PROGRESS DOTS
+═══════════════════════════════════ */
+function renderDots() {
+  const el = document.getElementById('progress');
+  el.innerHTML = '';
+  for (let i=1;i<=5;i++) {
+    const d = document.createElement('div');
+    d.className = 'pdot';
+    if (completedDays.has(i)) d.classList.add('done');
+    if (i===currentDay) d.classList.add('active');
+    el.appendChild(d);
+  }
+}
+
+/* ═══════════════════════════════════
+   SCENE SHOW/HIDE
+═══════════════════════════════════ */
+function showDay(n) {
+  for (let i=1;i<=5;i++) {
+    document.getElementById('scene-'+i).style.display = (i===n)?'flex':'none';
+  }
+  document.body.className = n===3?'d3':n===4?'d4':n===5?'d5':'';
+  currentDay = n;
+  renderDots();
+  // Show emoji briefly
+  const emojis = T[lang];
+  const emoji = ['',emojis.d1Emoji,emojis.d2Emoji,emojis.d3Emoji,emojis.d4Emoji,emojis.d5Emoji][n];
+  const de = document.getElementById('dayEmoji');
+  de.textContent = emoji;
+  de.classList.add('show');
+  setTimeout(()=>de.classList.remove('show'), 2500);
+  // Auto-play narration
+  setTimeout(()=>playAudio(AUDIO_KEYS[n].n), 600);
+}
+
+/* ═══════════════════════════════════
+   CELEBRATION
+═══════════════════════════════════ */
+function celebrate(day) {
+  const icons = ['⭐','🌟','✨','🎉','💫'];
+  const icon = icons[Math.floor(Math.random()*icons.length)];
+  document.getElementById('celIcon').textContent = icon;
+  document.getElementById('celebrate').classList.add('show');
+  playAudio(AUDIO_KEYS[day].s);
+  setTimeout(()=>{
+    document.getElementById('celebrate').classList.remove('show');
+    completedDays.add(day);
+    renderDots();
+    if (day < 5) {
+      showAdvance();
+    } else {
+      showFinal();
     }
+  }, 2200);
+}
 
-    // Theme by day
-    function setTheme(day) {
-      document.body.className = '';
-      if (day === 3) document.body.classList.add('cross-theme');
-      else if (day === 4) document.body.classList.add('tomb-theme');
-      else if (day === 5) document.body.classList.add('resurrect-theme');
-    }
+function showAdvance() {
+  document.getElementById('advance').classList.add('show');
+}
 
-    function showFeedback(msg, type) {
-      const el = document.getElementById('feedback');
-      el.textContent = msg;
-      el.className = 'feedback show';
-      if (type === 'success') el.classList.add('success');
-      if (type === 'fail') el.classList.add('fail');
-      clearTimeout(el._timer);
-      el._timer = setTimeout(() => el.classList.remove('show'), 2800);
-    }
+function nextDay() {
+  document.getElementById('advance').classList.remove('show');
+  showDay(currentDay + 1);
+}
 
-    function audioUrl(key) {
-      return BASE + '/audio/jesus_resurrection/' + key + '_' + lang() + '.mp3';
-    }
+/* ═══════════════════════════════════
+   FINAL
+═══════════════════════════════════ */
+function showFinal() {
+  // Stars confetti
+  const starsEl = document.getElementById('finalStars');
+  starsEl.innerHTML = '';
+  const emojis = ['⭐','🌟','✨','🌈','💫','🎉'];
+  for (let i=0;i<20;i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    s.style.left = Math.random()*100+'%';
+    s.style.animationDuration = (2+Math.random()*3)+'s';
+    s.style.animationDelay = Math.random()*2+'s';
+    starsEl.appendChild(s);
+  }
+  document.getElementById('final').classList.add('show');
+}
 
-    function playAudio(key) {
-      new Audio(audioUrl(key)).play().catch(e => console.warn('audio:', e));
-    }
+function restart() {
+  completedDays.clear();
+  d2a=d2b=d3a=d3b=false;
+  // Reset spots
+  ['spot-1','spot-2a','spot-2b','spot-3a','spot-3b','spot-4','spot-5'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.classList.remove('done');
+  });
+  document.getElementById('final').classList.remove('show');
+  showDay(1);
+}
 
-    function goToDay(n) {
-      for (let i = 1; i <= 5; i++) {
-        document.getElementById('day-' + i).classList.add('hidden');
-      }
-      document.getElementById('day-' + n).classList.remove('hidden');
-      document.querySelectorAll('.day-btn').forEach((b, i) => {
-        b.classList.toggle('active', i + 1 === n);
-      });
-      setTheme(n);
-      updateDots(n);
-      playAudio('r' + n + 'Narr');
-    }
+/* ═══════════════════════════════════
+   DAY-SPECIFIC ACTIONS
+═══════════════════════════════════ */
+// Day 1 — one spot: donkey
+function day1Click() {
+  if (document.getElementById('spot-1').classList.contains('done')) return;
+  document.getElementById('spot-1').classList.add('done');
+  celebrate(1);
+}
 
-    function completeDay(d, msg) {
-      completed.add(d);
-      updateDots(d);
-      showFeedback(msg || '第' + d + '日完成 ✨', 'success');
-    }
+// Day 2 — two spots: bread + cup
+function day2a() {
+  if (d2a) return;
+  d2a = true;
+  document.getElementById('spot-2a').classList.add('done');
+  playAudio('r2Fail'); // gentle "keep going" sound
+  if (d2a && d2b) setTimeout(()=>celebrate(2), 400);
+}
+function day2b() {
+  if (d2b) return;
+  d2b = true;
+  document.getElementById('spot-2b').classList.add('done');
+  playAudio('r2Fail');
+  if (d2a && d2b) setTimeout(()=>celebrate(2), 400);
+}
 
-    // ── Day 1: Palm Sunday – click donkey ──
-    let day1Done = false;
-    function r1ClickDonkey() {
-      if (day1Done) return;
-      day1Done = true;
-      playAudio('r1Success');
-      const wrap = document.getElementById('day1-wrap');
-      wrap.style.transition = 'box-shadow 0.6s';
-      wrap.style.boxShadow = '0 0 30px rgba(255,215,0,0.7)';
-      setTimeout(() => {
-        showFeedback('🐴 耶穌好溫柔咁進入耶路撒冷！', 'success');
-        completeDay(1);
-      }, 400);
-    }
+// Day 3 — two spots: cross THEN heart
+function day3a() {
+  if (d3a) return;
+  d3a = true;
+  document.getElementById('spot-3a').classList.add('done');
+  playAudio('r3Fail');
+  if (d3a && d3b) setTimeout(()=>celebrate(3), 400);
+}
+function day3b() {
+  if (d3b) return;
+  d3b = true;
+  document.getElementById('spot-3b').classList.add('done');
+  playAudio('r3Fail');
+  if (d3a && d3b) setTimeout(()=>celebrate(3), 400);
+}
 
-    // ── Day 2: Last Supper – click bread then cup ──
-    let day2Bread = false, day2Cup = false;
-    function r2ClickBread() {
-      if (day2Bread) return;
-      day2Bread = true;
-      playAudio('r2Narr');
-      if (day2Bread && day2Cup) {
-        setTimeout(() => {
-          playAudio('r2Success');
-          showFeedback('🍞🍷 耶穌話：「這是我的身體和血」', 'success');
-          completeDay(2);
-        }, 600);
-      } else {
-        showFeedback('🍞 餅已點擊！再點杯！', 'info');
-      }
-    }
-    function r2ClickCup() {
-      if (day2Cup) return;
-      day2Cup = true;
-      playAudio('r2Narr');
-      if (day2Bread && day2Cup) {
-        setTimeout(() => {
-          playAudio('r2Success');
-          showFeedback('🍞🍷 耶穌話：「這是我的身體和血」', 'success');
-          completeDay(2);
-        }, 600);
-      } else {
-        showFeedback('🍷 杯已點擊！再點餅！', 'info');
-      }
-    }
+// Day 4 — one spot: stone
+function day4Click() {
+  if (document.getElementById('spot-4').classList.contains('done')) return;
+  document.getElementById('spot-4').classList.add('done');
+  celebrate(4);
+}
 
-    // ── Day 3: Cross – click cross then heart ──
-    let day3Cross = false, day3Heart = false;
-    function r3ClickCross() {
-      if (day3Cross) return;
-      day3Cross = true;
-      playAudio('r3Narr');
-      const wrap = document.getElementById('day3-wrap');
-      wrap.style.transition = 'box-shadow 0.6s';
-      wrap.style.boxShadow = '0 0 20px rgba(196,30,58,0.7)';
-      if (day3Cross && day3Heart) {
-        setTimeout(() => {
-          playAudio('r3Success');
-          showFeedback('❤️ 耶穌為我哋犧牲，愛係好大好大！', 'success');
-          completeDay(3);
-        }, 500);
-      } else {
-        showFeedback('✝️ 十字架已點擊！再點耶穌的心！', 'info');
-      }
-    }
-    function r3ClickHeart() {
-      if (day3Heart) return;
-      day3Heart = true;
-      playAudio('r3Narr');
-      if (day3Cross && day3Heart) {
-        setTimeout(() => {
-          playAudio('r3Success');
-          showFeedback('❤️ 耶穌為我哋犧牲，愛係好大好大！', 'success');
-          completeDay(3);
-        }, 500);
-      } else {
-        showFeedback('❤️ 心已感受！再點十字架！', 'info');
-      }
-    }
+// Day 5 — one spot: angel
+function day5Click() {
+  if (document.getElementById('spot-5').classList.contains('done')) return;
+  document.getElementById('spot-5').classList.add('done');
+  celebrate(5);
+}
 
-    // ── Day 4: Empty Tomb – click stone ──
-    let day4Done = false;
-    function r4OpenTomb() {
-      if (day4Done) return;
-      day4Done = true;
-      playAudio('r4Narr');
-      const wrap = document.getElementById('day4-wrap');
-      wrap.style.transition = 'all 1s';
-      wrap.style.boxShadow = '0 0 40px rgba(255,215,0,0.8)';
-      wrap.style.background = 'rgba(255,215,0,0.1)';
-      setTimeout(() => {
-        playAudio('r4Success');
-        showFeedback('💎 坟墓係空嘅！耶穌已經復活喇！', 'success');
-        completeDay(4);
-      }, 800);
-    }
-
-    // ── Day 5: Resurrection – click angel ──
-    let day5Done = false;
-    function r5ClickAngel() {
-      if (day5Done) return;
-      day5Done = true;
-      playAudio('r5Narr');
-      const wrap = document.getElementById('day5-wrap');
-      wrap.style.transition = 'all 1s';
-      wrap.style.boxShadow = '0 0 60px rgba(255,215,0,1)';
-      setTimeout(() => {
-        playAudio('r5Success');
-        showFeedback('👼 耶穌活喇！佢應許會再嚟，永遠與我哋在一起！', 'success');
-        completeDay(5);
-      }, 600);
-    }
-
-    // Init
-    updateDots(1);
-  </script>
+/* ═══════════════════════════════════
+   INIT
+═══════════════════════════════════ */
+showDay(1);
+</script>
 </body>
 </html>
