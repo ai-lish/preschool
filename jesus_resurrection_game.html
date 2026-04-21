@@ -1,46 +1,391 @@
 <!doctype html>
 <html lang="zh-HK">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
-<title>耶穌復活 — 五日互動故事</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
-<style>/* 基本樣式，沿用 preschool 風格模板（精簡版） */
-body{font-family:'Noto Sans TC',system-ui;background:linear-gradient(180deg,#f7f9ff,#dff1ff);color:#222;margin:0}
-.container{max-width:900px;margin:36px auto;padding:18px}
-.title{font-size:1.6rem;font-weight:900;margin-bottom:12px}
-.card{background:#fff;padding:14px;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,0.08)}
-.scene{width:100%;height:48vh;border-radius:12px;overflow:hidden;margin-top:12px;display:flex;align-items:center;justify-content:center;background:#f3f6ff}
-.controls{display:flex;gap:8px;justify-content:center;margin-top:12px}
-.btn{background:#6C5CE7;color:#fff;border:none;padding:10px 14px;border-radius:12px;cursor:pointer}
-.small{font-size:0.95rem;color:#555}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  <title>耶穌復活 — 五日互動故事</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #FFD700;
+      --purple: #6C5CE7;
+      --pink: #ff6b9d;
+      --cross-red: #C41E3A;
+      --tomb-dark: #2c2c3e;
+      --resurrect-gold: #FFE066;
+      --bg-resurrect: linear-gradient(180deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);
+    }
+    body{font-family:'Noto Sans TC',system-ui,Arial;background:var(--bg-resurrect);color:#fff;margin:0;padding:16px;min-height:100vh}
+    .wrap{max-width:900px;margin:0 auto;padding-bottom:40px}
+    header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:12px 0}
+    header img{width:64px;height:64px;border-radius:12px;object-fit:cover}
+    header h1{font-size:1.5rem;font-weight:900;margin:0;color:var(--gold)}
+    .subtitle{font-size:13px;color:rgba(255,255,255,0.65);margin-top:2px}
+    .controls{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+    .controls label{font-size:14px}
+    .lang-select{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:7px 10px;border-radius:8px;font-size:14px}
+    .day-btns{display:flex;gap:4px;margin-left:auto}
+    .day-btn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#fff;padding:7px 10px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;transition:all 0.2s}
+    .day-btn:hover{background:rgba(255,255,255,0.22)}
+    .day-btn.active{background:var(--purple);border-color:var(--purple)}
+    .scene{background:rgba(255,255,255,0.08);border-radius:16px;padding:14px;margin-bottom:14px;border:2px solid rgba(255,255,255,0.1);transition:all 0.3s}
+    .scene-banner{font-size:1.1rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+    .scene-wrap{position:relative;border-radius:12px;overflow:hidden;margin-bottom:12px;background:rgba(0,0,0,0.3)}
+    .scene-wrap img{width:100%;height:220px;object-fit:cover;display:block;transition:opacity 0.4s}
+    .clickable-spot{position:absolute;border-radius:50%;background:rgba(255,220,0,0.35);border:3px solid rgba(255,215,0,0.7);cursor:pointer;transition:all 0.25s;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 14px rgba(255,215,0,0.4)}
+    .clickable-spot:hover{background:rgba(255,215,0,0.6);transform:scale(1.15)}
+    .clickable-spot.done{background:rgba(123,211,137,0.6);border-color:#7bd389;pointer-events:none}
+    .row{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+    .ctrl-btn{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);color:#fff;padding:8px 13px;border-radius:10px;cursor:pointer;font-size:14px;transition:all 0.2s}
+    .ctrl-btn:hover{background:rgba(255,255,255,0.22)}
+    .ctrl-btn.primary{background:var(--purple);border-color:var(--purple)}
+    .ctrl-btn.gold{background:rgba(255,215,0,0.85);color:#333;border-color:var(--gold);font-weight:700}
+    .tip-box{background:rgba(255,255,255,0.06);border-radius:10px;padding:10px 14px;margin-top:10px;font-size:13px;line-height:1.5;border-left:3px solid var(--gold)}
+    .tip-box strong{color:var(--gold)}
+    .feedback{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.85);color:#fff;padding:12px 22px;border-radius:14px;font-size:15px;font-weight:700;z-index:999;opacity:0;transition:opacity 0.3s;pointer-events:none;border:2px solid var(--gold)}
+    .feedback.show{opacity:1}
+    .feedback.success{border-color:#7bd389}
+    .feedback.fail{border-color:#ff9aa2}
+    .hidden{display:none!important}
+    .progress-bar{display:flex;gap:4px;margin-bottom:14px}
+    .progress-dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.2);transition:background 0.3s}
+    .progress-dot.done{background:#7bd389}
+    .progress-dot.active{background:var(--gold)}
+    /* Day 3 cross theme */
+    body.cross-theme{--bg-resurrect: linear-gradient(180deg,#1a0a0a 0%,#2a0a0a 50%,#1a0505 100%)}
+    /* Day 4 tomb theme */
+    body.tomb-theme{--bg-resurrect: linear-gradient(180deg,#0a0a1a 0%,#0a0a20 50%,#050510 100%)}
+    /* Day 5 resurrection theme */
+    body.resurrect-theme{--bg-resurrect: linear-gradient(180deg,#1a1a00 0%,#2a2a00 50%,#1a1500 100%);color:#000}
+    .parent-tips{background:rgba(255,255,255,0.05);border-radius:12px;padding:12px 16px;margin-top:16px;border:1px solid rgba(255,255,255,0.1)}
+    .parent-tips h3{font-size:13px;color:var(--gold);margin:0 0 8px;font-weight:700}
+    .parent-tips table{width:100%;border-collapse:collapse;font-size:12px}
+    .parent-tips td{padding:4px 8px;border-bottom:1px solid rgba(255,255,255,0.06);vertical-align:top}
+    .parent-tips td:first-child{font-weight:700;color:var(--pink);white-space:nowrap}
+    @media(max-width:500px){
+      header h1{font-size:1.2rem}
+      .day-btns{margin-left:0;width:100%}
+      .scene-wrap img{height:180px}
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-  <div class="title">耶穌復活 — 五日互動故事</div>
-  <div class="card">
-    <p class="small">此遊戲由 preschool 團隊製作。語言：粵語 / 普通話 / 英文 / 日文。以下為五日故事日程：</p>
-    <ol>
-      <li>棕枝主日 — 驢仔進城（互動：點擊驢仔）</li>
-      <li>最後晚餐 — 聖餐互動（互動：點擊餅與杯）</li>
-      <li>十架犧牲 — 情緒理解（互動：點擊十字架/心）</li>
-      <li>空坟墓 — 石頭打開（互動：點擊石頭）</li>
-      <li>耶穌復活 — 顯現與慶祝（互動：點擊天使/耶穌）</li>
-    </ol>
-    <div class="scene" id="scene">
-      <img src="img/jesus_resurrection/scene4_tomb.png" alt="空坟墓" style="max-width:100%;max-height:100%;object-fit:cover">
+  <div class="wrap">
+    <header>
+      <img src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/jesus_resurrection/jesus-resurrection-icon.png" alt="icon" onerror="this.style.display='none'">
+      <div>
+        <h1>✝️ 耶穌復活</h1>
+        <div class="subtitle">五日互動聖經故事 | 適合 K1-K3</div>
+      </div>
+    </header>
+
+    <div class="progress-bar" id="progress-bar">
+      <div class="progress-dot" id="dot-1"></div>
+      <div class="progress-dot" id="dot-2"></div>
+      <div class="progress-dot" id="dot-3"></div>
+      <div class="progress-dot" id="dot-4"></div>
+      <div class="progress-dot" id="dot-5"></div>
     </div>
+
     <div class="controls">
-      <button class="btn" onclick="playAudio('r1Narr')">🔊 朗讀</button>
-      <button class="btn" onclick="showTip()">💡 提示</button>
+      <label>🌐</label>
+      <select id="lang" class="lang-select">
+        <option value="zhHK">粵語</option>
+        <option value="zhCN">簡體</option>
+        <option value="enUS">English</option>
+        <option value="jaJP">日本語</option>
+      </select>
+      <div class="day-btns">
+        <button class="day-btn active" onclick="goToDay(1)">棕枝主日</button>
+        <button class="day-btn" onclick="goToDay(2)">最後晚餐</button>
+        <button class="day-btn" onclick="goToDay(3)">十架犧牲</button>
+        <button class="day-btn" onclick="goToDay(4)">空坟墓</button>
+        <button class="day-btn" onclick="goToDay(5)">耶穌復活</button>
+      </div>
     </div>
-    <p class="small" style="margin-top:12px">音頻與圖像資源請放置於 <code>audio/jesus_resurrection/</code> 與 <code>img/jesus_resurrection/</code></p>
+
+    <!-- DAY 1: Palm Sunday -->
+    <section id="day-1" class="scene">
+      <div class="scene-banner">🐴 第1日：棕枝主日</div>
+      <div class="scene-wrap" id="day1-wrap">
+        <img id="day1-bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/jesus_resurrection/scene1_palm.png" alt="Palm Sunday" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 300%22><rect fill=%22%23f4a460%22 width=%22800%22 height=%22300%22/><text x=%22400%22 y=%22150%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22white%22>🐴 棕枝主日</text></svg>'">
+        <div id="day1-overlay" style="position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none"></div>
+      </div>
+      <div class="row">
+        <button class="ctrl-btn primary" onclick="r1ClickDonkey()">🐴 點擊驢仔</button>
+        <button class="ctrl-btn" onclick="playAudio('r1Narr')">🔊 朗讀</button>
+        <button class="ctrl-btn" onclick="playAudio('r1Hint')">💡 提示</button>
+      </div>
+      <div class="tip-box" id="day1-tip">👆 點擊驢仔，幫耶穌進入耶路撒冷！</div>
+    </section>
+
+    <!-- DAY 2: Last Supper -->
+    <section id="day-2" class="scene hidden">
+      <div class="scene-banner">🍞 第2日：最後晚餐</div>
+      <div class="scene-wrap" id="day2-wrap">
+        <img id="day2-bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/jesus_resurrection/scene2_supper.png" alt="Last Supper" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 300%22><rect fill=%22%23d4a574%22 width=%22800%22 height=%22300%22/><text x=%22400%22 y=%22150%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22white%22>🍞 最後晚餐</text></svg>'">
+        <div id="day2-overlay" style="position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none"></div>
+      </div>
+      <div class="row">
+        <button class="ctrl-btn primary" onclick="r2ClickBread()">🍞 點擊餅</button>
+        <button class="ctrl-btn primary" onclick="r2ClickCup()">🍷 點擊杯</button>
+        <button class="ctrl-btn" onclick="playAudio('r2Narr')">🔊 朗讀</button>
+        <button class="ctrl-btn" onclick="playAudio('r2Hint')">💡 提示</button>
+      </div>
+      <div class="tip-box" id="day2-tip">👆 點擊餅和杯，與耶穌一齊領聖餐！</div>
+    </section>
+
+    <!-- DAY 3: Cross -->
+    <section id="day-3" class="scene hidden">
+      <div class="scene-banner">✝️ 第3日：十架犧牲</div>
+      <div class="scene-wrap" id="day3-wrap">
+        <img id="day3-bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/jesus_resurrection/scene3_cross.png" alt="Cross" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 300%22><rect fill=%22%23222%22 width=%22800%22 height=%22300%22/><text x=%22400%22 y=%22150%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22%23ff4444%22>✝️ 十架犧牲</text></svg>'">
+        <div id="day3-overlay" style="position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none"></div>
+      </div>
+      <div class="row">
+        <button class="ctrl-btn primary" onclick="r3ClickCross()">✝️ 點擊十字架</button>
+        <button class="ctrl-btn gold" onclick="r3ClickHeart()">❤️ 點擊耶穌的心</button>
+        <button class="ctrl-btn" onclick="playAudio('r3Narr')">🔊 朗讀</button>
+        <button class="ctrl-btn" onclick="playAudio('r3Hint')">💡 提示</button>
+      </div>
+      <div class="tip-box" id="day3-tip">👆 點擊十字架，然後點擊耶穌的心，感受耶穌的愛！</div>
+    </section>
+
+    <!-- DAY 4: Empty Tomb -->
+    <section id="day-4" class="scene hidden">
+      <div class="scene-banner">💎 第4日：空坟墓</div>
+      <div class="scene-wrap" id="day4-wrap">
+        <img id="day4-bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/jesus_resurrection/scene4_tomb.png" alt="Empty Tomb" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 300%22><rect fill=%22%230a0a1a%22 width=%22800%22 height=%22300%22/><text x=%22400%22 y=%22150%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22%23FFD700%22>💎 空坟墓</text></svg>'">
+        <div id="day4-overlay" style="position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none"></div>
+      </div>
+      <div class="row">
+        <button class="ctrl-btn primary" onclick="r4OpenTomb()">🪨 點擊石頭</button>
+        <button class="ctrl-btn" onclick="playAudio('r4Narr')">🔊 朗讀</button>
+        <button class="ctrl-btn" onclick="playAudio('r4Hint')">💡 提示</button>
+      </div>
+      <div class="tip-box" id="day4-tip">👆 點擊大石頭，讓天使打開坟墓！</div>
+    </section>
+
+    <!-- DAY 5: Resurrection -->
+    <section id="day-5" class="scene hidden">
+      <div class="scene-banner">👼 第5日：耶穌復活</div>
+      <div class="scene-wrap" id="day5-wrap">
+        <img id="day5-bg" src="https://raw.githubusercontent.com/ai-lish/preschool/main/img/jesus_resurrection/scene5_appear.png" alt="Resurrection" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 300%22><rect fill=%22%23FFD700%22 width=%22800%22 height=%22300%22/><text x=%22400%22 y=%22150%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22%231a1a2e%22>👼 耶穌復活</text></svg>'">
+        <div id="day5-overlay" style="position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none"></div>
+      </div>
+      <div class="row">
+        <button class="ctrl-btn primary gold" onclick="r5ClickAngel()">👼 迎接耶穌</button>
+        <button class="ctrl-btn" onclick="playAudio('r5Narr')">🔊 朗讀</button>
+        <button class="ctrl-btn" onclick="playAudio('r5Hint')">💡 提示</button>
+      </div>
+      <div class="tip-box" id="day5-tip">👆 點擊天使，迎接復活的耶穌！</div>
+    </section>
+
+    <!-- Parent Tips -->
+    <div class="parent-tips" id="parent-tips">
+      <h3>👨‍👩‍👧 知心一點點（家長提示）</h3>
+      <table>
+        <tr><td>第1日：</td><td>耶穌溫柔地騎驢進入，可借此討論「溫柔係點嘅？」<br><small>📖 馬太福音 21:5</small></td></tr>
+        <tr><td>第2日：</td><td>耶穌為門徒洗腳，可借此討論「你願意服事人嗎？」<br><small>📖 約翰福音 13:34</small></td></tr>
+        <tr><td>第3日：</td><td>耶穌為我犧牲，可借此討論「愛係願意為人付出」<br><small>📖 約翰福音 3:16</small></td></tr>
+        <tr><td>第4日：</td><td>死亡唔係終點，可借此討論「復活係咩意思？」<br><small>📖 馬太福音 28:6</small></td></tr>
+        <tr><td>第5日：</td><td>耶穌活在我哋心中，可借此討論「耶穌依舊活潑」<br><small>📖 約翰福音 11:25</small></td></tr>
+      </table>
+    </div>
+
+    <!-- Learning Activities -->
+    <div class="parent-tips" style="margin-top:12px">
+      <h3>📚 學習活動</h3>
+      <table>
+        <tr><td>第1日：</td><td>大小認知 — 比較驢仔與棕櫚枝</td></tr>
+        <tr><td>第2日：</td><td>數數 — 數有多少個餅和杯</td></tr>
+        <tr><td>第3日：</td><td>情感認知 — 邊個表情係「愛」？</td></tr>
+        <tr><td>第4日：</td><td>方向認知 — 石頭打開，邊個方向打開？</td></tr>
+        <tr><td>第5日：</td><td>情感認知 — 邊個表情係「開心」？</td></tr>
+      </table>
+    </div>
   </div>
-</div>
-<script>
-function playAudio(k){const url=`/preschool/audio/jesus_resurrection/${k}_zhHK.mp3`;const a=new Audio(url);a.play().catch(()=>alert('音頻未找到'));}
-function showTip(){alert('提示：點擊場景中的互動元素，按指示完成每天任務。');}
-</script>
+
+  <div class="feedback" id="feedback"></div>
+
+  <script>
+    const BASE = 'https://raw.githubusercontent.com/ai-lish/preschool/main';
+    const langEl = document.getElementById('lang');
+
+    function lang() { return langEl.value; }
+
+    // Progress dots
+    const completed = new Set();
+
+    function updateDots(day) {
+      for (let i = 1; i <= 5; i++) {
+        const dot = document.getElementById('dot-' + i);
+        dot.className = 'progress-dot';
+        if (completed.has(i)) dot.classList.add('done');
+        if (i === day) dot.classList.add('active');
+      }
+    }
+
+    // Theme by day
+    function setTheme(day) {
+      document.body.className = '';
+      if (day === 3) document.body.classList.add('cross-theme');
+      else if (day === 4) document.body.classList.add('tomb-theme');
+      else if (day === 5) document.body.classList.add('resurrect-theme');
+    }
+
+    function showFeedback(msg, type) {
+      const el = document.getElementById('feedback');
+      el.textContent = msg;
+      el.className = 'feedback show';
+      if (type === 'success') el.classList.add('success');
+      if (type === 'fail') el.classList.add('fail');
+      clearTimeout(el._timer);
+      el._timer = setTimeout(() => el.classList.remove('show'), 2800);
+    }
+
+    function audioUrl(key) {
+      return BASE + '/audio/jesus_resurrection/' + key + '_' + lang() + '.mp3';
+    }
+
+    function playAudio(key) {
+      new Audio(audioUrl(key)).play().catch(e => console.warn('audio:', e));
+    }
+
+    function goToDay(n) {
+      for (let i = 1; i <= 5; i++) {
+        document.getElementById('day-' + i).classList.add('hidden');
+      }
+      document.getElementById('day-' + n).classList.remove('hidden');
+      document.querySelectorAll('.day-btn').forEach((b, i) => {
+        b.classList.toggle('active', i + 1 === n);
+      });
+      setTheme(n);
+      updateDots(n);
+      playAudio('r' + n + 'Narr');
+    }
+
+    function completeDay(d, msg) {
+      completed.add(d);
+      updateDots(d);
+      showFeedback(msg || '第' + d + '日完成 ✨', 'success');
+    }
+
+    // ── Day 1: Palm Sunday – click donkey ──
+    let day1Done = false;
+    function r1ClickDonkey() {
+      if (day1Done) return;
+      day1Done = true;
+      playAudio('r1Success');
+      const wrap = document.getElementById('day1-wrap');
+      wrap.style.transition = 'box-shadow 0.6s';
+      wrap.style.boxShadow = '0 0 30px rgba(255,215,0,0.7)';
+      setTimeout(() => {
+        showFeedback('🐴 耶穌好溫柔咁進入耶路撒冷！', 'success');
+        completeDay(1);
+      }, 400);
+    }
+
+    // ── Day 2: Last Supper – click bread then cup ──
+    let day2Bread = false, day2Cup = false;
+    function r2ClickBread() {
+      if (day2Bread) return;
+      day2Bread = true;
+      playAudio('r2Narr');
+      if (day2Bread && day2Cup) {
+        setTimeout(() => {
+          playAudio('r2Success');
+          showFeedback('🍞🍷 耶穌話：「這是我的身體和血」', 'success');
+          completeDay(2);
+        }, 600);
+      } else {
+        showFeedback('🍞 餅已點擊！再點杯！', 'info');
+      }
+    }
+    function r2ClickCup() {
+      if (day2Cup) return;
+      day2Cup = true;
+      playAudio('r2Narr');
+      if (day2Bread && day2Cup) {
+        setTimeout(() => {
+          playAudio('r2Success');
+          showFeedback('🍞🍷 耶穌話：「這是我的身體和血」', 'success');
+          completeDay(2);
+        }, 600);
+      } else {
+        showFeedback('🍷 杯已點擊！再點餅！', 'info');
+      }
+    }
+
+    // ── Day 3: Cross – click cross then heart ──
+    let day3Cross = false, day3Heart = false;
+    function r3ClickCross() {
+      if (day3Cross) return;
+      day3Cross = true;
+      playAudio('r3Narr');
+      const wrap = document.getElementById('day3-wrap');
+      wrap.style.transition = 'box-shadow 0.6s';
+      wrap.style.boxShadow = '0 0 20px rgba(196,30,58,0.7)';
+      if (day3Cross && day3Heart) {
+        setTimeout(() => {
+          playAudio('r3Success');
+          showFeedback('❤️ 耶穌為我哋犧牲，愛係好大好大！', 'success');
+          completeDay(3);
+        }, 500);
+      } else {
+        showFeedback('✝️ 十字架已點擊！再點耶穌的心！', 'info');
+      }
+    }
+    function r3ClickHeart() {
+      if (day3Heart) return;
+      day3Heart = true;
+      playAudio('r3Narr');
+      if (day3Cross && day3Heart) {
+        setTimeout(() => {
+          playAudio('r3Success');
+          showFeedback('❤️ 耶穌為我哋犧牲，愛係好大好大！', 'success');
+          completeDay(3);
+        }, 500);
+      } else {
+        showFeedback('❤️ 心已感受！再點十字架！', 'info');
+      }
+    }
+
+    // ── Day 4: Empty Tomb – click stone ──
+    let day4Done = false;
+    function r4OpenTomb() {
+      if (day4Done) return;
+      day4Done = true;
+      playAudio('r4Narr');
+      const wrap = document.getElementById('day4-wrap');
+      wrap.style.transition = 'all 1s';
+      wrap.style.boxShadow = '0 0 40px rgba(255,215,0,0.8)';
+      wrap.style.background = 'rgba(255,215,0,0.1)';
+      setTimeout(() => {
+        playAudio('r4Success');
+        showFeedback('💎 坟墓係空嘅！耶穌已經復活喇！', 'success');
+        completeDay(4);
+      }, 800);
+    }
+
+    // ── Day 5: Resurrection – click angel ──
+    let day5Done = false;
+    function r5ClickAngel() {
+      if (day5Done) return;
+      day5Done = true;
+      playAudio('r5Narr');
+      const wrap = document.getElementById('day5-wrap');
+      wrap.style.transition = 'all 1s';
+      wrap.style.boxShadow = '0 0 60px rgba(255,215,0,1)';
+      setTimeout(() => {
+        playAudio('r5Success');
+        showFeedback('👼 耶穌活喇！佢應許會再嚟，永遠與我哋在一起！', 'success');
+        completeDay(5);
+      }, 600);
+    }
+
+    // Init
+    updateDots(1);
+  </script>
 </body>
 </html>
