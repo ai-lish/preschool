@@ -8,8 +8,6 @@
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 :root {
   --primary: #6C5CE7;
-  --old-testament: #8B4513;
-  --new-testament: #C41E3A;
   --gold: #FFD700;
   --shadow: 0 4px 20px rgba(0,0,0,0.2);
   --radius: 24px;
@@ -53,9 +51,7 @@ h1 {
   margin-bottom: 40px;
   font-size: 1.05rem;
 }
-.section {
-  margin-bottom: 50px;
-}
+.section { margin-bottom: 50px; }
 .section-header {
   display: flex;
   align-items: center;
@@ -84,51 +80,20 @@ h1 {
   transform: translateY(-3px);
 }
 .card-icon { font-size: 2.2rem; margin-bottom: 12px; }
-.card-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-  color: white;
-}
-.card-title a {
-  color: inherit;
-  text-decoration: none;
-}
+.card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+.card-title a { color: white; text-decoration: none; }
 .card-title a:hover { color: var(--gold); text-decoration: underline; }
-.card-desc {
-  font-size: 0.9rem;
-  color: rgba(255,255,255,0.75);
-  line-height: 1.5;
-  margin-bottom: 12px;
-}
-.card-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.tag {
-  background: rgba(255,255,255,0.15);
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  color: rgba(255,255,255,0.8);
-}
+.card-desc { font-size: 0.9rem; color: rgba(255,255,255,0.75); line-height: 1.5; margin-bottom: 12px; }
+.card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { background: rgba(255,255,255,0.15); padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; color: rgba(255,255,255,0.8); }
 .tag.website { background: rgba(108,92,231,0.3); }
 .tag.game { background: rgba(46,204,113,0.3); }
 .tag.video { background: rgba(231,76,60,0.3); }
 .tag.app { background: rgba(241,196,15,0.3); }
 .tag.open-source { background: rgba(52,152,219,0.3); }
 .tag.chinese { background: rgba(255,105,180,0.3); }
-footer {
-  text-align: center;
-  padding: 30px;
-  color: rgba(255,255,255,0.5);
-  font-size: 0.85rem;
-}
-@media (max-width: 600px) {
-  .grid { grid-template-columns: 1fr; }
-  h1 { font-size: 1.6rem; }
-}
+footer { text-align: center; padding: 30px; color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+@media (max-width: 600px) { .grid { grid-template-columns: 1fr; } h1 { font-size: 1.6rem; } }
 </style>
 </head>
 <body>
@@ -137,47 +102,29 @@ footer {
 
 <div class="container">
   <h1>📚 參考資源</h1>
-  <p class="subtitle">幼兒聖經教育網頁製作 — 優秀案例與可用工具</p>
+  <p class="subtitle">幼兒聖經教育網頁製作 — 免費參考案例與工具</p>
 
   <!-- 🏆 優秀案例 -->
   <div class="section">
     <div class="section-header">
       <span class="section-icon">🏆</span>
-      <h2 class="section-title">優秀案例（可直接參考）</h2>
+      <h2 class="section-title">優秀案例</h2>
     </div>
     <div class="grid">
       <div class="card">
-        <div class="card-icon">🎬</div>
-        <div class="card-title"><a href="https://biblekids.io/" target="_blank">Bible Kids</a></div>
-        <div class="card-desc">互動式媒體體驗平台，6-11歲兒童專屬，有電影級動畫聖經故事電影</div>
-        <div class="card-tags">
-          <span class="tag website">網站</span>
-          <span class="tag video">影片</span>
-          <span class="tag game">遊戲</span>
-        </div>
-      </div>
-      <div class="card">
         <div class="card-icon">📖</div>
         <div class="card-title"><a href="https://us-en.superbook.cbn.com/" target="_blank">Superbook Kids</a></div>
-        <div class="card-desc">CBN 製作的安全兒童網站，含聖經遊戲、漫畫、動畫，培養信仰</div>
+        <div class="card-desc">CBN 製作的安全兒童網站，含聖經遊戲、漫畫、動畫，完全免費</div>
         <div class="card-tags">
           <span class="tag website">網站</span>
           <span class="tag game">遊戲</span>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-icon">🗺️</div>
-        <div class="card-title"><a href="https://www.adventurebible.com/" target="_blank">Adventure Bible</a></div>
-        <div class="card-desc">兒童聖經標杆網站，有免費線上遊戲和活動</div>
-        <div class="card-tags">
-          <span class="tag website">網站</span>
-          <span class="tag game">遊戲</span>
+          <span class="tag video">影片</span>
         </div>
       </div>
       <div class="card">
         <div class="card-icon">🎭</div>
         <div class="card-title"><a href="https://heyokids.saddleback.com/" target="_blank">Hey-O! Stories of the Bible</a></div>
-        <div class="card-desc">動畫影片 + printed stories，適合父母、教師、兒童事工領袖</div>
+        <div class="card-desc">Saddleback 製作的動畫聖經故事，適合父母、教師、兒童事工</div>
         <div class="card-tags">
           <span class="tag website">網站</span>
           <span class="tag video">影片</span>
@@ -194,18 +141,9 @@ footer {
     </div>
     <div class="grid">
       <div class="card">
-        <div class="card-icon">🌈</div>
-        <div class="card-title"><a href="https://www.lightgliders.com/" target="_blank">Light Gliders</a></div>
-        <div class="card-desc">聖經主題遊戲平台，含社區功能，教導聖經世界觀</div>
-        <div class="card-tags">
-          <span class="tag website">網站</span>
-          <span class="tag game">遊戲</span>
-        </div>
-      </div>
-      <div class="card">
         <div class="card-icon">🎯</div>
         <div class="card-title"><a href="https://biblegamescentral.com/" target="_blank">Bible Games Central</a></div>
-        <div class="card-desc">主日學遊戲教學資源，各年齡層適用</div>
+        <div class="card-desc">完全免費的主日學聖經遊戲，各年齡層適用</div>
         <div class="card-tags">
           <span class="tag website">網站</span>
           <span class="tag game">遊戲</span>
@@ -223,7 +161,7 @@ footer {
       <div class="card">
         <div class="card-icon">✂️</div>
         <div class="card-title"><a href="https://www.daniellesplace.com/html/bible_lessons.html" target="_blank">Danielle's Place</a></div>
-        <div class="card-desc">幼兒 & 小學聖經手工 + 遊戲教學</div>
+        <div class="card-desc">幼兒 & 小學免費聖經手工和遊戲教學</div>
         <div class="card-tags">
           <span class="tag website">網站</span>
         </div>
@@ -244,7 +182,6 @@ footer {
         <div class="card-desc">純 HTML/CSS/JS 聖經軟件，modern frontend web technologies</div>
         <div class="card-tags">
           <span class="tag open-source">開源</span>
-          <span class="tag game">遊戲</span>
         </div>
       </div>
       <div class="card">
@@ -253,7 +190,6 @@ footer {
         <div class="card-desc">React 聖經 App 範例，CodeSandbox 可直接運行</div>
         <div class="card-tags">
           <span class="tag open-source">開源</span>
-          <span class="tag game">遊戲</span>
         </div>
       </div>
       <div class="card">
@@ -266,11 +202,10 @@ footer {
         </div>
       </div>
       <div class="card">
-        <div class="card-icon">📖</div>
+        <div class="card-icon">🤖</div>
         <div class="card-title"><a href="https://sonofgodai.com/blog/ai-bible-stories-for-children-interactive-scripture-learning" target="_blank">AI Bible Stories for Children</a></div>
-        <div class="card-desc">AI 驅動的互動聖經故事，个性化学习工具</div>
+        <div class="card-desc">AI 驅動的互動聖經故事研究文章</div>
         <div class="card-tags">
-          <span class="tag video">影片</span>
           <span class="tag app">AI</span>
         </div>
       </div>
@@ -287,28 +222,10 @@ footer {
       <div class="card">
         <div class="card-icon">📲</div>
         <div class="card-title"><a href="https://www.bible.com/zh-TW/versions/1105" target="_blank">YouVersion 兒童聖經</a></div>
-        <div class="card-desc">66種語言，互動式敘事 + 活動，上百萬用戶</div>
+        <div class="card-desc">66種語言，互動式敘事 + 活動，完全免費</div>
         <div class="card-tags">
           <span class="tag app">App</span>
           <span class="tag chinese">中文</span>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-icon">🌐</div>
-        <div class="card-title"><a href="https://ct.org.tw/html/news/3-3.php?cat=74&article=1386118" target="_blank">Gather Town 虛擬主日學</a></div>
-        <div class="card-desc">台灣教會使用 Gather Town 上兒童主日學，虛擬世界體驗</div>
-        <div class="card-tags">
-          <span class="tag website">網站</span>
-          <span class="tag chinese">中文</span>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-icon">📺</div>
-        <div class="card-title"><a href="https://biblekids.io/en/explorers/" target="_blank">Bible Kids Explorers</a></div>
-        <div class="card-desc">互動式媒體體驗，6-11歲，有電影級動畫</div>
-        <div class="card-tags">
-          <span class="tag website">網站</span>
-          <span class="tag video">影片</span>
         </div>
       </div>
       <div class="card">
@@ -333,7 +250,7 @@ footer {
       <div class="card">
         <div class="card-icon">🎲</div>
         <div class="card-title"><a href="http://mj-creation.com/%E4%B8%BB%E6%97%A5%E5%AD%B8-%E5%85%92%E7%AB%A5-%E9%81%8A%E6%88%B2" target="_blank">主日學兒童遊戲100個</a></div>
-        <div class="card-desc">100個主日學兒童遊戲創意</div>
+        <div class="card-desc">100個免費主日學兒童遊戲創意</div>
         <div class="card-tags">
           <span class="tag website">網站</span>
           <span class="tag chinese">中文</span>
@@ -350,15 +267,7 @@ footer {
       <div class="card">
         <div class="card-icon">🎯</div>
         <div class="card-title"><a href="https://ministry-to-children.com/kids-sunday-school-games/" target="_blank">101 Fun Sunday School Games</a></div>
-        <div class="card-desc">101個趣味主日學遊戲和聖經活動，可下載 PDF</div>
-        <div class="card-tags">
-          <span class="tag website">網站</span>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-icon">⚽</div>
-        <div class="card-title"><a href="https://playtimewithapurpose.com/" target="_blank">Playtime with a Purpose</a></div>
-        <div class="card-desc">用遊戲和活動教導孩子認識耶穌</div>
+        <div class="card-desc">101個免費趣味主日學遊戲和聖經活動</div>
         <div class="card-tags">
           <span class="tag website">網站</span>
         </div>
