@@ -1,15 +1,18 @@
 # 幼兒學習網站 — 寫字、數字、圖形、字符練習
 ## Project Planning Document
 **Created:** 2026-05-11
-**Status:** Draft — Pending Approval
+**Status:** CONFIRMED — Ready for Implementation
 **Repo:** ai-lish/preschool
+**URL:** https://ai-lish.github.io/preschool/
+**Implement with:** Claude Sonnet
 
 ---
 
 ## 1. 項目願景
 
-**目標受眾：** K1-K3 幼兒（3-6歲）
+**目標受眾：** K1 幼兒（3-4歲）
 **核心功能：** 寫字練習、數字認知、形狀學習、中文字符辨認
+**語言：** 中英雙語
 **教學理念：** Montessori + 遊戲化學習，視覺化、觸摸式互動
 
 > 「，讓小朋友透過遊戲自然學習」
