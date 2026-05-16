@@ -228,12 +228,28 @@ function getPos(e, canvas) {
   };
 }
 
+function sApplyStrokeStyle() {
+  sctx.strokeStyle = '#6C5CE7';
+  sctx.lineWidth = 18;
+  sctx.lineCap = 'round';
+  sctx.lineJoin = 'round';
+}
+
+function sDrawTo(p) {
+  sctx.lineTo(p.x, p.y);
+  sApplyStrokeStyle();
+  sctx.stroke();
+  sctx.beginPath();
+  sctx.moveTo(p.x, p.y);
+  sCurrent.push(p);
+}
+
 strokeCanvas.addEventListener('mousedown',  e => { sDrawing=true; sCurrent=[]; const p=getPos(e,strokeCanvas); sctx.beginPath(); sctx.moveTo(p.x,p.y); sCurrent.push(p); });
-strokeCanvas.addEventListener('mousemove',  e => { if(!sDrawing)return; const p=getPos(e,strokeCanvas); sctx.lineTo(p.x,p.y); sctx.strokeStyle='#6C5CE7'; sctx.lineWidth=18; sctx.lineCap='round'; sctx.lineJoin='round'; sctx.stroke(); sctx.beginPath(); sctx.moveTo(p.x,p.y); sCurrent.push(p); });
+strokeCanvas.addEventListener('mousemove',  e => { if(!sDrawing)return; sDrawTo(getPos(e,strokeCanvas)); });
 strokeCanvas.addEventListener('mouseup',    () => { if(sDrawing&&sCurrent.length>0)sStrokes.push(sCurrent); sDrawing=false; });
 strokeCanvas.addEventListener('mouseleave', () => { if(sDrawing&&sCurrent.length>0)sStrokes.push(sCurrent); sDrawing=false; });
 strokeCanvas.addEventListener('touchstart', e => { e.preventDefault(); sDrawing=true; sCurrent=[]; const p=getPos(e,strokeCanvas); sctx.beginPath(); sctx.moveTo(p.x,p.y); sCurrent.push(p); }, { passive:false });
-strokeCanvas.addEventListener('touchmove',  e => { if(!sDrawing)return; e.preventDefault(); const p=getPos(e,strokeCanvas); sctx.lineTo(p.x,p.y); sctx.strokeStyle='#6C5CE7'; sctx.lineWidth=18; sctx.lineCap='round'; sctx.lineJoin='round'; sctx.stroke(); sctx.beginPath(); sctx.moveTo(p.x,p.y); sCurrent.push(p); }, { passive:false });
+strokeCanvas.addEventListener('touchmove',  e => { if(!sDrawing)return; e.preventDefault(); sDrawTo(getPos(e,strokeCanvas)); }, { passive:false });
 strokeCanvas.addEventListener('touchend',   e => { if(sDrawing&&sCurrent.length>0)sStrokes.push(sCurrent); sDrawing=false; }, { passive:false });
 
 function clearStroke() {

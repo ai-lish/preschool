@@ -98,7 +98,7 @@ function newCountGame() {
   shuffle(choices);
 
   countAnswers.innerHTML = '';
-  shuffle(choices).forEach(n => {
+  choices.forEach(n => {
     const btn = document.createElement('button');
     btn.className = 'ans-btn';
     btn.textContent = n;
