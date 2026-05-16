@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>圖形形狀 — 幼兒學習中心</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    /* Learn shapes */
+    .shape-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    @media (min-width: 500px) { .shape-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .shape-card {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 12px 16px;
+      cursor: pointer;
+      gap: 10px;
+      transition: transform 0.15s;
+    }
+    .shape-card:hover { transform: translateY(-4px) scale(1.04); }
+    .shape-svg-wrap { width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; }
+    .shape-svg-wrap svg { max-width: 80px; max-height: 80px; }
+    .shape-zh { font-size: 1.05rem; font-weight: 900; }
+    .shape-en { font-size: 0.8rem; color: #888; font-weight: 700; }
+    .shape-example { font-size: 0.78rem; color: #aaa; text-align: center; }
+
+    /* Matching game */
+    .match-area {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .match-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .match-card {
+      width: 80px;
+      min-height: 80px;
+      border-radius: var(--radius-sm);
+      background: #fff;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 3px solid transparent;
+      gap: 6px;
+      padding: 8px 4px;
+      transition: border-color 0.15s, transform 0.15s;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+    .match-card.selected { border-color: var(--primary); transform: scale(1.08); }
+    .match-card.matched  { border-color: var(--secondary); background: #e8fff8; pointer-events: none; opacity: 0.7; }
+    .match-card.wrong-flash { animation: shake 0.5s ease both; border-color: var(--danger); }
+    .match-label { font-size: 0.82rem; font-weight: 700; text-align: center; }
+    .match-score { font-size: 1rem; font-weight: 700; color: var(--secondary); text-align: center; }
+
+    /* Find shape */
+    .find-prompt {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--card-shadow);
+      padding: 16px 20px;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--primary);
+    }
+    .scene-svg {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--card-shadow);
+      padding: 16px;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      display: block;
+    }
+    .scene-svg svg { width: 100%; height: auto; }
+    .scene-shape-btn {
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .scene-shape-btn:hover { opacity: 0.75; }
+  </style>
+</head>
+<body>
+  <div class="module-page">
+    <header class="page-header">
+      <a href="index.html" class="back-btn" aria-label="返回">←</a>
+      <h1>⬛ 圖形形狀</h1>
+    </header>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="learn">📚 認識形狀</button>
+      <button class="tab-btn" data-tab="match">🎯 形狀配對</button>
+      <button class="tab-btn" data-tab="find">🔍 找找形狀</button>
+    </div>
+
+    <!-- Tab: Learn -->
+    <div id="tab-learn">
+      <div class="shape-grid" id="shapeLearnGrid"></div>
+    </div>
+
+    <!-- Tab: Match -->
+    <div id="tab-match" style="display:none;">
+      <div class="match-area">
+        <div class="match-score" id="matchScore">配對: 0 / 5</div>
+        <p style="text-align:center;color:#888;font-size:0.9rem;">點擊一個形狀，再點擊配對的名字</p>
+        <div class="match-row" id="matchShapes"></div>
+        <div style="text-align:center;font-size:1.5rem;color:#ccc;">↕</div>
+        <div class="match-row" id="matchLabels"></div>
+        <div style="text-align:center;">
+          <button class="btn btn-secondary" id="matchReset">🔄 重新開始</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Find -->
+    <div id="tab-find" style="display:none;">
+      <div class="match-area">
+        <div class="find-prompt" id="findPrompt"></div>
+        <div class="scene-svg" id="sceneSvg"></div>
+        <div style="text-align:center;">
+          <button class="btn btn-secondary" id="findNext">下一題 ▶</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/shapes.js"></script>
+</body>
+</html>

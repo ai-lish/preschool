@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>字符認識 — 幼兒學習中心</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    /* Flashcard */
+    .flashcard-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .flashcard-counter {
+      font-size: 0.9rem;
+      color: #888;
+      font-weight: 700;
+    }
+    .flashcard-scene {
+      perspective: 800px;
+      width: 280px;
+      height: 320px;
+    }
+    .flashcard-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.55s cubic-bezier(0.4,0.2,0.2,1);
+    }
+    .flashcard-inner.flipped { transform: rotateY(180deg); }
+    .flashcard-face {
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .flashcard-front {
+      background: linear-gradient(135deg, #f0eeff, #fff);
+      cursor: pointer;
+    }
+    .flashcard-back {
+      background: linear-gradient(135deg, #e8fff8, #fff);
+      transform: rotateY(180deg);
+      cursor: pointer;
+    }
+    .fc-char  { font-size: 6rem; font-weight: 900; color: var(--primary); line-height: 1; }
+    .fc-emoji { font-size: 3.5rem; line-height: 1; }
+    .fc-hint  { font-size: 0.85rem; color: #bbb; }
+    .fc-pinyin  { font-size: 1.4rem; font-weight: 700; color: var(--secondary); }
+    .fc-meaning { font-size: 1.1rem; color: #555; }
+    .fc-zh      { font-size: 1.1rem; font-weight: 700; }
+
+    .fc-nav {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    .fc-nav button {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      background: var(--primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s;
+    }
+    .fc-nav button:hover { transform: scale(1.1); }
+
+    /* Image Match */
+    .imatch-area { display: flex; flex-direction: column; gap: 16px; }
+    .imatch-score { text-align: center; font-size: 1rem; font-weight: 700; color: var(--secondary); }
+    .imatch-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .imatch-card {
+      background: #fff;
+      border-radius: var(--radius-sm);
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 8px;
+      gap: 6px;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: border-color 0.15s, transform 0.15s;
+      min-height: 80px;
+    }
+    .imatch-card.selected { border-color: var(--primary); transform: scale(1.06); }
+    .imatch-card.matched  { border-color: var(--secondary); background: #e8fff8; pointer-events: none; opacity: 0.65; }
+    .imatch-card.wrong-flash { animation: shake 0.5s ease both; border-color: var(--danger); }
+    .imatch-char  { font-size: 2.2rem; font-weight: 900; color: var(--primary); }
+    .imatch-emoji { font-size: 2.4rem; }
+    .imatch-hint  { font-size: 0.72rem; color: #aaa; }
+    .col-label    { text-align:center; font-size:0.85rem; font-weight:700; color:#888; margin-bottom:4px; }
+
+    /* Stroke Practice */
+    .stroke-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .stroke-char-select {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+    .stroke-chip {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      background: #fff;
+      box-shadow: var(--card-shadow);
+      border: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      font-weight: 900;
+      cursor: pointer;
+      transition: border-color 0.15s, transform 0.15s;
+    }
+    .stroke-chip.active { border-color: var(--primary); transform: scale(1.12); }
+    .canvas-guide-wrap {
+      position: relative;
+      display: inline-block;
+    }
+    #guideChar {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 240px;
+      font-weight: 900;
+      color: rgba(108,92,231,0.12);
+      pointer-events: none;
+      line-height: 1;
+      user-select: none;
+    }
+    #strokeCanvas {
+      background: #fafafa;
+      border: 2px dashed #ccc;
+      border-radius: var(--radius-sm);
+      cursor: crosshair;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="module-page">
+    <header class="page-header">
+      <a href="index.html" class="back-btn" aria-label="返回">←</a>
+      <h1>字 字符認識</h1>
+    </header>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="flash">📇 認字卡</button>
+      <button class="tab-btn" data-tab="imatch">🖼️ 圖字配對</button>
+      <button class="tab-btn" data-tab="stroke">✍️ 筆劃練習</button>
+    </div>
+
+    <!-- Flashcards -->
+    <div id="tab-flash">
+      <div class="flashcard-wrap">
+        <div class="flashcard-counter" id="fcCounter">1 / 16</div>
+        <div class="flashcard-scene">
+          <div class="flashcard-inner" id="fcInner">
+            <div class="flashcard-face flashcard-front" id="fcFront"></div>
+            <div class="flashcard-face flashcard-back"  id="fcBack"></div>
+          </div>
+        </div>
+        <div class="fc-nav">
+          <button id="fcPrev" aria-label="上一張">◀</button>
+          <button class="tts-btn" id="fcTts" aria-label="發音">🔊</button>
+          <button id="fcNext" aria-label="下一張">▶</button>
+        </div>
+        <p style="font-size:0.82rem;color:#bbb;">點擊卡片翻面</p>
+      </div>
+    </div>
+
+    <!-- Image Match -->
+    <div id="tab-imatch" style="display:none;">
+      <div class="imatch-area">
+        <div class="imatch-score" id="imatchScore">配對: 0 / 4</div>
+        <p style="text-align:center;color:#888;font-size:0.9rem;">點擊漢字，再點擊配對的圖案</p>
+        <div class="imatch-cols">
+          <div>
+            <div class="col-label">漢字</div>
+            <div id="imatchChars" style="display:flex;flex-direction:column;gap:10px;"></div>
+          </div>
+          <div>
+            <div class="col-label">圖案</div>
+            <div id="imatchImages" style="display:flex;flex-direction:column;gap:10px;"></div>
+          </div>
+        </div>
+        <div style="text-align:center;">
+          <button class="btn btn-secondary" id="imatchReset">🔄 重新開始</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stroke Practice -->
+    <div id="tab-stroke" style="display:none;">
+      <div class="stroke-area">
+        <div class="stroke-char-select" id="strokeChipGrid"></div>
+        <div class="canvas-guide-wrap">
+          <div id="guideChar"></div>
+          <canvas id="strokeCanvas" width="320" height="320"></canvas>
+        </div>
+        <div class="canvas-btns" style="display:flex;gap:10px;">
+          <button class="btn btn-danger" id="strokeClear">🗑️ 清除</button>
+          <button class="btn btn-primary" id="strokeUndo">↩ 撤銷</button>
+          <button class="tts-btn" id="strokeTts" style="width:52px;height:52px;">🔊</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/characters.js"></script>
+</body>
+</html>

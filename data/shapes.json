@@ -1,0 +1,7 @@
+[
+  {"id":"circle","zh":"圓形","en":"Circle","color":"#FF7675","example":"🔴 球、蘋果"},
+  {"id":"triangle","zh":"三角形","en":"Triangle","color":"#74B9FF","example":"🔺 山"},
+  {"id":"square","zh":"正方形","en":"Square","color":"#55EFC4","example":"⬛ 積木"},
+  {"id":"rectangle","zh":"長方形","en":"Rectangle","color":"#FDCB6E","example":"📺 電視"},
+  {"id":"oval","zh":"橢圓形","en":"Oval","color":"#A29BFE","example":"🥚 雞蛋"}
+]

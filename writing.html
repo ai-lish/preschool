@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>寫字練習 — 幼兒學習中心</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    .char-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .char-chip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 60px;
+      border-radius: var(--radius-sm);
+      background: #fff;
+      box-shadow: var(--card-shadow);
+      font-size: 1.7rem;
+      font-weight: 900;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: border-color 0.15s, transform 0.15s, background 0.15s;
+    }
+    .char-chip.active {
+      border-color: var(--primary);
+      background: #f0eeff;
+      transform: scale(1.1);
+    }
+    .char-chip:hover { transform: scale(1.08); }
+
+    .detail-card {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: var(--card-shadow);
+      padding: 24px 20px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      animation: pop 0.3s ease both;
+    }
+    .detail-card.visible { display: flex; }
+
+    .big-char {
+      font-size: 7rem;
+      font-weight: 900;
+      color: var(--primary);
+      line-height: 1;
+      text-shadow: 0 4px 16px rgba(108,92,231,0.18);
+    }
+    .char-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .pinyin { font-size: 1.3rem; color: var(--secondary); font-weight: 700; }
+    .meaning { font-size: 1rem; color: #666; }
+    .strokes-badge {
+      background: var(--accent);
+      color: #7d5a00;
+      border-radius: 50px;
+      padding: 3px 14px;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .tts-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .canvas-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .canvas-section h3 {
+      font-size: 1rem;
+      color: #888;
+      font-weight: 700;
+    }
+    #drawCanvas {
+      background: #fafafa;
+      border: 2px dashed #ccc;
+      border-radius: var(--radius-sm);
+      cursor: crosshair;
+    }
+    .canvas-btns { display: flex; gap: 10px; }
+
+    .placeholder-msg {
+      text-align: center;
+      color: #bbb;
+      font-size: 1rem;
+      padding: 40px 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="module-page">
+    <header class="page-header">
+      <a href="index.html" class="back-btn" aria-label="返回">←</a>
+      <h1>✏️ 寫字練習</h1>
+    </header>
+
+    <div class="char-grid" id="charGrid"></div>
+
+    <div class="detail-card" id="detailCard">
+      <div class="big-char" id="bigChar"></div>
+      <div class="char-info">
+        <div class="pinyin" id="charPinyin"></div>
+        <div class="meaning" id="charMeaning"></div>
+        <div class="strokes-badge" id="charStrokes"></div>
+      </div>
+      <div class="tts-row">
+        <button class="tts-btn" id="ttsZh" title="粵語發音">🔊</button>
+        <button class="tts-btn" style="background:var(--accent);color:#7d5a00;" id="ttsEn" title="English pronunciation">🔤</button>
+      </div>
+      <div class="canvas-section">
+        <h3>✍️ 在這裡練習寫字</h3>
+        <canvas id="drawCanvas" width="360" height="360"></canvas>
+        <div class="canvas-btns">
+          <button class="btn btn-danger" id="clearBtn">🗑️ 清除</button>
+          <button class="btn btn-secondary" id="undoBtn">↩ 撤銷</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="placeholder-msg" id="placeholder">👆 點擊上方的字開始練習</div>
+  </div>
+
+  <script src="js/writing.js"></script>
+</body>
+</html>
