@@ -1,0 +1,18 @@
+[
+  {"char":"日","pinyin":"rì","meaning":"sun/day","emoji":"☀️","zh":"太陽"},
+  {"char":"月","pinyin":"yuè","meaning":"moon","emoji":"🌙","zh":"月亮"},
+  {"char":"水","pinyin":"shuǐ","meaning":"water","emoji":"💧","zh":"水"},
+  {"char":"火","pinyin":"huǒ","meaning":"fire","emoji":"🔥","zh":"火"},
+  {"char":"山","pinyin":"shān","meaning":"mountain","emoji":"⛰️","zh":"山"},
+  {"char":"木","pinyin":"mù","meaning":"tree/wood","emoji":"🌳","zh":"樹木"},
+  {"char":"人","pinyin":"rén","meaning":"person","emoji":"👤","zh":"人"},
+  {"char":"口","pinyin":"kǒu","meaning":"mouth","emoji":"👄","zh":"口"},
+  {"char":"天","pinyin":"tiān","meaning":"sky/day","emoji":"🌤️","zh":"天空"},
+  {"char":"地","pinyin":"dì","meaning":"earth/ground","emoji":"🌍","zh":"大地"},
+  {"char":"大","pinyin":"dà","meaning":"big","emoji":"🐘","zh":"大"},
+  {"char":"小","pinyin":"xiǎo","meaning":"small","emoji":"🐭","zh":"小"},
+  {"char":"上","pinyin":"shàng","meaning":"up/above","emoji":"⬆️","zh":"上"},
+  {"char":"下","pinyin":"xià","meaning":"down/below","emoji":"⬇️","zh":"下"},
+  {"char":"左","pinyin":"zuǒ","meaning":"left","emoji":"👈","zh":"左"},
+  {"char":"右","pinyin":"yòu","meaning":"right","emoji":"👉","zh":"右"}
+]

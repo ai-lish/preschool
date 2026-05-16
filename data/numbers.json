@@ -1,0 +1,22 @@
+[
+  {"num":1,"chinese":"一","english":"one"},
+  {"num":2,"chinese":"二","english":"two"},
+  {"num":3,"chinese":"三","english":"three"},
+  {"num":4,"chinese":"四","english":"four"},
+  {"num":5,"chinese":"五","english":"five"},
+  {"num":6,"chinese":"六","english":"six"},
+  {"num":7,"chinese":"七","english":"seven"},
+  {"num":8,"chinese":"八","english":"eight"},
+  {"num":9,"chinese":"九","english":"nine"},
+  {"num":10,"chinese":"十","english":"ten"},
+  {"num":11,"chinese":"十一","english":"eleven"},
+  {"num":12,"chinese":"十二","english":"twelve"},
+  {"num":13,"chinese":"十三","english":"thirteen"},
+  {"num":14,"chinese":"十四","english":"fourteen"},
+  {"num":15,"chinese":"十五","english":"fifteen"},
+  {"num":16,"chinese":"十六","english":"sixteen"},
+  {"num":17,"chinese":"十七","english":"seventeen"},
+  {"num":18,"chinese":"十八","english":"eighteen"},
+  {"num":19,"chinese":"十九","english":"nineteen"},
+  {"num":20,"chinese":"二十","english":"twenty"}
+]
