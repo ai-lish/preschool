@@ -1,151 +1,232 @@
 <!DOCTYPE html>
 <html lang="zh-HK">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>幼兒學習中心</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/main.css">
-  <style>
-    body {
-      background: linear-gradient(135deg, #f5f3ff 0%, #e8f8f5 50%, #fff9e6 100%);
-      min-height: 100vh;
-    }
-    .home-wrap {
-      max-width: 640px;
-      margin: 0 auto;
-      padding: 32px 16px 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0;
-    }
-    .home-header {
-      text-align: center;
-      margin-bottom: 8px;
-    }
-    .home-logo {
-      font-size: 4rem;
-      line-height: 1;
-      margin-bottom: 8px;
-      animation: pop 0.6s ease both;
-    }
-    .home-title {
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--primary);
-      margin-bottom: 4px;
-    }
-    .home-subtitle-en {
-      font-size: 1.1rem;
-      color: #666;
-      margin-bottom: 6px;
-    }
-    .home-tagline {
-      font-size: 0.95rem;
-      color: var(--secondary);
-      font-weight: 700;
-      background: #e8f8f5;
-      display: inline-block;
-      padding: 6px 18px;
-      border-radius: 50px;
-      margin-top: 6px;
-      margin-bottom: 28px;
-    }
-    .module-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      width: 100%;
-    }
-    .module-card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      min-height: 160px;
-      border-radius: 24px;
-      padding: 24px 16px 20px;
-      text-decoration: none;
-      color: #fff;
-      box-shadow: 0 8px 28px rgba(0,0,0,0.13);
-      transition: transform 0.18s, box-shadow 0.18s;
-      gap: 8px;
-    }
-    .module-card:hover, .module-card:active {
-      transform: translateY(-5px) scale(1.03);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.18);
-    }
-    .module-card .icon {
-      font-size: 3rem;
-      line-height: 1;
-      margin-bottom: 4px;
-    }
-    .module-card .zh-title {
-      font-size: 1.25rem;
-      font-weight: 900;
-      line-height: 1.2;
-    }
-    .module-card .en-title {
-      font-size: 0.82rem;
-      opacity: 0.88;
-      font-weight: 700;
-    }
-    .card-writing    { background: linear-gradient(135deg, #6C5CE7, #a29bfe); }
-    .card-numbers    { background: linear-gradient(135deg, #00B894, #55efc4); color: #1a5c4e; }
-    .card-shapes     { background: linear-gradient(135deg, #FDCB6E, #f9ca24); color: #7d5a00; }
-    .card-characters { background: linear-gradient(135deg, #fd79a8, #e84393); }
-    .card-numbers .en-title, .card-shapes .en-title { opacity: 0.75; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🎓 幼兒學習中心 — Bible Alphabet Park</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  
+  :root {
+    --cream: #FFFDF0;
+    --yellow: #FFD93D;
+    --green: #6BCB77;
+    --blue: #4D96FF;
+    --purple: #C77DFF;
+    --red: #FF6B6B;
+    --dark: #3A3232;
+    --shadow: 0 8px 28px rgba(0,0,0,0.13);
+    --shadow-hover: 0 16px 40px rgba(0,0,0,0.18);
+  }
 
-    .footer-note {
-      margin-top: 32px;
-      font-size: 0.8rem;
-      color: #aaa;
-      text-align: center;
-    }
+  body {
+    font-family: 'Noto Sans TC', 'PingFang HK', sans-serif;
+    background: var(--cream);
+    background-image: 
+      radial-gradient(circle at 15% 20%, rgba(255, 217, 61, 0.2) 20px, transparent 20px),
+      radial-gradient(circle at 85% 10%, rgba(107, 203, 119, 0.2) 25px, transparent 25px),
+      radial-gradient(circle at 75% 80%, rgba(77, 150, 255, 0.15) 30px, transparent 30px),
+      radial-gradient(circle at 20% 85%, rgba(199, 125, 255, 0.15) 22px, transparent 22px);
+    min-height: 100vh;
+    padding: 24px 16px 40px;
+  }
 
-    @media (max-width: 400px) {
-      .module-card { min-height: 130px; padding: 18px 10px 14px; }
-      .module-card .icon { font-size: 2.4rem; }
-      .module-card .zh-title { font-size: 1.05rem; }
-      .home-title { font-size: 1.5rem; }
-    }
-  </style>
+  .wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 16px 0 8px;
+  }
+  .logo {
+    font-size: 3rem;
+    margin-bottom: 8px;
+    animation: pop 0.6s ease both;
+  }
+  @keyframes pop {
+    0% { transform: scale(0); opacity: 0; }
+    70% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .title {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    font-size: 1rem;
+    color: #888;
+    font-weight: 700;
+  }
+
+  /* Hero Card - Alphabet */
+  .hero-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: linear-gradient(135deg, var(--purple), #9b59b6);
+    border-radius: 28px;
+    padding: 28px 24px;
+    box-shadow: var(--shadow);
+    text-decoration: none;
+    color: white;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -30%;
+    width: 200px;
+    height: 200px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+  }
+  .hero-card:hover, .hero-card:active {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: var(--shadow-hover);
+  }
+  .hero-icon {
+    font-size: 4.5rem;
+    line-height: 1;
+    flex-shrink: 0;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .hero-content {
+    flex: 1;
+  }
+  .hero-title {
+    font-size: 1.6rem;
+    font-weight: 900;
+    margin-bottom: 4px;
+  }
+  .hero-sub {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    margin-bottom: 8px;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.25);
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  .hero-arrow {
+    font-size: 2rem;
+    opacity: 0.8;
+    flex-shrink: 0;
+  }
+
+  /* Feature Grid */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .feature-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px 12px 16px;
+    border-radius: 22px;
+    text-decoration: none;
+    color: white;
+    box-shadow: var(--shadow);
+    transition: transform 0.18s, box-shadow 0.18s;
+    min-height: 120px;
+    gap: 6px;
+  }
+  .feature-card:hover, .feature-card:active {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: var(--shadow-hover);
+  }
+  .feature-card .icon { font-size: 2.4rem; line-height: 1; }
+  .feature-card .zh { font-size: 1.1rem; font-weight: 900; }
+  .feature-card .en { font-size: 0.75rem; opacity: 0.85; font-weight: 700; }
+  
+  .card-bible { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+  .card-writing { background: linear-gradient(135deg, var(--blue), #2980b9); }
+  .card-numbers { background: linear-gradient(135deg, var(--green), #27ae60); color: #1a5c4e; }
+  .card-shapes { background: linear-gradient(135deg, var(--yellow), #f39c12); color: #7d5a00; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #aaa;
+    margin-top: 8px;
+  }
+
+  @media (max-width: 380px) {
+    .hero-card { flex-direction: column; text-align: center; padding: 24px 20px; }
+    .hero-icon { font-size: 3.5rem; }
+    .title { font-size: 1.5rem; }
+    .feature-card { min-height: 100px; }
+    .feature-card .icon { font-size: 2rem; }
+    .feature-card .zh { font-size: 1rem; }
+  }
+</style>
 </head>
 <body>
-  <div class="home-wrap">
-    <header class="home-header">
-      <div class="home-logo">🎓</div>
-      <h1 class="home-title">幼兒學習中心</h1>
-      <p class="home-subtitle-en">Preschool Learning Center</p>
-      <p class="home-tagline">「讓小朋友透過遊戲自然學習」</p>
+  <div class="wrap">
+    <header>
+      <div class="logo">🎓</div>
+      <h1 class="title">幼兒學習中心</h1>
+      <p class="subtitle">Bible Alphabet Park</p>
     </header>
 
-    <nav class="module-grid" aria-label="學習模組">
-      <a href="writing.html" class="module-card card-writing" aria-label="寫字練習">
-        <div class="icon">✏️</div>
-        <div class="zh-title">寫字練習</div>
-        <div class="en-title">Writing Practice</div>
-      </a>
-      <a href="numbers.html" class="module-card card-numbers" aria-label="數字認知">
-        <div class="icon">🔢</div>
-        <div class="zh-title">數字認知</div>
-        <div class="en-title">Number Fun</div>
-      </a>
-      <a href="shapes.html" class="module-card card-shapes" aria-label="圖形形狀">
-        <div class="icon">⬛</div>
-        <div class="zh-title">圖形形狀</div>
-        <div class="en-title">Shapes</div>
-      </a>
-      <a href="characters.html" class="module-card card-characters" aria-label="字符認識">
-        <div class="icon">字</div>
-        <div class="zh-title">字符認識</div>
-        <div class="en-title">Characters</div>
-      </a>
-    </nav>
+    <a href="alphabet/" class="hero-card">
+      <div class="hero-icon">🔤</div>
+      <div class="hero-content">
+        <div class="hero-title">聖經字母學習</div>
+        <div class="hero-sub">A–Z 聖經人物配對 · 讀音 · 描紅 · 遊戲</div>
+        <span class="hero-badge">✨ K1-K3 適用</span>
+      </div>
+      <div class="hero-arrow">›</div>
+    </a>
 
-    <p class="footer-note">適合 3–4 歲小朋友 · For ages 3–4</p>
+    <div class="feature-grid">
+      <a href="#" class="feature-card card-bible" aria-label="聖經故事">
+        <div class="icon">📖</div>
+        <div class="zh">聖經故事</div>
+        <div class="en">Bible Stories</div>
+      </a>
+      <a href="writing.html" class="feature-card card-writing" aria-label="寫字練習">
+        <div class="icon">✏️</div>
+        <div class="zh">寫字練習</div>
+        <div class="en">Writing</div>
+      </a>
+      <a href="numbers.html" class="feature-card card-numbers" aria-label="數字認知">
+        <div class="icon">🔢</div>
+        <div class="zh">數字認知</div>
+        <div class="en">Numbers</div>
+      </a>
+      <a href="shapes.html" class="feature-card card-shapes" aria-label="圖形形狀">
+        <div class="icon">⬛</div>
+        <div class="zh">圖形形狀</div>
+        <div class="en">Shapes</div>
+      </a>
+    </div>
+
+    <p class="footer">適合 3–6 歲小朋友 · For ages 3–6</p>
   </div>
 </body>
 </html>
