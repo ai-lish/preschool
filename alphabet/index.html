@@ -342,11 +342,21 @@
     let musicPlaying = false;
 
     // ============================================================
+    // 字母 → 歌曲 對應表
+    // ============================================================
+    const LETTER_SONGS = {
+      A: 'adam-song-v2.mp3',
+      B: 'bible-song.mp3'
+    };
+
+    // ============================================================
     // 背景音樂控制
     // ============================================================
     function initMusic() {
-      if (!bgMusic) {
-        bgMusic = new Audio('adam-song-v2.mp3');
+      const songFile = LETTER_SONGS[currentLetterKey] || 'adam-song-v2.mp3';
+      if (!bgMusic || bgMusic.src !== songFile) {
+        if (bgMusic) { bgMusic.pause(); bgMusic = null; }
+        bgMusic = new Audio(songFile);
         bgMusic.loop = true;
         bgMusic.volume = 0.6;
       }
@@ -504,6 +514,13 @@
 
     function loadLetter(letter) {
       currentLetterKey = letter;
+      
+      // 切換字母時重設音樂
+      if (bgMusic) { bgMusic.pause(); bgMusic = null; }
+      musicPlaying = false;
+      document.getElementById('music-icon').textContent = '🎵';
+      const pingDot = document.querySelector('#music-btn .animate-ping');
+      if (pingDot) pingDot.style.display = 'block';
       
       Object.keys(ALPHABET_DATA).forEach(l => {
         const btn = document.getElementById(`btn-az-${l}`);
