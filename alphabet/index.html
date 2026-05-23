@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>K1 Bible Alphabet Park</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Nunito', 'sans-serif'],
+          },
+          colors: {
+            macaron: {
+              yellow: '#FFD93D',
+              green: '#6BCB77',
+              blue: '#4D96FF',
+              red: '#FF6B6B',
+              purple: '#C77DFF',
+              cream: '#FFFDF0',
+              dark: '#3A3232'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .kids-pattern-bg {
+      background-color: #FFFDF0;
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(255, 217, 61, 0.15) 15px, transparent 15px),
+        radial-gradient(circle at 75% 15%, rgba(107, 203, 119, 0.15) 20px, transparent 20px),
+        radial-gradient(circle at 45% 80%, rgba(77, 150, 255, 0.15) 25px, transparent 25px),
+        radial-gradient(circle at 85% 75%, rgba(199, 125, 255, 0.15) 18px, transparent 18px);
+      background-size: 100% 100%;
+    }
+
+    * {
+      touch-action: none;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    @keyframes fingerTap {
+      0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.9; }
+      50% { transform: scale(0.85) translate(-5px, 5px); opacity: 0.4; }
+    }
+    .guide-finger-tap {
+      animation: fingerTap 1.8s ease-in-out infinite;
+    }
+
+    @keyframes fingerDrag {
+      0% { transform: translate(0, 0); opacity: 0; }
+      15% { opacity: 1; }
+      85% { transform: translate(-100px, 120px); opacity: 1; }
+      100% { transform: translate(-100px, 120px); opacity: 0; }
+    }
+    .guide-finger-drag {
+      animation: fingerDrag 3s ease-in-out infinite;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0) rotate(0deg); }
+      20%, 60% { transform: translateX(-8px) rotate(-3deg); }
+      40%, 80% { transform: translateX(8px) rotate(3deg); }
+    }
+    .shake-error {
+      animation: shake 0.5s ease-in-out;
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .tab-transition {
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+  </style>
+</head>
+<body class="kids-pattern-bg min-h-screen overflow-y-auto md:overflow-hidden flex flex-col p-3 md:p-4 text-macaron-dark" style="padding-bottom: max(1rem, env(safe-area-inset-bottom)); padding-left: max(1rem, env(safe-area-inset-left)); padding-right: max(1rem, env(safe-area-inset-right));">
+
+  <!-- 頂部 HUD -->
+  <header class="w-full flex flex-col md:flex-row items-center justify-between gap-3 md:gap-0 z-30">
+    <div class="flex items-center justify-between w-full md:w-auto gap-3">
+      <div class="bg-white px-4 py-2 rounded-full shadow-lg border-4 border-macaron-yellow flex items-center gap-2 transform hover:scale-105 transition-transform">
+        <span class="text-2xl md:text-3xl">🎡</span>
+        <h1 class="text-base md:text-xl font-extrabold tracking-wide text-macaron-dark">Bible Alphabet</h1>
+      </div>
+      <div id="current-badge-mobile" class="md:hidden bg-macaron-purple text-white text-lg font-black w-10 h-10 rounded-full flex items-center justify-center border-4 border-white shadow-lg animate-bounce shrink-0">
+        Aa
+      </div>
+    </div>
+
+    <nav class="flex gap-2 justify-center w-full md:w-auto">
+      <button onclick="switchTab(1)" id="tab-1" class="tab-transition bg-white text-macaron-dark px-3 py-2 md:px-6 md:py-3 rounded-full shadow-md border-4 border-transparent flex items-center gap-1 md:gap-2 font-extrabold text-xs md:text-sm relative">
+        <span>🍎</span> <span>Phonics</span>
+        <span id="tab-status-1" class="absolute -top-1 -right-1 bg-white border border-gray-200 text-[9px] md:text-xs w-4 h-4 md:w-5 md:h-5 rounded-full flex items-center justify-center shadow-sm">⚪</span>
+      </button>
+      <button onclick="switchTab(2)" id="tab-2" class="tab-transition bg-white/70 text-gray-400 px-3 py-2 md:px-6 md:py-3 rounded-full shadow-md border-4 border-transparent flex items-center gap-1 md:gap-2 font-extrabold text-xs md:text-sm relative">
+        <span>✏️</span> <span>Tracing</span>
+        <span id="tab-status-2" class="absolute -top-1 -right-1 bg-white border border-gray-200 text-[9px] md:text-xs w-4 h-4 md:w-5 md:h-5 rounded-full flex items-center justify-center shadow-sm">⚪</span>
+      </button>
+      <button onclick="switchTab(3)" id="tab-3" class="tab-transition bg-white/70 text-gray-400 px-3 py-2 md:px-6 md:py-3 rounded-full shadow-md border-4 border-transparent flex items-center gap-1 md:gap-2 font-extrabold text-xs md:text-sm relative">
+        <span>🎈</span> <span>Play</span>
+        <span id="tab-status-3" class="absolute -top-1 -right-1 bg-white border border-gray-200 text-[9px] md:text-xs w-4 h-4 md:w-5 md:h-5 rounded-full flex items-center justify-center shadow-sm">⚪</span>
+      </button>
+    </nav>
+
+    <div class="flex items-center gap-2 md:gap-3 justify-center md:justify-end w-full md:w-auto mt-1 md:mt-0">
+      <!-- 背景音樂按鈕 -->
+      <button id="music-btn" onclick="toggleMusic()" class="bg-white/90 px-3 py-1.5 md:px-4 md:py-2 rounded-full border-4 border-macaron-purple shadow-lg flex items-center gap-1 md:gap-2 text-xs md:text-sm font-extrabold text-macaron-purple hover:scale-105 active:scale-95 transition-all">
+        <span id="music-icon">🎵</span>
+        <span id="music-label" class="hidden md:inline">Music</span>
+      </button>
+      
+      <div id="current-badge-desktop" class="hidden md:flex bg-macaron-purple text-white text-2xl font-black w-14 h-14 rounded-full items-center justify-center border-4 border-white shadow-lg animate-bounce shrink-0">
+        Aa
+      </div>
+      <div class="flex items-center gap-2 bg-white/90 px-4 py-1.5 md:px-5 md:py-2 rounded-full border-4 border-macaron-blue shadow-lg">
+        <span id="star-icon-1" class="text-2xl md:text-3xl text-gray-200 transition-all duration-500 scale-90">⭐</span>
+        <span id="star-icon-2" class="text-2xl md:text-3xl text-gray-200 transition-all duration-500 scale-90">⭐</span>
+        <span id="star-icon-3" class="text-2xl md:text-3xl text-gray-200 transition-all duration-500 scale-90">⭐</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主畫面 -->
+  <div class="flex-1 flex flex-col md:flex-row gap-3 md:gap-4 mt-3 overflow-y-auto md:overflow-hidden relative">
+    
+    <!-- A-Z 字母選取欄 -->
+    <aside class="w-full md:w-28 shrink-0 flex flex-col bg-white/85 rounded-2xl md:rounded-[2rem] border-4 border-macaron-yellow p-2 shadow-lg md:shadow-2xl relative z-20">
+      <div class="text-[10px] text-center font-black text-macaron-dark/50 uppercase tracking-widest mb-1 hidden md:block">A - Z</div>
+      <div id="az-scroll-container" class="flex flex-row md:flex-col overflow-x-auto md:overflow-y-auto no-scrollbar space-x-2.5 md:space-x-0 md:space-y-3 pb-1 md:pb-12 w-full">
+      </div>
+      <div class="absolute bottom-1 left-1/2 -translate-x-1/2 pointer-events-none text-macaron-pink animate-bounce text-xs hidden md:block">👇</div>
+    </aside>
+
+    <!-- 遊戲主舞台 -->
+    <main class="flex-1 min-h-[350px] bg-white/95 rounded-[2rem] md:rounded-[2.5rem] border-4 border-macaron-blue shadow-xl md:shadow-2xl overflow-hidden relative flex flex-col justify-center items-center p-3 md:p-6">
+      
+      <!-- 模組一：字母魔法卡 -->
+      <section id="module-1" class="absolute inset-0 w-full h-full flex flex-col items-center justify-center p-3 md:p-6 tab-transition">
+        <div id="phonics-card" onclick="handleCardClick()" class="bg-macaron-cream rounded-[2rem] md:rounded-[2.5rem] border-4 md:border-8 border-macaron-yellow shadow-xl md:shadow-2xl p-4 md:p-8 max-w-lg w-full flex flex-col items-center text-center transform hover:scale-105 transition-all relative cursor-pointer">
+          
+          <div id="m1-tap-again-prompt" class="hidden absolute inset-0 bg-macaron-yellow/15 backdrop-blur-[1.5px] rounded-[1.8rem] md:rounded-[2rem] flex flex-col items-center justify-center pointer-events-none z-10">
+            <div class="bg-white border-4 border-macaron-pink px-4 py-2 md:px-6 md:py-3 rounded-full shadow-2xl flex items-center gap-2 transform scale-105 md:scale-110 animate-bounce">
+              <span class="text-2xl md:text-3xl">👆</span>
+              <span class="text-lg md:text-xl font-black text-macaron-red">Tap again!</span>
+            </div>
+          </div>
+
+          <h2 id="card-letter-display" class="text-7xl md:text-9xl font-black text-macaron-dark tracking-tighter drop-shadow-md select-none">
+            Aa
+          </h2>
+          
+          <button onclick="event.stopPropagation(); triggerPhonicsSpeech();" class="absolute top-4 right-4 bg-macaron-pink text-white w-12 h-12 md:w-14 md:h-14 rounded-full border-4 border-white shadow-lg flex items-center justify-center text-xl md:text-2xl transform active:scale-95 transition-all">
+            🔊
+          </button>
+          
+          <div id="card-emoji-container" class="w-28 h-28 md:w-36 md:h-36 bg-white rounded-full border-4 border-macaron-blue flex items-center justify-center text-5xl md:text-7xl my-3 md:my-4 shadow-inner animate-bounce overflow-hidden">
+            <img id="character-img" src="" class="w-full h-full object-contain hidden" alt="Character">
+            <span id="character-emoji">👨</span>
+          </div>
+
+          <div class="space-y-1">
+            <h3 id="card-word-display" class="text-2xl md:text-4xl font-extrabold text-macaron-blue tracking-wide">
+              Adam
+            </h3>
+            <p id="card-sentence-display" class="text-sm md:text-lg font-bold text-gray-500 max-w-sm px-2">
+              The first man God made.
+            </p>
+          </div>
+        </div>
+
+        <div id="guide-m1" class="absolute pointer-events-none z-10 bottom-1/4 right-1/4 md:right-1/3 flex flex-col items-center">
+          <span class="text-4xl md:text-5xl guide-finger-tap">👆</span>
+          <span class="bg-macaron-purple text-white text-[10px] md:text-xs px-2.5 py-1 rounded-full font-bold shadow-md">Click me!</span>
+        </div>
+      </section>
+
+      <!-- 模組二：魔法彩虹描紅 -->
+      <section id="module-2" class="absolute inset-0 w-full h-full flex flex-col items-center justify-center p-3 md:p-4 tab-transition hidden">
+        <div class="bg-white rounded-[2rem] shadow-lg p-3 md:p-4 w-full max-w-md border-4 border-macaron-purple flex flex-col items-center relative">
+          <button onclick="initTracing()" class="absolute top-3 right-3 bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-1.5 rounded-full font-bold text-[10px] md:text-xs border border-gray-300">
+            🔄 Restart
+          </button>
+
+          <div class="mb-1 md:mb-2 text-center">
+            <p id="tracing-instruction" class="text-sm md:text-md font-extrabold text-macaron-purple">
+              Follow the red dot! 🔴
+            </p>
+          </div>
+
+          <div class="relative w-full aspect-square max-w-[300px] md:max-w-[340px] bg-macaron-cream rounded-3xl border-4 border-dashed border-macaron-purple overflow-hidden">
+            <canvas id="base-canvas" width="340" height="340" class="absolute inset-0 w-full h-full z-0 pointer-events-none"></canvas>
+            <canvas id="trail-canvas" width="340" height="340" class="absolute inset-0 w-full h-full z-10 pointer-events-none"></canvas>
+            <canvas id="tracing-canvas" width="340" height="340" class="absolute inset-0 w-full h-full z-20"></canvas>
+          </div>
+        </div>
+
+        <div id="guide-m2" class="absolute pointer-events-none z-10 top-1/2 left-1/2 -translate-x-12 -translate-y-20 flex flex-col items-center">
+          <span class="text-4xl md:text-5xl guide-finger-drag">👆</span>
+          <span class="bg-macaron-purple text-white text-[10px] md:text-xs px-2.5 py-1 rounded-full font-bold shadow-md">Draw letters!</span>
+        </div>
+      </section>
+
+      <!-- 模組三：氣球大挑戰 -->
+      <section id="module-3" class="absolute inset-0 w-full h-full flex flex-col items-center justify-between p-3 md:p-4 tab-transition hidden">
+        <div class="w-full flex justify-center z-10">
+          <button onclick="announceChallengeBalloon()" class="bg-macaron-blue text-white px-6 py-2 md:px-8 md:py-3 rounded-full shadow-md md:shadow-lg border-4 border-white font-black text-sm md:text-lg flex items-center gap-2 md:gap-3 hover:scale-105 active:scale-95 transition-all">
+            <span>🔊 Find Letter:</span>
+            <span id="target-letter-vocal" class="text-lg md:text-2xl bg-white text-macaron-blue px-2.5 py-0.5 md:py-1 rounded-xl">A</span>
+          </button>
+        </div>
+
+        <div id="balloon-playground" class="w-full flex-1 min-h-[280px] relative overflow-hidden my-3 md:my-4 bg-blue-50/50 rounded-[2rem] border-4 border-dashed border-blue-200 shadow-inner">
+        </div>
+
+        <div id="guide-m3" class="absolute pointer-events-none z-10 bottom-1/4 right-1/4 flex flex-col items-center">
+          <span class="text-4xl md:text-5xl guide-finger-tap">👆</span>
+          <span class="bg-macaron-purple text-white text-[10px] md:text-xs px-2.5 py-1 rounded-full font-bold shadow-md">Pop Balloon!</span>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- 全螢幕 Canvas 煙火彩屑特效層 -->
+  <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50 w-full h-full hidden"></canvas>
+
+  <script>
+    // ============================================================
+    // 角色圖片（miniMax 生成）
+    // ============================================================
+    const CHARACTER_IMAGES = {
+      A: 'characters/a-adam.png'
+    };
+
+    // ============================================================
+    // A-Z 聖經主題配對數據
+    // ============================================================
+    const ALPHABET_DATA = {
+      A: { word: "Adam", phrase: "The first man God made.", phonics: "/æ/", emoji: "👨" },
+      B: { word: "Bible", phrase: "God's special book.", phonics: "/b/", emoji: "📖" },
+      C: { word: "Creation", phrase: "God made the world.", phonics: "/k/", emoji: "🌍" },
+      D: { word: "David", phrase: "A boy who loved God.", phonics: "/d/", emoji: "👑" },
+      E: { word: "Eden", phrase: "A beautiful garden.", phonics: "/iː/", emoji: "🌿" },
+      F: { word: "Fish", phrase: "Jesus fed five thousand with fish.", phonics: "/f/", emoji: "🐟" },
+      G: { word: "God", phrase: "God loves you so much.", phonics: "/g/", emoji: "✨" },
+      H: { word: "Heaven", phrase: "God's beautiful home.", phonics: "/h/", emoji: "☁️" },
+      I: { word: "Isaac", phrase: "Abraham's beloved son.", phonics: "/ɪ/", emoji: "👦" },
+      J: { word: "Jesus", phrase: "God's Son who loves us.", phonics: "/dʒ/", emoji: "⭐" },
+      K: { word: "King", phrase: "David was a great king.", phonics: "/k/", emoji: "👑" },
+      L: { word: "Lamb", phrase: "Jesus is the Lamb of God.", phonics: "/l/", emoji: "🐑" },
+      M: { word: "Moses", phrase: "Moses led God's people.", phonics: "/m/", emoji: "🏔️" },
+      N: { word: "Noah", phrase: "Noah built a giant boat.", phonics: "/n/", emoji: "🚢" },
+      O: { word: "Olive", phrase: "The dove brought an olive branch.", phonics: "/ɒ/", emoji: "🌿" },
+      P: { word: "Prayer", phrase: "We talk to God every day.", phonics: "/p/", emoji: "🙏" },
+      Q: { word: "Queen", phrase: "The Queen of Sheba was very wise.", phonics: "/kw/", emoji: "👸" },
+      R: { word: "Rainbow", phrase: "God's beautiful promise in the sky.", phonics: "/r/", emoji: "🌈" },
+      S: { word: "Star", phrase: "The star led wise men to baby Jesus.", phonics: "/s/", emoji: "⭐" },
+      T: { word: "Temple", phrase: "God's special house.", phonics: "/t/", emoji: "🏛️" },
+      U: { word: "Universe", phrase: "God made everything in the universe.", phonics: "/ʌ/", emoji: "🌌" },
+      V: { word: "Vine", phrase: "Jesus said, I am the vine.", phonics: "/v/", emoji: "🍇" },
+      W: { word: "Water", phrase: "Jesus gives us living water.", phonics: "/w/", emoji: "💧" },
+      X: { word: "foX", phrase: "The Bible talks about little foxes.", phonics: "/ks/", emoji: "🦊" },
+      Y: { word: "Youth", phrase: "Young David was brave.", phonics: "/j/", emoji: "👦" },
+      Z: { word: "Zion", phrase: "Zion is God's holy mountain.", phonics: "/z/", emoji: "⛰️" }
+    };
+
+    // ============================================================
+    // 全字母筆劃向量坐標表 (340 × 340 Canvas)
+    // ============================================================
+    const LETTER_STROKES = {
+      A: [[{x:170,y:55},{x:80,y:280}], [{x:170,y:55},{x:260,y:280}], [{x:110,y:190},{x:230,y:190}]],
+      B: [[{x:110,y:55},{x:110,y:280}], [{x:110,y:55},{x:210,y:55},{x:210,y:160},{x:110,y:160}], [{x:110,y:160},{x:220,y:160},{x:220,y:280},{x:110,y:280}]],
+      C: [[{x:250,y:90},{x:170,y:55},{x:95,y:165},{x:170,y:280},{x:250,y:245}]],
+      D: [[{x:110,y:55},{x:110,y:280}], [{x:110,y:55},{x:240,y:55},{x:240,y:165},{x:240,y:280},{x:110,y:280}]],
+      E: [[{x:120,y:55},{x:120,y:280}], [{x:120,y:55},{x:240,y:55}], [{x:120,y:165},{x:210,y:165}], [{x:120,y:280},{x:240,y:280}]],
+      F: [[{x:120,y:55},{x:120,y:280}], [{x:120,y:55},{x:240,y:55}], [{x:120,y:165},{x:210,y:165}]],
+      G: [[{x:250,y:90},{x:170,y:55},{x:95,y:165},{x:170,y:280},{x:240,y:280},{x:240,y:175},{x:185,y:175}]],
+      H: [[{x:100,y:55},{x:100,y:280}], [{x:240,y:55},{x:240,y:280}], [{x:100,y:165},{x:240,y:165}]],
+      I: [[{x:170,y:55},{x:170,y:280}], [{x:110,y:55},{x:230,y:55}], [{x:110,y:280},{x:230,y:280}]],
+      J: [[{x:110,y:55},{x:230,y:55}], [{x:170,y:55},{x:170,y:240},{x:130,y:280},{x:90,y:245}]],
+      K: [[{x:110,y:55},{x:110,y:280}], [{x:230,y:65},{x:110,y:165}], [{x:110,y:165},{x:240,y:275}]],
+      L: [[{x:120,y:55},{x:120,y:280}], [{x:120,y:280},{x:230,y:280}]],
+      M: [[{x:90,y:280},{x:90,y:55}], [{x:90,y:55},{x:170,y:175}], [{x:170,y:175},{x:250,y:55}], [{x:250,y:55},{x:250,y:280}]],
+      N: [[{x:90,y:280},{x:90,y:55}], [{x:90,y:55},{x:250,y:280}], [{x:250,y:280},{x:250,y:55}]],
+      O: [[{x:170,y:55},{x:90,y:165},{x:170,y:280},{x:250,y:165},{x:170,y:55}]],
+      P: [[{x:110,y:55},{x:110,y:280}], [{x:110,y:55},{x:215,y:55},{x:215,y:155},{x:110,y:155}]],
+      Q: [[{x:170,y:55},{x:90,y:165},{x:170,y:280},{x:250,y:165},{x:170,y:55}], [{x:180,y:190},{x:250,y:280}]],
+      R: [[{x:110,y:55},{x:110,y:280}], [{x:110,y:55},{x:215,y:55},{x:215,y:155},{x:110,y:155}], [{x:110,y:155},{x:230,y:280}]],
+      S: [[{x:240,y:90},{x:170,y:55},{x:100,y:110},{x:240,y:210},{x:170,y:280},{x:100,y:245}]],
+      T: [[{x:110,y:55},{x:230,y:55}], [{x:170,y:55},{x:170,y:280}]],
+      U: [[{x:100,y:55},{x:100,y:210},{x:170,y:280},{x:240,y:210},{x:240,y:55}]],
+      V: [[{x:90,y:55},{x:170,y:275}], [{x:170,y:275},{x:250,y:55}]],
+      W: [[{x:70,y:55},{x:110,y:275}], [{x:110,y:275},{x:170,y:135}], [{x:170,y:135},{x:230,y:275}], [{x:230,y:275},{x:270,y:55}]],
+      X: [[{x:90,y:55},{x:250,y:280}], [{x:250,y:55},{x:90,y:280}]],
+      Y: [[{x:90,y:55},{x:170,y:155}], [{x:250,y:55},{x:170,y:155}], [{x:170,y:155},{x:170,y:280}]],
+      Z: [[{x:90,y:65},{x:250,y:65}], [{x:250,y:65},{x:90,y:270}], [{x:90,y:270},{x:250,y:270}]]
+    };
+
+    // ============================================================
+    // 全域狀態
+    // ============================================================
+    let currentLetterKey = 'A';
+    let currentTab = 1;
+    let completedModules = { 1: false, 2: false, 3: false };
+    let totalStars = 0;
+    let speechFinished = false;
+    let lastTracePos = null;
+
+    let baseCanvas, trailCanvas, traceCanvas;
+    let bCtx, trCtx, tCtx;
+    let strokeIndex = 0;
+    let strokePointIndex = 1;
+    let isDrawing = false;
+    let lastSynthesizedFailTime = 0;
+
+    let balloonPlayground;
+    let activeBalloons = [];
+    let balloonAnimationId;
+    let targetLetterForGame = '';
+    let consecutivePops = 0;
+
+    let guideSeen = { 1: false, 2: false, 3: false };
+
+    // 背景音樂狀態
+    let bgMusic = null;
+    let musicPlaying = false;
+
+    // ============================================================
+    // 背景音樂控制
+    // ============================================================
+    function initMusic() {
+      if (!bgMusic) {
+        bgMusic = new Audio('adam-song-v2.mp3');
+        bgMusic.loop = true;
+        bgMusic.volume = 0.6;
+      }
+    }
+
+    function toggleMusic() {
+      initMusic();
+      if (musicPlaying) {
+        bgMusic.pause();
+        musicPlaying = false;
+        updateMusicUI();
+      } else {
+        bgMusic.play().then(() => {
+          musicPlaying = true;
+          updateMusicUI();
+        }).catch(e => {
+          console.log('Music play failed:', e);
+        });
+      }
+    }
+
+    function updateMusicUI() {
+      const icon = document.getElementById('music-icon');
+      if (icon) {
+        icon.textContent = musicPlaying ? '🔊' : '🎵';
+      }
+    }
+
+    function stopMusic() {
+      if (bgMusic && musicPlaying) {
+        bgMusic.pause();
+        bgMusic.currentTime = 0;
+        musicPlaying = false;
+        updateMusicUI();
+      }
+    }
+
+    // ============================================================
+    // Web Audio API 音效合成器
+    // ============================================================
+    let audioCtx = null;
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function playSound(type) {
+      initAudio();
+      if (!audioCtx) return;
+
+      const osc = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      osc.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      const now = audioCtx.currentTime;
+
+      if (type === 'pop') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(320, now);
+        osc.frequency.exponentialRampToValueAtTime(40, now + 0.12);
+        gainNode.gain.setValueAtTime(0.35, now);
+        gainNode.gain.linearRampToValueAtTime(0.01, now + 0.12);
+        osc.start(now);
+        osc.stop(now + 0.13);
+      } 
+      else if (type === 'success') {
+        const notes = [523.25, 659.25, 783.99, 1046.50];
+        notes.forEach((freq, idx) => {
+          const o = audioCtx.createOscillator();
+          const g = audioCtx.createGain();
+          o.connect(g);
+          g.connect(audioCtx.destination);
+          o.type = 'triangle';
+          o.frequency.setValueAtTime(freq, now + idx * 0.08);
+          g.gain.setValueAtTime(0.2, now + idx * 0.08);
+          g.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.08 + 0.22);
+          o.start(now + idx * 0.08);
+          o.stop(now + idx * 0.08 + 0.25);
+        });
+      } 
+      else if (type === 'chime') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, now);
+        gainNode.gain.setValueAtTime(0.12, now);
+        gainNode.gain.linearRampToValueAtTime(0.01, now + 0.06);
+        osc.start(now);
+        osc.stop(now + 0.07);
+      } 
+      else if (type === 'boing') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(160, now);
+        osc.frequency.linearRampToValueAtTime(100, now + 0.18);
+        gainNode.gain.setValueAtTime(0.15, now);
+        gainNode.gain.linearRampToValueAtTime(0.01, now + 0.18);
+        osc.start(now);
+        osc.stop(now + 0.19);
+      }
+    }
+
+    // ============================================================
+    // Web Speech API 語音朗讀
+    // ============================================================
+    function speakText(text, callback) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      const voices = window.speechSynthesis.getVoices();
+      const enVoice = voices.find(v => v.lang.startsWith('en')) || voices[0];
+      if (enVoice) utterance.voice = enVoice;
+
+      utterance.rate = 0.85;
+      utterance.pitch = 1.1;
+
+      if (callback) {
+        utterance.onend = callback;
+      }
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // ============================================================
+    // 系統核心渲染
+    // ============================================================
+    function initApp() {
+      renderLetterScrollbar();
+      loadLetter(currentLetterKey);
+    }
+
+    function renderLetterScrollbar() {
+      const container = document.getElementById('az-scroll-container');
+      container.innerHTML = '';
+      
+      Object.keys(ALPHABET_DATA).forEach(letter => {
+        const btn = document.createElement('button');
+        btn.id = `btn-az-${letter}`;
+        btn.onclick = () => loadLetter(letter);
+        
+        const colors = [
+          'bg-macaron-yellow border-amber-300 text-macaron-dark',
+          'bg-macaron-green border-emerald-300 text-white',
+          'bg-macaron-blue border-sky-300 text-white',
+          'bg-macaron-purple border-purple-300 text-white',
+          'bg-macaron-red border-rose-300 text-white'
+        ];
+        const colorIdx = letter.charCodeAt(0) % colors.length;
+        btn.className = `w-14 h-14 md:w-20 md:h-20 rounded-full border-4 font-black text-xl md:text-3xl flex items-center justify-center shadow-md active:scale-90 transition-all shrink-0 select-none ${colors[colorIdx]}`;
+        btn.innerText = letter;
+        container.appendChild(btn);
+      });
+    }
+
+    function loadLetter(letter) {
+      currentLetterKey = letter;
+      
+      Object.keys(ALPHABET_DATA).forEach(l => {
+        const btn = document.getElementById(`btn-az-${l}`);
+        if (btn) {
+          if (l === letter) {
+            btn.classList.add('scale-105', 'ring-4', 'ring-white', 'border-gray-800');
+            btn.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+          } else {
+            btn.classList.remove('scale-105', 'ring-4', 'ring-white', 'border-gray-800');
+          }
+        }
+      });
+
+      completedModules = { 1: false, 2: false, 3: false };
+      totalStars = 0;
+      updateStarsUI();
+
+      for (let i = 1; i <= 3; i++) {
+        document.getElementById(`tab-status-${i}`).innerText = "⚪";
+      }
+
+      speechFinished = false;
+      document.getElementById('m1-tap-again-prompt').classList.add('hidden');
+
+      const badgeMobile = document.getElementById('current-badge-mobile');
+      const badgeDesktop = document.getElementById('current-badge-desktop');
+      if (badgeMobile) badgeMobile.innerText = letter + letter.toLowerCase();
+      if (badgeDesktop) badgeDesktop.innerText = letter + letter.toLowerCase();
+      
+      const data = ALPHABET_DATA[letter];
+      document.getElementById('card-letter-display').innerHTML = letter + letter.toLowerCase();
+      
+      // 角色圖片
+      const charImg = document.getElementById('character-img');
+      const charEmoji = document.getElementById('character-emoji');
+      if (CHARACTER_IMAGES[letter]) {
+        charImg.src = CHARACTER_IMAGES[letter];
+        charImg.classList.remove('hidden');
+        charEmoji.classList.add('hidden');
+      } else {
+        charImg.classList.add('hidden');
+        charEmoji.classList.remove('hidden');
+        charEmoji.innerText = data.emoji;
+      }
+      
+      if (letter === 'X') {
+        document.getElementById('card-word-display').innerHTML = `fo<span class="text-macaron-red font-black text-4xl md:text-5xl">X</span>`;
+      } else {
+        document.getElementById('card-word-display').innerText = data.word;
+      }
+      document.getElementById('card-sentence-display').innerText = data.phrase;
+
+      switchTab(1);
+    }
+
+    function switchTab(tabIdx) {
+      currentTab = tabIdx;
+      
+      for (let i = 1; i <= 3; i++) {
+        const sec = document.getElementById(`module-${i}`);
+        const tab = document.getElementById(`tab-${i}`);
+        
+        if (i === tabIdx) {
+          sec.classList.remove('hidden');
+          tab.classList.remove('bg-white/70', 'text-gray-400');
+          tab.classList.add('bg-white', 'text-macaron-dark', 'scale-105', 'border-macaron-blue');
+        } else {
+          sec.classList.add('hidden');
+          tab.classList.remove('bg-white', 'text-macaron-dark', 'scale-105', 'border-macaron-blue');
+          tab.classList.add('bg-white/70', 'text-gray-400');
+        }
+      }
+
+      cancelAnimationFrame(balloonAnimationId);
+      
+      const guide = document.getElementById(`guide-m${tabIdx}`);
+      if (guide) {
+        guide.classList.toggle('hidden', guideSeen[tabIdx]);
+      }
+
+      if (tabIdx === 1) {
+        triggerPhonicsSpeech();
+      } else if (tabIdx === 2) {
+        initTracing();
+      } else if (tabIdx === 3) {
+        initBubbleGame();
+      }
+    }
+
+    function dismissGuide(idx) {
+      guideSeen[idx] = true;
+      const guide = document.getElementById(`guide-m${idx}`);
+      if (guide) guide.classList.add('hidden');
+    }
+
+    // ============================================================
+    // 模組一：語音朗讀流程
+    // ============================================================
+    function triggerPhonicsSpeech() {
+      dismissGuide(1);
+      speechFinished = false;
+      document.getElementById('m1-tap-again-prompt').classList.add('hidden');
+      
+      const data = ALPHABET_DATA[currentLetterKey];
+      
+      let phrase1 = `Letter ${currentLetterKey}!`;
+      let phrase2 = `It makes the ${data.phonics} sound!`;
+      
+      if (currentLetterKey === 'K') phrase2 = `K and C both make the /k/ sound!`;
+      if (currentLetterKey === 'X') phrase2 = `X makes the /ks/ sound, like fo-X!`;
+
+      let phrase3 = `${data.word}! ${data.phrase}`;
+
+      speakText(phrase1, () => {
+        setTimeout(() => {
+          speakText(phrase2, () => {
+            setTimeout(() => {
+              speakText(phrase3, () => {
+                speechFinished = true;
+                document.getElementById('m1-tap-again-prompt').classList.remove('hidden');
+              });
+            }, 300);
+          });
+        }, 300);
+      });
+    }
+
+    function handleCardClick() {
+      if (speechFinished) {
+        playSound('success');
+        triggerConfetti();
+        document.getElementById('m1-tap-again-prompt').classList.add('hidden');
+        speechFinished = false;
+        markModuleComplete(1);
+        
+        setTimeout(() => { switchTab(2); }, 1500);
+      } else {
+        triggerPhonicsSpeech();
+      }
+    }
+
+    // ============================================================
+    // 模組二：魔法彩虹描紅
+    // ============================================================
+    function initTracing() {
+      baseCanvas = document.getElementById('base-canvas');
+      trailCanvas = document.getElementById('trail-canvas');
+      traceCanvas = document.getElementById('tracing-canvas');
+      if (!traceCanvas || !baseCanvas || !trailCanvas) return;
+
+      bCtx = baseCanvas.getContext('2d');
+      trCtx = trailCanvas.getContext('2d');
+      tCtx = traceCanvas.getContext('2d');
+
+      strokeIndex = 0;
+      strokePointIndex = 1;
+      isDrawing = false;
+      lastTracePos = null; 
+      document.getElementById('tracing-instruction').innerText = "Follow the red dot! 🔴";
+      document.getElementById('tracing-instruction').className = "text-md font-extrabold text-macaron-purple animate-bounce";
+
+      bCtx.clearRect(0, 0, 340, 340);
+      trCtx.clearRect(0, 0, 340, 340);
+      tCtx.clearRect(0, 0, 340, 340);
+
+      traceCanvas.removeEventListener('pointerdown', startTraceDrawing);
+      traceCanvas.removeEventListener('pointermove', drawTracePath);
+      traceCanvas.removeEventListener('pointerup', endTraceDrawing);
+
+      traceCanvas.addEventListener('pointerdown', startTraceDrawing);
+      traceCanvas.addEventListener('pointermove', drawTracePath);
+      traceCanvas.addEventListener('pointerup', endTraceDrawing);
+
+      drawBaseSkeleton();
+      drawLetterOutline();
+    }
+
+    function drawBaseSkeleton() {
+      if (!bCtx) return;
+      bCtx.clearRect(0, 0, 340, 340);
+      const strokes = LETTER_STROKES[currentLetterKey];
+      if (!strokes) return;
+
+      bCtx.strokeStyle = '#E2E8F0';
+      bCtx.lineWidth = 42;
+      bCtx.lineCap = 'round';
+      bCtx.lineJoin = 'round';
+
+      strokes.forEach(stroke => {
+        bCtx.beginPath();
+        bCtx.moveTo(stroke[0].x, stroke[0].y);
+        for (let i = 1; i < stroke.length; i++) {
+          bCtx.lineTo(stroke[i].x, stroke[i].y);
+        }
+        bCtx.stroke();
+      });
+    }
+
+    function drawLetterOutline() {
+      if (!tCtx) return;
+      tCtx.clearRect(0, 0, 340, 340);
+      const strokes = LETTER_STROKES[currentLetterKey];
+      if (!strokes) return;
+
+      strokes.forEach((stroke, idx) => {
+        const isCurrent = (idx === strokeIndex);
+        const activePt = isCurrent ? (stroke[strokePointIndex - 1] || stroke[0]) : stroke[0];
+        
+        tCtx.beginPath();
+        tCtx.arc(activePt.x, activePt.y, isCurrent ? 24 : 14, 0, Math.PI * 2);
+        tCtx.fillStyle = isCurrent ? '#FF6B6B' : '#CBD5E1';
+        tCtx.fill();
+
+        tCtx.fillStyle = '#FFFFFF';
+        tCtx.font = `900 ${isCurrent ? '18px' : '12px'} Nunito`;
+        tCtx.textAlign = 'center';
+        tCtx.textBaseline = 'middle';
+        tCtx.fillText(idx + 1, activePt.x, activePt.y);
+
+        if (isCurrent && strokePointIndex < stroke.length) {
+          const start = activePt;
+          const next = stroke[strokePointIndex];
+          const angle = Math.atan2(next.y - start.y, next.x - start.x);
+          
+          tCtx.beginPath();
+          tCtx.moveTo(start.x + Math.cos(angle) * 35, start.y + Math.sin(angle) * 35);
+          tCtx.lineTo(start.x + Math.cos(angle) * 35 - 15 * Math.cos(angle - 0.5), start.y + Math.sin(angle) * 35 - 15 * Math.sin(angle - 0.5));
+          tCtx.lineTo(start.x + Math.cos(angle) * 35 - 15 * Math.cos(angle + 0.5), start.y + Math.sin(angle) * 35 - 15 * Math.sin(angle + 0.5));
+          tCtx.closePath();
+          tCtx.fillStyle = '#FFD93D';
+          tCtx.fill();
+        }
+      });
+    }
+
+    function getTouchPosition(e) {
+      const rect = traceCanvas.getBoundingClientRect();
+      return {
+        x: (e.clientX - rect.left) * (340 / rect.width),
+        y: (e.clientY - rect.top) * (340 / rect.height)
+      };
+    }
+
+    function startTraceDrawing(e) {
+      dismissGuide(2);
+      initAudio();
+      
+      try { traceCanvas.setPointerCapture(e.pointerId); } catch(err) {}
+
+      const pos = getTouchPosition(e);
+      const strokes = LETTER_STROKES[currentLetterKey];
+      if (!strokes || strokeIndex >= strokes.length) return;
+
+      const currentStroke = strokes[strokeIndex];
+      const startPt = currentStroke[strokePointIndex - 1] || currentStroke[0];
+
+      const distToStart = Math.hypot(pos.x - startPt.x, pos.y - startPt.y);
+      if (distToStart <= 45) {
+        isDrawing = true;
+        lastTracePos = pos; 
+        playSound('chime');
+      } else {
+        const absoluteStartPt = currentStroke[0];
+        const distToAbsoluteStart = Math.hypot(pos.x - absoluteStartPt.x, pos.y - absoluteStartPt.y);
+        if (distToAbsoluteStart <= 45) {
+          isDrawing = true;
+          lastTracePos = pos; 
+          strokePointIndex = 1; 
+          drawLetterOutline();
+          playSound('chime');
+        } else {
+          triggerBoingWarning();
+        }
+      }
+    }
+
+    function drawTracePath(e) {
+      if (!isDrawing) return;
+      const pos = getTouchPosition(e);
+      const strokes = LETTER_STROKES[currentLetterKey];
+      const stroke = strokes[strokeIndex];
+      if (!stroke) return;
+
+      const pA = stroke[strokePointIndex - 1];
+      const pB = stroke[strokePointIndex];
+      if (!pA || !pB) return;
+
+      const distance = getDistanceToLineSegment(pos, pA, pB);
+
+      if (distance <= 45) {
+        trCtx.lineCap = 'round';
+        trCtx.lineJoin = 'round';
+        trCtx.lineWidth = 32; 
+
+        const hue = (strokePointIndex * 60 + pos.x) % 360;
+        trCtx.strokeStyle = `hsla(${hue}, 95%, 60%, 0.85)`;
+
+        const snappedPt = projectPointOnSegment(pos, pA, pB);
+        
+        if (lastTracePos) {
+          trCtx.beginPath();
+          trCtx.moveTo(lastTracePos.x, lastTracePos.y);
+          trCtx.lineTo(snappedPt.x, snappedPt.y);
+          trCtx.stroke();
+        }
+        lastTracePos = snappedPt;
+
+        const distToTarget = Math.hypot(pos.x - pB.x, pos.y - pB.y);
+        if (distToTarget <= 35) {
+          playSound('chime');
+          strokePointIndex++;
+
+          if (strokePointIndex >= stroke.length) {
+            isDrawing = false;
+            solidifyCompletedStroke(stroke);
+            strokeIndex++;
+
+            if (strokeIndex >= strokes.length) {
+              handleTracingComplete();
+            } else {
+              strokePointIndex = 1;
+              drawLetterOutline();
+            }
+          } else {
+            drawLetterOutline();
+          }
+        }
+      } else {
+        triggerBoingWarning();
+      }
+    }
+
+    function endTraceDrawing(e) {
+      isDrawing = false;
+      lastTracePos = null; 
+      try { traceCanvas.releasePointerCapture(e.pointerId); } catch(err) {}
+    }
+
+    function projectPointOnSegment(p, a, b) {
+      const l2 = Math.hypot(b.x - a.x, b.y - a.y);
+      if (l2 === 0) return a;
+      let t = ((p.x - a.x) * (b.x - a.x) + (p.y - a.y) * (b.y - a.y)) / l2;
+      t = Math.max(0, Math.min(1, t));
+      return { x: a.x + t * (b.x - a.x), y: a.y + t * (b.y - a.y) };
+    }
+
+    function getDistanceToLineSegment(p, a, b) {
+      const proj = projectPointOnSegment(p, a, b);
+      return Math.hypot(p.x - proj.x, p.y - proj.y);
+    }
+
+    function solidifyCompletedStroke(stroke) {
+      trCtx.lineCap = 'round';
+      trCtx.lineJoin = 'round';
+      trCtx.lineWidth = 32;
+      trCtx.strokeStyle = '#4D96FF'; 
+      trCtx.beginPath();
+      trCtx.moveTo(stroke[0].x, stroke[0].y);
+      for (let i = 1; i < stroke.length; i++) {
+        trCtx.lineTo(stroke[i].x, stroke[i].y);
+      }
+      trCtx.stroke();
+    }
+
+    function triggerBoingWarning() {
+      const now = Date.now();
+      if (now - lastSynthesizedFailTime > 800) {
+        playSound('boing');
+        lastSynthesizedFailTime = now;
+      }
+    }
+
+    function handleTracingComplete() {
+      document.getElementById('tracing-instruction').innerText = "Super Star! ⭐";
+      document.getElementById('tracing-instruction').className = "text-md font-black text-macaron-green animate-bounce text-xl";
+      
+      triggerConfetti();
+      playSound('success');
+      
+      speakText(`Wonderful! You wrote ${currentLetterKey}!`, () => {
+        markModuleComplete(2);
+        setTimeout(() => { switchTab(3); }, 1500);
+      });
+    }
+
+    // ============================================================
+    // 模組三：氣球大挑戰
+    // ============================================================
+    function initBubbleGame() {
+      balloonPlayground = document.getElementById('balloon-playground');
+      if (!balloonPlayground) return;
+
+      balloonPlayground.innerHTML = '';
+      activeBalloons = [];
+      targetLetterForGame = currentLetterKey;
+      consecutivePops = 0;
+
+      const data = ALPHABET_DATA[currentLetterKey];
+      document.getElementById('target-letter-vocal').innerText = `${currentLetterKey} / ${data.word}`;
+
+      announceChallengeBalloon();
+
+      spawnBalloonsLoop();
+      animateBalloons();
+    }
+
+    function announceChallengeBalloon() {
+      dismissGuide(3);
+      const data = ALPHABET_DATA[targetLetterForGame];
+      const questionText = `Pop the letter ${targetLetterForGame}! ${targetLetterForGame} for ${data.word}!`;
+      speakText(questionText);
+    }
+
+    function spawnBalloonsLoop() {
+      const currentCount = activeBalloons.length;
+      const needCount = 6 - currentCount;
+
+      for (let i = 0; i < needCount; i++) {
+        createSingleBalloon();
+      }
+    }
+
+    function createSingleBalloon() {
+      const containerWidth = balloonPlayground.clientWidth || 600;
+      const containerHeight = balloonPlayground.clientHeight || 450;
+      
+      const hasCorrect = activeBalloons.some(b => b.isCorrect);
+      const isCorrect = !hasCorrect || Math.random() > 0.5;
+      const letter = isCorrect ? targetLetterForGame : getRandomDistractorLetter();
+
+      const balloonEl = document.createElement('div');
+      balloonEl.className = "absolute rounded-[45%] flex flex-col items-center justify-center text-white font-extrabold text-3xl shadow-xl cursor-pointer select-none border-4 border-white transform transition-transform";
+      
+      balloonEl.style.width = '85px';
+      balloonEl.style.height = '105px';
+
+      const colors = ['#FF6B6B', '#4D96FF', '#6BCB77', '#C77DFF', '#FFD93D'];
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      balloonEl.style.backgroundColor = randomColor;
+
+      const string = document.createElement('div');
+      string.className = "absolute bg-gray-400/80 w-0.5 h-10 top-full";
+      balloonEl.appendChild(string);
+
+      const txt = document.createElement('span');
+      txt.innerText = letter;
+      balloonEl.appendChild(txt);
+
+      const balloonObj = {
+        element: balloonEl,
+        x: Math.random() * (containerWidth - 95),
+        y: containerHeight + 20, 
+        speed: 0.8 + Math.random() * 0.9, 
+        swayFreq: 0.01 + Math.random() * 0.02,
+        swayAmp: 15 + Math.random() * 15,
+        phase: Math.random() * 100,
+        letter: letter,
+        isCorrect: isCorrect
+      };
+
+      balloonEl.addEventListener('pointerdown', (e) => {
+        try { balloonEl.setPointerCapture(e.pointerId); } catch(err) {}
+        handleBalloonPop(balloonObj);
+      });
+
+      balloonPlayground.appendChild(balloonEl);
+      activeBalloons.push(balloonObj);
+    }
+
+    function getRandomDistractorLetter() {
+      const keys = Object.keys(ALPHABET_DATA);
+      let rand = keys[Math.floor(Math.random() * keys.length)];
+      while (rand === targetLetterForGame) {
+        rand = keys[Math.floor(Math.random() * keys.length)];
+      }
+      return rand;
+    }
+
+    function animateBalloons() {
+      activeBalloons.forEach((b, index) => {
+        b.y -= b.speed; 
+        b.phase += b.swayFreq;
+        const xOffset = Math.sin(b.phase) * b.swayAmp;
+
+        b.element.style.top = `${b.y}px`;
+        b.element.style.left = `${b.x + xOffset}px`;
+
+        if (b.y < -130) {
+          b.element.remove();
+          activeBalloons.splice(index, 1);
+        }
+      });
+
+      if (activeBalloons.length < 6) {
+        spawnBalloonsLoop();
+      }
+
+      balloonAnimationId = requestAnimationFrame(animateBalloons);
+    }
+
+    function handleBalloonPop(balloon) {
+      if (balloon.isCorrect) {
+        playSound('pop');
+        createBalloonParticles(balloon);
+        balloon.element.style.transform = 'scale(0)';
+        balloon.element.style.opacity = '0';
+        
+        activeBalloons = activeBalloons.filter(b => b !== balloon);
+        setTimeout(() => balloon.element.remove(), 250);
+
+        consecutivePops++;
+        const praises = ["Awesome!", "Great Job!", "You're a star!", "Incredible!", "Fantastic!"];
+        const randPraise = praises[Math.floor(Math.random() * praises.length)];
+        speakText(randPraise);
+
+        if (consecutivePops >= 3) {
+          handleBubbleGameComplete();
+        }
+      } else {
+        playSound('boing');
+        balloon.element.classList.add('shake-error');
+        setTimeout(() => balloon.element.classList.remove('shake-error'), 600);
+        speakText("Try again! You can do it!");
+      }
+    }
+
+    function createBalloonParticles(balloon) {
+      const rect = balloon.element.getBoundingClientRect();
+      const parentRect = balloonPlayground.getBoundingClientRect();
+      const startX = rect.left - parentRect.left + 42;
+      const startY = rect.top - parentRect.top + 52;
+
+      for (let i = 0; i < 15; i++) {
+        const star = document.createElement('div');
+        star.className = "absolute text-2xl pointer-events-none select-none z-40 transition-all duration-700 ease-out";
+        star.innerText = "⭐";
+        star.style.left = `${startX}px`;
+        star.style.top = `${startY}px`;
+        balloonPlayground.appendChild(star);
+
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 3 + Math.random() * 5;
+        const dx = Math.cos(angle) * speed * 20;
+        const dy = Math.sin(angle) * speed * 20;
+
+        setTimeout(() => {
+          star.style.transform = `translate(${dx}px, ${dy}px) scale(0)`;
+          star.style.opacity = '0';
+        }, 10);
+
+        setTimeout(() => star.remove(), 800);
+      }
+    }
+
+    function handleBubbleGameComplete() {
+      cancelAnimationFrame(balloonAnimationId);
+      activeBalloons.forEach(b => b.element.remove());
+      activeBalloons = [];
+
+      triggerConfetti();
+      playSound('success');
+
+      speakText("Amazing! One more star!", () => {
+        markModuleComplete(3);
+      });
+    }
+
+    // ============================================================
+    // 進度系統
+    // ============================================================
+    function markModuleComplete(moduleIdx) {
+      if (completedModules[moduleIdx]) return;
+      completedModules[moduleIdx] = true;
+
+      document.getElementById(`tab-status-${moduleIdx}`).innerText = "⭐";
+
+      totalStars++;
+      updateStarsUI();
+
+      if (totalStars === 3) {
+        triggerGrandConfetti();
+        
+        speakText("You are a Bible Star! Let's learn the next letter!", () => {
+          setTimeout(goToNextLetter, 1200);
+        });
+      }
+    }
+
+    function updateStarsUI() {
+      for (let i = 1; i <= 3; i++) {
+        const star = document.getElementById(`star-icon-${i}`);
+        if (i <= totalStars) {
+          star.innerText = "⭐";
+          star.classList.remove('text-gray-200', 'scale-90');
+          star.classList.add('text-macaron-yellow', 'scale-115', 'animate-bounce');
+        } else {
+          star.innerText = "⭐";
+          star.classList.remove('text-macaron-yellow', 'scale-115', 'animate-bounce');
+          star.classList.add('text-gray-200', 'scale-90');
+        }
+      }
+    }
+
+    function goToNextLetter() {
+      const keys = Object.keys(ALPHABET_DATA);
+      const currentIdx = keys.indexOf(currentLetterKey);
+      const nextIdx = (currentIdx + 1) % keys.length;
+      loadLetter(keys[nextIdx]);
+    }
+
+    // ============================================================
+    // 全螢幕 Confetti 特效
+    // ============================================================
+    const confCanvas = document.getElementById('confetti-canvas');
+    const cCtx = confCanvas.getContext('2d');
+    let particles = [];
+    let isConfettiActive = false;
+
+    function triggerConfetti() {
+      confCanvas.classList.remove('hidden');
+      confCanvas.width = window.innerWidth;
+      confCanvas.height = window.innerHeight;
+      particles = [];
+
+      const colors = ['#FFD93D', '#6BCB77', '#4D96FF', '#FF6B6B', '#C77DFF'];
+      for (let i = 0; i < 75; i++) {
+        particles.push({
+          x: Math.random() * confCanvas.width,
+          y: -15,
+          vx: (Math.random() - 0.5) * 5,
+          vy: 2 + Math.random() * 5,
+          radius: 6 + Math.random() * 6,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          opacity: 1
+        });
+      }
+
+      if (!isConfettiActive) {
+        isConfettiActive = true;
+        renderConfettiFrame();
+      }
+    }
+
+    function triggerGrandConfetti() {
+      triggerConfetti();
+      setTimeout(triggerConfetti, 350);
+      setTimeout(triggerConfetti, 700);
+    }
+
+    function renderConfettiFrame() {
+      cCtx.clearRect(0, 0, confCanvas.width, confCanvas.height);
+      let alive = false;
+
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.opacity -= 0.006;
+
+        if (p.opacity > 0 && p.y < confCanvas.height) {
+          alive = true;
+          cCtx.beginPath();
+          cCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          cCtx.fillStyle = p.color;
+          cCtx.globalAlpha = p.opacity;
+          cCtx.fill();
+        }
+      });
+
+      cCtx.globalAlpha = 1;
+
+      if (alive) {
+        requestAnimationFrame(renderConfettiFrame);
+      } else {
+        confCanvas.classList.add('hidden');
+        isConfettiActive = false;
+      }
+    }
+
+    // ============================================================
+    // 啟動
+    // ============================================================
+    window.onload = () => {
+      initApp();
+
+      document.body.addEventListener('pointerdown', () => {
+        initAudio();
+      }, { once: true });
+    };
+  </script>
+</body>
+</html>
