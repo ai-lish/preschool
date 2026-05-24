@@ -16,9 +16,45 @@
 | 大衛與歌利亞 | 互動故事 | ✅ 完成 | — |
 | 五餅二魚 | 五日互動遊戲 | ✅ 完成 | — |
 | 耶穌降生 | 互動故事 | ✅ 完成 | — |
-| 耶穌復活 | 五日互動故事 | ✅ 完成 | 音頻待生成 |
+| 耶穌復活 | 五日互動故事 | ✅ 完成 | 音頻排程中 |
 | 浪子回頭 | 互動故事 | ✅ 完成 | — |
 | 📚 參考資源 | references.html | ✅ 完成 | 13個免費資源 |
+| **🎡 Alphabet Park** | alphabet/ | ✅ 完成 | K1-K3 英語字母 |
+
+---
+
+## 🎡 Alphabet Park 英語字母公園
+
+K1-K3（3-6歲）英語字母學習遊戲，聖經主題。
+
+**線上試玩：** https://ai-lish.github.io/preschool/alphabet/
+
+### 📂 頁面結構
+
+```
+alphabet/
+├── index.html                   # 主頁（A-Z 字母學習）
+├── characters/                  # 角色圖片
+│   └── a-adam.png              # Adam 角色圖
+├── adam-song-v2.mp3             # A is for Adam 背景音樂
+└── bible-song.mp3               # B is for Bible 背景音樂
+```
+
+### 🎮 三個學習模組
+
+| 模組 | 名稱 | 互動方式 |
+|------|------|----------|
+| 🍎 Phonics | 字母魔法卡 | 點擊卡片聽發音「A for Apple」，睇聖經主題圖 |
+| ✏️ Tracing | 魔法彩虹描紅 | 跟住紅點拖動描寫 A-Z 字母 |
+| 🎈 Play | 氣球大挑戰 | 聽語音指令，搵同點爆指定字母氣球 |
+
+### 🌟 功能特色
+
+- **聖經主題配對**：A=Adam, B=Bible, C=Creation, D=David... Z=Zion
+- **背景音樂**：每個字母有专属歌曲（A=adam-song-v2.mp3, B=bible-song.mp3）
+- **音效系統**：pop/success/chime/boing（Web Audio API 合成）
+- **Canvas 描紅**：340×340 像素精確筆劃追蹤
+- **響應式設計**：支援 iOS Safari、Android Chrome
 
 ---
 
@@ -29,6 +65,10 @@
 ```
 preschool/
 ├── index.html                   # 主頁（聖經故事分類）
+├── alphabet/                    # Alphabet Park 英語字母公園
+│   ├── index.html               # A-Z 字母學習主頁
+│   ├── characters/              # 角色圖片
+│   └── *.mp3                    # 背景音樂
 ├── references.html               # 參考資源頁（免費幼教工具）
 ├── creation_game.html            # 創造七日（Day 1-6）
 ├── noah_game.html               # 挪亞方舟（Day 1-6）
@@ -150,12 +190,20 @@ img/
 
 ## 🔧 技術規格
 
+### 聖經故事遊戲
 - **前端：** 純 HTML/CSS/JS，無框架依賴
 - **部署：** GitHub Pages（https://ai-lish.github.io/preschool/）
 - **圖片：** MiniMax Image-01 生成，4:3 或 1:1 比例
 - **音頻：** MiniMax TTS speech-hd 生成
 - **圖示：** Noto Sans TC / Noto Sans JP（Google Fonts）
 - **響應式：** 支援 iOS Safari、Android Chrome
+
+### Alphabet Park
+- **前端：** HTML/CSS/JS + Tailwind CSS（CDN）
+- **字體：** Nunito（Google Fonts）
+- **音效：** Web Audio API 合成（pop/success/chime/boing）
+- **描紅：** Canvas 2D（340×340 像素筆劃追蹤）
+- **語音：** Web Speech API（英語朗讀）
 
 ---
 
