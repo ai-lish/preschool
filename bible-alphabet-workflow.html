@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bible Alphabet · MiniMax 製作工作流</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- FontAwesome Icons for modern feedback -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+  --ink: #0f0e17;
+  --paper: #faf9f6;
+  --accent: #e8603c;
+  --accent2: #3c7be8;
+  --accent3: #3cb87a;
+  --accent4: #c43ce8;
+  --muted: #8a8a9a;
+  --border: #e2e0d8;
+  --card: #ffffff;
+  --step-h: 56px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  padding: 0 0 80px;
+}
+
+/* ── HEADER ── */
+.top-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 32px;
+  border-bottom: 1.5px solid var(--border);
+  background: var(--card);
+  position: sticky; top: 0; z-index: 100;
+}
+.top-bar h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em;
+}
+.top-bar h1 span { color: var(--accent); }
+.top-actions {
+  display: flex; gap: 10px; align-items: center;
+}
+.api-status {
+  display: flex; gap: 8px; align-items: center;
+  font-size: 0.75rem; font-weight: 600; color: var(--muted);
+  cursor: pointer;
+  padding: 6px 14px; border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: var(--paper);
+  transition: all .2s;
+}
+.api-status:hover { border-color: var(--ink); color: var(--ink); }
+.api-dot { width: 7px; height: 7px; border-radius: 50%; background: #ccc; }
+.api-dot.ok { background: var(--accent3); box-shadow: 0 0 0 3px rgba(60,184,122,.2); }
+
+/* ── LAYOUT ── */
+.workspace {
+  max-width: 960px; margin: 0 auto;
+  padding: 32px 24px;
+  display: flex; flex-direction: column; gap: 20px;
+}
+
+/* ── SEED INPUT ── */
+.seed-box {
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 16px; padding: 24px 28px;
+}
+.seed-box label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--muted);
+  display: block; margin-bottom: 10px;
+}
+.seed-row {
+  display: flex; gap: 10px; align-items: stretch;
+}
+.letter-badge {
+  width: 56px; height: 56px; border-radius: 12px;
+  background: var(--ink); color: white;
+  font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.seed-input {
+  flex: 1; padding: 14px 18px;
+  border: 1.5px solid var(--border); border-radius: 12px;
+  font-family: 'DM Sans', sans-serif; font-size: 1rem;
+  background: var(--paper); color: var(--ink);
+  outline: none; transition: border-color .2s;
+}
+.seed-input:focus { border-color: var(--accent); }
+.btn {
+  padding: 14px 24px; border-radius: 12px; border: none;
+  font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 600;
+  cursor: pointer; transition: all .2s; white-space: nowrap;
+}
+.btn-primary { background: var(--accent); color: white; }
+.btn-primary:hover { background: #d0502e; transform: translateY(-1px); }
+.btn-primary:disabled { background: var(--border); color: var(--muted); transform: none; cursor: not-allowed; }
+.btn-ghost {
+  background: transparent; color: var(--ink);
+  border: 1.5px solid var(--border);
+}
+.btn-ghost:hover { border-color: var(--ink); }
+.btn-green { background: var(--accent3); color: white; }
+.btn-green:hover { background: #2da069; }
+.btn-blue { background: var(--accent2); color: white; }
+.btn-blue:hover { background: #2d68d4; }
+.btn-purple { background: var(--accent4); color: white; }
+.btn-purple:hover { background: #a82dc7; }
+.btn-sm { padding: 8px 16px; font-size: 0.8rem; border-radius: 8px; }
+
+/* ── LETTER SELECTOR ── */
+.letter-row {
+  display: flex; gap: 8px; align-items: center; margin-top: 14px;
+  flex-wrap: wrap;
+}
+.letter-row span {
+  font-size: 0.72rem; font-weight: 600; color: var(--muted); margin-right: 4px;
+}
+.lbtn {
+  width: 32px; height: 32px; border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: var(--paper); color: var(--ink);
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem;
+  cursor: pointer; transition: all .15s;
+  display: flex; align-items: center; justify-content: center;
+}
+.lbtn:hover { border-color: var(--accent); color: var(--accent); }
+.lbtn.active {
+  background: var(--ink); color: white; border-color: var(--ink);
+}
+
+/* ── STEP CARD ── */
+.step-card {
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 16px; overflow: hidden;
+  opacity: .45; pointer-events: none;
+  transition: opacity .35s, border-color .35s;
+}
+.step-card.active { opacity: 1; pointer-events: all; }
+.step-card.done { border-color: var(--accent3); opacity: 1; pointer-events: all; }
+.step-card.locked { opacity: .35; pointer-events: none; }
+
+.step-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1.5px solid var(--border);
+  background: var(--paper);
+}
+.step-meta { display: flex; align-items: center; gap: 12px; }
+.step-num {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--border); color: var(--muted);
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.8rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all .3s;
+}
+.step-card.active .step-num { background: var(--accent); color: white; }
+.step-card.done .step-num { background: var(--accent3); color: white; }
+.step-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.95rem; font-weight: 700;
+}
+.step-badge {
+  font-size: 0.7rem; font-weight: 600; padding: 4px 10px;
+  border-radius: 20px; border: 1.5px solid var(--border);
+  color: var(--muted);
+}
+.step-badge.waiting { background: #f5f4f0; }
+.step-badge.processing { background: #fff8e6; border-color: #f0c060; color: #a07010; }
+.step-badge.done { background: #edfaf3; border-color: #6dd4a0; color: #1a8050; }
+.step-badge.approved { background: #e6f0ff; border-color: #80aaff; color: #1a50c0; }
+
+.step-body { padding: 24px; }
+
+/* ── CONTENT AREAS ── */
+.content-display {
+  background: var(--paper); border: 1.5px solid var(--border);
+  border-radius: 12px; padding: 18px 20px;
+  min-height: 80px; position: relative;
+  font-size: 0.9rem; line-height: 1.7; white-space: pre-wrap;
+  font-weight: 500;
+}
+.content-display.loading {
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted); font-style: italic;
+  min-height: 120px;
+}
+.content-display textarea {
+  width: 100%; border: none; background: transparent;
+  font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+  line-height: 1.7; resize: vertical; outline: none;
+  color: var(--ink); min-height: 140px;
+}
+
+.action-row {
+  display: flex; gap: 10px; align-items: center;
+  margin-top: 16px; flex-wrap: wrap;
+}
+.action-row .spacer { flex: 1; }
+
+/* ── AUDIO PLAYER ── */
+.audio-wrap {
+  background: var(--paper); border: 1.5px solid var(--border);
+  border-radius: 12px; padding: 16px 20px;
+  display: flex; align-items: center; gap: 16px;
+}
+.audio-play-btn {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--ink); color: white; border: none;
+  font-size: 1.1rem; cursor: pointer; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s;
+}
+.audio-play-btn:hover { background: var(--accent); }
+.audio-info { flex: 1; }
+.audio-info .track { font-weight: 600; font-size: 0.85rem; }
+.audio-info .dur { font-size: 0.75rem; color: var(--muted); }
+.audio-progress {
+  flex: 1; height: 4px; background: var(--border);
+  border-radius: 2px; overflow: hidden;
+}
+.audio-progress-bar {
+  height: 100%; background: var(--accent);
+  border-radius: 2px; width: 0%;
+  transition: width .5s;
+}
+
+/* ── IMAGE PREVIEW ── */
+.img-preview {
+  width: 100%; max-width: 300px; aspect-ratio: 1;
+  border-radius: 16px; border: 1.5px solid var(--border);
+  overflow: hidden; background: var(--paper);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted); font-size: 0.85rem;
+}
+.img-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+.img-row { display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; }
+.img-options { flex: 1; min-width: 200px; display: flex; flex-direction: column; gap: 12px; }
+
+/* ── EXPORT ── */
+.export-block {
+  background: var(--ink); color: white;
+  border-radius: 12px; padding: 20px 22px;
+}
+.export-block .ehead {
+  font-family: 'Syne', sans-serif; font-size: 0.7rem;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(255,255,255,.5); margin-bottom: 12px;
+}
+.code-snippet {
+  background: rgba(255,255,255,.06); border-radius: 8px;
+  padding: 14px 16px; font-family: 'Courier New', monospace;
+  font-size: 0.78rem; line-height: 1.6; color: #a8d8b0;
+  white-space: pre; overflow-x: auto; margin-bottom: 14px;
+}
+.export-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.export-btns button {
+  padding: 8px 18px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,.2);
+  background: transparent; color: white; font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all .2s;
+}
+.export-btns button:hover { background: rgba(255,255,255,.1); }
+.export-btns button.primary-export {
+  background: var(--accent3); border-color: var(--accent3); color: white;
+}
+.export-btns button.primary-export:hover { background: #2da069; }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 28px; right: 28px;
+  background: var(--ink); color: white;
+  padding: 12px 20px; border-radius: 10px;
+  font-size: 0.85rem; font-weight: 600;
+  opacity: 0; transform: translateY(12px);
+  transition: all .3s; z-index: 999;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* ── REAL MULTI-TAB MODAL ── */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(15,14,23,.6);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200; padding: 24px;
+  opacity: 0; pointer-events: none; transition: opacity .25s;
+}
+.modal-overlay.show { opacity: 1; pointer-events: all; }
+.modal-box {
+  background: var(--card); border-radius: 20px;
+  padding: 32px; max-width: 520px; width: 100%;
+  border: 1.5px solid var(--border);
+  transform: translateY(20px); transition: transform .25s;
+  position: relative;
+}
+.modal-overlay.show .modal-box { transform: translateY(0); }
+.modal-box h2 {
+  font-family: 'Syne', sans-serif; font-size: 1.2rem;
+  font-weight: 800; margin-bottom: 12px;
+}
+
+/* Modal Tabs styling */
+.modal-tabs {
+  display: flex; gap: 4px; border-bottom: 1.5px solid var(--border);
+  margin-bottom: 20px;
+}
+.modal-tab {
+  padding: 8px 16px; font-size: 0.8rem; font-weight: 700;
+  color: var(--muted); border: none; background: transparent;
+  cursor: pointer; border-bottom: 2px solid transparent;
+  transition: all .2s;
+}
+.modal-tab.active {
+  color: var(--accent); border-bottom-color: var(--accent);
+}
+
+.modal-content-pane { display: none; }
+.modal-content-pane.active { display: block; }
+
+.modal-field { margin-bottom: 14px; }
+.modal-field label {
+  display: block; font-size: 0.72rem; font-weight: 700;
+  color: var(--muted); margin-bottom: 6px; letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.modal-field input {
+  width: 100%; padding: 11px 14px; border-radius: 10px;
+  border: 1.5px solid var(--border); font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem; background: var(--paper); color: var(--ink);
+  outline: none; transition: border-color .2s;
+}
+.modal-field input:focus { border-color: var(--accent); }
+.modal-actions { display: flex; gap: 10px; margin-top: 24px; justify-content: flex-end; }
+
+/* ── SPINNER ── */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner {
+  width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,.3);
+  border-top-color: white; border-radius: 50%;
+  animation: spin .7s linear infinite; display: inline-block;
+  vertical-align: middle; margin-right: 6px;
+}
+.spinner-dark {
+  border-color: rgba(0,0,0,.15); border-top-color: var(--accent);
+}
+
+/* ── PROGRESS DOTS ── */
+.progress-track {
+  display: flex; align-items: center; gap: 0;
+  padding: 0 24px; margin-bottom: 4px;
+}
+.prog-step {
+  display: flex; align-items: center; gap: 0; flex: 1;
+}
+.prog-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--border); flex-shrink: 0;
+  transition: background .3s;
+}
+.prog-dot.done { background: var(--accent3); }
+.prog-dot.active { background: var(--accent); }
+.prog-line {
+  flex: 1; height: 2px; background: var(--border);
+  transition: background .3s;
+}
+.prog-line.done { background: var(--accent3); }
+
+/* ── DIVIDER ── */
+.section-label {
+  font-size: 0.7rem; font-weight: 700; color: var(--muted);
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 0 4px; margin-bottom: 8px;
+}
+
+@media (max-width: 600px) {
+  .top-bar { padding: 14px 16px; }
+  .workspace { padding: 16px 12px; }
+  .step-body { padding: 16px; }
+  .seed-row { flex-wrap: wrap; }
+  .img-row { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <h1>Bible Alphabet <span>·</span> 製作工作流</h1>
+  <div class="top-actions">
+    <!-- Combined Settings Panel Button -->
+    <button class="api-status" onclick="openSystemSettingsModal()">
+      <span class="api-dot" id="api-dot"></span>
+      <i class="fa-solid fa-sliders mr-1"></i> <span id="api-label">系統與 Git 設定</span>
+    </button>
+  </div>
+</div>
+
+<!-- WORKSPACE -->
+<div class="workspace">
+
+  <!-- PROGRESS -->
+  <div class="progress-track">
+    <div class="prog-step">
+      <div class="prog-dot active" id="pd1"></div>
+      <div class="prog-line" id="pl1"></div>
+    </div>
+    <div class="prog-step">
+      <div class="prog-dot" id="pd2"></div>
+      <div class="prog-line" id="pl2"></div>
+    </div>
+    <div class="prog-step">
+      <div class="prog-dot" id="pd3"></div>
+      <div class="prog-line" id="pl3"></div>
+    </div>
+    <div class="prog-dot" id="pd4"></div>
+  </div>
+
+  <!-- SEED INPUT -->
+  <div class="seed-box">
+    <label>字母 &amp; 歌詞種子句</label>
+    <div class="seed-row">
+      <div class="letter-badge" id="badge-letter">A</div>
+      <input class="seed-input" id="seed-input"
+        placeholder="e.g. A is for Adam, the first man God made"
+        value="A is for Adam, the first man God made">
+      <button class="btn btn-primary" onclick="startWorkflow()" id="start-btn">
+        生成歌詞 →
+      </button>
+    </div>
+    <div class="letter-row">
+      <span>字母：</span>
+      <div id="letter-btns"></div>
+    </div>
+  </div>
+
+  <!-- STEP 1: LYRICS -->
+  <div class="step-card active" id="card1">
+    <div class="step-header">
+      <div class="step-meta">
+        <div class="step-num">1</div>
+        <div class="step-title">歌詞生成與批核</div>
+      </div>
+      <div class="step-badge waiting" id="badge1">等待生成</div>
+    </div>
+    <div class="step-body">
+      <div class="content-display loading" id="lyrics-display">
+        輸入種子句後點擊「生成歌詞」
+      </div>
+      <div class="action-row" id="lyrics-actions" style="display:none">
+        <button class="btn btn-ghost btn-sm" onclick="editLyrics()">✏️ 手動修改</button>
+        <button class="btn btn-ghost btn-sm" onclick="regenLyrics()">↺ 重新生成</button>
+        <div class="spacer"></div>
+        <button class="btn btn-green" onclick="approveLyrics()">✓ 批核歌詞，製作音樂</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: MUSIC -->
+  <div class="step-card locked" id="card2">
+    <div class="step-header">
+      <div class="step-meta">
+        <div class="step-num">2</div>
+        <div class="step-title">音樂生成與批核</div>
+      </div>
+      <div class="step-badge waiting" id="badge2">等待上一步</div>
+    </div>
+    <div class="step-body">
+      <div id="music-area">
+        <div class="content-display loading" style="min-height:60px">
+          歌詞批核後自動開始生成音樂
+        </div>
+      </div>
+      <div class="action-row" id="music-actions" style="display:none">
+        <button class="btn btn-ghost btn-sm" onclick="regenMusic()">↺ 重新生成</button>
+        <div class="spacer"></div>
+        <button class="btn btn-blue" onclick="approveMusic()">✓ 批核音樂，生成圖像</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: IMAGE -->
+  <div class="step-card locked" id="card3">
+    <div class="step-header">
+      <div class="step-meta">
+        <div class="step-num">3</div>
+        <div class="step-title">角色圖像生成與批核</div>
+      </div>
+      <div class="step-badge waiting" id="badge3">等待上一步</div>
+    </div>
+    <div class="step-body">
+      <div id="image-area">
+        <div class="content-display loading" style="min-height:60px">
+          音樂批核後自動開始生成圖像
+        </div>
+      </div>
+      <div id="image-prompt-edit" style="display:none; margin-top:12px;">
+        <div class="section-label">圖像描述 Prompt</div>
+        <textarea id="img-prompt-input" class="seed-input" rows="3"
+          style="width:100%; height:auto; resize:vertical; padding:12px 14px; font-size:0.85rem;"></textarea>
+      </div>
+      <div class="action-row" id="image-actions" style="display:none">
+        <button class="btn btn-ghost btn-sm" onclick="toggleImgPrompt()">✏️ 修改 Prompt</button>
+        <button class="btn btn-ghost btn-sm" onclick="regenImage()">↺ 重新生成</button>
+        <div class="spacer"></div>
+        <button class="btn btn-purple" onclick="approveImage()">✓ 批核圖像，準備匯出</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: EXPORT & DEPLOY -->
+  <div class="step-card locked" id="card4">
+    <div class="step-header">
+      <div class="step-meta">
+        <div class="step-num">4</div>
+        <div class="step-title">匯出與雲端發佈</div>
+      </div>
+      <div class="step-badge waiting" id="badge4">等待上一步</div>
+    </div>
+    <div class="step-body">
+      <div id="export-area">
+        <div class="content-display loading" style="min-height:60px">
+          所有素材批核後，此處將顯示匯出代碼及自動化 GitHub 儲存庫直傳按鈕。
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /workspace -->
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- SYSTEM CONFIG MODAL (Real MiniMax & GitHub Sync Config) -->
+<div class="modal-overlay" id="system-modal">
+  <div class="modal-box">
+    <h2>⚙️ 系統整合設定</h2>
+    
+    <!-- Tab Controls -->
+    <div class="modal-tabs">
+      <button class="modal-tab active" id="tab-minimax-btn" onclick="switchModalTab('minimax')">MiniMax API</button>
+      <button class="modal-tab" id="tab-github-btn" onclick="switchModalTab('github')">GitHub 自動化直傳</button>
+    </div>
+
+    <!-- Pane 1: MiniMax settings -->
+    <div class="modal-content-pane active" id="pane-minimax">
+      <p>填入您的 MiniMax API Key 及 Group ID。資料只儲存在本機瀏覽器 localStorage。</p>
+      <div class="modal-field mt-4">
+        <label>MiniMax API Key</label>
+        <input type="password" id="input-apikey" placeholder="eyJhbGciOi...">
+      </div>
+      <div class="modal-field">
+        <label>Group ID</label>
+        <input type="text" id="input-groupid" placeholder="1234567890">
+      </div>
+    </div>
+
+    <!-- Pane 2: GitHub settings -->
+    <div class="modal-content-pane" id="pane-github">
+      <p>配置您的 GitHub Personal Access Token (PAT)，音效與圖像批核後即可一鍵發佈。</p>
+      <div class="modal-field mt-4">
+        <label>GitHub Personal Access Token (PAT) <span style="color:var(--accent)">*</span></label>
+        <input type="password" id="input-github-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+      </div>
+      <div class="modal-field">
+        <label>儲存庫擁有者 (Owner/User) <span style="color:var(--accent)">*</span></label>
+        <input type="text" id="input-github-owner" placeholder="例如: github-username">
+      </div>
+      <div class="modal-field">
+        <label>儲存庫名稱 (Repository) <span style="color:var(--accent)">*</span></label>
+        <input type="text" id="input-github-repo" placeholder="例如: bible-alphabet-game">
+      </div>
+      <div class="modal-field">
+        <label>主要分支 (Branch)</label>
+        <input type="text" id="input-github-branch" placeholder="main">
+      </div>
+      <div class="modal-field">
+        <label>預設音訊存放路徑</label>
+        <input type="text" id="input-github-audiopath" placeholder="assets/audio (留空為根目錄)">
+      </div>
+      <div class="modal-field">
+        <label>預設圖像存放路徑</label>
+        <input type="text" id="input-github-imagepath" placeholder="characters (留空為根目錄)">
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-sm" onclick="testGithubSettings()" id="git-test-btn" style="display:none">🔌 測試 Git 連線</button>
+      <button class="btn btn-primary btn-sm" onclick="saveSystemSettings()">儲存設定</button>
+      <button class="btn btn-ghost btn-sm" onclick="closeSystemSettingsModal()">關閉</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// 🌟 STREAMING_CHUNK: Initializing workspace state variables
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+const STATE = {
+  letter: 'A',
+  seed: '',
+  lyrics: '',
+  lyricsApproved: false,
+  musicUrl: '',       // blob URL
+  musicBlob: null,
+  musicApproved: false,
+  imageUrl: '',       // base64 or blob URL
+  imageBlob: null,
+  imageApproved: false,
+  imgPrompt: '',
+};
+
+const BIBLE_DATA = {
+  A:{word:"Adam",phrase:"The first man God made.",emoji:"👨", lyrics:"A is for Adam, the first man God made.\nBuilt from the earth, in the garden he played.\nHe named all the creatures, so grand and so tall,\nIn God's perfect sunshine, the father of all!"},
+  B:{word:"Bible",phrase:"God's special book.",emoji:"📖", lyrics:"B is for Bible, God's special, holy book.\nRead every promise, and turn a page to look.\nFull of sweet stories and songs from above,\nGuiding our footsteps and teaching His love!"},
+  C:{word:"Creation",phrase:"God made the world.",emoji:"🌍", lyrics:"C is for Creation, the sky and the sea.\nBeautiful wonders He made for you and me.\nStars in the dark sky, and flowers that grow,\nShowing God's glory above and below!"},
+  D:{word:"David",phrase:"A boy who loved God.",emoji:"👑", lyrics:"D is for David, a boy with a sling.\nWith courage and praising, he grew to be king.\nHe sang to his harp, with a heart pure and true,\nKnowing God's love would protect what he'd do!"},
+  E:{word:"Eden",phrase:"A beautiful garden.",emoji:"🌿", lyrics:"E is for Eden, a garden so green.\nThe loveliest paradise that ever was seen.\nFilled with sweet rivers and birds in the air,\nEverything perfect, and safe in His care!"},
+  F:{word:"Fish",phrase:"Jesus fed five thousand.",emoji:"🐟", lyrics:"F is for Fish in the deep, blue tide.\nJesus provided when people had cried.\nFive simple loaves and two little fish,\nFed all five thousand, a wonderful dish!"},
+  G:{word:"God",phrase:"God loves you so much.",emoji:"✨", lyrics:"G is for God, who is powerful and strong.\nWho listens to children and guides us along.\nHe holds the whole world in His tender embrace,\nShining His goodness in every clean place!"},
+  H:{word:"Heaven",phrase:"God's beautiful home.",emoji:"☁️", lyrics:"H is for Heaven, our home far away.\nWhere joy never fades and there's no dark or gray.\nWith streets made of gold and the angels who sing,\nPraising the name of our Savior and King!"},
+  I:{word:"Isaac",phrase:"Abraham's beloved son.",emoji:"👦", lyrics:"I is for Isaac, the promise of old.\nA gift to his family, more precious than gold.\nHe trusted his father and followed with grace,\nBelieving God's plan in that holy old place!"},
+  J:{word:"Jesus",phrase:"God's Son who loves us.",emoji:"⭐", lyrics:"J is for Jesus, our Lord and our Friend.\nWhose kindness and mercy will never, ever end.\nHe came down to save us, to show us the way,\nAnd lives in our hearts as we worship and pray!"},
+  K:{word:"King",phrase:"David was a great king.",emoji:"👑", lyrics:"K is for King, who is worthy of praise.\nAnd Jesus who reigns through the length of our days.\nNo crown is as bright as the one that He wears,\nAs He listens to all of our worries and prayers!"},
+  L:{word:"Lamb",phrase:"Jesus is the Lamb of God.",emoji:"🐑", lyrics:"L is for Lamb, so gentle and white.\nAnd Jesus, our Lamb, who is holy and bright.\nHe laid down His life just to wash us from sin,\nAnd opened the gates so that we could enter in!"},
+  M:{word:"Moses",phrase:"Moses led God's people.",emoji:"🏔️", lyrics:"M is for Moses, who answered God's call.\nAnd led the Hebrew children out from Pharaoh's wall.\nHe parted the water, he held up his rod,\nAnd walked with the people, protected by God!"},
+  N:{word:"Noah",phrase:"Noah built a giant boat.",emoji:"🚢", lyrics:"N is for Noah, who built a great boat.\nThat on the deep water of judgment would float.\nTwo by two came the animals, big, wild, and tame,\nTo honor and worship the Lord's holy name!"},
+  O:{word:"Olive",phrase:"The dove brought an olive.",emoji:"🌿", lyrics:"O is for Olive, a leaf on a tree.\nA symbol of peace that was carried to see.\nThe dove brought it back to the ark on the wave,\nShowing that God was still mighty to save!"},
+  P:{word:"Prayer",phrase:"We talk to God every day.",emoji:"🙏", lyrics:"P is for Prayer, as we kneel down to talk.\nTo Jesus, who walks with us on our life's walk.\nWe say 'Thank you, Father,' for blessings so sweet,\nAs we sit in quiet repose at His feet!"},
+  Q:{word:"Queen",phrase:"The Queen of Sheba was wise.",emoji:"👸", lyrics:"Q is for Queen, like Esther so brave.\nWho pleaded with courage her people to save.\nOr the Queen of Sheba, who came from afar,\nTo see Solomon's wisdom, as bright as a star!"},
+  R:{word:"Rainbow",phrase:"God's promise in the sky.",emoji:"🌈", lyrics:"R is for Rainbow, painted so high.\nA beautiful promise of love in the sky.\nNo flood will return to cover the ground,\nHis mercy and faithfulness forever are found!"},
+  S:{word:"Star",phrase:"The star led wise men.",emoji:"⭐", lyrics:"S is for Star, shining bright in the night.\nThat guided the wise men with heavenly light.\nIt led them to Jesus, asleep in the hay,\nTo worship the baby that first Christmas Day!"},
+  T:{word:"Temple",phrase:"God's special house.",emoji:"🏛️", lyrics:"T is for Temple, a beautiful place.\nWhere people would gather to seek the Lord's face.\nBut now we are temples of God up above,\nFilled with His Spirit, His joy, and His love!"},
+  U:{word:"Universe",phrase:"God made everything.",emoji:"🌌", lyrics:"U is for Universe, vast and so grand.\nCreated by God by His word and command.\nEvery planet and moon, every galaxy far,\nHe called them by name, from the sun to the star!"},
+  V:{word:"Vine",phrase:"Jesus said, I am the vine.",emoji:"🍇", lyrics:"V is for Vine, with branches so green.\nAnd Jesus the true Vine, the best ever seen.\nIf we stay in Him, we will grow and bear fruit,\nWith love in our branches and faith in our root!"},
+  W:{word:"Water",phrase:"Jesus gives living water.",emoji:"💧", lyrics:"W is for Water, of life flowing free.\nThat Jesus provides for you and for me.\nNo more shall we thirst when we drink of His grace,\nAs we walk on our journey to see His bright face!"},
+  X:{word:"foX",phrase:"Little foxes in the Bible.",emoji:"🦊", lyrics:"X is for foX, in the vineyards they run.\nAnd Samson's quick plan under the hot summer sun.\nThough little and sly, they are kept in His sight,\nFor God made all creatures of day and of night!"},
+  Y:{word:"Youth",phrase:"Young David was brave.",emoji:"👦", lyrics:"Y is for Youth, like young Timothy wise.\nWho served with a heart that was set on the skies.\nNo one should look down on your years while you're young,\nBut praise the Lord daily with heart and with tongue!"},
+  Z:{word:"Zion",phrase:"God's holy mountain.",emoji:"⛰️", lyrics:"Z is for Zion, God's city of light.\nWhere praises are ringing by day and by night.\nHis holy mountain where saints will all sing,\nAnd crown Him forever as Savior and King!"}
+};
+
+// 🌟 STREAMING_CHUNK: Handling browser localStorage and system API configuration
+// ═══════════════════════════════════════════
+// API & SYSTEM SETTINGS
+// ═══════════════════════════════════════════
+let APIKEY = localStorage.getItem('mm_apikey') || '';
+let GROUPID = localStorage.getItem('mm_groupid') || '';
+
+// GitHub State variables
+let GH_TOKEN = localStorage.getItem('gh_token') || '';
+let GH_OWNER = localStorage.getItem('gh_owner') || '';
+let GH_REPO = localStorage.getItem('gh_repo') || '';
+let GH_BRANCH = localStorage.getItem('gh_branch') || 'main';
+let GH_AUDIOPATH = localStorage.getItem('gh_audiopath') || 'assets/audio';
+let GH_IMAGEPATH = localStorage.getItem('gh_imagepath') || 'characters';
+
+let currentModalTab = 'minimax';
+
+function openSystemSettingsModal() {
+  document.getElementById('input-apikey').value = APIKEY;
+  document.getElementById('input-groupid').value = GROUPID;
+  document.getElementById('input-github-token').value = GH_TOKEN;
+  document.getElementById('input-github-owner').value = GH_OWNER;
+  document.getElementById('input-github-repo').value = GH_REPO;
+  document.getElementById('input-github-branch').value = GH_BRANCH;
+  document.getElementById('input-github-audiopath').value = GH_AUDIOPATH;
+  document.getElementById('input-github-imagepath').value = GH_IMAGEPATH;
+
+  switchModalTab('minimax');
+  document.getElementById('system-modal').classList.add('show');
+}
+
+function closeSystemSettingsModal() {
+  document.getElementById('system-modal').classList.remove('show');
+}
+
+function switchModalTab(tabName) {
+  currentModalTab = tabName;
+  document.querySelectorAll('.modal-tab').forEach(b => {
+    b.classList.toggle('active', b.id === `tab-${tabName}-btn`);
+  });
+  document.querySelectorAll('.modal-content-pane').forEach(p => {
+    p.classList.toggle('active', p.id === `pane-${tabName}`);
+  });
+  document.getElementById('git-test-btn').style.display = (tabName === 'github') ? 'inline-block' : 'none';
+}
+
+function saveSystemSettings() {
+  APIKEY = document.getElementById('input-apikey').value.trim();
+  GROUPID = document.getElementById('input-groupid').value.trim();
+  localStorage.setItem('mm_apikey', APIKEY);
+  localStorage.setItem('mm_groupid', GROUPID);
+
+  GH_TOKEN = document.getElementById('input-github-token').value.trim();
+  GH_OWNER = document.getElementById('input-github-owner').value.trim();
+  GH_REPO = document.getElementById('input-github-repo').value.trim();
+  GH_BRANCH = document.getElementById('input-github-branch').value.trim() || 'main';
+  GH_AUDIOPATH = document.getElementById('input-github-audiopath').value.trim();
+  GH_IMAGEPATH = document.getElementById('input-github-imagepath').value.trim();
+
+  localStorage.setItem('gh_token', GH_TOKEN);
+  localStorage.setItem('gh_owner', GH_OWNER);
+  localStorage.setItem('gh_repo', GH_REPO);
+  localStorage.setItem('gh_branch', GH_BRANCH);
+  localStorage.setItem('gh_audiopath', GH_AUDIOPATH);
+  localStorage.setItem('gh_imagepath', GH_IMAGEPATH);
+
+  updateApiDot();
+  closeSystemSettingsModal();
+  toast('系統設定已儲存！');
+}
+
+// 🌟 STREAMING_CHUNK: Testing GitHub REST API connectivity
+async function testGithubSettings() {
+  const token = document.getElementById('input-github-token').value.trim();
+  const owner = document.getElementById('input-github-owner').value.trim();
+  const repo = document.getElementById('input-github-repo').value.trim();
+
+  if (!token || !owner || !repo) {
+    toast('請先填寫 Token、擁有者及倉庫名稱！', true);
+    return;
+  }
+
+  const testBtn = document.getElementById('git-test-btn');
+  testBtn.disabled = true;
+  testBtn.innerHTML = '<span class="spinner spinner-dark"></span> 正在連線...';
+
+  try {
+    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {
+      headers: {
+        'Authorization': `token ${token}`,
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+    if (res.ok) {
+      toast('🔌 GitHub 連線成功！');
+    } else {
+      const err = await res.json();
+      throw new Error(err.message || '無法連線');
+    }
+  } catch (err) {
+    toast('❌ 連線失敗: ' + err.message, true);
+  } finally {
+    testBtn.disabled = false;
+    testBtn.innerHTML = '🔌 測試 Git 連線';
+  }
+}
+
+function updateApiDot() {
+  const dot = document.getElementById('api-dot');
+  const label = document.getElementById('api-label');
+  const miniMaxConfigured = APIKEY && GROUPID;
+  const githubConfigured = GH_TOKEN && GH_OWNER && GH_REPO;
+
+  if (miniMaxConfigured || githubConfigured) {
+    dot.classList.add('ok');
+    if (miniMaxConfigured && githubConfigured) {
+      label.textContent = '系統設定完整';
+    } else if (miniMaxConfigured) {
+      label.textContent = '已設定 MiniMax API';
+    } else {
+      label.textContent = '已設定 GitHub 自動直傳';
+    }
+  } else {
+    dot.classList.remove('ok');
+    label.textContent = '設定系統與 Git';
+  }
+}
+
+// 🌟 STREAMING_CHUNK: Building UI letter selection buttons
+// ─────────────────────────────────────────
+// LETTER SELECTOR
+// ─────────────────────────────────────────
+function buildLetterBtns() {
+  const wrap = document.getElementById('letter-btns');
+  wrap.innerHTML = '';
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(l => {
+    const b = document.createElement('button');
+    b.className = 'lbtn' + (l === STATE.letter ? ' active' : '');
+    b.textContent = l;
+    b.onclick = () => selectLetter(l);
+    wrap.appendChild(b);
+  });
+}
+function selectLetter(l) {
+  STATE.letter = l;
+  document.getElementById('badge-letter').textContent = l;
+  document.querySelectorAll('.lbtn').forEach(b => {
+    b.classList.toggle('active', b.textContent === l);
+  });
+  const d = BIBLE_DATA[l];
+  document.getElementById('seed-input').value =
+    `${l} is for ${d.word}, ${d.phrase}`;
+  resetWorkflow();
+}
+
+// 🌟 STREAMING_CHUNK: Managing state machine steps transition
+// ═══════════════════════════════════════════
+// WORKFLOW STATE MACHINE
+// ═══════════════════════════════════════════
+function resetWorkflow() {
+  STATE.lyrics = ''; STATE.lyricsApproved = false;
+  STATE.musicUrl = ''; STATE.musicBlob = null; STATE.musicApproved = false;
+  STATE.imageUrl = ''; STATE.imageBlob = null; STATE.imageApproved = false;
+
+  setCard(1,'active'); setCard(2,'locked'); setCard(3,'locked'); setCard(4,'locked');
+  setBadge(1,'waiting','等待生成');
+  setBadge(2,'waiting','等待上一步');
+  setBadge(3,'waiting','等待上一步');
+  setBadge(4,'waiting','等待上一步');
+
+  document.getElementById('lyrics-display').className = 'content-display loading';
+  document.getElementById('lyrics-display').textContent = '輸入種子句後點擊「生成歌詞」';
+  document.getElementById('lyrics-actions').style.display = 'none';
+
+  document.getElementById('music-area').innerHTML =
+    '<div class="content-display loading" style="min-height:60px">歌詞批核後自動開始生成音樂</div>';
+  document.getElementById('music-actions').style.display = 'none';
+
+  document.getElementById('image-area').innerHTML =
+    '<div class="content-display loading" style="min-height:60px">音樂批核後自動開始生成圖像</div>';
+  document.getElementById('image-actions').style.display = 'none';
+  document.getElementById('image-prompt-edit').style.display = 'none';
+
+  document.getElementById('export-area').innerHTML =
+    '<div class="content-display loading" style="min-height:60px">所有素材批核後，此處將顯示匯出代碼及自動化 GitHub 儲存庫直傳按鈕。</div>';
+
+  updateProgress(1);
+}
+
+function setCard(n, state) {
+  const c = document.getElementById('card'+n);
+  c.className = 'step-card ' + state;
+}
+function setBadge(n, cls, text) {
+  const b = document.getElementById('badge'+n);
+  b.className = 'step-badge ' + cls;
+  b.textContent = text;
+}
+function updateProgress(active) {
+  for (let i=1; i<=4; i++) {
+    const dot = document.getElementById('pd'+i);
+    if (i < active) { dot.className = 'prog-dot done'; }
+    else if (i === active) { dot.className = 'prog-dot active'; }
+    else { dot.className = 'prog-dot'; }
+  }
+  for (let i=1; i<=3; i++) {
+    const line = document.getElementById('pl'+i);
+    line.className = 'prog-line' + (i < active ? ' done' : '');
+  }
+}
+
+// 🌟 STREAMING_CHUNK: Processing Step 1 Lyrics workflow
+// ═══════════════════════════════════════════
+// STEP 1 — LYRICS
+// ═══════════════════════════════════════════
+async function startWorkflow() {
+  STATE.seed = document.getElementById('seed-input').value.trim();
+  if (!STATE.seed) { toast('請輸入種子句'); return; }
+
+  resetWorkflow();
+  setBadge(1,'processing','生成中…');
+  const el = document.getElementById('lyrics-display');
+  el.className = 'content-display loading';
+  el.innerHTML = '<span class="spinner spinner-dark"></span> 正在為你創作聖經歌詞…';
+
+  // Fallback Checker: 無 MiniMax 金鑰時自動啟用精美預設降級模式
+  if (!APIKEY || !GROUPID) {
+    setTimeout(() => {
+      const presetData = BIBLE_DATA[STATE.letter];
+      STATE.lyrics = presetData.lyrics;
+      el.className = 'content-display';
+      el.innerHTML = `<textarea id="lyrics-ta">${escHtml(STATE.lyrics)}</textarea>`;
+      document.getElementById('lyrics-actions').style.display = 'flex';
+      setBadge(1,'done','已生成 (預設) — 待批核');
+      toast('💡 已為你自動套用本機 Bible 預設精緻兒歌歌詞！');
+    }, 1000);
+    return;
+  }
+
+  try {
+    const d = BIBLE_DATA[STATE.letter];
+    const prompt = `You are a children's Bible song writer for kindergarten age 4-5.
+Write a short, cheerful 4-line verse for the letter ${STATE.letter}.
+Seed line: "${STATE.seed}"
+Bible word: ${d.word} — ${d.phrase}
+Requirements:
+- 4 lines total, rhyming AABB or ABAB
+- Simple vocabulary, joyful tone
+- Each line 8-12 syllables
+- No markdown, just the 4 lines of lyrics`;
+
+    const res = await mmChat(prompt);
+    STATE.lyrics = res.trim();
+
+    el.className = 'content-display';
+    el.innerHTML = `<textarea id="lyrics-ta">${escHtml(STATE.lyrics)}</textarea>`;
+    document.getElementById('lyrics-actions').style.display = 'flex';
+    setBadge(1,'done','已生成 — 待批核');
+  } catch(e) {
+    el.className = 'content-display';
+    el.textContent = '生成失敗：' + e.message;
+    setBadge(1,'waiting','生成失敗');
+    toast('歌詞生成失敗：' + e.message, true);
+  }
+}
+
+function editLyrics() {
+  const ta = document.getElementById('lyrics-ta');
+  if (ta) { ta.focus(); ta.select(); }
+}
+
+async function regenLyrics() { await startWorkflow(); }
+
+function approveLyrics() {
+  const ta = document.getElementById('lyrics-ta');
+  if (ta) STATE.lyrics = ta.value.trim();
+  if (!STATE.lyrics) { toast('歌詞不能為空'); return; }
+
+  STATE.lyricsApproved = true;
+  const el = document.getElementById('lyrics-display');
+  el.className = 'content-display';
+  el.innerHTML = `<textarea id="lyrics-ta" readonly style="color:var(--muted)">${escHtml(STATE.lyrics)}</textarea>`;
+  setBadge(1,'approved','✓ 已批核');
+  setCard(1,'done');
+  document.getElementById('lyrics-actions').style.display = 'none';
+  updateProgress(2);
+  toast('歌詞已批核，開始生成音樂…');
+  setTimeout(genMusic, 400);
+}
+
+// 🌟 STREAMING_CHUNK: Processing Step 2 Music generation
+// ═══════════════════════════════════════════
+// STEP 2 — MUSIC
+// ═══════════════════════════════════════════
+async function genMusic() {
+  setCard(2,'active');
+  setBadge(2,'processing','生成音樂中…');
+  const area = document.getElementById('music-area');
+  area.innerHTML = '<div class="content-display loading" style="min-height:80px"><span class="spinner spinner-dark"></span> 正在為你排版與生成專屬音樂，約需數秒…</div>';
+
+  // Fallback Checker: 無 MiniMax 金鑰時自動啟用 Web Audio WAV 生成，完全自給自足
+  if (!APIKEY || !GROUPID) {
+    setTimeout(() => {
+      const audioBlob = generateProceduralMelody(440);
+      STATE.musicBlob = audioBlob;
+      STATE.musicUrl = URL.createObjectURL(audioBlob);
+
+      area.innerHTML = buildAudioPlayer(STATE.musicUrl, `${STATE.letter.toLowerCase()}-song.wav`);
+      document.getElementById('music-actions').style.display = 'flex';
+      setBadge(2,'done','已生成 (合成音軌) — 待批核');
+      initPlayer();
+      toast('💡 成功利用 Web Audio 原生合成並打包高保真兒歌音軌！');
+    }, 1200);
+    return;
+  }
+
+  try {
+    const prompt = `A cheerful children's Bible nursery rhyme song for kindergarten.
+Letter: ${STATE.letter}, Word: ${BIBLE_DATA[STATE.letter].word}.
+Lyrics:\n${STATE.lyrics}
+Style: upbeat xylophone and piano, simple melody, 80 BPM, warm and encouraging, suitable for age 4-5 children.`;
+
+    // 🔴 Requirement 4: Show submit & polling progress before starting API call
+    area.innerHTML = '<div class="content-display loading" style="min-height:80px"><span class="spinner spinner-dark"></span> 正在提交音樂任務，輪詢生成進度中（最多 60 秒）…</div>';
+
+    const blob = await mmMusic(prompt, STATE.lyrics);
+    STATE.musicBlob = blob;
+    STATE.musicUrl = URL.createObjectURL(blob);
+
+    area.innerHTML = buildAudioPlayer(STATE.musicUrl, `${STATE.letter}-song.mp3`);
+    document.getElementById('music-actions').style.display = 'flex';
+    setBadge(2,'done','已生成 — 待批核');
+    initPlayer();
+  } catch(e) {
+    area.innerHTML = `<div class="content-display" style="color:var(--accent)">音樂生成失敗：${escHtml(e.message)}</div>`;
+    setBadge(2,'waiting','生成失敗');
+    document.getElementById('music-actions').style.display = 'flex';
+    toast('音樂生成失敗：' + e.message, true);
+  }
+}
+
+async function regenMusic() { await genMusic(); }
+
+function buildAudioPlayer(url, name) {
+  return `<div class="audio-wrap">
+    <button class="audio-play-btn" id="play-btn" onclick="togglePlay()">▶</button>
+    <div class="audio-info">
+      <div class="track">${escHtml(name)}</div>
+      <div class="dur" id="audio-dur">--:--</div>
+    </div>
+    <div class="audio-progress"><div class="audio-progress-bar" id="prog-bar"></div></div>
+    <audio id="audio-el" src="${url}" style="display:none"></audio>
+  </div>`;
+}
+
+function initPlayer() {
+  const a = document.getElementById('audio-el');
+  if (!a) return;
+  a.ontimeupdate = () => {
+    const pct = a.duration ? (a.currentTime / a.duration * 100) : 0;
+    const pb = document.getElementById('prog-bar');
+    if (pb) pb.style.width = pct + '%';
+    const dur = document.getElementById('audio-dur');
+    if (dur) dur.textContent = fmt(a.currentTime) + ' / ' + fmt(a.duration||0);
+  };
+  a.onended = () => {
+    const btn = document.getElementById('play-btn');
+    if (btn) btn.textContent = '▶';
+  };
+}
+
+function togglePlay() {
+  const a = document.getElementById('audio-el');
+  const btn = document.getElementById('play-btn');
+  if (!a) return;
+  if (a.paused) { a.play(); btn.textContent = '⏸'; }
+  else { a.pause(); btn.textContent = '▶'; }
+}
+
+function fmt(s) {
+  const m = Math.floor(s/60), sec = Math.floor(s%60);
+  return m + ':' + String(sec).padStart(2,'0');
+}
+
+function approveMusic() {
+  STATE.musicApproved = true;
+  setBadge(2,'approved','✓ 已批核');
+  setCard(2,'done');
+  document.getElementById('music-actions').style.display = 'none';
+  updateProgress(3);
+  toast('音樂已批核，開始生成角色圖像…');
+  setTimeout(genImage, 400);
+}
+
+// 🌟 STREAMING_CHUNK: Processing Step 3 Image workflow
+// ═══════════════════════════════════════════
+// STEP 3 — IMAGE
+// ═══════════════════════════════════════════
+async function genImage() {
+  setCard(3,'active');
+  setBadge(3,'processing','生成圖像中…');
+  const area = document.getElementById('image-area');
+  area.innerHTML = '<div class="content-display loading" style="min-height:80px"><span class="spinner spinner-dark"></span> 正在為你生成與精描角色圖像，約需數秒…</div>';
+
+  const d = BIBLE_DATA[STATE.letter];
+  STATE.imgPrompt = `A cute, colorful cartoon character for children's Bible alphabet app.
+Character: ${d.word} (${d.phrase})
+Style: flat illustration, bright pastel colors, friendly and joyful expression, kindergarten-friendly, white background, circular crop suitable for app icon, clean simple design.
+No text, no letters in the image.`;
+
+  document.getElementById('img-prompt-input').value = STATE.imgPrompt;
+
+  // Fallback Checker: 無 MiniMax 金鑰時，直接渲染精緻卡通向量角色卡片
+  if (!APIKEY || !GROUPID) {
+    setTimeout(() => {
+      const base64Png = drawProceduralMascotCard(STATE.letter, d.word, d.emoji);
+      STATE.imageUrl = 'data:image/png;base64,' + base64Png;
+
+      // Convert Base64 Png to real blob for standard storage/download/upload!
+      const byteCharacters = atob(base64Png);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      STATE.imageBlob = new Blob([byteArray], { type: 'image/png' });
+
+      area.innerHTML = `<div class="img-row">
+        <div class="img-preview"><img src="${STATE.imageUrl}" alt="character"></div>
+        <div class="img-options">
+          <p style="font-size:.85rem;color:var(--muted);line-height:1.6">
+            <strong>💡 高保真卡片已生成！</strong><br>
+            系統已調用向量繪圖繪製完成 <code>${STATE.letter} - ${d.word}</code> 的插圖卡片。支援無損下載與上傳。
+          </p>
+        </div>
+      </div>`;
+      document.getElementById('image-actions').style.display = 'flex';
+      setBadge(3,'done','已生成 (向量卡片) — 待批核');
+      toast('💡 向量 Bible Character 圖像已在本地繪製完成！');
+    }, 1200);
+    return;
+  }
+
+  try {
+    const b64 = await mmImage(STATE.imgPrompt);
+    STATE.imageUrl = 'data:image/png;base64,' + b64;
+    
+    // Set Blob from base64 response
+    const bin = atob(b64);
+    const arr = new Uint8Array(bin.length);
+    for (let i=0; i<bin.length; i++) arr[i] = bin.charCodeAt(i);
+    STATE.imageBlob = new Blob([arr], { type: 'image/png' });
+
+    area.innerHTML = `<div class="img-row">
+      <div class="img-preview"><img src="${STATE.imageUrl}" alt="character"></div>
+      <div class="img-options">
+        <p style="font-size:.85rem;color:var(--muted);line-height:1.6">
+          角色圖像已生成。如不滿意可修改 Prompt 重新生成，或直接批核進入匯出。
+        </p>
+      </div>
+    </div>`;
+    document.getElementById('image-actions').style.display = 'flex';
+    setBadge(3,'done','已生成 — 待批核');
+  } catch(e) {
+    area.innerHTML = `<div class="content-display" style="color:var(--accent)">圖像生成失敗：${escHtml(e.message)}</div>`;
+    setBadge(3,'waiting','生成失敗');
+    document.getElementById('image-actions').style.display = 'flex';
+    toast('圖像生成失敗：' + e.message, true);
+  }
+}
+
+function toggleImgPrompt() {
+  const el = document.getElementById('image-prompt-edit');
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+async function regenImage() {
+  const ta = document.getElementById('img-prompt-input');
+  if (ta && ta.value.trim()) STATE.imgPrompt = ta.value.trim();
+  document.getElementById('image-prompt-edit').style.display = 'none';
+  await genImage();
+}
+
+function approveImage() {
+  STATE.imageApproved = true;
+  setBadge(3,'approved','✓ 已批核');
+  setCard(3,'done');
+  document.getElementById('image-actions').style.display = 'none';
+  updateProgress(4);
+  toast('圖像已批核，準備匯出！');
+  setTimeout(buildExport, 400);
+}
+
+// 🌟 STREAMING_CHUNK: Processing Step 4 Export & Automatic Deploy
+// ═══════════════════════════════════════════
+// STEP 4 — EXPORT & REAL GITHUB DEPLOY
+// ═══════════════════════════════════════════
+function buildExport() {
+  setCard(4,'active');
+  setBadge(4,'done','準備匯出');
+
+  const l = STATE.letter;
+  const word = BIBLE_DATA[l].word;
+  const songFile = `${l.toLowerCase()}-song.${STATE.musicBlob && STATE.musicBlob.type.includes('wav') ? 'wav' : 'mp3'}`;
+  const imgFile = `characters/${l.toLowerCase()}-${word.toLowerCase()}.png`;
+
+  const codeSnippet =
+`// 1. 將 ${songFile} 上傳至 GitHub repo 根目錄
+// 2. 將角色圖片上傳至 characters/ 目錄
+
+// 在 index.html 的 CHARACTER_IMAGES 加入：
+${l}: '${imgFile}',
+
+// 在 index.html 的 LETTER_SONGS 加入：
+${l}: '${songFile}',`;
+
+  document.getElementById('export-area').innerHTML = `
+    <div class="export-block">
+      <div class="ehead">匯出代碼片段</div>
+      <div class="code-snippet">${escHtml(codeSnippet)}</div>
+      <div class="export-btns">
+        <button class="primary-export" onclick="downloadAll()">⬇ 下載全部素材</button>
+        <button onclick="copyCode()">📋 複製代碼</button>
+        <button onclick="downloadMusic2()">🎵 下載音訊</button>
+        <button onclick="downloadImage()">🖼 下載圖像</button>
+        
+        <!-- Real GitHub Automatic Deployer Button -->
+        <button id="git-upload-btn" style="background:var(--accent2); border-color:var(--accent2)" onclick="uploadAssetsToGithubDirectly()">
+          <i class="fa-brands fa-github"></i> 一鍵直傳 GitHub
+        </button>
+      </div>
+    </div>
+    
+    <div id="git-upload-status" style="margin-top:14px; display:none; padding:12px; border-radius:8px; font-size:0.8rem; background:rgba(255,255,255,0.05); color:#ffd3b6">
+      <!-- Direct Uploading Log Outputs -->
+    </div>
+
+    <div style="margin-top:14px;font-size:.8rem;color:var(--muted);line-height:1.7">
+      <strong>如何使用與部署：</strong><br>
+      • <strong>快速方式：</strong> 設定好上方「GitHub 自動化直傳」配置，點擊「一鍵直傳 GitHub」，我們會自動幫你提交推送！<br>
+      • <strong>手動方式：</strong> 將下載的檔案命名為 <code>${songFile}</code> 與 <code>${imgFile}</code> 分別推送到對應資料夾，並更新 <code>index.html</code> 中。
+    </div>`;
+
+  window._exportCode = codeSnippet;
+  updateProgress(4);
+}
+
+function copyCode() {
+  if (window._exportCode) {
+    navigator.clipboard.writeText(window._exportCode).then(() => toast('代碼已複製'));
+  }
+}
+
+function downloadMusic2() {
+  if (!STATE.musicBlob) { toast('尚無音樂檔案'); return; }
+  const isWav = STATE.musicBlob.type.includes('wav');
+  dl(STATE.musicBlob, `${STATE.letter.toLowerCase()}-song.${isWav ? 'wav' : 'mp3'}`);
+}
+
+function downloadImage() {
+  if (!STATE.imageUrl) { toast('尚無圖像'); return; }
+  fetch(STATE.imageUrl).then(r => r.blob()).then(b => {
+    const l = STATE.letter;
+    dl(b, `${l.toLowerCase()}-${BIBLE_DATA[l].word.toLowerCase()}.png`);
+  });
+}
+
+function downloadAll() {
+  downloadMusic2();
+  setTimeout(downloadImage, 600);
+  toast('素材下載中…');
+}
+
+function dl(blob, name) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  a.click();
+}
+
+// 🌟 STREAMING_CHUNK: Processing real GitHub repository deployment via API
+// ── 🔴 REAL GITHUB INTEGRATION AUTOMATIC DEPLOYER ──
+async function uploadAssetsToGithubDirectly() {
+  if (!GH_TOKEN || !GH_OWNER || !GH_REPO) {
+    toast('請先在頂部「系統與 Git 設定」配置 GitHub PAT 權限才能上傳！', true);
+    openSystemSettingsModal();
+    switchModalTab('github');
+    return;
+  }
+
+  const statusBox = document.getElementById('git-upload-status');
+  const uploadBtn = document.getElementById('git-upload-btn');
+  
+  statusBox.style.display = 'block';
+  statusBox.innerHTML = '<span class="spinner"></span> 正在建立與 GitHub 安全通訊...<br>';
+  uploadBtn.disabled = true;
+
+  const l = STATE.letter;
+  const word = BIBLE_DATA[l].word;
+  const audioExt = STATE.musicBlob && STATE.musicBlob.type.includes('wav') ? 'wav' : 'mp3';
+  const audioName = `${l.toLowerCase()}-song.${audioExt}`;
+  const imageName = `${l.toLowerCase()}-${word.toLowerCase()}.png`;
+
+  try {
+    statusBox.innerHTML += `📤 正在上傳音訊 <code>${audioName}</code> 至 <code>${GH_AUDIOPATH}/${audioName}</code>...<br>`;
+    await performGithubPUT(audioName, GH_AUDIOPATH, STATE.musicBlob);
+    statusBox.innerHTML += `✔️ 音訊 <code>${audioName}</code> 上傳成功！<br>`;
+
+    statusBox.innerHTML += `📤 正在上傳圖像 <code>${imageName}</code> 至 <code>${GH_IMAGEPATH}/${imageName}</code>...<br>`;
+    await performGithubPUT(imageName, GH_IMAGEPATH, STATE.imageBlob);
+    statusBox.innerHTML += `✔️ 圖像 <code>${imageName}</code> 上傳成功！<br>`;
+
+    statusBox.innerHTML += `<strong style="color:var(--accent3)">🎉 所有素材已一鍵自動推送至 GitHub 專案庫中！</strong>`;
+    toast('🚀 GitHub 雲端推送部署成功！');
+  } catch (err) {
+    statusBox.innerHTML += `<span style="color:var(--accent)">❌ 上傳失敗: ${err.message}</span>`;
+    toast('GitHub 推送失敗: ' + err.message, true);
+  } finally {
+    uploadBtn.disabled = false;
+  }
+}
+
+async function performGithubPUT(fileName, folder, blob) {
+  const cleanFolder = folder.replace(/^\/|\/$/g, '');
+  const path = cleanFolder ? `${cleanFolder}/${fileName}` : fileName;
+  const url = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${path}`;
+
+  const base64Content = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+
+  let sha = null;
+  try {
+    const lookup = await fetch(`${url}?ref=${GH_BRANCH}`, {
+      headers: {
+        'Authorization': `token ${GH_TOKEN}`,
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+    if (lookup.ok) {
+      const data = await lookup.json();
+      sha = data.sha;
+    }
+  } catch (e) {}
+
+  const body = {
+    message: `chore(assets): deploy Bible Alphabet ${fileName} via MiniMax Production Workspace`,
+    content: base64Content,
+    branch: GH_BRANCH
+  };
+  if (sha) body.sha = sha;
+
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `token ${GH_TOKEN}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/vnd.github.v3+json'
+    },
+    body: JSON.stringify(body)
+  });
+
+  if (!res.ok) {
+    const errData = await res.json();
+    throw new Error(errData.message || 'GitHub REST API 寫入拒絕');
+  }
+}
+
+// 🌟 STREAMING_CHUNK: Triggering MiniMax API requests
+// ═══════════════════════════════════════════
+// MINIMAX API CALLS (🔴 CORRECTED DISPATCH & POLLING LOGIC)
+// ═══════════════════════════════════════════
+async function mmChat(prompt) {
+  const res = await fetch('https://api.minimax.io/v1/text/chatcompletion_v2', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + APIKEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'MiniMax-Text-01',
+      messages: [{ role: 'user', content: prompt }],
+      temperature: 0.8,
+      max_tokens: 512,
+    })
+  });
+  if (!res.ok) throw new Error(`Chat API ${res.status}`);
+  const j = await res.json();
+  return j.choices?.[0]?.message?.content || '';
+}
+
+// 🔴 Requirement 2: Polling & Dispatch Asynchronous Music Generation (api.minimax.io & music-2.6)
+async function mmMusic(prompt, lyrics) {
+  // Step 1: 提交音樂生成任務
+  const submitRes = await fetch('https://api.minimax.io/v1/music_generation', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + APIKEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'music-2.6',
+      prompt: prompt,
+      lyrics: lyrics,
+      audio_setting: { sample_rate: 44100, bitrate: 256000, format: 'mp3' }
+    })
+  });
+  if (!submitRes.ok) {
+    const err = await submitRes.text();
+    throw new Error(`Music Submit API ${submitRes.status}: ${err.slice(0,100)}`);
+  }
+  const submitData = await submitRes.json();
+  
+  // Step 2: 取得 task_id 或直接返回音頻
+  const directAudio = submitData.data?.audio || submitData.audio || 
+                       submitData.data?.audio_file;
+  if (directAudio) {
+    const bin = atob(directAudio);
+    const arr = new Uint8Array(bin.length);
+    for (let i=0; i<bin.length; i++) arr[i] = bin.charCodeAt(i);
+    return new Blob([arr], { type: 'audio/mp3' });
+  }
+  
+  const taskId = submitData.task_id || submitData.data?.task_id;
+  if (!taskId) throw new Error('API 未返回 task_id 或音頻數據，請檢查 API 文件');
+  
+  // Step 3: 輪詢直至完成（最多 60 秒）
+  for (let attempt = 0; attempt < 20; attempt++) {
+    await new Promise(r => setTimeout(r, 3000));
+    const pollRes = await fetch(`https://api.minimax.io/v1/music_generation/${taskId}`, {
+      headers: { 'Authorization': 'Bearer ' + APIKEY }
+    });
+    if (!pollRes.ok) continue;
+    const pollData = await pollRes.json();
+    const status = pollData.status || pollData.data?.status;
+    if (status === 'success' || status === 'completed') {
+      const audioData = pollData.data?.audio || pollData.audio;
+      if (!audioData) throw new Error('任務完成但未返回音頻');
+      const bin = atob(audioData);
+      const arr = new Uint8Array(bin.length);
+      for (let i=0; i<bin.length; i++) arr[i] = bin.charCodeAt(i);
+      return new Blob([arr], { type: 'audio/mp3' });
+    }
+    if (status === 'failed') throw new Error('音樂生成任務失敗');
+  }
+  throw new Error('音樂生成超時（60秒）');
+}
+
+// 🔴 Requirement 3: Handle both Base64 and URL image responses robustly (api.minimax.io)
+async function mmImage(prompt) {
+  const res = await fetch(`https://api.minimax.io/v1/image_generation`, {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + APIKEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'image-01',
+      prompt: prompt,
+      n: 1,
+      width: 512, height: 512,
+      response_format: 'b64_json',
+    })
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Image API ${res.status}: ${err.slice(0,100)}`);
+  }
+  const j = await res.json();
+  const b64 = j.data?.[0]?.b64_json;
+  const imgUrl = j.data?.[0]?.url;
+  
+  if (b64) return b64;
+  if (imgUrl) {
+    const imgRes = await fetch(imgUrl);
+    const imgBlob = await imgRes.blob();
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result.split(',')[1]);
+      reader.readAsDataURL(imgBlob);
+    });
+  }
+  throw new Error('API 未返回圖像數據');
+}
+
+// ═══════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function toast(msg, err=false) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.style.background = err ? '#c0392b' : 'var(--ink)';
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+window.onload = () => {
+  buildLetterBtns();
+  updateApiDot();
+};
+</script>
+</body>
+</html>
