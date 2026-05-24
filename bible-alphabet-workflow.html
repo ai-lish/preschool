@@ -607,6 +607,8 @@ const STATE = {
   letter: 'A',
   seed: '',
   lyrics: '',
+  lyricsTitle: '',
+  styleTags: '',
   lyricsApproved: false,
   musicUrl: '',       // blob URL
   musicBlob: null,
@@ -646,10 +648,30 @@ const BIBLE_DATA = {
   Z:{word:"Zion",phrase:"God's holy mountain.",emoji:"⛰️", lyrics:"Z is for Zion, God's city of light.\nWhere praises are ringing by day and by night.\nHis holy mountain where saints will all sing,\nAnd crown Him forever as Savior and King!"}
 };
 
-// 🌟 STREAMING_CHUNK: Handling browser localStorage and system API configuration
+// 🌟 STREAMING_CHUNK: MiniMax Lyrics Generation API (Official)
 // ═══════════════════════════════════════════
-// API & SYSTEM SETTINGS
+// STEP 1 — LYRICS (using dedicated lyrics_generation API)
 // ═══════════════════════════════════════════
+
+// Remove old mmChat-based lyrics generation, replace with lyrics_generation API
+async function mmLyrics(letter, word, phrase) {
+  const prompt = `A cheerful children's Bible alphabet song for letter ${letter} about ${word}. ${phrase}. Simple words for kindergarten age 4-5. 4 lines, nursery rhyme style, joyful and educational.`;
+  const res = await fetch('https://api.minimax.io/v1/lyrics_generation', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + APIKEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      mode: 'write_full_song',
+      prompt: prompt,
+      title: `${letter} is for ${word}`
+    })
+  });
+  if (!res.ok) throw new Error(`Lyrics API ${res.status}: ${(await res.text()).slice(0,100)}`);
+  const data = await res.json();
+  if (data.base_resp && data.base_resp.status_code !== 0) {
+    throw new Error(data.base_resp.status_msg || 'Lyrics generation failed');
+  }
+  return data; // { song_title, style_tags, lyrics }
+}
 let APIKEY = localStorage.getItem('mm_apikey') || '';
 let GROUPID = localStorage.getItem('mm_groupid') || '';
 
@@ -887,21 +909,17 @@ async function startWorkflow() {
 
   try {
     const d = BIBLE_DATA[STATE.letter];
-    const prompt = `You are a children's Bible song writer for kindergarten age 4-5.
-Write a short, cheerful 4-line verse for the letter ${STATE.letter}.
-Seed line: "${STATE.seed}"
-Bible word: ${d.word} — ${d.phrase}
-Requirements:
-- 4 lines total, rhyming AABB or ABAB
-- Simple vocabulary, joyful tone
-- Each line 8-12 syllables
-- No markdown, just the 4 lines of lyrics`;
+    const result = await mmLyrics(STATE.letter, d.word, d.phrase);
+    STATE.lyrics = result.lyrics || '';
+    STATE.lyricsTitle = result.song_title || '';
+    STATE.styleTags = result.style_tags || '';
 
-    const res = await mmChat(prompt);
-    STATE.lyrics = res.trim();
 
     el.className = 'content-display';
-    el.innerHTML = `<textarea id="lyrics-ta">${escHtml(STATE.lyrics)}</textarea>`;
+    el.innerHTML = `<div style="margin-bottom:12px">
+      <div style="font-size:.75rem;color:var(--muted);margin-bottom:6px">Style: ${escHtml(result.style_tags || '')}</div>
+      <textarea id="lyrics-ta" style="width:100%;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:.9rem;line-height:1.7;resize:vertical;outline:none;min-height:120px">${escHtml(STATE.lyrics)}</textarea>
+    </div>`;
     document.getElementById('lyrics-actions').style.display = 'flex';
     setBadge(1,'done','已生成 — 待批核');
   } catch(e) {
