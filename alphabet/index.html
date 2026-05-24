@@ -245,7 +245,8 @@
     // 角色圖片（miniMax 生成）
     // ============================================================
     const CHARACTER_IMAGES = {
-      A: 'characters/a-adam.png'
+      A: 'characters/a-adam.png',
+      B: 'characters/b-bible.png'
     };
 
     // ============================================================
@@ -521,6 +522,10 @@
       document.getElementById('music-icon').textContent = '🎵';
       const pingDot = document.querySelector('#music-btn .animate-ping');
       if (pingDot) pingDot.style.display = 'block';
+      
+      // 自動播放音樂
+      initMusic();
+      bgMusic.play().then(() => { musicPlaying = true; updateMusicUI(); }).catch(() => {});
       
       Object.keys(ALPHABET_DATA).forEach(l => {
         const btn = document.getElementById(`btn-az-${l}`);
