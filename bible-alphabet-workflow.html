@@ -1326,7 +1326,7 @@ async function mmChat(prompt) {
     method: 'POST',
     headers: { 'Authorization': 'Bearer ' + APIKEY, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      model: 'MiniMax-Text-01',
+      model: 'MiniMax-M2.7',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.8,
       max_tokens: 512,
