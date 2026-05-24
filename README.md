@@ -19,7 +19,11 @@
 | 耶穌復活 | 五日互動故事 | ✅ 完成 | 音頻排程中 |
 | 浪子回頭 | 互動故事 | ✅ 完成 | — |
 | 📚 參考資源 | references.html | ✅ 完成 | 13個免費資源 |
-| **🎡 Alphabet Park** | alphabet/ | ✅ 完成 | K1-K3 英語字母 |
+| **🔤 字母公園** | alphabet/ | ✅ 完成 | A-Z 聖經字母學習 |
+| **🔣 字字符號** | characters.html | ✅ 完成 | 日月水火中文字 |
+| **🔢 數字認知** | numbers.html | ✅ 完成 | 1-20 數字 |
+| **⬛ 圖形形狀** | shapes.html | ✅ 完成 | 圓方三角橢圓 |
+| **✏️ 寫字練習** | writing.html | ✅ 完成 | 筆劃訓練 |
 
 ---
 
@@ -64,13 +68,17 @@ alphabet/
 
 ```
 preschool/
-├── index.html                   # 主頁（聖經故事分類）
+├── index.html                   # 主頁（學習分類）
 ├── alphabet/                    # Alphabet Park 英語字母公園
 │   ├── index.html               # A-Z 字母學習主頁
 │   ├── characters/              # 角色圖片
 │   └── *.mp3                    # 背景音樂
-├── references.html               # 參考資源頁（免費幼教工具）
-├── creation_game.html            # 創造七日（Day 1-6）
+├── characters.html              # 中文字字符號（日月水火）
+├── numbers.html                 # 數字認知（1-20）
+├── shapes.html                  # 圖形形狀（圓方三角）
+├── writing.html                 # 寫字練習
+├── references.html              # 參考資源頁
+├── creation_game.html           # 創造七日（Day 1-6）
 ├── noah_game.html               # 挪亞方舟（Day 1-6）
 ├── moses_game.html              # 摩西過紅海（Day 1-6）
 ├── david_goliath_game.html      # 大衛與歌利亞
@@ -78,15 +86,15 @@ preschool/
 ├── jesus_birth_game.html        # 耶穌降生
 ├── jesus_resurrection_game.html # 耶穌復活（Day 1-5）
 ├── prodigal_son_game.html       # 浪子回頭
-└── audio/
-    ├── creation/                # 創造七日音頻
-    ├── noah/                    # 挪亞方舟音頻
-    ├── moses/                   # 摩西遊戲音頻
-    ├── david_goliath/           # 大衛與歌利亞音頻
-    ├── five_loaves/             # 五餅二魚音頻
-    ├── jesus_birth/             # 耶穌降生音頻
-    ├── jesus_resurrection/      # 耶穌復活音頻（生成中）
-    └── prodigal_son/            # 浪子回頭音頻
+├── audio/
+│   ├── creation/                # 創造七日音頻
+│   ├── noah/                    # 挪亞方舟音頻
+│   ├── moses/                   # 摩西遊戲音頻
+│   ├── david_goliath/          # 大衛與歌利亞音頻
+│   ├── five_loaves/            # 五餅二魚音頻
+│   ├── jesus/                  # 耶穌降生/復活音頻
+│   └── prodigal_son/           # 浪子回頭音頻
+└── img/                         # 遊戲圖片資源
 ```
 
 ### 創造七日遊戲 ✅
@@ -177,13 +185,16 @@ preschool/
 img/
 ├── creation/
 ├── noah/
+│   └── animals/              # 卡通動物圖片
 ├── moses/
 ├── david_goliath/
 ├── five_loaves/
-├── jesus_birth/
-├── jesus_resurrection/    ← 新增
+├── jesus/
+│   └── samples/              # 耶穌降生樣本圖
+├── jesus_resurrection/
 ├── prodigal_son/
-└── parent/                # 家長提示用的 infographic/icons
+├── parent-tips/              # 家長提示 infographics
+└── day6/                     # 創造第六天動物圖
 ```
 
 ---
