@@ -7,7 +7,7 @@ import json
 import os
 import time
 
-API_KEY = "sk-cp-CNrQtXcYz6dieW7vUVGQY7iZA8L2SE37Dz3jtH6J9b2LkgwXvwGZM8EP-L8eiBx3r7UWwulYCS9v3eKkKO3Fb2TVJHH3-nujRXEZz1_oEGVaS_rnrWg8_gU"
+API_KEY = os.environ["MINIMAX_API_KEY"]
 ENDPOINT = "https://api.minimax.io/v1/t2a_v2"
 
 # Voice IDs per language
