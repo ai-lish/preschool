@@ -170,7 +170,10 @@
           </button>
           
           <div id="card-emoji-container" class="w-28 h-28 md:w-36 md:h-36 bg-white rounded-full border-4 border-macaron-blue flex items-center justify-center text-5xl md:text-7xl my-3 md:my-4 shadow-inner animate-bounce overflow-hidden">
-            <img id="character-img" src="" class="w-full h-full object-cover hidden" alt="Character">
+            <picture id="character-picture" class="w-full h-full block hidden">
+              <source id="character-img-webp" type="image/webp">
+              <img id="character-img" class="w-full h-full object-cover" alt="Character">
+            </picture>
             <span id="character-emoji">👨</span>
           </div>
 
@@ -242,15 +245,7 @@
 
   <script>
     // ============================================================
-    // 角色圖片（miniMax 生成）
-    // ============================================================
-    const CHARACTER_IMAGES = {
-      A: 'characters/a-adam.png',
-      B: 'characters/b-bible.png'
-    };
-
-    // ============================================================
-    // A-Z 聖經主題配對數據
+    // A-Z 聖經主題配對數據（必須先定義，下方 CHARACTER_IMAGES 靠佢生成）
     // ============================================================
     const ALPHABET_DATA = {
       A: { word: "Adam", phrase: "The first man God made.", phonics: "/æ/", emoji: "👨" },
@@ -280,6 +275,18 @@
       Y: { word: "Youth", phrase: "Young David was brave.", phonics: "/j/", emoji: "👦" },
       Z: { word: "Zion", phrase: "Zion is God's holy mountain.", phonics: "/z/", emoji: "⛰️" }
     };
+
+    // ============================================================
+    // 角色圖片（miniMax 生成 — 動態從 ALPHABET_DATA 生成）
+    // 注意 X 嘅 word = 'foX'，toLowerCase() → 'fox'，對得上 x-fox.png
+    // 必須喺 ALPHABET_DATA 之後先可以引用。
+    // ============================================================
+    const CHARACTER_IMAGES = Object.fromEntries(
+      Object.entries(ALPHABET_DATA).map(([L, d]) => [
+        L,
+        `characters/${L.toLowerCase()}-${d.word.toLowerCase()}.png`
+      ])
+    );
 
     // ============================================================
     // 全字母筆劃向量坐標表 (340 × 340 Canvas)
@@ -558,15 +565,18 @@
       const data = ALPHABET_DATA[letter];
       document.getElementById('card-letter-display').innerHTML = letter + letter.toLowerCase();
       
-      // 角色圖片
+      // 角色圖片 — picture 容器 + webp source + png fallback img
+      const charPicture = document.getElementById('character-picture');
+      const charWebp = document.getElementById('character-img-webp');
       const charImg = document.getElementById('character-img');
       const charEmoji = document.getElementById('character-emoji');
       if (CHARACTER_IMAGES[letter]) {
         charImg.src = CHARACTER_IMAGES[letter];
-        charImg.classList.remove('hidden');
+        charWebp.srcset = CHARACTER_IMAGES[letter].replace(/\.png$/, '.webp');
+        charPicture.classList.remove('hidden');
         charEmoji.classList.add('hidden');
       } else {
-        charImg.classList.add('hidden');
+        charPicture.classList.add('hidden');
         charEmoji.classList.remove('hidden');
         charEmoji.innerText = data.emoji;
       }
