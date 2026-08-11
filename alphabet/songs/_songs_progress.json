@@ -59,5 +59,35 @@
     "word": "Noah",
     "status": "ok",
     "size_kb": 456
+  },
+  "O": {
+    "word": "Olive",
+    "status": "ok",
+    "size_kb": 503
+  },
+  "P": {
+    "word": "Prayer",
+    "status": "ok",
+    "size_kb": 460
+  },
+  "Q": {
+    "word": "Queen",
+    "status": "ok",
+    "size_kb": 436
+  },
+  "R": {
+    "word": "Rainbow",
+    "status": "ok",
+    "size_kb": 577
+  },
+  "S": {
+    "word": "Star",
+    "status": "ok",
+    "size_kb": 490
+  },
+  "T": {
+    "word": "Temple",
+    "status": "ok",
+    "size_kb": 448
   }
 }
