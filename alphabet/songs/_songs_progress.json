@@ -1,0 +1,63 @@
+{
+  "C": {
+    "word": "Creation",
+    "status": "ok",
+    "skipped": true,
+    "size_kb": 503
+  },
+  "D": {
+    "word": "David",
+    "status": "ok",
+    "size_kb": 640
+  },
+  "E": {
+    "word": "Eden",
+    "status": "ok",
+    "size_kb": 531
+  },
+  "F": {
+    "word": "Fish",
+    "status": "ok",
+    "size_kb": 514
+  },
+  "G": {
+    "word": "God",
+    "status": "ok",
+    "size_kb": 506
+  },
+  "H": {
+    "word": "Heaven",
+    "status": "ok",
+    "size_kb": 589
+  },
+  "I": {
+    "word": "Isaac",
+    "status": "ok",
+    "size_kb": 568
+  },
+  "J": {
+    "word": "Jesus",
+    "status": "ok",
+    "size_kb": 478
+  },
+  "K": {
+    "word": "King",
+    "status": "ok",
+    "size_kb": 428
+  },
+  "L": {
+    "word": "Lamb",
+    "status": "ok",
+    "size_kb": 454
+  },
+  "M": {
+    "word": "Moses",
+    "status": "ok",
+    "size_kb": 413
+  },
+  "N": {
+    "word": "Noah",
+    "status": "ok",
+    "size_kb": 456
+  }
+}
