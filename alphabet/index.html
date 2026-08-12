@@ -352,26 +352,52 @@
     // ============================================================
     // 字母 → 歌曲 對應表
     // ============================================================
-    const LETTER_SONGS = {
-      A: 'adam-song-v2.mp3',
-      B: 'bible-song.mp3'
-    };
+    // 由 ALPHABET_DATA 動態生成，與 CHARACTER_IMAGES 同一個做法。
+    // 檔案不存在的字母會 fetch 失敗，交由 initMusic() 靜音處理。
+    const LETTER_SONGS = Object.fromEntries(
+      Object.keys(ALPHABET_DATA).map(L => [
+        L,
+        `songs/${L.toLowerCase()}-song.mp3`
+      ])
+    );
 
     // ============================================================
     // 背景音樂控制
     // ============================================================
+    // 記住目前載入的是哪個字母。不要比對 bgMusic.src —— 它回傳解析後的
+    // 絕對網址，跟相對路徑永遠不相等，會導致每次 toggle 都重建 Audio。
+    let loadedSongKey = null;
+
     function initMusic() {
-      const songFile = LETTER_SONGS[currentLetterKey] || 'adam-song-v2.mp3';
-      if (!bgMusic || bgMusic.src !== songFile) {
+      const songFile = LETTER_SONGS[currentLetterKey];
+
+      // 沒有對應歌曲就靜音。寧可不播，也不要播成另一個字母的歌。
+      if (!songFile) {
+        if (bgMusic) { bgMusic.pause(); bgMusic = null; }
+        loadedSongKey = null;
+        musicPlaying = false;
+        return;
+      }
+
+      if (loadedSongKey !== currentLetterKey) {
         if (bgMusic) { bgMusic.pause(); bgMusic = null; }
         bgMusic = new Audio(songFile);
         bgMusic.loop = true;
         bgMusic.volume = 0.6;
+        bgMusic.addEventListener('error', () => {
+          console.warn(`No song for ${currentLetterKey}, staying silent`);
+          bgMusic = null;
+          loadedSongKey = null;
+          musicPlaying = false;
+          updateMusicUI();
+        });
+        loadedSongKey = currentLetterKey;
       }
     }
 
     function toggleMusic() {
       initMusic();
+      if (!bgMusic) { updateMusicUI(); return; }   // 這個字母沒有歌
       if (musicPlaying) {
         bgMusic.pause();
         musicPlaying = false;
