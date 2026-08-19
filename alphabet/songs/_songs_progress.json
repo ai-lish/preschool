@@ -190,21 +190,5 @@
     "model": "music-2.6",
     "no_intro": true,
     "expressive": true
-  },
-  "A": {
-    "word": "Adam",
-    "status": "ok",
-    "size_kb": 585,
-    "model": "music-2.6",
-    "no_intro": true,
-    "expressive": true
-  },
-  "B": {
-    "word": "Bible",
-    "status": "ok",
-    "size_kb": 515,
-    "model": "music-2.6",
-    "no_intro": true,
-    "expressive": true
   }
 }
