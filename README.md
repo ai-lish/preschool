@@ -19,7 +19,7 @@
 | 耶穌復活 | 五日互動故事 | ✅ 完成 | 音頻排程中 |
 | 浪子回頭 | 互動故事 | ✅ 完成 | — |
 | 📚 參考資源 | references.html | ✅ 完成 | 13個免費資源 |
-| **🔤 字母公園** | alphabet/ | ✅ 完成 | A-Z 聖經字母學習 |
+| **🔤 字母公園** | alphabet/ | ✅ 完成 | A-Z 聖經字母學習 + 歌曲房 |
 | **🔣 字字符號** | characters.html | ✅ 完成 | 日月水火中文字 |
 | **🔢 數字認知** | numbers.html | ✅ 完成 | 1-20 數字 |
 | **⬛ 圖形形狀** | shapes.html | ✅ 完成 | 圓方三角橢圓 |
@@ -40,22 +40,23 @@ alphabet/
 ├── index.html                   # 主頁（A-Z 字母學習）
 ├── characters/                  # 角色圖片
 │   └── a-adam.png              # Adam 角色圖
-├── adam-song-v2.mp3             # A is for Adam 背景音樂
-└── bible-song.mp3               # B is for Bible 背景音樂
+└── songs/                       # A-Z 26 首字母歌曲（a-song.mp3 … z-song.mp3）
 ```
 
-### 🎮 三個學習模組
+### 🎮 四個學習模組
 
 | 模組 | 名稱 | 互動方式 |
 |------|------|----------|
 | 🍎 Phonics | 字母魔法卡 | 點擊卡片聽發音「A for Apple」，睇聖經主題圖 |
 | ✏️ Tracing | 魔法彩虹描紅 | 跟住紅點拖動描寫 A-Z 字母 |
 | 🎈 Play | 氣球大挑戰 | 聽語音指令，搵同點爆指定字母氣球 |
+| 🎵 Songs | 歌曲房 + Letter Lab | 播放 A-Z 歌曲、大小寫配對、首字母辨認、字母順序 |
 
 ### 🌟 功能特色
 
 - **聖經主題配對**：A=Adam, B=Bible, C=Creation, D=David... Z=Zion
-- **背景音樂**：每個字母有专属歌曲（A=adam-song-v2.mp3, B=bible-song.mp3）
+- **26首字母歌曲**：A-Z 每個字母都有專屬歌曲，可逐首播放、重播、前後切換
+- **Letter Lab**：每輪 5 題，循環練習大小寫配對、首字母辨認和字母前後順序；每個字母會記錄最佳分數
 - **音效系統**：pop/success/chime/boing（Web Audio API 合成）
 - **Canvas 描紅**：340×340 像素精確筆劃追蹤
 - **響應式設計**：支援 iOS Safari、Android Chrome
@@ -72,7 +73,9 @@ preschool/
 ├── alphabet/                    # Alphabet Park 英語字母公園
 │   ├── index.html               # A-Z 字母學習主頁
 │   ├── characters/              # 角色圖片
-│   └── *.mp3                    # 背景音樂
+│   ├── songs/                   # A-Z 26 首字母歌曲
+│   ├── alphabet-extensions.js   # 歌曲房 + 字母加強練習
+│   └── alphabet-extensions.css  # 歌曲房響應式樣式
 ├── characters.html              # 中文字字符號（日月水火）
 ├── numbers.html                 # 數字認知（1-20）
 ├── shapes.html                  # 圖形形狀（圓方三角）
