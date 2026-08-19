@@ -1,0 +1,327 @@
+
+/* Alphabet Park Song & Practice extension */
+.song-practice-module {
+  touch-action: auto !important;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.song-practice-module * {
+  touch-action: auto;
+}
+
+.song-practice-scroll {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 0.25rem;
+  overscroll-behavior: contain;
+}
+
+.song-room-grid {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.song-room-card,
+.practice-room-card {
+  background: rgba(255, 255, 255, 0.96);
+  border: 4px solid #FFD93D;
+  border-radius: 2rem;
+  box-shadow: 0 12px 25px rgba(58, 50, 50, 0.12);
+  padding: 1rem;
+}
+
+.practice-room-card {
+  border-color: #6BCB77;
+}
+
+.song-room-card h2,
+.practice-room-card h2 {
+  margin: 0;
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-weight: 900;
+  color: #3A3232;
+}
+
+.song-room-card p,
+.practice-room-card p {
+  margin: 0;
+}
+
+.song-kicker {
+  color: #C77DFF;
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.song-title-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0.35rem 0 0.25rem;
+}
+
+.song-letter-badge {
+  flex: 0 0 auto;
+  width: 3.25rem;
+  height: 3.25rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #4D96FF;
+  border: 4px solid white;
+  color: white;
+  font-size: 1.7rem;
+  font-weight: 900;
+  box-shadow: 0 4px 0 #2f70c5;
+}
+
+.song-word-line {
+  color: #4D96FF;
+  font-size: 1.05rem;
+  font-weight: 900;
+}
+
+.song-cue {
+  min-height: 2.6rem;
+  margin: 0.75rem 0;
+  padding: 0.75rem 1rem;
+  background: #FFFDF0;
+  border: 2px dashed #FFD93D;
+  border-radius: 1rem;
+  color: #5b4c35;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.song-player {
+  width: 100%;
+  margin: 0.6rem 0 0.8rem;
+  border-radius: 999px;
+}
+
+.song-actions,
+.practice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.song-action,
+.practice-action {
+  min-height: 2.7rem;
+  padding: 0.6rem 0.95rem;
+  border: 0;
+  border-radius: 999px;
+  color: white;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15);
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.song-action:active,
+.practice-action:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.song-action:hover,
+.practice-action:hover {
+  filter: brightness(1.05);
+}
+
+.song-action.primary {
+  background: #C77DFF;
+}
+
+.song-action.secondary {
+  background: #4D96FF;
+}
+
+.song-action.light {
+  background: #6BCB77;
+}
+
+.song-letter-picker {
+  display: grid;
+  grid-template-columns: repeat(13, minmax(1.7rem, 1fr));
+  gap: 0.35rem;
+  margin-top: 1rem;
+}
+
+.song-letter-picker button {
+  min-height: 2.15rem;
+  border: 3px solid transparent;
+  border-radius: 0.8rem;
+  background: #f0f6ff;
+  color: #3a587b;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.song-letter-picker button:hover,
+.song-letter-picker button:focus-visible {
+  border-color: #4D96FF;
+  outline: none;
+}
+
+.song-letter-picker button.is-current {
+  background: #4D96FF;
+  color: white;
+  border-color: white;
+  box-shadow: 0 0 0 3px #4D96FF;
+}
+
+.song-chant {
+  margin-top: 0.85rem;
+  color: #6a5b77;
+  font-size: 0.95rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.practice-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.practice-score {
+  flex: 0 0 auto;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: #E9F8EC;
+  color: #277f3a;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.practice-prompt {
+  min-height: 3rem;
+  margin: 0.85rem 0 0.6rem;
+  color: #4b5f4d;
+  font-size: 1.05rem;
+  font-weight: 900;
+  line-height: 1.4;
+}
+
+.practice-target {
+  display: grid;
+  place-items: center;
+  min-height: 5.5rem;
+  margin-bottom: 0.75rem;
+  border-radius: 1.5rem;
+  background: linear-gradient(135deg, #E9F8EC, #F7FFF8);
+  color: #277f3a;
+  font-size: clamp(3rem, 9vw, 5rem);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.practice-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.practice-option {
+  min-height: 4.2rem;
+  padding: 0.55rem 0.35rem;
+  border: 4px solid #d7eadb;
+  border-radius: 1.25rem;
+  background: white;
+  color: #3A3232;
+  font-size: clamp(1.1rem, 4vw, 1.7rem);
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.practice-option:hover,
+.practice-option:focus-visible {
+  border-color: #6BCB77;
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.practice-option.is-correct {
+  background: #DDF7E2;
+  border-color: #39a650;
+  color: #277f3a;
+}
+
+.practice-option.is-wrong {
+  background: #FFF0F0;
+  border-color: #FF6B6B;
+  animation: practiceShake 0.35s ease;
+}
+
+.practice-feedback {
+  min-height: 2.2rem;
+  margin-top: 0.65rem;
+  color: #277f3a;
+  font-weight: 900;
+  text-align: center;
+}
+
+.practice-feedback.is-wrong {
+  color: #d54f4f;
+}
+
+.practice-best {
+  margin-top: 0.65rem !important;
+  color: #7c6f84;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.practice-actions {
+  margin-top: 0.7rem;
+}
+
+.practice-action.start {
+  background: #6BCB77;
+}
+
+.practice-action.speak {
+  background: #4D96FF;
+}
+
+.practice-action.next-letter {
+  background: #C77DFF;
+}
+
+@keyframes practiceShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@media (max-width: 760px) {
+  .song-room-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .song-practice-scroll {
+    padding-bottom: 1rem;
+  }
+
+  .song-letter-picker {
+    grid-template-columns: repeat(13, minmax(1.35rem, 1fr));
+  }
+
+  .song-letter-picker button {
+    min-height: 1.95rem;
+    font-size: 0.8rem;
+  }
+}
