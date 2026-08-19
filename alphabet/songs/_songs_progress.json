@@ -2,122 +2,145 @@
   "C": {
     "word": "Creation",
     "status": "ok",
-    "skipped": true,
-    "size_kb": 503
+    "size_kb": 469,
+    "no_intro": true
   },
   "D": {
     "word": "David",
     "status": "ok",
-    "size_kb": 640
+    "size_kb": 418,
+    "no_intro": true
   },
   "E": {
     "word": "Eden",
     "status": "ok",
-    "size_kb": 531
+    "size_kb": 432,
+    "no_intro": true
   },
   "F": {
     "word": "Fish",
     "status": "ok",
-    "size_kb": 514
+    "size_kb": 558,
+    "no_intro": true
   },
   "G": {
     "word": "God",
     "status": "ok",
-    "size_kb": 506
+    "size_kb": 461,
+    "no_intro": true
   },
   "H": {
     "word": "Heaven",
     "status": "ok",
-    "size_kb": 589
+    "size_kb": 590,
+    "no_intro": true
   },
   "I": {
     "word": "Isaac",
     "status": "ok",
-    "size_kb": 568
+    "size_kb": 542,
+    "no_intro": true
   },
   "J": {
     "word": "Jesus",
     "status": "ok",
-    "size_kb": 478
+    "size_kb": 324,
+    "no_intro": true
   },
   "K": {
     "word": "King",
     "status": "ok",
-    "size_kb": 428
+    "size_kb": 344,
+    "no_intro": true
   },
   "L": {
     "word": "Lamb",
     "status": "ok",
-    "size_kb": 454
+    "size_kb": 406,
+    "no_intro": true
   },
   "M": {
     "word": "Moses",
     "status": "ok",
-    "size_kb": 413
+    "size_kb": 518,
+    "no_intro": true
   },
   "N": {
     "word": "Noah",
     "status": "ok",
-    "size_kb": 456
+    "size_kb": 421,
+    "no_intro": true
   },
   "O": {
     "word": "Olive",
     "status": "ok",
-    "size_kb": 503
+    "size_kb": 572,
+    "no_intro": true
   },
   "P": {
     "word": "Prayer",
     "status": "ok",
-    "size_kb": 460
+    "size_kb": 542,
+    "no_intro": true
   },
   "Q": {
     "word": "Queen",
     "status": "ok",
-    "size_kb": 436
+    "size_kb": 504,
+    "no_intro": true
   },
   "R": {
     "word": "Rainbow",
     "status": "ok",
-    "size_kb": 577
+    "size_kb": 458,
+    "no_intro": true
   },
   "S": {
     "word": "Star",
     "status": "ok",
-    "size_kb": 490
+    "size_kb": 460,
+    "no_intro": true
   },
   "T": {
     "word": "Temple",
     "status": "ok",
-    "size_kb": 448
+    "size_kb": 382,
+    "no_intro": true
   },
   "U": {
     "word": "Universe",
     "status": "ok",
-    "size_kb": 667
+    "size_kb": 365,
+    "no_intro": true
   },
   "V": {
     "word": "Vine",
     "status": "ok",
-    "size_kb": 473
+    "size_kb": 424,
+    "no_intro": true
   },
   "W": {
     "word": "Water",
     "status": "ok",
-    "size_kb": 434
+    "size_kb": 698,
+    "no_intro": true
   },
   "X": {
     "word": "foX",
     "status": "ok",
-    "size_kb": 409
+    "size_kb": 447,
+    "no_intro": true
   },
   "Y": {
     "word": "Youth",
     "status": "ok",
-    "size_kb": 508
+    "size_kb": 511,
+    "no_intro": true
   },
   "Z": {
     "word": "Zion",
     "status": "ok",
-    "size_kb": 491
+    "size_kb": 447,
+    "no_intro": true
   }
 }
