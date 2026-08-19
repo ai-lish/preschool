@@ -47,6 +47,7 @@
   let songAudio;
   let originalSwitchTab;
   let originalLoadLetter;
+  let lyricsRequestId = 0;
 
   function byId(id) {
     return document.getElementById(id);
@@ -68,20 +69,45 @@
       cue: note.cue || ('Sing with ' + letter + ' and ' + data.word + '!'),
       chant: note.chant || (letter + ' for ' + data.word + '!'),
       word: data.word,
-      path: songPath
+      path: songPath,
+      lyricsPath: 'songs/lyrics/' + letter.toLowerCase() + '-' + data.word.toLowerCase() + '.txt'
     };
   }
 
   function announce(text) {
-    if (typeof speakText === 'function') {
-      speakText(text);
-    } else if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US';
-      utterance.rate = 0.85;
-      window.speechSynthesis.speak(utterance);
-    }
+    if (typeof window.playMiniMaxText === 'function') window.playMiniMaxText(text);
+  }
+
+  function renderSongLyrics(letter, meta) {
+    const text = byId('song-lyrics-text');
+    const status = byId('song-lyrics-status');
+    if (!text || !status) return;
+
+    const requestId = ++lyricsRequestId;
+    text.textContent = 'Loading lyrics…';
+    status.textContent = 'Loading…';
+    status.classList.remove('is-ready', 'is-error');
+
+    fetch(meta.lyricsPath)
+      .then(function (response) {
+        if (!response.ok) throw new Error('Lyrics unavailable');
+        return response.text();
+      })
+      .then(function (lyrics) {
+        if (requestId !== lyricsRequestId) return;
+        const cleanLyrics = lyrics
+          .replace(/^\s*\[Intro\]\s*/i, '')
+          .trim();
+        text.textContent = cleanLyrics || 'Lyrics are coming soon.';
+        status.textContent = 'English lyrics';
+        status.classList.add('is-ready');
+      })
+      .catch(function () {
+        if (requestId !== lyricsRequestId) return;
+        text.textContent = 'Lyrics are not available for this song yet.';
+        status.textContent = 'Unavailable';
+        status.classList.add('is-error');
+      });
   }
 
   function renderSongLetterPicker() {
@@ -124,6 +150,7 @@
     if (cue) cue.textContent = meta.cue;
     if (chant) chant.textContent = meta.chant;
     if (badge) badge.textContent = letter + letter.toLowerCase();
+    renderSongLyrics(letter, meta);
 
     if (songAudio) {
       const changed = songAudio.dataset.letter !== letter;

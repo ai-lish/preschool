@@ -1,0 +1,744 @@
+{
+  "model": "speech-2.8-hd",
+  "voice_id": "English_expressive_narrator",
+  "emotion_support": true,
+  "audio": [
+    {
+      "name": "phonics-a",
+      "text": "Letter A! <#0.15#> It makes the short A sound! <#0.15#> Adam! the first man God made.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "A",
+      "file": "alphabet/audio/voices/phonics-a.mp3",
+      "skipped": true
+    },
+    {
+      "name": "challenge-a",
+      "text": "Pop the letter A! (laughs) A is for Adam!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "A",
+      "file": "alphabet/audio/voices/challenge-a.mp3"
+    },
+    {
+      "name": "say-a",
+      "text": "Letter A. Adam.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "A",
+      "file": "alphabet/audio/voices/say-a.mp3"
+    },
+    {
+      "name": "phonics-b",
+      "text": "Letter B! <#0.15#> It makes the B sound! <#0.15#> Bible! God's special book.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "B",
+      "file": "alphabet/audio/voices/phonics-b.mp3"
+    },
+    {
+      "name": "challenge-b",
+      "text": "Pop the letter B! (laughs) B is for Bible!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "B",
+      "file": "alphabet/audio/voices/challenge-b.mp3"
+    },
+    {
+      "name": "say-b",
+      "text": "Letter B. Bible.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "B",
+      "file": "alphabet/audio/voices/say-b.mp3"
+    },
+    {
+      "name": "phonics-c",
+      "text": "Letter C! <#0.15#> It makes the K sound! <#0.15#> Creation! God made the world.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "C",
+      "file": "alphabet/audio/voices/phonics-c.mp3"
+    },
+    {
+      "name": "challenge-c",
+      "text": "Pop the letter C! (laughs) C is for Creation!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "C",
+      "file": "alphabet/audio/voices/challenge-c.mp3"
+    },
+    {
+      "name": "say-c",
+      "text": "Letter C. Creation.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "C",
+      "file": "alphabet/audio/voices/say-c.mp3"
+    },
+    {
+      "name": "phonics-d",
+      "text": "Letter D! <#0.15#> It makes the D sound! <#0.15#> David! a brave boy who trusted God.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "D",
+      "file": "alphabet/audio/voices/phonics-d.mp3"
+    },
+    {
+      "name": "challenge-d",
+      "text": "Pop the letter D! (laughs) D is for David!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "D",
+      "file": "alphabet/audio/voices/challenge-d.mp3"
+    },
+    {
+      "name": "say-d",
+      "text": "Letter D. David.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "D",
+      "file": "alphabet/audio/voices/say-d.mp3"
+    },
+    {
+      "name": "phonics-e",
+      "text": "Letter E! <#0.15#> It makes the long E sound! <#0.15#> Eden! God's beautiful garden.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "E",
+      "file": "alphabet/audio/voices/phonics-e.mp3"
+    },
+    {
+      "name": "challenge-e",
+      "text": "Pop the letter E! (laughs) E is for Eden!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "E",
+      "file": "alphabet/audio/voices/challenge-e.mp3"
+    },
+    {
+      "name": "say-e",
+      "text": "Letter E. Eden.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "E",
+      "file": "alphabet/audio/voices/say-e.mp3"
+    },
+    {
+      "name": "phonics-f",
+      "text": "Letter F! <#0.15#> It makes the F sound! <#0.15#> Fish! God made fish in the sea.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "F",
+      "file": "alphabet/audio/voices/phonics-f.mp3"
+    },
+    {
+      "name": "challenge-f",
+      "text": "Pop the letter F! (laughs) F is for Fish!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "F",
+      "file": "alphabet/audio/voices/challenge-f.mp3"
+    },
+    {
+      "name": "say-f",
+      "text": "Letter F. Fish.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "F",
+      "file": "alphabet/audio/voices/say-f.mp3"
+    },
+    {
+      "name": "phonics-g",
+      "text": "Letter G! <#0.15#> It makes the G sound! <#0.15#> God! God loves you so much.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "G",
+      "file": "alphabet/audio/voices/phonics-g.mp3"
+    },
+    {
+      "name": "challenge-g",
+      "text": "Pop the letter G! (laughs) G is for God!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "G",
+      "file": "alphabet/audio/voices/challenge-g.mp3"
+    },
+    {
+      "name": "say-g",
+      "text": "Letter G. God.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "G",
+      "file": "alphabet/audio/voices/say-g.mp3"
+    },
+    {
+      "name": "phonics-h",
+      "text": "Letter H! <#0.15#> It makes the H sound! <#0.15#> Heaven! God's home above the sky.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "H",
+      "file": "alphabet/audio/voices/phonics-h.mp3"
+    },
+    {
+      "name": "challenge-h",
+      "text": "Pop the letter H! (laughs) H is for Heaven!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "H",
+      "file": "alphabet/audio/voices/challenge-h.mp3"
+    },
+    {
+      "name": "say-h",
+      "text": "Letter H. Heaven.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "H",
+      "file": "alphabet/audio/voices/say-h.mp3"
+    },
+    {
+      "name": "phonics-i",
+      "text": "Letter I! <#0.15#> It makes the short I sound! <#0.15#> Isaac! God's promise son.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "I",
+      "file": "alphabet/audio/voices/phonics-i.mp3"
+    },
+    {
+      "name": "challenge-i",
+      "text": "Pop the letter I! (laughs) I is for Isaac!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "I",
+      "file": "alphabet/audio/voices/challenge-i.mp3"
+    },
+    {
+      "name": "say-i",
+      "text": "Letter I. Isaac.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "I",
+      "file": "alphabet/audio/voices/say-i.mp3"
+    },
+    {
+      "name": "phonics-j",
+      "text": "Letter J! <#0.15#> It makes the J sound! <#0.15#> Jesus! God's Son who loves us.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "J",
+      "file": "alphabet/audio/voices/phonics-j.mp3"
+    },
+    {
+      "name": "challenge-j",
+      "text": "Pop the letter J! (laughs) J is for Jesus!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "J",
+      "file": "alphabet/audio/voices/challenge-j.mp3"
+    },
+    {
+      "name": "say-j",
+      "text": "Letter J. Jesus.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "J",
+      "file": "alphabet/audio/voices/say-j.mp3"
+    },
+    {
+      "name": "phonics-k",
+      "text": "Letter K! <#0.15#> It makes the K sound! <#0.15#> King! the King of kings.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "K",
+      "file": "alphabet/audio/voices/phonics-k.mp3"
+    },
+    {
+      "name": "challenge-k",
+      "text": "Pop the letter K! (laughs) K is for King!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "K",
+      "file": "alphabet/audio/voices/challenge-k.mp3"
+    },
+    {
+      "name": "say-k",
+      "text": "Letter K. King.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "K",
+      "file": "alphabet/audio/voices/say-k.mp3"
+    },
+    {
+      "name": "phonics-l",
+      "text": "Letter L! <#0.15#> It makes the L sound! <#0.15#> Lamb! Jesus is the Lamb.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "L",
+      "file": "alphabet/audio/voices/phonics-l.mp3"
+    },
+    {
+      "name": "challenge-l",
+      "text": "Pop the letter L! (laughs) L is for Lamb!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "L",
+      "file": "alphabet/audio/voices/challenge-l.mp3"
+    },
+    {
+      "name": "say-l",
+      "text": "Letter L. Lamb.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "L",
+      "file": "alphabet/audio/voices/say-l.mp3"
+    },
+    {
+      "name": "phonics-m",
+      "text": "Letter M! <#0.15#> It makes the M sound! <#0.15#> Moses! he led God's people.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "M",
+      "file": "alphabet/audio/voices/phonics-m.mp3"
+    },
+    {
+      "name": "challenge-m",
+      "text": "Pop the letter M! (laughs) M is for Moses!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "M",
+      "file": "alphabet/audio/voices/challenge-m.mp3"
+    },
+    {
+      "name": "say-m",
+      "text": "Letter M. Moses.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "M",
+      "file": "alphabet/audio/voices/say-m.mp3"
+    },
+    {
+      "name": "phonics-n",
+      "text": "Letter N! <#0.15#> It makes the N sound! <#0.15#> Noah! he built a big boat.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "N",
+      "file": "alphabet/audio/voices/phonics-n.mp3"
+    },
+    {
+      "name": "challenge-n",
+      "text": "Pop the letter N! (laughs) N is for Noah!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "N",
+      "file": "alphabet/audio/voices/challenge-n.mp3"
+    },
+    {
+      "name": "say-n",
+      "text": "Letter N. Noah.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "N",
+      "file": "alphabet/audio/voices/say-n.mp3"
+    },
+    {
+      "name": "phonics-o",
+      "text": "Letter O! <#0.15#> It makes the short O sound! <#0.15#> Olive! a tree of peace.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "O",
+      "file": "alphabet/audio/voices/phonics-o.mp3"
+    },
+    {
+      "name": "challenge-o",
+      "text": "Pop the letter O! (laughs) O is for Olive!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "O",
+      "file": "alphabet/audio/voices/challenge-o.mp3"
+    },
+    {
+      "name": "say-o",
+      "text": "Letter O. Olive.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "O",
+      "file": "alphabet/audio/voices/say-o.mp3"
+    },
+    {
+      "name": "phonics-p",
+      "text": "Letter P! <#0.15#> It makes the P sound! <#0.15#> Prayer! talking to God.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "P",
+      "file": "alphabet/audio/voices/phonics-p.mp3"
+    },
+    {
+      "name": "challenge-p",
+      "text": "Pop the letter P! (laughs) P is for Prayer!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "P",
+      "file": "alphabet/audio/voices/challenge-p.mp3"
+    },
+    {
+      "name": "say-p",
+      "text": "Letter P. Prayer.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "P",
+      "file": "alphabet/audio/voices/say-p.mp3"
+    },
+    {
+      "name": "phonics-q",
+      "text": "Letter Q! <#0.15#> It makes the Q sound! <#0.15#> Queen! Queen Esther was brave.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "Q",
+      "file": "alphabet/audio/voices/phonics-q.mp3"
+    },
+    {
+      "name": "challenge-q",
+      "text": "Pop the letter Q! (laughs) Q is for Queen!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "Q",
+      "file": "alphabet/audio/voices/challenge-q.mp3"
+    },
+    {
+      "name": "say-q",
+      "text": "Letter Q. Queen.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "Q",
+      "file": "alphabet/audio/voices/say-q.mp3"
+    },
+    {
+      "name": "phonics-r",
+      "text": "Letter R! <#0.15#> It makes the R sound! <#0.15#> Rainbow! God's promise in the sky.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "R",
+      "file": "alphabet/audio/voices/phonics-r.mp3"
+    },
+    {
+      "name": "challenge-r",
+      "text": "Pop the letter R! (laughs) R is for Rainbow!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "R",
+      "file": "alphabet/audio/voices/challenge-r.mp3"
+    },
+    {
+      "name": "say-r",
+      "text": "Letter R. Rainbow.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "R",
+      "file": "alphabet/audio/voices/say-r.mp3"
+    },
+    {
+      "name": "phonics-s",
+      "text": "Letter S! <#0.15#> It makes the S sound! <#0.15#> Star! twinkling up above.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "S",
+      "file": "alphabet/audio/voices/phonics-s.mp3"
+    },
+    {
+      "name": "challenge-s",
+      "text": "Pop the letter S! (laughs) S is for Star!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "S",
+      "file": "alphabet/audio/voices/challenge-s.mp3"
+    },
+    {
+      "name": "say-s",
+      "text": "Letter S. Star.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "S",
+      "file": "alphabet/audio/voices/say-s.mp3"
+    },
+    {
+      "name": "phonics-t",
+      "text": "Letter T! <#0.15#> It makes the T sound! <#0.15#> Temple! God's house to pray.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "T",
+      "file": "alphabet/audio/voices/phonics-t.mp3"
+    },
+    {
+      "name": "challenge-t",
+      "text": "Pop the letter T! (laughs) T is for Temple!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "T",
+      "file": "alphabet/audio/voices/challenge-t.mp3"
+    },
+    {
+      "name": "say-t",
+      "text": "Letter T. Temple.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "T",
+      "file": "alphabet/audio/voices/say-t.mp3"
+    },
+    {
+      "name": "phonics-u",
+      "text": "Letter U! <#0.15#> It makes the long U sound! <#0.15#> Universe! God made everything.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "U",
+      "file": "alphabet/audio/voices/phonics-u.mp3"
+    },
+    {
+      "name": "challenge-u",
+      "text": "Pop the letter U! (laughs) U is for Universe!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "U",
+      "file": "alphabet/audio/voices/challenge-u.mp3"
+    },
+    {
+      "name": "say-u",
+      "text": "Letter U. Universe.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "U",
+      "file": "alphabet/audio/voices/say-u.mp3"
+    },
+    {
+      "name": "phonics-v",
+      "text": "Letter V! <#0.15#> It makes the V sound! <#0.15#> Vine! Jesus is the true vine.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "V",
+      "file": "alphabet/audio/voices/phonics-v.mp3"
+    },
+    {
+      "name": "challenge-v",
+      "text": "Pop the letter V! (laughs) V is for Vine!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "V",
+      "file": "alphabet/audio/voices/challenge-v.mp3"
+    },
+    {
+      "name": "say-v",
+      "text": "Letter V. Vine.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "V",
+      "file": "alphabet/audio/voices/say-v.mp3"
+    },
+    {
+      "name": "phonics-w",
+      "text": "Letter W! <#0.15#> It makes the W sound! <#0.15#> Water! from the river of life.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "W",
+      "file": "alphabet/audio/voices/phonics-w.mp3"
+    },
+    {
+      "name": "challenge-w",
+      "text": "Pop the letter W! (laughs) W is for Water!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "W",
+      "file": "alphabet/audio/voices/challenge-w.mp3"
+    },
+    {
+      "name": "say-w",
+      "text": "Letter W. Water.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "W",
+      "file": "alphabet/audio/voices/say-w.mp3"
+    },
+    {
+      "name": "phonics-x",
+      "text": "Letter X! <#0.15#> It makes the X sound! <#0.15#> foX! Samson's tricky friend.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "X",
+      "file": "alphabet/audio/voices/phonics-x.mp3"
+    },
+    {
+      "name": "challenge-x",
+      "text": "Pop the letter X! (laughs) X is for foX!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "X",
+      "file": "alphabet/audio/voices/challenge-x.mp3"
+    },
+    {
+      "name": "say-x",
+      "text": "Letter X. foX.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "X",
+      "file": "alphabet/audio/voices/say-x.mp3"
+    },
+    {
+      "name": "phonics-y",
+      "text": "Letter Y! <#0.15#> It makes the Y sound! <#0.15#> Youth! young and strong for God.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "Y",
+      "file": "alphabet/audio/voices/phonics-y.mp3"
+    },
+    {
+      "name": "challenge-y",
+      "text": "Pop the letter Y! (laughs) Y is for Youth!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "Y",
+      "file": "alphabet/audio/voices/challenge-y.mp3"
+    },
+    {
+      "name": "say-y",
+      "text": "Letter Y. Youth.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "Y",
+      "file": "alphabet/audio/voices/say-y.mp3"
+    },
+    {
+      "name": "phonics-z",
+      "text": "Letter Z! <#0.15#> It makes the Z sound! <#0.15#> Zion! God's holy mountain.",
+      "emotion": "happy",
+      "group": "phonics",
+      "letter": "Z",
+      "file": "alphabet/audio/voices/phonics-z.mp3"
+    },
+    {
+      "name": "challenge-z",
+      "text": "Pop the letter Z! (laughs) Z is for Zion!",
+      "emotion": "happy",
+      "group": "challenge",
+      "letter": "Z",
+      "file": "alphabet/audio/voices/challenge-z.mp3"
+    },
+    {
+      "name": "say-z",
+      "text": "Letter Z. Zion.",
+      "emotion": "calm",
+      "group": "say",
+      "letter": "Z",
+      "file": "alphabet/audio/voices/say-z.mp3"
+    },
+    {
+      "name": "feedback-success",
+      "text": "Wonderful! You completed it!",
+      "emotion": "happy",
+      "group": "feedback",
+      "file": "alphabet/audio/voices/feedback-success.mp3"
+    },
+    {
+      "name": "feedback-try-again",
+      "text": "Try again! You can do it!",
+      "emotion": "happy",
+      "group": "feedback",
+      "file": "alphabet/audio/voices/feedback-try-again.mp3"
+    },
+    {
+      "name": "feedback-great-job",
+      "text": "Great job!",
+      "emotion": "happy",
+      "group": "feedback",
+      "file": "alphabet/audio/voices/feedback-great-job.mp3"
+    },
+    {
+      "name": "feedback-awesome",
+      "text": "Awesome!",
+      "emotion": "happy",
+      "group": "feedback",
+      "file": "alphabet/audio/voices/feedback-awesome.mp3"
+    },
+    {
+      "name": "feedback-star",
+      "text": "You're a star!",
+      "emotion": "happy",
+      "group": "feedback",
+      "file": "alphabet/audio/voices/feedback-star.mp3"
+    },
+    {
+      "name": "feedback-incredible",
+      "text": "Incredible!",
+      "emotion": "surprised",
+      "group": "feedback",
+      "file": "alphabet/audio/voices/feedback-incredible.mp3"
+    },
+    {
+      "name": "feedback-fantastic",
+      "text": "Fantastic!",
+      "emotion": "happy",
+      "group": "feedback",
+      "file": "alphabet/audio/voices/feedback-fantastic.mp3"
+    },
+    {
+      "name": "feedback-practice-complete",
+      "text": "Great job! You finished your letter practice!",
+      "emotion": "happy",
+      "group": "feedback",
+      "file": "alphabet/audio/voices/feedback-practice-complete.mp3"
+    },
+    {
+      "name": "feedback-one-more-star",
+      "text": "Amazing! One more star!",
+      "emotion": "surprised",
+      "group": "feedback",
+      "file": "alphabet/audio/voices/feedback-one-more-star.mp3"
+    },
+    {
+      "name": "feedback-next-letter",
+      "text": "You are a Bible Star! Let's learn the next letter!",
+      "emotion": "surprised",
+      "group": "feedback",
+      "file": "alphabet/audio/voices/feedback-next-letter.mp3"
+    },
+    {
+      "name": "feedback-ready",
+      "text": "Ready to practise!",
+      "emotion": "happy",
+      "group": "feedback",
+      "file": "alphabet/audio/voices/feedback-ready.mp3"
+    },
+    {
+      "name": "prompt-match",
+      "text": "Find the small letter that matches!",
+      "emotion": "happy",
+      "group": "feedback",
+      "file": "alphabet/audio/voices/prompt-match.mp3"
+    },
+    {
+      "name": "prompt-sound",
+      "text": "Find the word for this letter!",
+      "emotion": "happy",
+      "group": "feedback",
+      "file": "alphabet/audio/voices/prompt-sound.mp3"
+    },
+    {
+      "name": "prompt-x-sound",
+      "text": "Which word has the X sound at the end?",
+      "emotion": "surprised",
+      "group": "feedback",
+      "file": "alphabet/audio/voices/prompt-x-sound.mp3"
+    },
+    {
+      "name": "prompt-order",
+      "text": "What letter comes next?",
+      "emotion": "surprised",
+      "group": "feedback",
+      "file": "alphabet/audio/voices/prompt-order.mp3"
+    },
+    {
+      "name": "feedback-correct",
+      "text": "Yes! Great choice!",
+      "emotion": "happy",
+      "group": "feedback",
+      "file": "alphabet/audio/voices/feedback-correct.mp3"
+    }
+  ]
+}

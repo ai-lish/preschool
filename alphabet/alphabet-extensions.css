@@ -189,6 +189,55 @@
   text-align: center;
 }
 
+.song-lyrics {
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+  border: 3px solid #e5d7ff;
+  border-radius: 1.25rem;
+  background: linear-gradient(180deg, #fcf9ff, #ffffff);
+}
+
+.song-lyrics-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.55rem;
+}
+
+.song-lyrics-header h3 {
+  margin: 0;
+  color: #6a4d86;
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.song-lyrics-status {
+  color: #9a86ad;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.song-lyrics-status.is-ready {
+  color: #277f3a;
+}
+
+.song-lyrics-status.is-error {
+  color: #d54f4f;
+}
+
+.song-lyrics-text {
+  max-height: 14rem;
+  margin: 0;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  color: #4a3b57;
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.65;
+}
+
 .practice-header {
   display: flex;
   align-items: start;

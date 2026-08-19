@@ -2,145 +2,209 @@
   "C": {
     "word": "Creation",
     "status": "ok",
-    "size_kb": 469,
-    "no_intro": true
+    "size_kb": 465,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "D": {
     "word": "David",
     "status": "ok",
-    "size_kb": 418,
-    "no_intro": true
+    "size_kb": 372,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "E": {
     "word": "Eden",
     "status": "ok",
-    "size_kb": 432,
-    "no_intro": true
+    "size_kb": 408,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "F": {
     "word": "Fish",
     "status": "ok",
-    "size_kb": 558,
-    "no_intro": true
+    "size_kb": 506,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "G": {
     "word": "God",
     "status": "ok",
-    "size_kb": 461,
-    "no_intro": true
+    "size_kb": 474,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "H": {
     "word": "Heaven",
     "status": "ok",
-    "size_kb": 590,
-    "no_intro": true
+    "size_kb": 490,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "I": {
     "word": "Isaac",
     "status": "ok",
-    "size_kb": 542,
-    "no_intro": true
+    "size_kb": 519,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "J": {
     "word": "Jesus",
     "status": "ok",
-    "size_kb": 324,
-    "no_intro": true
+    "size_kb": 472,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "K": {
     "word": "King",
     "status": "ok",
-    "size_kb": 344,
-    "no_intro": true
+    "size_kb": 476,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "L": {
     "word": "Lamb",
     "status": "ok",
-    "size_kb": 406,
-    "no_intro": true
+    "size_kb": 531,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "M": {
     "word": "Moses",
     "status": "ok",
-    "size_kb": 518,
-    "no_intro": true
+    "size_kb": 435,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "N": {
     "word": "Noah",
     "status": "ok",
-    "size_kb": 421,
-    "no_intro": true
+    "size_kb": 347,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "O": {
     "word": "Olive",
     "status": "ok",
-    "size_kb": 572,
-    "no_intro": true
+    "size_kb": 467,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "P": {
     "word": "Prayer",
     "status": "ok",
-    "size_kb": 542,
-    "no_intro": true
+    "size_kb": 561,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "Q": {
     "word": "Queen",
     "status": "ok",
-    "size_kb": 504,
-    "no_intro": true
+    "size_kb": 382,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "R": {
     "word": "Rainbow",
     "status": "ok",
     "size_kb": 458,
-    "no_intro": true
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "S": {
     "word": "Star",
     "status": "ok",
-    "size_kb": 460,
-    "no_intro": true
+    "size_kb": 405,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "T": {
     "word": "Temple",
     "status": "ok",
-    "size_kb": 382,
-    "no_intro": true
+    "size_kb": 595,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "U": {
     "word": "Universe",
     "status": "ok",
-    "size_kb": 365,
-    "no_intro": true
+    "size_kb": 414,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "V": {
     "word": "Vine",
     "status": "ok",
-    "size_kb": 424,
-    "no_intro": true
+    "size_kb": 479,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "W": {
     "word": "Water",
     "status": "ok",
-    "size_kb": 698,
-    "no_intro": true
+    "size_kb": 457,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "X": {
     "word": "foX",
     "status": "ok",
-    "size_kb": 447,
-    "no_intro": true
+    "size_kb": 383,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "Y": {
     "word": "Youth",
     "status": "ok",
-    "size_kb": 511,
-    "no_intro": true
+    "size_kb": 455,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   },
   "Z": {
     "word": "Zion",
     "status": "ok",
-    "size_kb": 447,
-    "no_intro": true
+    "size_kb": 408,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
+  },
+  "A": {
+    "word": "Adam",
+    "status": "ok",
+    "size_kb": 585,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
+  },
+  "B": {
+    "word": "Bible",
+    "status": "ok",
+    "size_kb": 515,
+    "model": "music-2.6",
+    "no_intro": true,
+    "expressive": true
   }
 }

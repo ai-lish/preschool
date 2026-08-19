@@ -2,6 +2,12 @@
 
 呢個資料夾包含兩個 Python 腳本，用於生成幼兒英語字母學習遊戲所需嘅圖像和語音素材。
 
+## 目前 GitHub 字母頁面
+
+`index.html` 的歌曲房會顯示 A–Z 完整歌詞，並使用 `songs/` 內由 MiniMax Music 生成的歌曲。遊戲教學、挑戰、練習和鼓勵語音則使用 `audio/voices/` 內由 MiniMax Speech-2.8 HD 預先生成的 MP3；頁面不依賴瀏覽器 Web Speech API，也不會在瀏覽器暴露 API key。
+
+語音素材使用英文 expressive narrator 音色，按用途加入 happy、calm 或 surprised 情緒；重新生成可參考 workspace 內的 `scripts/generate_alphabet_voice.py`。
+
 ## 📁 資料夾結構
 
 ```

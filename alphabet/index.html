@@ -264,6 +264,13 @@
                 <button id="song-next" type="button" class="song-action light">Next →</button>
               </div>
               <p id="song-chant" class="song-chant">A says /æ/ — Adam!</p>
+              <section class="song-lyrics" aria-labelledby="song-lyrics-heading">
+                <div class="song-lyrics-header">
+                  <h3 id="song-lyrics-heading">📝 Lyrics</h3>
+                  <span id="song-lyrics-status" class="song-lyrics-status" role="status" aria-live="polite">Loading…</span>
+                </div>
+                <pre id="song-lyrics-text" class="song-lyrics-text" aria-live="polite">Choose a letter to read its song.</pre>
+              </section>
               <div id="song-letter-picker" class="song-letter-picker" aria-label="Choose a letter song"></div>
             </article>
 
@@ -551,25 +558,85 @@
     }
 
     // ============================================================
-    // Web Speech API 語音朗讀
+    // MiniMax 預先生成語音
     // ============================================================
-    function speakText(text, callback) {
-      if (!('speechSynthesis' in window)) return;
-      window.speechSynthesis.cancel();
+    let activeMiniMaxVoice = null;
+    let miniMaxVoiceToken = 0;
 
-      const utterance = new SpeechSynthesisUtterance(text);
-      const voices = window.speechSynthesis.getVoices();
-      const enVoice = voices.find(v => v.lang.startsWith('en')) || voices[0];
-      if (enVoice) utterance.voice = enVoice;
-
-      utterance.rate = 0.85;
-      utterance.pitch = 1.1;
-
-      if (callback) {
-        utterance.onend = callback;
+    function stopMiniMaxVoice() {
+      miniMaxVoiceToken++;
+      if (activeMiniMaxVoice) {
+        activeMiniMaxVoice.pause();
+        activeMiniMaxVoice.currentTime = 0;
+        activeMiniMaxVoice = null;
       }
-      window.speechSynthesis.speak(utterance);
     }
+
+    function playMiniMaxVoice(source, callback) {
+      const token = ++miniMaxVoiceToken;
+      if (activeMiniMaxVoice) {
+        activeMiniMaxVoice.pause();
+        activeMiniMaxVoice.currentTime = 0;
+      }
+
+      if (!source) {
+        if (callback) callback();
+        return;
+      }
+
+      const audio = new Audio(source);
+      activeMiniMaxVoice = audio;
+      const finish = () => {
+        if (token !== miniMaxVoiceToken) return;
+        activeMiniMaxVoice = null;
+        if (callback) callback();
+      };
+
+      audio.addEventListener('ended', finish, { once: true });
+      audio.addEventListener('error', finish, { once: true });
+      audio.play().catch(finish);
+    }
+
+    function voiceKeyForText(text) {
+      const value = String(text || '').trim();
+      const assets = window.MINIMAX_VOICE_ASSETS || {};
+      const feedback = assets.feedback || {};
+      let match;
+
+      match = value.match(/^Letter ([A-Z])\./i);
+      if (match && assets.say) return assets.say[match[1].toUpperCase()];
+      match = value.match(/^Pop the letter ([A-Z])!/i);
+      if (match && assets.challenge) return assets.challenge[match[1].toUpperCase()];
+      if (/^Wonderful! You wrote/i.test(value)) return feedback.success;
+      if (/^Great job! You finished/i.test(value)) return feedback.practiceComplete;
+      if (/^Amazing! One more star/i.test(value)) return feedback.oneMoreStar;
+      if (/^You are a Bible Star!/i.test(value)) return feedback.nextLetter;
+      if (/^Try again!|^Almost/i.test(value)) return feedback.tryAgain;
+      if (/^Awesome!/i.test(value)) return feedback.awesome;
+      if (/^Great Job!/i.test(value)) return feedback.greatJob;
+      if (/^You're a star!/i.test(value)) return feedback.star;
+      if (/^Incredible!/i.test(value)) return feedback.incredible;
+      if (/^Fantastic!/i.test(value)) return feedback.fantastic;
+      if (/^Ready to practise/i.test(value)) return feedback.ready;
+      if (/^Find the small letter/i.test(value)) return feedback.match;
+      if (/^Which word has the X sound/i.test(value)) return feedback.xSound;
+      if (/^Which word starts with|^Find the word for letter/i.test(value)) return feedback.sound;
+      if (/^What letter comes/i.test(value)) return feedback.order;
+      if (/^Yes!/i.test(value)) return feedback.correct;
+      return feedback.greatJob;
+    }
+
+    function playMiniMaxText(text, callback) {
+      playMiniMaxVoice(voiceKeyForText(text), callback);
+    }
+
+    function speakText(text, callback) {
+      playMiniMaxText(text, callback);
+    }
+
+    window.playMiniMaxVoice = playMiniMaxVoice;
+    window.playMiniMaxText = playMiniMaxText;
+    window.stopMiniMaxVoice = stopMiniMaxVoice;
 
     // ============================================================
     // 系統核心渲染
@@ -670,7 +737,7 @@
       }
       document.getElementById('card-sentence-display').innerText = data.phrase;
 
-      window.speechSynthesis.cancel();
+      stopMiniMaxVoice();
       speechFinished = false;
       switchTab(1);
     }
@@ -694,6 +761,7 @@
       }
 
       cancelAnimationFrame(balloonAnimationId);
+      if (tabIdx !== 1) stopMiniMaxVoice();
       
       const guide = document.getElementById(`guide-m${tabIdx}`);
       if (guide) {
@@ -719,32 +787,16 @@
     // 模組一：語音朗讀流程
     // ============================================================
     function triggerPhonicsSpeech() {
-      window.speechSynthesis.cancel();
+      stopMiniMaxVoice();
       dismissGuide(1);
       speechFinished = false;
       document.getElementById('m1-tap-again-prompt').classList.add('hidden');
-      
-      const data = ALPHABET_DATA[currentLetterKey];
-      
-      let phrase1 = `Letter ${currentLetterKey}!`;
-      let phrase2 = `It makes the ${data.phonics} sound!`;
-      
-      if (currentLetterKey === 'K') phrase2 = `K and C both make the /k/ sound!`;
-      if (currentLetterKey === 'X') phrase2 = `X makes the /ks/ sound, like fo-X!`;
 
-      let phrase3 = `${data.word}! ${data.phrase}`;
-
-      speakText(phrase1, () => {
-        setTimeout(() => {
-          speakText(phrase2, () => {
-            setTimeout(() => {
-              speakText(phrase3, () => {
-                speechFinished = true;
-                document.getElementById('m1-tap-again-prompt').classList.remove('hidden');
-              });
-            }, 300);
-          });
-        }, 300);
+      const assets = window.MINIMAX_VOICE_ASSETS || {};
+      const phonicsAudio = assets.phonics && assets.phonics[currentLetterKey];
+      playMiniMaxVoice(phonicsAudio, () => {
+        speechFinished = true;
+        document.getElementById('m1-tap-again-prompt').classList.remove('hidden');
       });
     }
 
@@ -1310,6 +1362,7 @@
       }, { once: true });
     };
   </script>
+<script src="voice-assets.js"></script>
 <script src="alphabet-extensions.js"></script>
 </body>
 </html>
