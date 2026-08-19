@@ -87,6 +87,7 @@
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
   </style>
+  <link rel="stylesheet" href="alphabet-extensions.css">
 </head>
 <body class="kids-pattern-bg min-h-screen overflow-y-auto md:overflow-hidden flex flex-col p-3 md:p-4 text-macaron-dark" style="padding-bottom: max(1rem, env(safe-area-inset-bottom)); padding-left: max(1rem, env(safe-area-inset-left)); padding-right: max(1rem, env(safe-area-inset-right));">
 
@@ -114,6 +115,10 @@
       <button onclick="switchTab(3)" id="tab-3" class="tab-transition bg-white/70 text-gray-400 px-3 py-2 md:px-6 md:py-3 rounded-full shadow-md border-4 border-transparent flex items-center gap-1 md:gap-2 font-extrabold text-xs md:text-sm relative">
         <span>🎈</span> <span>Play</span>
         <span id="tab-status-3" class="absolute -top-1 -right-1 bg-white border border-gray-200 text-[9px] md:text-xs w-4 h-4 md:w-5 md:h-5 rounded-full flex items-center justify-center shadow-sm">⚪</span>
+      </button>
+      <button onclick="switchTab(4)" id="tab-4" class="tab-transition bg-white/70 text-gray-400 px-3 py-2 md:px-5 md:py-3 rounded-full shadow-md border-4 border-transparent flex items-center gap-1 md:gap-2 font-extrabold text-xs md:text-sm relative">
+        <span>🎵</span> <span>Songs</span>
+        <span id="tab-status-4" class="absolute -top-1 -right-1 bg-white border border-gray-200 text-[9px] md:text-xs w-4 h-4 md:w-5 md:h-5 rounded-full flex items-center justify-center shadow-sm">🎶</span>
       </button>
     </nav>
 
@@ -234,6 +239,57 @@
         <div id="guide-m3" class="absolute pointer-events-none z-10 bottom-1/4 right-1/4 flex flex-col items-center">
           <span class="text-4xl md:text-5xl guide-finger-tap">👆</span>
           <span class="bg-macaron-purple text-white text-[10px] md:text-xs px-2.5 py-1 rounded-full font-bold shadow-md">Pop Balloon!</span>
+        </div>
+      </section>
+
+      <!-- 模組四：歌曲房 + 英語字母加強練習 -->
+      <section id="module-4" class="song-practice-module absolute inset-0 w-full h-full flex flex-col items-center justify-center p-3 md:p-5 hidden">
+        <div class="song-practice-scroll">
+          <div class="song-room-grid">
+            <article class="song-room-card" aria-labelledby="song-title">
+              <div class="song-kicker">🎵 Alphabet Song Room</div>
+              <div class="song-title-line">
+                <div>
+                  <h2 id="song-title">A is for Adam</h2>
+                  <p id="song-word" class="song-word-line">Word: Adam</p>
+                </div>
+                <div id="song-letter-badge" class="song-letter-badge" aria-label="Current letter">Aa</div>
+              </div>
+              <p id="song-cue" class="song-cue">Clap and sing: “A is for Adam!”</p>
+              <audio id="song-player" class="song-player" controls preload="metadata"></audio>
+              <div class="song-actions">
+                <button id="song-play" type="button" class="song-action primary">▶ Play song</button>
+                <button id="song-replay" type="button" class="song-action secondary">↺ Sing again</button>
+                <button id="song-previous" type="button" class="song-action light">← Previous</button>
+                <button id="song-next" type="button" class="song-action light">Next →</button>
+              </div>
+              <p id="song-chant" class="song-chant">A says /æ/ — Adam!</p>
+              <div id="song-letter-picker" class="song-letter-picker" aria-label="Choose a letter song"></div>
+            </article>
+
+            <article class="practice-room-card" aria-labelledby="practice-heading">
+              <div class="practice-header">
+                <div>
+                  <div class="song-kicker">🔤 Letter Lab</div>
+                  <h2 id="practice-heading">Play, say, remember!</h2>
+                </div>
+                <div class="practice-score">
+                  <span id="practice-round">5 rounds</span>
+                  <span aria-hidden="true"> · </span>
+                  <span id="practice-score">Score 0</span>
+                </div>
+              </div>
+              <p id="practice-prompt" class="practice-prompt">Ready to practise A and Adam?</p>
+              <div id="practice-target" class="practice-target" aria-live="polite">Aa</div>
+              <div id="practice-options" class="practice-options" role="group" aria-label="Practice answers"></div>
+              <div id="practice-feedback" class="practice-feedback" role="status" aria-live="polite">Three quick games: match, listen, and order.</div>
+              <p id="practice-best" class="practice-best">Best score: 0/5</p>
+              <div class="practice-actions">
+                <button id="practice-start" type="button" class="practice-action start">⭐ Start 5-round practice</button>
+                <button id="practice-speak" type="button" class="practice-action speak">🔊 Say it</button>
+              </div>
+            </article>
+          </div>
         </div>
       </section>
 
@@ -1254,5 +1310,6 @@
       }, { once: true });
     };
   </script>
+<script src="alphabet-extensions.js"></script>
 </body>
 </html>
