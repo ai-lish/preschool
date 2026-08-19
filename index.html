@@ -133,6 +133,28 @@
     flex-shrink: 0;
   }
 
+  .k2-link-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #fff7df, #ffe7a0);
+    color: var(--dark);
+    box-shadow: var(--shadow);
+    text-decoration: none;
+    transition: transform 0.18s, box-shadow 0.18s;
+  }
+  .k2-link-card:hover, .k2-link-card:active {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+  }
+  .k2-link-icon { font-size: 2.25rem; line-height: 1; }
+  .k2-link-content { flex: 1; }
+  .k2-link-title { font-size: 1.05rem; font-weight: 900; }
+  .k2-link-sub { margin-top: 3px; color: #7d5a00; font-size: 0.82rem; line-height: 1.45; }
+  .k2-link-arrow { color: #a66d00; font-size: 1.8rem; }
+
   /* Feature Grid */
   .feature-grid {
     display: grid;
@@ -201,6 +223,15 @@
         <span class="hero-badge">✨ K1-K3 適用</span>
       </div>
       <div class="hero-arrow">›</div>
+    </a>
+
+    <a href="k2-guide.html" class="k2-link-card">
+      <div class="k2-link-icon">🏠</div>
+      <div class="k2-link-content">
+        <div class="k2-link-title">K2 家校 10 分鐘</div>
+        <div class="k2-link-sub">A–Z · 數字 1–10 · 中文基礎字 · 每日生活習慣</div>
+      </div>
+      <div class="k2-link-arrow">›</div>
     </a>
 
     <div class="feature-grid">

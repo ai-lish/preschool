@@ -1,6 +1,6 @@
 'use strict';
 
-const NUMBERS = Array.from({ length: 20 }, (_, i) => ({
+const ALL_NUMBERS = Array.from({ length: 20 }, (_, i) => ({
   num: i + 1,
   chinese: ['一','二','三','四','五','六','七','八','九','十',
             '十一','十二','十三','十四','十五','十六','十七','十八','十九','二十'][i],
@@ -8,6 +8,16 @@ const NUMBERS = Array.from({ length: 20 }, (_, i) => ({
             'eleven','twelve','thirteen','fourteen','fifteen','sixteen',
             'seventeen','eighteen','nineteen','twenty'][i],
 }));
+
+const k2Focus = new URLSearchParams(window.location.search).get('focus') === 'k2';
+const NUMBER_LIMIT = k2Focus ? 10 : 20;
+const NUMBERS = ALL_NUMBERS.slice(0, NUMBER_LIMIT);
+
+const focusNote = document.getElementById('focusNote');
+if (k2Focus && focusNote) {
+  focusNote.hidden = false;
+  focusNote.textContent = 'K2 專注模式：先練習 1–10，熟習後再返回完整 1–20。';
+}
 
 const COUNT_EMOJIS = ['🍎','🍊','🍋','🍇','🍓','🌟','🐶','🐱','🦁','🐸',
                       '🍕','🎈','🚗','⚽','🎀','🏀','🌸','🦋','🍦','🍩'];
@@ -133,7 +143,7 @@ const orderScoreEl= document.getElementById('orderScore');
 
 function newOrderGame() {
   orderLocked = false;
-  const start   = randInt(1, 16);
+  const start   = randInt(1, NUMBER_LIMIT - 4);
   const blankIdx= randInt(0, 4);
   const sequence= [start, start+1, start+2, start+3, start+4];
   const correct = sequence[blankIdx];
@@ -156,7 +166,7 @@ function newOrderGame() {
   const wrongSet = new Set([correct]);
   const choices  = [correct];
   while (choices.length < 4) {
-    const w = randInt(1, 20);
+    const w = randInt(1, NUMBER_LIMIT);
     if (!wrongSet.has(w)) { wrongSet.add(w); choices.push(w); }
   }
 

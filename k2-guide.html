@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K2 家校 10 分鐘 — 幼兒學習中心</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/k2-guide.css">
+</head>
+<body>
+  <div class="module-page k2-page">
+    <header class="page-header">
+      <a href="index.html" class="back-btn" aria-label="返回">←</a>
+      <h1>🏠 K2 家校 10 分鐘</h1>
+    </header>
+
+    <main>
+      <section class="k2-hero">
+        <div class="k2-eyebrow">2026–2027 K2 · 家校合作</div>
+        <h2>每日 10 分鐘，陪孩子穩穩前進</h2>
+        <p>把讀寫、數字和生活習慣變成短小、可完成的親子任務。每天完成一輪，重點是開心和持續。</p>
+        <div class="k2-hero-actions">
+          <a class="btn btn-primary" href="#today">開始今日任務</a>
+          <a class="btn btn-accent" href="#week">查看每週節奏</a>
+        </div>
+      </section>
+
+      <section class="card k2-section">
+        <div class="section-heading">
+          <div>
+            <div class="k2-kicker">上學期學習目標</div>
+            <h2>三個小步驟，建立 K2 基礎</h2>
+          </div>
+          <span class="k2-pill">按能力逐步加深</span>
+        </div>
+        <div class="goal-grid">
+          <a class="goal-card goal-english" href="alphabet/">
+            <span class="goal-icon">🔤</span>
+            <strong>英文 A–Z</strong>
+            <span>認讀、書寫和聽音辨字</span>
+            <small>進入字母公園 →</small>
+          </a>
+          <a class="goal-card goal-number" href="numbers.html?focus=k2">
+            <span class="goal-icon">🔢</span>
+            <strong>數字 1–10</strong>
+            <span>認讀、計數和數序</span>
+            <small>開始 K2 數字練習 →</small>
+          </a>
+          <a class="goal-card goal-chinese" href="characters.html">
+            <span class="goal-icon">字</span>
+            <strong>中文基礎字</strong>
+            <span>認字、圖字配對和筆劃</span>
+            <small>進入中文字卡 →</small>
+          </a>
+        </div>
+      </section>
+
+      <section class="card k2-section" id="today">
+        <div class="section-heading">
+          <div>
+            <div class="k2-kicker">親子一起做</div>
+            <h2>今日 10 分鐘任務</h2>
+          </div>
+          <div class="k2-progress" aria-live="polite">
+            <span id="todayProgress">0 / 4</span>
+            <span>已完成</span>
+          </div>
+        </div>
+        <p class="section-lede">四項合共約 10 分鐘；孩子累了，可以先完成其中兩項，明天再繼續。</p>
+        <div class="k2-task-list">
+          <div class="k2-task">
+            <label>
+              <input type="checkbox" data-k2-key="today-english" data-k2-group="today">
+              <span><strong>英文 3 分鐘</strong><small>選一個 A–Z 字母，聽歌、跟讀，再描寫一次。</small></span>
+            </label>
+            <a href="alphabet/">開始</a>
+          </div>
+          <div class="k2-task">
+            <label>
+              <input type="checkbox" data-k2-key="today-number" data-k2-group="today">
+              <span><strong>數字 3 分鐘</strong><small>數一數物件，並讀出 1–10 的數字順序。</small></span>
+            </label>
+            <a href="numbers.html?focus=k2">開始</a>
+          </div>
+          <div class="k2-task">
+            <label>
+              <input type="checkbox" data-k2-key="today-chinese" data-k2-group="today">
+              <span><strong>中文 2 分鐘</strong><small>翻一張中文字卡，說出意思，再練習一個字。</small></span>
+            </label>
+            <a href="characters.html">開始</a>
+          </div>
+          <div class="k2-task">
+            <label>
+              <input type="checkbox" data-k2-key="today-routine" data-k2-group="today">
+              <span><strong>生活習慣 2 分鐘</strong><small>用完整、有禮貌的句子說出今天要做的事。</small></span>
+            </label>
+            <a href="#routine">查看</a>
+          </div>
+        </div>
+        <button class="btn btn-secondary k2-reset" id="resetToday" type="button">🔄 清除今日進度</button>
+      </section>
+
+      <section class="card k2-section" id="week">
+        <div class="section-heading">
+          <div>
+            <div class="k2-kicker">配合學校節奏</div>
+            <h2>每週親子練習方向</h2>
+          </div>
+        </div>
+        <div class="week-grid">
+          <div class="week-day"><strong>星期一</strong><span>中文簿</span><small>讀一個字，慢慢寫一次</small></div>
+          <div class="week-day"><strong>星期二</strong><span>英文簿</span><small>複習 A–Z 一組字母</small></div>
+          <div class="week-day"><strong>星期三</strong><span>數學簿＋活動冊</span><small>數量和數字配對</small></div>
+          <div class="week-day"><strong>星期四</strong><span>中文＋英文活動</span><small>唱歌、跟讀和描寫</small></div>
+          <div class="week-day"><strong>星期五</strong><span>英文＋圖書／工作紙</span><small>親子伴讀 10 分鐘</small></div>
+        </div>
+        <p class="teacher-note">老師會按幼兒學習進度調節功課；家長可每週留意教學內容，協助孩子搜集主題資料。</p>
+      </section>
+
+      <section class="card k2-section" id="routine">
+        <div class="section-heading">
+          <div>
+            <div class="k2-kicker">慢慢練，天天做</div>
+            <h2>K2 生活習慣清單</h2>
+          </div>
+          <div class="k2-progress" aria-live="polite">
+            <span id="routineProgress">0 / 8</span>
+            <span>已完成</span>
+          </div>
+        </div>
+        <div class="routine-grid">
+          <label class="routine-item"><input type="checkbox" data-k2-key="routine-arrive" data-k2-group="routine"><span>上午 8:30 前回校</span></label>
+          <label class="routine-item"><input type="checkbox" data-k2-key="routine-homework" data-k2-group="routine"><span>晚餐前完成功課</span></label>
+          <label class="routine-item"><input type="checkbox" data-k2-key="routine-bag" data-k2-group="routine"><span>自行執拾書包</span></label>
+          <label class="routine-item"><input type="checkbox" data-k2-key="routine-eat" data-k2-group="routine"><span>定時自行進食</span></label>
+          <label class="routine-item"><input type="checkbox" data-k2-key="routine-sentence" data-k2-group="routine"><span>用完整句子和禮貌語</span></label>
+          <label class="routine-item"><input type="checkbox" data-k2-key="routine-dress" data-k2-group="routine"><span>逐步學習自行穿衣梳頭</span></label>
+          <label class="routine-item"><input type="checkbox" data-k2-key="routine-read" data-k2-group="routine"><span>親子溫習或伴讀 10 分鐘</span></label>
+          <label class="routine-item"><input type="checkbox" data-k2-key="routine-teeth" data-k2-group="routine"><span>早上及睡前自行刷牙</span></label>
+        </div>
+        <button class="btn btn-accent k2-reset" id="resetRoutine" type="button">🔄 清除習慣進度</button>
+      </section>
+
+      <p class="source-note">本頁按 2026–2027 年度 K2 班務小冊子中的學習目標、功課節奏和常規訓練整理；實際進度以老師安排及孩子能力為準。</p>
+    </main>
+  </div>
+  <script src="js/k2-guide.js"></script>
+</body>
+</html>

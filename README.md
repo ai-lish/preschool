@@ -24,6 +24,7 @@
 | **🔢 數字認知** | numbers.html | ✅ 完成 | 1-20 數字 |
 | **⬛ 圖形形狀** | shapes.html | ✅ 完成 | 圓方三角橢圓 |
 | **✏️ 寫字練習** | writing.html | ✅ 完成 | 筆劃訓練 |
+| **🏠 K2 家校 10 分鐘** | k2-guide.html | ✅ 完成 | A-Z、1-10、中文基礎字、生活習慣 |
 
 ---
 
@@ -61,6 +62,20 @@ alphabet/
 - **Canvas 描紅**：340×340 像素精確筆劃追蹤
 - **響應式設計**：支援 iOS Safari、Android Chrome
 
+## 🏠 K2 家校 10 分鐘
+
+**線上使用：** https://ai-lish.github.io/preschool/k2-guide.html
+
+參考 2026–2027 年度 K2 班務小冊子的學習目標和家校合作方向，新增一個給家長和孩子使用的短任務入口：
+
+- 英文：A–Z 認讀、書寫和聽音辨字
+- 數學：先以 1–10 做認讀、計數和數序練習（`numbers.html?focus=k2`）
+- 中文：認字卡、圖字配對和基礎筆劃
+- 每日任務：英文 3 分鐘、數字 3 分鐘、中文 2 分鐘、生活句子 2 分鐘
+- 家校習慣：準時回校、完成功課、執拾書包、完整句子、親子伴讀等
+
+清單進度只保存在孩子使用的瀏覽器 `localStorage`，不會上傳個人資料。
+
 ---
 
 ## 🎮 遊戲內容
@@ -70,14 +85,17 @@ alphabet/
 ```
 preschool/
 ├── index.html                   # 主頁（學習分類）
+├── k2-guide.html                # K2 家校 10 分鐘任務頁
 ├── alphabet/                    # Alphabet Park 英語字母公園
 │   ├── index.html               # A-Z 字母學習主頁
 │   ├── characters/              # 角色圖片
 │   ├── songs/                   # A-Z 26 首字母歌曲
 │   ├── alphabet-extensions.js   # 歌曲房 + 字母加強練習
 │   └── alphabet-extensions.css  # 歌曲房響應式樣式
+├── css/k2-guide.css             # K2 家校頁樣式
+├── js/k2-guide.js               # K2 清單和本機進度
 ├── characters.html              # 中文字字符號（日月水火）
-├── numbers.html                 # 數字認知（1-20）
+├── numbers.html                 # 數字認知（1-20；K2 專注模式為 1-10）
 ├── shapes.html                  # 圖形形狀（圓方三角）
 ├── writing.html                 # 寫字練習
 ├── references.html              # 參考資源頁
