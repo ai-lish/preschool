@@ -184,7 +184,7 @@ preschool/
 |------|----------|
 | 粵語 | `female-tianmei` |
 | 國語 | `female-tianmei` |
-| 英文 | `male-tianmei` |
+| 英文 | `English_expressive_narrator` |
 | 日文 | `female-tianmei` |
 
 ## 🔢 音頻命名規則
@@ -227,6 +227,7 @@ img/
 - **部署：** GitHub Pages（https://ai-lish.github.io/preschool/）
 - **圖片：** MiniMax Image-01 生成，4:3 或 1:1 比例
 - **音頻：** MiniMax TTS speech-hd 生成
+- **K2 核心練習語音：** `audio/core-voices/` 內的 MiniMax Speech-2.8 HD 預生成 MP3，供數字、中文字及寫字練習共用
 - **圖示：** Noto Sans TC / Noto Sans JP（Google Fonts）
 - **響應式：** 支援 iOS Safari、Android Chrome
 
@@ -235,7 +236,7 @@ img/
 - **字體：** Nunito（Google Fonts）
 - **音效：** Web Audio API 合成（pop/success/chime/boing）
 - **描紅：** Canvas 2D（340×340 像素筆劃追蹤）
-- **語音：** Web Speech API（英語朗讀）
+- **語音：** MiniMax Speech-2.8 HD 預生成 MP3（歌曲保留原有音樂）
 
 ---
 

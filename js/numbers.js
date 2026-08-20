@@ -37,14 +37,34 @@ tabBtns.forEach(btn => {
   });
 });
 
-// ── TTS ──
-function speak(text, lang = 'zh-TW') {
-  if (!window.speechSynthesis) return;
-  const utt = new SpeechSynthesisUtterance(text);
-  utt.lang = lang;
-  utt.rate = 0.85;
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(utt);
+// ── MiniMax TTS ──
+let activeCoreVoice = null;
+
+function playCoreVoice(source) {
+  if (activeCoreVoice) {
+    activeCoreVoice.pause();
+    activeCoreVoice.currentTime = 0;
+  }
+  if (!source) return;
+
+  const audio = new Audio(source);
+  activeCoreVoice = audio;
+  const finish = () => {
+    if (activeCoreVoice === audio) activeCoreVoice = null;
+  };
+  audio.addEventListener('ended', finish, { once: true });
+  audio.addEventListener('error', finish, { once: true });
+  audio.play().catch(finish);
+}
+
+function speakNumber(number) {
+  const assets = window.CORE_VOICE_ASSETS || {};
+  playCoreVoice(assets.numbers && assets.numbers[String(number)]);
+}
+
+function speakFeedback() {
+  const assets = window.CORE_VOICE_ASSETS || {};
+  playCoreVoice(assets.feedback && assets.feedback.correct);
 }
 
 // ── Number Cards ──
@@ -71,7 +91,7 @@ NUMBERS.forEach(n => {
     card.style.animation = 'none';
     void card.offsetWidth;
     card.style.animation = 'pop 0.3s ease both';
-    speak(n.chinese + '，' + n.num, 'zh-TW');
+    speakNumber(n.num);
   });
   numGrid.appendChild(card);
 });
@@ -209,6 +229,6 @@ function showCelebration() {
     <div class="celebrate-text">好棒！正確！</div>
   `;
   document.body.appendChild(overlay);
-  speak('好棒，答對了！', 'zh-TW');
+  speakFeedback();
   setTimeout(() => overlay.remove(), 1500);
 }

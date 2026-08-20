@@ -31,13 +31,35 @@ tabBtns.forEach(btn => {
   });
 });
 
-// ── TTS ──
-function speak(text, lang = 'zh-TW') {
-  if (!window.speechSynthesis) return;
-  const utt = new SpeechSynthesisUtterance(text);
-  utt.lang = lang; utt.rate = 0.85;
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(utt);
+// ── MiniMax TTS ──
+let activeCoreVoice = null;
+
+function playCoreVoice(source) {
+  if (activeCoreVoice) {
+    activeCoreVoice.pause();
+    activeCoreVoice.currentTime = 0;
+  }
+  if (!source) return;
+
+  const audio = new Audio(source);
+  activeCoreVoice = audio;
+  const finish = () => {
+    if (activeCoreVoice === audio) activeCoreVoice = null;
+  };
+  audio.addEventListener('ended', finish, { once: true });
+  audio.addEventListener('error', finish, { once: true });
+  audio.play().catch(finish);
+}
+
+function speakCharacter(character, language = 'zh') {
+  const assets = window.CORE_VOICE_ASSETS || {};
+  const item = assets.characters && assets.characters[character];
+  playCoreVoice(item && item[language === 'en' ? 'en' : 'zh']);
+}
+
+function speakFeedback(kind = 'correct') {
+  const assets = window.CORE_VOICE_ASSETS || {};
+  playCoreVoice(assets.feedback && assets.feedback[kind]);
 }
 
 // ── Celebration ──
@@ -46,7 +68,7 @@ function showCelebration(msg = '好棒！正確！') {
   overlay.className = 'celebrate-overlay';
   overlay.innerHTML = `<div class="celebrate-content">⭐🎉⭐</div><div class="celebrate-text">${msg}</div>`;
   document.body.appendChild(overlay);
-  speak(msg, 'zh-TW');
+  speakFeedback(msg === '全部配對！太棒了！' ? 'matchComplete' : 'correct');
   setTimeout(() => overlay.remove(), 1500);
 }
 
@@ -82,8 +104,8 @@ function renderFlashcard() {
 fcInner.addEventListener('click', () => {
   fcFlipped = !fcFlipped;
   fcInner.classList.toggle('flipped', fcFlipped);
-  if (!fcFlipped) speak(CHARACTERS[fcIndex].char, 'zh-TW');
-  else speak(CHARACTERS[fcIndex].meaning, 'en-US');
+  if (!fcFlipped) speakCharacter(CHARACTERS[fcIndex].char, 'zh');
+  else speakCharacter(CHARACTERS[fcIndex].char, 'en');
 });
 
 document.getElementById('fcPrev').addEventListener('click', () => {
@@ -95,7 +117,7 @@ document.getElementById('fcNext').addEventListener('click', () => {
   renderFlashcard();
 });
 document.getElementById('fcTts').addEventListener('click', () => {
-  speak(CHARACTERS[fcIndex].char, 'zh-TW');
+  speakCharacter(CHARACTERS[fcIndex].char, 'zh');
 });
 
 renderFlashcard();
@@ -166,7 +188,7 @@ function handleImatch(card) {
     imatchScoreEl.textContent = `配對: ${imPaired} / ${IM_COUNT}`;
     imSelected = null;
     const matched = CHARACTERS.find(c => c.char === card.dataset.id);
-    if (matched) speak(matched.char + '，' + matched.meaning, 'zh-TW');
+    if (matched) speakCharacter(matched.char, 'zh');
     if (imPaired === IM_COUNT) setTimeout(() => showCelebration('全部配對！太棒了！'), 400);
   } else {
     const prev = imSelected;
@@ -209,7 +231,7 @@ function selectStrokeChar(c, chip) {
   strokeChar = c;
   guideChar.textContent = c.char;
   clearStroke();
-  speak(c.char, 'zh-TW');
+  speakCharacter(c.char, 'zh');
 }
 
 function getPos(e, canvas) {
@@ -273,7 +295,7 @@ function redrawStroke() {
 
 document.getElementById('strokeClear').addEventListener('click', clearStroke);
 document.getElementById('strokeUndo').addEventListener('click', () => { sStrokes.pop(); redrawStroke(); });
-document.getElementById('strokeTts').addEventListener('click', () => { if (strokeChar) speak(strokeChar.char, 'zh-TW'); });
+document.getElementById('strokeTts').addEventListener('click', () => { if (strokeChar) speakCharacter(strokeChar.char, 'zh'); });
 
 // Select first character by default
 if (strokeChipGrid.firstChild) strokeChipGrid.firstChild.click();
