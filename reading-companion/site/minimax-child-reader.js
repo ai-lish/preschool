@@ -10,9 +10,11 @@
   const PREBUILT = window.MINIMAX_ASSETS || { books: {} };
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d", { willReadFrequently: true });
+  const colorCanvas = document.createElement("canvas");
+  const colorContext = colorCanvas.getContext("2d", { willReadFrequently: true });
   const frameCanvas = document.createElement("canvas");
   const frameContext = frameCanvas.getContext("2d", { willReadFrequently: true });
-  const RECOGNITION_THRESHOLD = 0.78;
+  const RECOGNITION_THRESHOLD = 0.62;
   const $ = (selector) => document.querySelector(selector);
 
   const workspace = $("#workspace");
@@ -155,10 +157,13 @@
     const height = 24;
     canvas.width = width;
     canvas.height = height;
+    colorCanvas.width = 16;
+    colorCanvas.height = 12;
     frameContext.putImageData(framePixels, 0, 0);
     const bounds = cropToPage ? detectPageBounds(framePixels.data) : null;
-    if (bounds) context.drawImage(frameCanvas, bounds.x, bounds.y, bounds.width, bounds.height, 0, 0, width, height);
-    else context.drawImage(frameCanvas, 0, 0, frameCanvas.width, frameCanvas.height, 0, 0, width, height);
+    const source = bounds ? [bounds.x, bounds.y, bounds.width, bounds.height] : [0, 0, frameCanvas.width, frameCanvas.height];
+    context.drawImage(frameCanvas, ...source, 0, 0, width, height);
+    colorContext.drawImage(frameCanvas, ...source, 0, 0, colorCanvas.width, colorCanvas.height);
     const pixels = context.getImageData(0, 0, width, height).data;
     const values = [];
     let total = 0;
@@ -169,7 +174,20 @@
     }
     const mean = total / values.length;
     const deviation = Math.sqrt(values.reduce((sum, value) => sum + (value - mean) ** 2, 0) / values.length) || 1;
-    return { values: values.map((value) => Math.round(((value - mean) / deviation) * 100) / 100) };
+    const colorPixels = colorContext.getImageData(0, 0, colorCanvas.width, colorCanvas.height).data;
+    const color = [];
+    for (let index = 0; index < colorPixels.length; index += 4) {
+      const red = colorPixels[index];
+      const green = colorPixels[index + 1];
+      const blue = colorPixels[index + 2];
+      const sum = red + green + blue || 1;
+      color.push(
+        Math.round((red / sum) * 1000) / 1000,
+        Math.round((green / sum) * 1000) / 1000,
+        Math.round((blue / sum) * 1000) / 1000
+      );
+    }
+    return { values: values.map((value) => Math.round(((value - mean) / deviation) * 100) / 100), color };
   }
 
   function fingerprints() {
@@ -180,6 +198,9 @@
       { x: 0.14, y: 0, width: 0.72, height: 0.78 },
       { x: 0.18, y: 0, width: 0.64, height: 0.68 },
       { x: 0.24, y: 0, width: 0.52, height: 0.68 },
+      { x: 0.26, y: 0.12, width: 0.48, height: 0.66 },
+      { x: 0.30, y: 0.18, width: 0.40, height: 0.58 },
+      { x: 0.34, y: 0.22, width: 0.32, height: 0.50 },
       { x: 0.09, y: 0.05, width: 0.82, height: 0.90 },
       { x: 0.16, y: 0.125, width: 0.68, height: 0.75 }
     ];
@@ -200,7 +221,11 @@
       secondPower += second.values[index] ** 2;
     }
     const denominator = Math.sqrt(firstPower * secondPower);
-    return denominator ? (dot / denominator + 1) / 2 : 0;
+    const luminanceScore = denominator ? (dot / denominator + 1) / 2 : 0;
+    if (!Array.isArray(first.color) || !Array.isArray(second.color) || first.color.length !== second.color.length) return luminanceScore;
+    const colorDistance = first.color.reduce((sum, value, index) => sum + Math.abs(value - second.color[index]), 0) / first.color.length;
+    const colorScore = Math.max(0, 1 - colorDistance * 1.5);
+    return luminanceScore * 0.72 + colorScore * 0.28;
   }
 
   function resetRecognition() {
@@ -402,17 +427,20 @@
         best = { ...entry, score };
       } else if (!secondBest || score > secondBest.score) secondBest = { ...entry, score };
     }));
-    const ambiguous = best && secondBest && (best.bookId !== secondBest.bookId || best.page !== secondBest.page) && best.score - secondBest.score < 0.04;
+    const ambiguous = best && secondBest && best.bookId !== secondBest.bookId && best.score - secondBest.score < 0.04;
     if (!best || best.score < RECOGNITION_THRESHOLD || ambiguous) {
       resetRecognition();
       recognitionStatus.textContent = "請把整頁書本放在鏡面畫面上半部中央，保持穩定。";
       return;
     }
-    const key = `${best.bookId}:${best.page}`;
+    const key = currentBookId ? `${best.bookId}:${best.page}` : best.bookId;
     stableCount = stableKey === key ? stableCount + 1 : 1;
     stableKey = key;
     readout.textContent = `正在看 ${BOOKS[best.bookId].title} · ${Math.round(best.score * 100)}%`;
-    if (stableCount < 3) return;
+    if (stableCount < 3) {
+      recognitionStatus.textContent = `正在確認 ${BOOKS[best.bookId].title}… (${stableCount}/3) 請保持穩定。`;
+      return;
+    }
     if (currentBookId !== best.bookId) {
       showBookDialog(best.bookId, best.page, best.score);
       return;

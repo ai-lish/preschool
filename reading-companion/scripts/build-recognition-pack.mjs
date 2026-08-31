@@ -29,19 +29,40 @@ function pageFiles(directory) {
     .map((file) => path.join(directory, file));
 }
 
-function fingerprint(file, crop = "") {
+function normalized(values, precision = 2) {
+  const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
+  const deviation = Math.sqrt(values.reduce((sum, value) => sum + (value - mean) ** 2, 0) / values.length) || 1;
+  const factor = 10 ** precision;
+  return values.map((value) => Math.round(((value - mean) / deviation) * factor) / factor);
+}
+
+function ffmpegFrame(file, crop, size, format) {
   const filter = crop
-    ? `crop=iw*${crop.width}:ih*${crop.height}:iw*${crop.x}:ih*${crop.y},scale=32:24:flags=lanczos,format=gray`
-    : "scale=32:24:flags=lanczos,format=gray";
-  const raw = execFileSync(option("--ffmpeg", "/opt/homebrew/bin/ffmpeg"), [
+    ? `crop=iw*${crop.width}:ih*${crop.height}:iw*${crop.x}:ih*${crop.y},scale=${size}:flags=lanczos,format=${format}`
+    : `scale=${size}:flags=lanczos,format=${format}`;
+  return execFileSync(option("--ffmpeg", "/opt/homebrew/bin/ffmpeg"), [
     "-hide_banner", "-loglevel", "error", "-i", file,
     "-vf", filter,
     "-frames:v", "1", "-f", "rawvideo", "-"
   ], { maxBuffer: 1024 * 1024 });
-  const values = Array.from(raw, Number);
-  const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
-  const deviation = Math.sqrt(values.reduce((sum, value) => sum + (value - mean) ** 2, 0) / values.length) || 1;
-  return { values: values.map((value) => Math.round(((value - mean) / deviation) * 100) / 100) };
+}
+
+function colorValues(raw) {
+  const values = [];
+  for (let index = 0; index < raw.length; index += 3) {
+    const red = raw[index];
+    const green = raw[index + 1];
+    const blue = raw[index + 2];
+    const total = red + green + blue || 1;
+    values.push(red / total, green / total, blue / total);
+  }
+  return values.map((value) => Math.round(value * 1000) / 1000);
+}
+
+function fingerprint(file, crop = "") {
+  const gray = Array.from(ffmpegFrame(file, crop, "32:24", "gray"), Number);
+  const color = colorValues(ffmpegFrame(file, crop, "16:12", "rgb24"));
+  return { values: normalized(gray), color };
 }
 
 function buildBook(id, directory, expectedCount) {
