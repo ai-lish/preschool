@@ -7,12 +7,12 @@
 **2026-08-31 · Codex：**
 
 - 已在 `/Users/zachli/Documents/preschool/reading-companion/` 建立 preschool 內容中心：可登記書本、輸入 PDF 來源、頁數、每頁故事文字及玩法提示。
-- 每頁故事與玩法提示是兩段獨立錄音：故事確認頁面後自動播放；玩法提示只在按鈕被點擊時播放。
-- 內容中心可設定 MiniMax TTS 模型、英文聲線、速度、音量、音調、故事語氣、提示語氣及背景音樂描述，並把書本設定下載成 `minimax-pages.json`。
+- 普通頁只播放 PDF 對照文字；互動頁拆成「前段／後段」，前段確認頁面後自動播放，玩法提示及女聲反應按需要播放，完成動作後才讀後段。
+- 內容中心可設定故事聲線、MiniMax 導讀／女聲、速度、音量、音調、故事語氣、提示語氣及背景音樂描述，並把書本設定下載成 `minimax-pages.json`。
 - 閱讀器加入 `mode=child`：隱藏 Drive、頁碼、校正、辨識分數及成人工具，只留下開始、書本確認、重播故事、玩法提示和背景音樂開關。
 - 預製腳本支援 `--manifest`、`--output-dir`、`--output-manifest`、`--force-audio`、`--force-music`；背景音樂保持獨立音軌，閱讀時會在語音播放期間自動降低音量。
-- 22 個逐頁玩法提示 MP3 已補上 Google Drive 兩本書的 `pages` 子資料夾；每本目前有「故事 + 提示」成對音檔。
-- 已嘗試為兩本示範書呼叫 MiniMax Music Generation；目前帳戶回覆未開放該服務，因此本機資產索引的背景音樂欄位暫為 `null`，閱讀器會保留故事功能並停用音樂按鈕。
+- 兩本示範書已建立 22 個逐頁玩法提示 MP3、16 頁前段／後段故事 MP3 及女聲反應 MP3；同一組重複畫面以流程 ID 串起，翻到後續狀態時不會再重讀前段。
+- 已嘗試為兩本示範書呼叫 MiniMax Music Generation；目前帳戶回覆未開放該服務，因此本機資產索引的背景音樂欄位暫為 `null`，閱讀器會保留故事、女聲及內置互動聲效，並停用音樂按鈕。
 - GPT-5.6-sol 審查建議把成人設定和孩子閱讀分流、API key 留在本機、先逐頁校正再交給孩子使用；這次已按此方向加入入口及播放管理。
 - 兩本示範書已由私有 PDF 預先產生 22 頁的裝置無關辨識包；孩子端換裝置時不需要重新校正，仍會先彈出書本確認。
 - 已拆出 `minimax-child-reader.js`，公開孩子端不包含成人來源預覽、登記、校正或 MiniMax 設定程式。
@@ -33,7 +33,7 @@ Claude Code 先前已完成兩本英文掃描繪本的逐頁資料及故事／�
 - 書本 ID、書名、Google Drive PDF 連結、頁數及適合年齡。
 - MiniMax TTS 設定。故事文字和玩法提示可以為每頁選擇不同語氣。
 - 背景音樂描述及低音量設定。背景音樂會獨立輸出，孩子可以關閉。
-- 每一頁的故事文字和推／拉／滑玩法提示。兩者都必須填寫，才可保存登記。
+- 每一頁完整的 PDF 原文；互動頁再填前段、後段、女聲反應、玩法提示、流程 ID／位置及聲效。封面或普通頁不需要硬加玩法句子。
 
 登記資料只放在目前裝置的 `localStorage`。按「下載 `minimax-pages.json`」可輸出給預製腳本使用。
 
@@ -60,7 +60,10 @@ Claude Code 先前已完成兩本英文掃描繪本的逐頁資料及故事／�
 - `assets/minimax/<book>/book-confirm.mp3`：鏡頭辨認書本後的確認語音。
 - `assets/minimax/<book>/book-confirm.jpg`：確認視窗插圖。
 - `assets/minimax/<book>/page-default.mp3`、`page-default.jpg`：預設伴讀資產。
-- `assets/minimax/<book>/pages/page-<n>.mp3`：第 n 頁故事文字，自動播放。
+- `assets/minimax/<book>/pages/page-<n>.mp3`：沒有互動分段的第 n 頁故事文字。
+- `assets/minimax/<book>/pages/page-<n>-before.mp3`：互動前先讀的前段。
+- `assets/minimax/<book>/pages/page-<n>-after.mp3`：互動完成後讀的後段。
+- `assets/minimax/<book>/pages/page-<n>-reaction.mp3`：互動完成後的女聲反應。
 - `assets/minimax/<book>/pages/page-<n>-hint.mp3`：第 n 頁玩法提示，按需要播放。
 - `assets/minimax/<book>/book-music.mp3`：可循環的獨立背景音樂。
 - `assets/minimax-assets.js`：閱讀器使用的資產索引。
@@ -103,20 +106,24 @@ Claude Code 先前已完成兩本英文掃描繪本的逐頁資料及故事／�
 
 孩子只需：
 
-1. 按「開始閱讀」並允許前鏡頭。
-2. 把實體書放到鏡架的鏡子前，看到確認提示後按「確認，開始伴讀」。
-3. 故事文字會自動播放；需要探索玩法時才按「播放玩法提示」。背景音樂可隨時關閉。
+1. 先選今天要讀的一本書，按「開始閱讀」並允許前鏡頭。
+2. 把所選實體書的封面放到鏡架鏡子前；鏡頭只核對這一本，確認後才開始伴讀。
+3. 每個互動頁先自動讀前段；需要時按女聲玩法提示，完成實體翻／拉／滑動作後，鏡頭認到下一個畫面便播放聲效、女聲反應及後段。若鏡頭未及時反應，可按「完成互動，繼續故事」。
 
 ## MiniMax 文字及語氣格式
 
-`minimax-pages.json` 使用 `version: 4`。故事和提示分開：
+`minimax-pages.json` 使用 `version: 5`。完整原文保留作對照；互動頁再用 `beforeText`／`afterText` 分段：
 
     {
       "pageNumber": 3,
       "emotion": "calm",
-      "text": "(breath) The story text on this page.",
+      "text": "The complete printed text on this page.",
+      "beforeText": "The first part before the action,",
+      "afterText": "the second part after the action.",
+      "reactionText": "Great job!",
       "hintText": "Push, pull, or slide to explore this page.",
-      "hintEmotion": "happy"
+      "hintEmotion": "happy",
+      "flow": {"id": "example-action", "stage": "before", "prompt": "Push the picture.", "soundEffect": "success"}
     }
 
 故事文字可加入 MiniMax speech-2.8 支援的 `(chuckle)`、`(breath)`、`(gasps)`、`(sighs)`、`(sniffs)` 及 `<#0.5#>` 停頓標記。正式交給孩子前，仍應做人耳試聽，確認英文發音、語氣、提示內容及音樂音量合適。
@@ -131,4 +138,4 @@ Claude Code 先前已完成兩本英文掃描繪本的逐頁資料及故事／�
 
 公開投影可以被瀏覽器下載，因此預製音訊／圖像及頁面辨識特徵不是秘密；真正需要保護的是原始 PDF、Drive 來源、成人設定及 API key。閱讀完成紀錄目前仍只保存在每部裝置，跨裝置共用的是辨識與預製資產，不是個人進度。
 
-目前 repo 沒有執行 `git add`、`commit` 或 `push`。若要正式上線，應把 private source 與 public projection 分別放入對應的私有來源 repo 及公開 Pages／靜態主機，並在發布前通過兩個安全腳本。
+每次更新後都應重新建立 `site/`、通過 `guard-public-site.mjs`，再只提交公開投影及已審核的孩子端 runtime／資產；private source（成人頁面、PDF 來源、設定檔及 API key）仍不進入公開投影。

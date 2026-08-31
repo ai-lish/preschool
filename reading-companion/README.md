@@ -1,12 +1,12 @@
 # 閱光｜preschool 互動伴讀
 
-這是 preschool repo 內的 ARpedia-inspired 鏡架伴讀工具：鏡子把實體書頁反射到前鏡頭，孩子端使用預先建立的跨裝置頁面辨識包，先請孩子確認書本，再播放預先製作的 MiniMax 故事語音、玩法提示及背景音樂。
+這是 preschool repo 內的 ARpedia-inspired 鏡架伴讀工具：鏡子把實體書頁反射到前鏡頭，孩子端使用預先建立的跨裝置頁面辨識包，先請孩子選定／確認書本，再播放預先製作的 MiniMax 故事語音、女聲玩法提示、互動反應及聲效。
 
 ## 入口
 
 - 成人內容中心（只在 private source）：`preschool.html`，登記書本、逐頁輸入故事／玩法、設定 TTS 與背景音樂、下載 `minimax-pages.json`。
 - 成人校正／預製（只在 private source）：`minimax-mirror-reader.html` 及 `scripts/build-recognition-pack.mjs`。
-- 小朋友閱讀公開投影：[`site/index.html`](site/index.html)，孩子只會看到開始、書本確認、故事重播、玩法提示及背景音樂開關。
+- 小朋友閱讀公開投影：[`site/index.html`](site/index.html)，孩子只會看到選書、書本確認、故事前段／後段、女聲玩法提示、互動反應及聲效控制。
 
 ## ARpedia 設計概念
 
@@ -17,4 +17,4 @@
 - Goldilocks and the Three Bears：12 頁。
 - The Three Little Pigs：10 頁。
 
-兩本書的故事文字和推／拉／滑玩法提示均為獨立錄音。故事在確認頁面後自動播放；玩法提示按需要才播放。請先閱讀 [README-MINIMAX.md](README-MINIMAX.md) 了解預製、逐頁校正、背景音樂及 Google Drive 資料安全流程。
+兩本書的普通頁只讀 PDF 原文；互動頁先讀前段，實體翻／拉／滑後以頁面辨識觸發聲效、女聲反應及後段，避免相似跨頁重複朗讀。請先閱讀 [README-MINIMAX.md](README-MINIMAX.md) 了解預製、逐頁分鏡、辨識及 Google Drive 資料安全流程。

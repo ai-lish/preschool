@@ -35,10 +35,15 @@
   const interactionPrompt = $("#interactionPrompt");
   const interactionImage = $("#interactionImage");
   const interactionAudio = $("#interactionAudio");
+  const beforeAudio = $("#beforeAudio");
+  const afterAudio = $("#afterAudio");
+  const reactionAudio = $("#reactionAudio");
   const hintAudio = $("#hintAudio");
   const backgroundMusic = $("#backgroundMusic");
   const speakButton = $("#speakInteraction");
   const playHintButton = $("#playHint");
+  const interactionAction = $("#interactionAction");
+  const flowStatus = $("#flowStatus");
   const toggleMusicButton = $("#toggleMusic");
   const assetState = $("#assetState");
   const dialog = $("#bookDialog");
@@ -47,8 +52,14 @@
   const dialogText = $("#dialogText");
   const dialogImage = $("#dialogImage");
   const markComplete = $("#markComplete");
+  const childWelcome = $("#childWelcome");
+  const childBookName = $("#childBookName");
+  const childBookPicker = $("#childBookPicker");
+  const childStart = $("#childStart");
+  const changeBookButton = $("#changeBook");
 
   let state = loadState();
+  let selectedBookId = REQUESTED_BOOK_ID && BOOKS[REQUESTED_BOOK_ID] ? REQUESTED_BOOK_ID : null;
   let currentBookId = null;
   let currentPage = null;
   let cameraStream = null;
@@ -61,6 +72,12 @@
   let musicBaseVolume = 0.14;
   let musicEnabled = true;
   let musicDucked = false;
+  let currentAssets = null;
+  let currentFlowId = null;
+  let flowStarted = false;
+  let flowCompleted = false;
+  let interactionPage = null;
+  let audioContext = null;
 
   function loadState() {
     try {
@@ -85,10 +102,11 @@
     return samples && typeof samples === "object" ? samples : {};
   }
 
-  function allSamples() {
-    const ids = REQUESTED_BOOK_ID && BOOKS[REQUESTED_BOOK_ID] ? [REQUESTED_BOOK_ID] : Object.keys(BOOKS);
+  function allSamples({ coverOnly = false } = {}) {
+    const ids = selectedBookId && BOOKS[selectedBookId] ? [selectedBookId] : Object.keys(BOOKS);
     const list = [];
     ids.forEach((id) => Object.entries(centralSamplesFor(id)).forEach(([page, samples]) => {
+      if (coverOnly && String(page) !== "1") return;
       (Array.isArray(samples) ? samples : [samples]).forEach((sample) => {
         if (sample && Array.isArray(sample.values)) list.push({ bookId: id, page, sample });
       });
@@ -231,7 +249,7 @@
   function resetRecognition() {
     stableKey = null;
     stableCount = 0;
-    if (readout) readout.textContent = "等待書頁";
+    if (readout) readout.textContent = currentBookId ? "等待書頁" : "等待封面";
   }
 
   function stopMedia(media) {
@@ -308,29 +326,179 @@
     return pack.pageDefault ? { ...pack.pageDefault, backgroundMusic: pack.backgroundMusic, backgroundMusicVolume: pack.backgroundMusicVolume } : null;
   }
 
-  function playStoryAudio() {
-    if (!interactionAudio?.src) {
-      if (assetState) assetState.textContent = "這一頁的故事語音未準備好。";
+  function storyMedia() {
+    return [interactionAudio, beforeAudio, afterAudio, reactionAudio].filter(Boolean);
+  }
+
+  function stopStoryMedia() {
+    storyMedia().forEach((media) => {
+      media.onended = null;
+      stopMedia(media);
+    });
+  }
+
+  function playAudioSequence(mediaList, statusText, failureText = "再按一次就可以繼續播放。", done = null) {
+    const clips = mediaList.filter((media) => media?.src);
+    if (!clips.length) {
+      if (assetState) assetState.textContent = failureText;
+      if (done) done();
       return;
     }
-    stopMedia(hintAudio);
-    interactionAudio.currentTime = 0;
-    interactionAudio.play().catch(() => {
-      if (assetState) assetState.textContent = "按「重播故事語音」就可以繼續聽。";
-    });
+    stopStoryMedia();
+    let index = 0;
+    const next = () => {
+      const media = clips[index++];
+      if (!media) {
+        setMusicDucked(false);
+        if (done) done();
+        return;
+      }
+      media.onended = () => {
+        media.onended = null;
+        next();
+      };
+      media.play().then(() => {
+        if (assetState && statusText) assetState.textContent = statusText;
+      }).catch(() => {
+        media.onended = null;
+        setMusicDucked(false);
+        if (assetState) assetState.textContent = failureText;
+      });
+    };
+    next();
+  }
+
+  function unlockAudio() {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return null;
+    if (!audioContext) audioContext = new AudioContextClass();
+    if (audioContext.state === "suspended") audioContext.resume().catch(() => {});
+    return audioContext;
+  }
+
+  function playTone(audio, frequency, startAt, duration, type = "sine", volume = 0.07) {
+    const oscillator = audio.createOscillator();
+    const gain = audio.createGain();
+    oscillator.type = type;
+    oscillator.frequency.setValueAtTime(frequency, startAt);
+    gain.gain.setValueAtTime(0.0001, startAt);
+    gain.gain.exponentialRampToValueAtTime(Math.max(0.001, volume), startAt + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001, startAt + duration);
+    oscillator.connect(gain).connect(audio.destination);
+    oscillator.start(startAt);
+    oscillator.stop(startAt + duration + 0.03);
+  }
+
+  function playNoise(audio, startAt, duration, lowFrequency, highFrequency, volume = 0.14) {
+    const buffer = audio.createBuffer(1, Math.ceil(audio.sampleRate * duration), audio.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let index = 0; index < data.length; index += 1) data[index] = (Math.random() * 2 - 1) * 0.8;
+    const source = audio.createBufferSource();
+    const filter = audio.createBiquadFilter();
+    const gain = audio.createGain();
+    filter.type = "bandpass";
+    filter.frequency.setValueAtTime(lowFrequency, startAt);
+    filter.frequency.exponentialRampToValueAtTime(highFrequency, startAt + duration);
+    filter.Q.value = 0.7;
+    gain.gain.setValueAtTime(0.0001, startAt);
+    gain.gain.exponentialRampToValueAtTime(Math.max(0.001, volume), startAt + 0.025);
+    gain.gain.exponentialRampToValueAtTime(0.0001, startAt + duration);
+    source.buffer = buffer;
+    source.connect(filter).connect(gain).connect(audio.destination);
+    source.start(startAt);
+    source.stop(startAt + duration + 0.03);
+  }
+
+  function playSoundEffect(effect) {
+    const audio = unlockAudio();
+    if (!audio || !effect) return;
+    const now = audio.currentTime + 0.01;
+    if (effect === "wolf-blow") {
+      playNoise(audio, now, 0.75, 280, 1500, 0.18);
+      playTone(audio, 180, now, 0.65, "sine", 0.06);
+    } else if (effect === "wood-crash") {
+      playNoise(audio, now, 0.42, 90, 520, 0.28);
+      playTone(audio, 135, now + 0.04, 0.24, "triangle", 0.1);
+      playTone(audio, 92, now + 0.17, 0.3, "triangle", 0.08);
+    } else if (effect === "chair-break") {
+      playNoise(audio, now, 0.3, 150, 760, 0.2);
+      playTone(audio, 220, now, 0.16, "square", 0.07);
+      playTone(audio, 125, now + 0.11, 0.25, "square", 0.07);
+    } else if (effect === "footsteps") {
+      playTone(audio, 115, now, 0.12, "triangle", 0.08);
+      playTone(audio, 105, now + 0.2, 0.12, "triangle", 0.08);
+      playTone(audio, 98, now + 0.4, 0.14, "triangle", 0.08);
+    } else if (effect === "pot") {
+      playTone(audio, 780, now, 0.08, "bell", 0.12);
+      playTone(audio, 520, now + 0.08, 0.34, "triangle", 0.1);
+      playNoise(audio, now + 0.08, 0.25, 130, 420, 0.12);
+    } else if (effect === "porridge") {
+      playTone(audio, 420, now, 0.12, "sine", 0.08);
+      playTone(audio, 620, now + 0.13, 0.16, "sine", 0.08);
+    } else if (effect === "success") {
+      playTone(audio, 660, now, 0.16, "sine", 0.08);
+      playTone(audio, 880, now + 0.13, 0.24, "sine", 0.08);
+    }
+  }
+
+  function updateFlowUi() {
+    const flow = currentAssets?.flow;
+    const hasAfter = Boolean(afterAudio?.src);
+    if (!flow || !hasAfter) {
+      if (flowStatus) flowStatus.textContent = currentAssets?.audio ? "故事語音會自動播放。" : "這一頁的預製語音未準備好。";
+      if (interactionAction) interactionAction.hidden = true;
+      return;
+    }
+    const afterState = flow.stage && flow.stage !== "before";
+    if (flowStatus) {
+      flowStatus.textContent = afterState
+        ? (flowCompleted ? "互動完成 · 可以繼續下一頁" : "互動完成 · 正在讀出後半段")
+        : (flowCompleted ? "已完成互動 · 可以再玩一次" : flowStarted ? "第一段已讀 · 按提示完成互動" : "準備讀第一段");
+    }
+    if (interactionAction) {
+      interactionAction.hidden = afterState;
+      interactionAction.disabled = false;
+      interactionAction.textContent = flowCompleted ? "再玩一次　↻" : "完成互動，繼續故事　→";
+    }
+  }
+
+  function playStoryAudio() {
+    const primary = beforeAudio?.src ? beforeAudio : interactionAudio;
+    playAudioSequence([primary], "第一段故事語音正在播放。", "按「重播第一段」就可以繼續聽。", updateFlowUi);
   }
 
   function playHintAudio() {
     if (!hintAudio?.src) return;
-    stopMedia(interactionAudio);
-    hintAudio.currentTime = 0;
-    hintAudio.play().catch(() => {
+    stopStoryMedia();
+    stopMedia(hintAudio);
+    hintAudio.play().then(() => {
+      if (assetState) assetState.textContent = "女聲玩法提示正在播放。";
+    }).catch(() => {
       if (assetState) assetState.textContent = "再按一次就可以播放玩法提示。";
     });
   }
 
+  function completeInteraction() {
+    const flow = currentAssets?.flow;
+    if (!flow || !afterAudio?.src) return;
+    flowStarted = true;
+    interactionPage = currentPage;
+    flowCompleted = true;
+    if (interactionAction) interactionAction.disabled = true;
+    if (flowStatus) flowStatus.textContent = "互動完成 · 正在讀出後半段";
+    playSoundEffect(flow.soundEffect || "success");
+    playAudioSequence([afterAudio, reactionAudio], "互動後故事語音正在播放。", "再按一次就可以聽到互動後的故事。", updateFlowUi);
+  }
+
   function resetInteraction() {
+    stopStoryMedia();
+    stopMedia(hintAudio);
     currentPage = null;
+    currentAssets = null;
+    currentFlowId = null;
+    flowStarted = false;
+    flowCompleted = false;
+    interactionPage = null;
     if (detectedLabel) detectedLabel.textContent = "目前狀態";
     if (detectedPage) detectedPage.textContent = "尚未辨認";
     if (interactionTitle) interactionTitle.textContent = "等待確認書本";
@@ -341,8 +509,13 @@
       interactionImage.removeAttribute("src");
     }
     setMediaSource(interactionAudio, "");
+    setMediaSource(beforeAudio, "");
+    setMediaSource(afterAudio, "");
+    setMediaSource(reactionAudio, "");
     setMediaSource(hintAudio, "");
     if (playHintButton) playHintButton.disabled = true;
+    if (interactionAction) interactionAction.hidden = true;
+    if (flowStatus) flowStatus.textContent = "等待預製資產";
     if (assetState) assetState.textContent = "等待預製資產";
     clearMusic();
   }
@@ -350,13 +523,24 @@
   function showPage(page, score) {
     const book = BOOKS[currentBookId];
     if (!book || !page) return;
+    const previousPage = currentPage;
     currentPage = String(page);
     detectedLabel.textContent = "已確認書本 · 頁面辨識";
     detectedPage.textContent = `第 ${page} 頁${score ? ` · 信心 ${Math.round(score * 100)}%` : ""}`;
     interactionTitle.textContent = book.pageTitle;
     interactionIntro.textContent = book.intro;
-    interactionPrompt.textContent = book.pagePrompt.replace("{page}", String(page));
     const assets = assetsFor(currentBookId, page);
+    const previousFlowId = currentFlowId;
+    const nextFlowId = assets?.flow?.id || null;
+    const flowChanged = previousFlowId !== nextFlowId;
+    currentAssets = assets;
+    currentFlowId = nextFlowId;
+    if (flowChanged) {
+      flowStarted = false;
+      flowCompleted = false;
+      interactionPage = null;
+    }
+    interactionPrompt.textContent = assets?.flow?.prompt || book.pagePrompt.replace("{page}", String(page));
     if (assets?.image) {
       interactionImage.src = assets.image;
       interactionImage.hidden = false;
@@ -365,21 +549,53 @@
       interactionImage.removeAttribute("src");
     }
     setMediaSource(interactionAudio, assets?.audio || "");
+    setMediaSource(beforeAudio, assets?.beforeAudio || assets?.audio || "");
+    setMediaSource(afterAudio, assets?.afterAudio || "");
+    setMediaSource(reactionAudio, assets?.reactionAudio || "");
     setMediaSource(hintAudio, assets?.hintAudio || "");
     playHintButton.disabled = !assets?.hintAudio;
     syncMusic(assets, false);
-    assetState.textContent = assets?.audio ? (assets.hintAudio ? "故事語音會自動播放；想玩時再按玩法提示。" : "故事語音會自動播放。") : "這一頁的預製語音未準備好。";
-    playStoryAudio();
+    updateFlowUi();
+    const isAfterState = Boolean(assets?.flow && assets.flow.stage && assets.flow.stage !== "before");
+    if (assets?.flow && isAfterState) {
+      const enteredFlowAtAfterState = flowChanged || !flowStarted;
+      if (enteredFlowAtAfterState) {
+        flowStarted = true;
+        interactionPage = currentPage;
+        playSoundEffect(assets.flow.soundEffect || "success");
+        playAudioSequence(
+          [beforeAudio, afterAudio, reactionAudio],
+          "互動後故事語音正在播放。",
+          "再按一次就可以聽到這一頁的故事。",
+          () => { flowCompleted = true; updateFlowUi(); }
+        );
+      } else if (interactionPage !== currentPage || previousPage !== currentPage) {
+        interactionPage = currentPage;
+        playSoundEffect(assets.flow.soundEffect || "success");
+        playAudioSequence(
+          [afterAudio, reactionAudio],
+          "互動後故事語音正在播放。",
+          "再按一次就可以聽到這一頁的故事。",
+          () => { flowCompleted = true; updateFlowUi(); }
+        );
+      }
+    } else if (!assets?.flow || !flowStarted) {
+      flowStarted = Boolean(assets?.audio || assets?.beforeAudio);
+      flowCompleted = false;
+      playStoryAudio();
+    }
     if (assets?.backgroundMusic && musicEnabled) syncMusic(assets, true);
   }
 
   function showBookDialog(id, page, score) {
-    if (pendingBook || !BOOKS[id]) return;
+    if (pendingBook || !BOOKS[id] || (selectedBookId && selectedBookId !== id)) return;
     pendingBook = { bookId: id, page, score };
     const book = BOOKS[id];
     const assets = assetPackFor(id);
     dialogTitle.textContent = `是「${book.title}」嗎？`;
-    dialogText.textContent = "鏡頭看到這本書。按確認，故事會自己讀出來。";
+    dialogText.textContent = selectedBookId === id ? "鏡頭找到你剛才選的這本書。按確認，故事會自己讀出來。" : "鏡頭看到這本書。按確認，故事會自己讀出來。";
+    const cancelButton = $("#cancelBook");
+    if (cancelButton) cancelButton.textContent = selectedBookId === id ? "重試這一本" : "不是這一本";
     if (assets?.confirm?.image) {
       dialogImage.src = assets.confirm.image;
       dialogImage.hidden = false;
@@ -398,6 +614,8 @@
   }
 
   function activateBook(id, page) {
+    if (!BOOKS[id]) return;
+    selectedBookId = id;
     currentBookId = id;
     state.lastBook = id;
     if (!state.opened.includes(id)) state.opened.push(id);
@@ -411,7 +629,7 @@
 
   function scan() {
     if (!recognitionEnabled) return;
-    const entries = allSamples();
+    const entries = allSamples({ coverOnly: !currentBookId });
     if (!entries.length) {
       recognitionStatus.textContent = "這本書的辨識資料未載入，請重新開啟閱讀頁。";
       return;
@@ -430,7 +648,9 @@
     const ambiguous = best && secondBest && best.bookId !== secondBest.bookId && best.score - secondBest.score < 0.04;
     if (!best || best.score < RECOGNITION_THRESHOLD || ambiguous) {
       resetRecognition();
-      recognitionStatus.textContent = "請把整頁書本放在鏡面畫面上半部中央，保持穩定。";
+      recognitionStatus.textContent = currentBookId
+        ? "請把整頁書本放在鏡面畫面上半部中央，保持穩定。"
+        : `請先把「${BOOKS[selectedBookId]?.title || "所選書本"}」的封面放在鏡面畫面上半部中央。`;
       return;
     }
     const key = currentBookId ? `${best.bookId}:${best.page}` : best.bookId;
@@ -450,11 +670,13 @@
   }
 
   function startRecognition() {
-    if (!cameraStream || !allSamples().length) return;
+    if (!cameraStream || !selectedBookId || !allSamples({ coverOnly: !currentBookId }).length) return;
     stopRecognition(false);
     recognitionEnabled = true;
     detectButton.disabled = true;
-    recognitionStatus.textContent = "正在找書本…找到後會請你確認。";
+    recognitionStatus.textContent = currentBookId
+      ? "正在找下一頁…"
+      : `正在確認「${BOOKS[selectedBookId]?.title || "所選書本"}」封面…`;
     scan();
     recognitionTimer = window.setInterval(scan, 900);
   }
@@ -476,6 +698,7 @@
       return;
     }
     try {
+      unlockAudio();
       cameraStream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 720 } },
         audio: false
@@ -503,27 +726,65 @@
     startButton.disabled = false;
     stopButton.disabled = true;
     cameraStatus.textContent = "相機已停止。按開始閱讀再試一次。";
-    stopMedia(interactionAudio);
+    stopStoryMedia();
     stopMedia(hintAudio);
     clearMusic();
   }
 
   function openDetection() {
+    if (!selectedBookId || !BOOKS[selectedBookId]) {
+      workspace.hidden = true;
+      childWelcome.hidden = false;
+      renderChildWelcome();
+      return;
+    }
     currentBookId = null;
     workspace.hidden = false;
-    const selected = REQUESTED_BOOK_ID && BOOKS[REQUESTED_BOOK_ID] ? BOOKS[REQUESTED_BOOK_ID] : null;
+    const selected = BOOKS[selectedBookId];
     title.textContent = "把書放到鏡子前";
-    summary.textContent = `${selected ? selected.title + " · " : ""}請把書頁放在畫面上半部中央；找到後會先請你確認。`;
+    summary.textContent = `${selected.title} · 請把封面放在畫面上半部中央；鏡頭只會核對這一本。`;
     resetRecognition();
     resetInteraction();
     if (cameraStream) startRecognition();
   }
 
+  function renderChildWelcome() {
+    if (!childWelcome || !childBookName || !childStart) return;
+    const selected = selectedBookId && BOOKS[selectedBookId] ? BOOKS[selectedBookId] : null;
+    childBookName.textContent = selected
+      ? `今天讀「${selected.title}」。選定後，鏡頭只會找這一本，不會跳去問其他故事。`
+      : "先選一本故事。選定後，鏡頭只會找這一本；確認封面後，故事會自己讀出來。";
+    childStart.disabled = !selected;
+    childStart.textContent = selected ? `開始讀「${selected.title}」　→` : "先選一本書";
+    if (childBookPicker) childBookPicker.hidden = Boolean(REQUESTED_BOOK_ID && selected);
+    document.querySelectorAll("[data-child-book]").forEach((node) => {
+      node.classList.toggle("selected", node.dataset.childBook === selectedBookId);
+      node.setAttribute("aria-pressed", node.dataset.childBook === selectedBookId ? "true" : "false");
+    });
+  }
+
+  function chooseChildBook(id) {
+    if (!BOOKS[id]) return;
+    selectedBookId = id;
+    renderChildWelcome();
+  }
+
+  function showChildWelcome() {
+    stopCamera();
+    currentBookId = null;
+    pendingBook = null;
+    workspace.hidden = true;
+    childWelcome.hidden = false;
+    renderChildWelcome();
+  }
+
   function wireAudio() {
-    interactionAudio?.addEventListener("play", () => { stopMedia(hintAudio); setMusicDucked(true); });
-    interactionAudio?.addEventListener("pause", () => setMusicDucked(false));
-    interactionAudio?.addEventListener("ended", () => setMusicDucked(false));
-    hintAudio?.addEventListener("play", () => { stopMedia(interactionAudio); setMusicDucked(true); });
+    [interactionAudio, beforeAudio, afterAudio, reactionAudio].filter(Boolean).forEach((media) => {
+      media.addEventListener("play", () => { stopMedia(hintAudio); setMusicDucked(true); });
+      media.addEventListener("pause", () => setMusicDucked(false));
+      media.addEventListener("ended", () => setMusicDucked(false));
+    });
+    hintAudio?.addEventListener("play", () => { stopStoryMedia(); setMusicDucked(true); });
     hintAudio?.addEventListener("pause", () => setMusicDucked(false));
     hintAudio?.addEventListener("ended", () => setMusicDucked(false));
     backgroundMusic?.addEventListener("error", () => {});
@@ -543,18 +804,20 @@
     if (cameraNote) cameraNote.textContent = "鏡面反射後由程式水平校正；相機影像只在本機取樣，不錄影、不上傳。";
     if (cameraLabel) cameraLabel.textContent = "MIRROR · CORRECTED";
     [$("#saveSample"), $("#clearSamples"), detectButton, stopButton].forEach((node) => { if (node) node.hidden = true; });
-    const childWelcome = $("#childWelcome");
-    const childBookName = $("#childBookName");
-    const selected = REQUESTED_BOOK_ID && BOOKS[REQUESTED_BOOK_ID] ? BOOKS[REQUESTED_BOOK_ID] : null;
-    if (selected) childBookName.textContent = `今天讀「${selected.title}」。按開始，將書放到鏡子前；確認後故事會自己讀出來。`;
+    document.querySelectorAll("[data-child-book]").forEach((node) => {
+      node.addEventListener("click", () => chooseChildBook(node.dataset.childBook));
+    });
+    renderChildWelcome();
     childWelcome.hidden = false;
-    $("#childStart").addEventListener("click", () => {
+    childStart.addEventListener("click", () => {
+      if (!selectedBookId) return;
       childWelcome.hidden = true;
       openDetection();
       startCamera();
     });
     startButton.addEventListener("click", startCamera);
     stopButton.addEventListener("click", stopCamera);
+    changeBookButton?.addEventListener("click", showChildWelcome);
     $("#closeWorkspace")?.addEventListener("click", () => { stopCamera(); workspace.hidden = true; });
     $("#confirmBook").addEventListener("click", () => {
       if (!pendingBook) return;
@@ -569,10 +832,11 @@
       stopMedia(dialogAudio);
       if (dialog.open) dialog.close();
       resetRecognition();
-      recognitionStatus.textContent = "再找一次書本。";
+      recognitionStatus.textContent = selectedBookId ? `再找一次「${BOOKS[selectedBookId].title}」的封面。` : "再找一次書本。";
     });
     dialog.addEventListener("cancel", () => { pendingBook = null; stopMedia(dialogAudio); resetRecognition(); });
     speakButton?.addEventListener("click", (event) => { event.preventDefault(); playStoryAudio(); });
+    interactionAction?.addEventListener("click", (event) => { event.preventDefault(); completeInteraction(); });
     playHintButton?.addEventListener("click", (event) => { event.preventDefault(); playHintAudio(); });
     markComplete?.addEventListener("click", () => {
       if (!currentBookId) return;
