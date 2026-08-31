@@ -1,6 +1,6 @@
 # Adult source and source material never belong in the public projection.
 preschool.html
-index.html
+/index.html
 minimax-mirror-reader.html
 minimax-reader.js
 minimax-prebuild.mjs
