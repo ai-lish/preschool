@@ -25,6 +25,7 @@
 | **⬛ 圖形形狀** | shapes.html | ✅ 完成 | 圓方三角橢圓 |
 | **✏️ 寫字練習** | writing.html | ✅ 完成 | 筆劃訓練 |
 | **🏠 K2 家校 10 分鐘** | k2-guide.html | ✅ 完成 | A-Z、1-10、中文基礎字、生活習慣 |
+| **📷 閱光互動伴讀** | reading-companion/ | 🚧 開發中 | 鏡架辨書 + MiniMax 逐頁語音／玩法提示 |
 
 ---
 
@@ -76,6 +77,14 @@ alphabet/
 
 清單進度只保存在孩子使用的瀏覽器 `localStorage`，不會上傳個人資料。
 
+## 📷 閱光互動伴讀（開發中）
+
+成人先在 private source 內進入 `reading-companion/preschool.html` 登記書本及建立逐頁內容；線上小朋友閱讀入口是 [`reading-companion/site/index.html`](reading-companion/site/index.html)。公開投影只包含孩子端閱讀器、預製語音／圖像及頁面辨識資料，不包含 PDF 或成人設定。詳見 [`reading-companion/README-MINIMAX.md`](reading-companion/README-MINIMAX.md)。
+
+用前鏡頭辨認實體繪本（目前示範 Goldilocks and the Three Bears、The Three Little Pigs），確認頁面後自動朗讀 MiniMax 預製的故事語音；推、拉、滑玩法提示則錄成獨立音檔，需要時才點擊播放。相機影像只在本機比對，不上傳、不錄影。
+
+> ⚠️ 私有來源與公開投影已分開：`minimax-pages.json`、PDF 來源、成人內容中心及 MiniMax 預製設定不可加入公開投影；發布前必須執行 `node reading-companion/scripts/build-public-site.mjs` 及 `node reading-companion/scripts/guard-public-site.mjs`。
+
 ---
 
 ## 🎮 遊戲內容
@@ -94,6 +103,13 @@ preschool/
 │   └── alphabet-extensions.css  # 歌曲房響應式樣式
 ├── css/k2-guide.css             # K2 家校頁樣式
 ├── js/k2-guide.js               # K2 清單和本機進度
+├── reading-companion/            # 閱光互動伴讀（開發中，鏡架辨書 + MiniMax 伴讀）
+│   ├── preschool.html                # 成人內容中心（登記書本 + 下載設定檔）
+│   ├── minimax-mirror-reader.html  # 主要閱讀器（前鏡頭辨書 + 兒童模式）
+│   ├── minimax-reader.js             # 閱讀器辨識及 AudioManager
+│   ├── minimax-prebuild.mjs        # MiniMax 預製語音／插圖生成腳本
+│   ├── minimax-pages.json          # 逐頁文字／玩法提示／語氣設定
+│   └── assets/minimax/             # 已生成的 MP3／JPG 資產
 ├── characters.html              # 中文字字符號（日月水火）
 ├── numbers.html                 # 數字認知（1-20；K2 專注模式為 1-10）
 ├── shapes.html                  # 圖形形狀（圓方三角）

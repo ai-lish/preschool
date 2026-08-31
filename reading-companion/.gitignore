@@ -1,0 +1,13 @@
+# Adult source and source material never belong in the public projection.
+preschool.html
+index.html
+minimax-mirror-reader.html
+minimax-reader.js
+minimax-prebuild.mjs
+minimax-pages.json
+scan-reader.html
+mirror-reader.html
+*.local.json
+*.local.js
+.env
+# site/ is the reviewed public projection and may be committed to a public mirror.
