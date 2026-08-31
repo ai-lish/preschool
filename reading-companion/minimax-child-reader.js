@@ -98,6 +98,10 @@
     const height = 48;
     frameCanvas.width = width;
     frameCanvas.height = height;
+    frameContext.clearRect(0, 0, width, height);
+    frameContext.save();
+    frameContext.translate(width, 0);
+    frameContext.scale(-1, 1);
     if (crop) {
       frameContext.drawImage(
         video,
@@ -111,6 +115,7 @@
         height
       );
     } else frameContext.drawImage(video, 0, 0, width, height);
+    frameContext.restore();
     return frameContext.getImageData(0, 0, width, height);
   }
 
@@ -396,7 +401,7 @@
     const ambiguous = best && secondBest && (best.bookId !== secondBest.bookId || best.page !== secondBest.page) && best.score - secondBest.score < 0.04;
     if (!best || best.score < 0.83 || ambiguous) {
       resetRecognition();
-      recognitionStatus.textContent = "請讓整頁書本穩定留在鏡面虛線框內。";
+      recognitionStatus.textContent = "請把整頁書本放在鏡面畫面上半部中央，保持穩定。";
       return;
     }
     const key = `${best.bookId}:${best.page}`;
@@ -448,7 +453,7 @@
       empty.hidden = true;
       startButton.disabled = true;
       stopButton.disabled = false;
-      cameraStatus.textContent = "前鏡頭已開啟，請把鏡面中的書頁放好。";
+      cameraStatus.textContent = "前鏡頭已開啟，請把鏡面中的書頁放在畫面上半部中央。";
       startRecognition();
     } catch (error) {
       cameraStream = null;
@@ -476,7 +481,7 @@
     workspace.hidden = false;
     const selected = REQUESTED_BOOK_ID && BOOKS[REQUESTED_BOOK_ID] ? BOOKS[REQUESTED_BOOK_ID] : null;
     title.textContent = "把書放到鏡子前";
-    summary.textContent = `${selected ? selected.title + " · " : ""}頁面辨識資料已預先準備好；找到後會先請你確認。`;
+    summary.textContent = `${selected ? selected.title + " · " : ""}請把書頁放在畫面上半部中央；找到後會先請你確認。`;
     resetRecognition();
     resetInteraction();
     if (cameraStream) startRecognition();
@@ -501,6 +506,10 @@
 
   function setup() {
     document.body.classList.add("child-mode");
+    const cameraNote = document.querySelector(".grid > .card:first-child .card-head p");
+    const cameraLabel = document.querySelector(".readout span");
+    if (cameraNote) cameraNote.textContent = "鏡面反射後由程式水平校正；相機影像只在本機取樣，不錄影、不上傳。";
+    if (cameraLabel) cameraLabel.textContent = "MIRROR · CORRECTED";
     [$("#saveSample"), $("#clearSamples"), detectButton, stopButton].forEach((node) => { if (node) node.hidden = true; });
     const childWelcome = $("#childWelcome");
     const childBookName = $("#childBookName");

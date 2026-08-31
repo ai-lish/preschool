@@ -1,6 +1,6 @@
 # 閱光 preschool：MiniMax 預製伴讀流程
 
-這個資料夾是 preschool repo 內的閱讀工具。成人在 private source 用 `preschool.html` 登記及建立內容；線上小朋友只使用 `site/index.html`。鏡架上的鏡子負責把實體書頁反射到前鏡頭，軟體不再把畫面水平翻轉。
+這個資料夾是 preschool repo 內的閱讀工具。成人在 private source 用 `preschool.html` 登記及建立內容；線上小朋友只使用 `site/index.html`。鏡架上的鏡子負責把實體書頁反射到前鏡頭，孩子端會將鏡面影像水平校正，並把書頁放大到畫面上半部中央。
 
 ## 目前交接狀態
 
