@@ -48,5 +48,5 @@ for (const file of listFiles(publicRoot)) {
 }
 
 const index = fs.readFileSync(path.join(publicRoot, "index.html"), "utf8");
-if (!index.includes('src="minimax-child-reader.js"')) fail("child runtime script is missing from index.html");
+if (!/src="minimax-child-reader\.js(?:\?[^\"]*)?"/.test(index)) fail("child runtime script is missing from index.html");
 console.log(`Public site guard passed: ${actualFiles.length} files`);

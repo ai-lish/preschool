@@ -12,6 +12,7 @@
   const context = canvas.getContext("2d", { willReadFrequently: true });
   const frameCanvas = document.createElement("canvas");
   const frameContext = frameCanvas.getContext("2d", { willReadFrequently: true });
+  const RECOGNITION_THRESHOLD = 0.78;
   const $ = (selector) => document.querySelector(selector);
 
   const workspace = $("#workspace");
@@ -173,16 +174,19 @@
 
   function fingerprints() {
     if (!video.videoWidth || video.readyState < 2) return [];
-    const full = drawFrame();
-    const centre = drawFrame({ x: 0.09, y: 0.05, width: 0.82, height: 0.90 });
-    const inner = drawFrame({ x: 0.16, y: 0.125, width: 0.68, height: 0.75 });
-    return [
-      fingerprintFromFrame(full),
-      fingerprintFromFrame(centre),
-      fingerprintFromFrame(inner),
-      fingerprintFromFrame(full, true),
-      fingerprintFromFrame(centre, true)
-    ].filter(Boolean);
+    const crops = [
+      null,
+      { x: 0.05, y: 0, width: 0.90, height: 0.80 },
+      { x: 0.14, y: 0, width: 0.72, height: 0.78 },
+      { x: 0.18, y: 0, width: 0.64, height: 0.68 },
+      { x: 0.24, y: 0, width: 0.52, height: 0.68 },
+      { x: 0.09, y: 0.05, width: 0.82, height: 0.90 },
+      { x: 0.16, y: 0.125, width: 0.68, height: 0.75 }
+    ];
+    return crops.flatMap((crop) => {
+      const frame = drawFrame(crop);
+      return [fingerprintFromFrame(frame), fingerprintFromFrame(frame, true)];
+    }).filter(Boolean);
   }
 
   function similarity(first, second) {
@@ -399,7 +403,7 @@
       } else if (!secondBest || score > secondBest.score) secondBest = { ...entry, score };
     }));
     const ambiguous = best && secondBest && (best.bookId !== secondBest.bookId || best.page !== secondBest.page) && best.score - secondBest.score < 0.04;
-    if (!best || best.score < 0.83 || ambiguous) {
+    if (!best || best.score < RECOGNITION_THRESHOLD || ambiguous) {
       resetRecognition();
       recognitionStatus.textContent = "請把整頁書本放在鏡面畫面上半部中央，保持穩定。";
       return;

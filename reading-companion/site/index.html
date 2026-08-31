@@ -23,6 +23,10 @@
     body.child-mode .side,body.child-mode .top,body.child-mode .hero,body.child-mode #library,body.child-mode #record,body.child-mode .footer,body.child-mode .pdf-card{display:none!important}body.child-mode .app{display:block;width:100%;min-height:100vh}body.child-mode main{display:grid;width:100%;place-items:center;min-height:100vh;padding:clamp(12px,2vw,32px)}body.child-mode .child-welcome{display:block;width:min(900px,calc(100vw - 32px));padding:clamp(32px,5vw,68px)}body.child-mode .child-welcome h1{font-size:clamp(34px,6vw,64px)}body.child-mode .child-welcome p{max-width:660px;font-size:clamp(14px,1.5vw,19px)}body.child-mode .child-welcome .child-start{min-height:64px;padding:0 32px;font-size:clamp(15px,1.5vw,20px)}body.child-mode .workspace{width:min(1440px,100%);margin:0;padding:0;border:0;background:transparent;box-shadow:none}body.child-mode .workspace-head{align-items:center;padding:0 4px 13px}body.child-mode .workspace-head h2{font-size:clamp(24px,5vw,39px)}body.child-mode .workspace-head p{font-size:11px}body.child-mode .workspace-head .tools{display:none}body.child-mode .grid{grid-template-columns:1fr}body.child-mode .grid>.card:first-child .card-head p,body.child-mode .readout,body.child-mode #stopCamera,body.child-mode #toggleDetection,body.child-mode .sample-tools,body.child-mode .recognition{display:none}body.child-mode .stage,body.child-mode video{height:min(68vh,760px);min-height:320px}body.child-mode video{object-fit:cover;object-position:50% 24%;transform:scaleX(-1) scale(1.35);transform-origin:50% 28%}body.child-mode .camera-controls{justify-content:center;padding:12px;border-top:0}body.child-mode .camera-controls #startCamera{min-height:50px;padding:0 20px;font-size:13px}body.child-mode .interaction{display:grid;grid-template-columns:minmax(0,1fr);gap:11px;padding:15px;border-radius:20px}body.child-mode .interaction .asset-audio{display:none}body.child-mode .interaction .asset-row{margin-top:10px}body.child-mode .interaction .asset-img{width:74px;height:74px}body.child-mode .interaction .detected{padding:12px}body.child-mode .interaction>button{min-height:50px;font-size:12px}body.child-mode #speakInteraction,body.child-mode #playHint,body.child-mode #toggleMusic{width:100%;justify-content:center}body.child-mode .pdf-note{display:none}
     @media(max-width:680px){body.child-mode main{padding:10px}body.child-mode .workspace-head{padding-bottom:9px}body.child-mode .workspace-head .tools #closeWorkspace{padding:0 8px}.child-welcome{padding:23px 17px;border-radius:22px}}
   </style>
+  <style>
+    body.child-mode .status{padding:10px 14px;font-size:clamp(11px,1.2vw,15px);line-height:1.5;text-align:center}
+    body.child-mode .recognition{display:block;margin:0 0 12px;padding:10px 12px;font-size:clamp(11px,1.2vw,15px);line-height:1.5;text-align:center}
+  </style>
 </head>
 <body>
   <div class="app">
@@ -40,6 +44,6 @@
   <script src="assets/minimax-books.js"></script>
   <script src="assets/minimax-recognition.js"></script>
   <script src="assets/minimax-assets.js"></script>
-  <script src="minimax-child-reader.js"></script>
+  <script src="minimax-child-reader.js?v=20260831-3"></script>
 </body>
 </html>
