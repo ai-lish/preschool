@@ -56,6 +56,12 @@
   const childBookName = $("#childBookName");
   const childBookPicker = $("#childBookPicker");
   const childStart = $("#childStart");
+  const manualStart = $("#manualStart");
+  const manualControls = $("#manualControls");
+  const manualPrev = $("#manualPrev");
+  const manualNext = $("#manualNext");
+  const manualModeToggle = $("#manualModeToggle");
+  const manualModeLabel = $("#manualModeLabel");
   const changeBookButton = $("#changeBook");
 
   let state = loadState();
@@ -78,6 +84,9 @@
   let flowCompleted = false;
   let interactionPage = null;
   let audioContext = null;
+  let manualMode = false;
+  let actionStartX = null;
+  let swipeHandled = false;
 
   function loadState() {
     try {
@@ -326,6 +335,72 @@
     return pack.pageDefault ? { ...pack.pageDefault, backgroundMusic: pack.backgroundMusic, backgroundMusicVolume: pack.backgroundMusicVolume } : null;
   }
 
+  function bookPageNumbers() {
+    return Object.keys(assetPackFor(currentBookId)?.pages || {})
+      .map(Number)
+      .filter((page) => Number.isFinite(page))
+      .sort((a, b) => a - b);
+  }
+
+  function updateManualControls() {
+    const active = Boolean(currentBookId && currentPage);
+    if (manualControls) manualControls.hidden = !active;
+    if (!active) return;
+    const pages = bookPageNumbers();
+    const index = pages.indexOf(Number(currentPage));
+    if (manualPrev) manualPrev.disabled = index <= 0;
+    if (manualNext) manualNext.disabled = index < 0 || index >= pages.length - 1;
+    if (manualModeLabel) {
+      manualModeLabel.textContent = manualMode
+        ? "手動閱讀中；按上一頁／下一頁，互動頁再按完成互動。"
+        : "相機辨識中；相機未反應時可切換手動閱讀。";
+    }
+    if (manualModeToggle) manualModeToggle.textContent = manualMode ? "使用鏡頭辨識" : "手動閱讀";
+  }
+
+  function setManualMode(enabled) {
+    manualMode = Boolean(enabled);
+    document.body.classList.toggle("manual-reading", manualMode);
+    if (manualMode) {
+      stopRecognition(false);
+      if (recognitionStatus) recognitionStatus.textContent = "已切換手動閱讀，可用按鈕繼續。";
+      if (cameraStatus && !cameraStream) cameraStatus.textContent = "手動閱讀中，不需要相機。";
+    } else if (cameraStatus && cameraStream) {
+      cameraStatus.textContent = "已回到鏡頭辨識。";
+    }
+    updateManualControls();
+  }
+
+  function startManualReading() {
+    if (!selectedBookId || !BOOKS[selectedBookId]) return;
+    childWelcome.hidden = true;
+    workspace.hidden = false;
+    currentBookId = selectedBookId;
+    resetRecognition();
+    resetInteraction();
+    const book = BOOKS[currentBookId];
+    title.textContent = `${book.title} · 手動閱讀`;
+    summary.textContent = "不用等待相機；按下一頁或完成互動，故事會繼續。";
+    setManualMode(true);
+    showPage(1, 1);
+  }
+
+  function goToManualPage(direction) {
+    if (!currentBookId || !currentPage) return;
+    const pages = bookPageNumbers();
+    const index = pages.indexOf(Number(currentPage));
+    const nextIndex = index + direction;
+    if (index < 0 || nextIndex < 0 || nextIndex >= pages.length) return;
+    setManualMode(true);
+    const nextPage = pages[nextIndex];
+    if (direction < 0 && assetsFor(currentBookId, nextPage)?.flow?.id === currentFlowId) {
+      flowStarted = false;
+      flowCompleted = false;
+      interactionPage = null;
+    }
+    showPage(nextPage, 1);
+  }
+
   function storyMedia() {
     return [interactionAudio, beforeAudio, afterAudio, reactionAudio].filter(Boolean);
   }
@@ -458,7 +533,7 @@
     if (interactionAction) {
       interactionAction.hidden = afterState;
       interactionAction.disabled = false;
-      interactionAction.textContent = flowCompleted ? "再玩一次　↻" : "完成互動，繼續故事　→";
+      interactionAction.textContent = flowCompleted ? "再玩一次　↻" : "手動完成互動，讀後半段　→";
     }
   }
 
@@ -518,6 +593,7 @@
     if (flowStatus) flowStatus.textContent = "等待預製資產";
     if (assetState) assetState.textContent = "等待預製資產";
     clearMusic();
+    updateManualControls();
   }
 
   function showPage(page, score) {
@@ -585,6 +661,7 @@
       playStoryAudio();
     }
     if (assets?.backgroundMusic && musicEnabled) syncMusic(assets, true);
+    updateManualControls();
   }
 
   function showBookDialog(id, page, score) {
@@ -628,7 +705,7 @@
   }
 
   function scan() {
-    if (!recognitionEnabled) return;
+    if (!recognitionEnabled || manualMode) return;
     const entries = allSamples({ coverOnly: !currentBookId });
     if (!entries.length) {
       recognitionStatus.textContent = "這本書的辨識資料未載入，請重新開啟閱讀頁。";
@@ -690,7 +767,12 @@
 
   async function startCamera() {
     if (!navigator.mediaDevices?.getUserMedia) {
-      cameraStatus.textContent = "此裝置不支援前鏡頭，請改用較新的瀏覽器。";
+      const reason = "此裝置不支援前鏡頭，請改用較新的瀏覽器。";
+      cameraStatus.textContent = reason;
+      if (currentBookId) {
+        setManualMode(true);
+        cameraStatus.textContent = `${reason} 已保留手動閱讀。`;
+      }
       return;
     }
     if (cameraStream) {
@@ -714,6 +796,10 @@
       cameraStream = null;
       const reason = error?.name === "NotAllowedError" ? "你拒絕了前鏡頭權限。" : error?.name === "NotFoundError" ? "找不到可用的前鏡頭。" : "前鏡頭暫時無法啟動。";
       cameraStatus.textContent = `${reason} 請在 HTTPS 或 localhost 開啟。`;
+      if (currentBookId) {
+        setManualMode(true);
+        cameraStatus.textContent = `${reason} 已保留手動閱讀。`;
+      }
     }
   }
 
@@ -738,6 +824,7 @@
       renderChildWelcome();
       return;
     }
+    setManualMode(false);
     currentBookId = null;
     workspace.hidden = false;
     const selected = BOOKS[selectedBookId];
@@ -756,6 +843,10 @@
       : "先選一本故事。選定後，鏡頭只會找這一本；確認封面後，故事會自己讀出來。";
     childStart.disabled = !selected;
     childStart.textContent = selected ? `開始讀「${selected.title}」　→` : "先選一本書";
+    if (manualStart) {
+      manualStart.hidden = !selected;
+      manualStart.disabled = !selected;
+    }
     if (childBookPicker) childBookPicker.hidden = Boolean(REQUESTED_BOOK_ID && selected);
     document.querySelectorAll("[data-child-book]").forEach((node) => {
       node.classList.toggle("selected", node.dataset.childBook === selectedBookId);
@@ -770,6 +861,7 @@
   }
 
   function showChildWelcome() {
+    setManualMode(false);
     stopCamera();
     currentBookId = null;
     pendingBook = null;
@@ -815,8 +907,18 @@
       openDetection();
       startCamera();
     });
+    manualStart?.addEventListener("click", startManualReading);
     startButton.addEventListener("click", startCamera);
     stopButton.addEventListener("click", stopCamera);
+    manualPrev?.addEventListener("click", () => goToManualPage(-1));
+    manualNext?.addEventListener("click", () => goToManualPage(1));
+    manualModeToggle?.addEventListener("click", () => {
+      if (manualMode) {
+        setManualMode(false);
+        if (cameraStream) startRecognition();
+        else startCamera();
+      } else setManualMode(true);
+    });
     changeBookButton?.addEventListener("click", showChildWelcome);
     $("#closeWorkspace")?.addEventListener("click", () => { stopCamera(); workspace.hidden = true; });
     $("#confirmBook").addEventListener("click", () => {
@@ -836,7 +938,27 @@
     });
     dialog.addEventListener("cancel", () => { pendingBook = null; stopMedia(dialogAudio); resetRecognition(); });
     speakButton?.addEventListener("click", (event) => { event.preventDefault(); playStoryAudio(); });
-    interactionAction?.addEventListener("click", (event) => { event.preventDefault(); completeInteraction(); });
+    interactionAction?.addEventListener("pointerdown", (event) => {
+      actionStartX = event.clientX;
+      swipeHandled = false;
+    });
+    interactionAction?.addEventListener("pointerup", (event) => {
+      if (actionStartX === null) return;
+      if (Math.abs(event.clientX - actionStartX) > 36) {
+        swipeHandled = true;
+        completeInteraction();
+      }
+      actionStartX = null;
+    });
+    interactionAction?.addEventListener("pointercancel", () => { actionStartX = null; swipeHandled = false; });
+    interactionAction?.addEventListener("click", (event) => {
+      event.preventDefault();
+      if (swipeHandled) {
+        swipeHandled = false;
+        return;
+      }
+      completeInteraction();
+    });
     playHintButton?.addEventListener("click", (event) => { event.preventDefault(); playHintAudio(); });
     markComplete?.addEventListener("click", () => {
       if (!currentBookId) return;
