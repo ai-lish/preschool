@@ -33,6 +33,9 @@
     @media(max-width:560px){.child-book-options{grid-template-columns:1fr}body.child-mode .child-book-options{grid-template-columns:1fr}}
   </style>
   <style>
+    .child-language-picker{margin:15px auto 0;max-width:420px}.child-language-picker>p{margin:0 0 8px;color:var(--muted);font-size:10px;font-weight:1000}.child-language-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.child-language{min-height:42px;border:2px solid var(--line);border-radius:13px;background:#fff;color:var(--soft);font-size:11px;font-weight:1000}.child-language.selected{border-color:var(--coral);background:#fff5f0;color:var(--ink)}body.child-mode .child-language{min-height:50px;font-size:13px}
+  </style>
+  <style>
     .child-manual{display:block;min-height:42px;margin:12px auto 0;padding:0 18px;color:var(--soft);border:1px solid var(--line);border-radius:13px;background:#fff;font-size:11px;font-weight:1000}
     .manual-controls{grid-column:1/-1;display:flex;align-items:center;gap:8px;padding-top:4px}
     .manual-control-copy{flex:1;min-width:180px}
@@ -46,11 +49,12 @@
     body.child-mode.manual-reading .grid>.card:first-child{display:none}
     @media(max-width:560px){.manual-controls button{width:100%}}
   </style>
+  <style>.bible{background:linear-gradient(150deg,#77a9bd,#d39a58)}</style>
 </head>
 <body>
   <div class="app">
     <main>
-      <section class="child-welcome" id="childWelcome" hidden><div class="child-icon">✦</div><h1>閱讀時間！</h1><p id="childBookName">先選一本故事。選定後，鏡頭只會找這一本；確認封面後，故事會自己讀出來。</p><div class="child-book-picker" id="childBookPicker"><p>先選擇今天要讀的故事</p><div class="child-book-options"><button class="child-book" type="button" data-child-book="goldilocks" aria-pressed="false"><span>🐻</span><strong>Goldilocks<small>and the Three Bears</small></strong></button><button class="child-book" type="button" data-child-book="pigs" aria-pressed="false"><span>🐷</span><strong>The Three Little Pigs<small>小豬與大野狼</small></strong></button></div></div><button class="child-start" id="childStart" type="button" disabled>先選一本書</button><button class="child-manual" id="manualStart" type="button" hidden>不用相機，手動閱讀</button></section>
+      <section class="child-welcome" id="childWelcome" hidden><div class="child-icon">✦</div><h1>閱讀時間！</h1><p id="childBookName">先選一本故事。選定後，鏡頭只會找這一本；確認封面後，故事會自己讀出來。</p><div class="child-book-picker" id="childBookPicker"><p>先選擇今天要讀的故事</p><div class="child-book-options"><button class="child-book" type="button" data-child-book="goldilocks" aria-pressed="false"><span>🐻</span><strong>Goldilocks<small>and the Three Bears</small></strong></button><button class="child-book" type="button" data-child-book="pigs" aria-pressed="false"><span>🐷</span><strong>The Three Little Pigs<small>小豬與大野狼</small></strong></button><button class="child-book" type="button" data-child-book="bible" aria-pressed="false"><span>📖</span><strong>兒童聖經<small>廣東話／普通話</small></strong></button></div></div><div class="child-language-picker" id="childLanguagePicker" hidden><p>選擇故事語音</p><div class="child-language-options"><button class="child-language" type="button" data-child-language="cantonese" aria-pressed="false">廣東話</button><button class="child-language" type="button" data-child-language="mandarin" aria-pressed="false">普通話</button></div></div><button class="child-start" id="childStart" type="button" disabled>先選一本書</button><button class="child-manual" id="manualStart" type="button" hidden>不用相機，手動閱讀</button></section>
       <section class="workspace" id="workspace" hidden><div class="workspace-head"><div><p class="workspace-kicker">mirror reading room</p><h2 id="workspaceTitle">鏡頭正在找書本</h2><p id="workspaceSummary">開啟前鏡頭後，請讓鏡面中的書頁穩定落在虛線框內。</p></div><div class="tools"><button class="quiet" id="markComplete">標記為已完成</button><button class="quiet" id="closeWorkspace">收起伴讀</button></div></div>
         <div class="grid">
           <section class="card"><div class="card-head"><div class="badge"><i></i>實體鏡架 / 原始畫面</div><h3>用前鏡頭辨認書本</h3><p>鏡面負責光學反射；選好故事後只核對該書封面。相機影像只在本機取樣，不錄影、不上傳。</p></div><div class="stage"><video id="cameraVideo" autoplay playsinline muted></video><div class="empty" id="cameraEmpty">前鏡頭尚未開啟<small>請讓鏡面中的書本封面落在虛線框內</small></div><div class="readout"><span>RAW · NO FLIP</span><b id="cameraReadout">等待書本樣本</b></div></div><div class="camera-controls"><button class="primary" id="startCamera">開啟前鏡頭</button><button class="quiet change-book" id="changeBook" type="button">換一本書</button><button class="quiet" id="stopCamera" disabled>停止相機</button><button class="quiet" id="toggleDetection" disabled>啟用自動辨識</button></div><div class="status" id="cameraStatus">尚未開啟相機。請先選書，再把該書封面放到鏡面畫面上半部中央。</div><div class="sample-tools"><div class="page-input"><label for="samplePage">樣本頁碼</label><input id="samplePage" type="number" min="1" step="1" value="1"></div><button class="quiet" id="saveSample" disabled>記住此頁</button><button class="quiet" id="clearSamples">清除本書樣本</button><span class="sample-count" id="sampleCount">尚未選擇書本</span></div><div class="recognition" id="recognitionStatus">先選書 → 把封面放到鏡面 → 確認提示；確認後才會逐頁辨認。</div></section>
@@ -63,6 +67,6 @@
   <script src="assets/minimax-books.js"></script>
   <script src="assets/minimax-recognition.js"></script>
   <script src="assets/minimax-assets.js"></script>
-  <script src="minimax-child-reader.js?v=20260901-1"></script>
+  <script src="minimax-child-reader.js?v=20260901-2"></script>
 </body>
 </html>

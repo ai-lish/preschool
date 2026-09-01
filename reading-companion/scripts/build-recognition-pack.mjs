@@ -81,10 +81,14 @@ function buildBook(id, directory, expectedCount) {
 
 try {
   const output = option("--out", "assets/minimax-recognition.js");
-  const books = {
-    goldilocks: buildBook("goldilocks", option("--gold-dir"), 12),
-    pigs: buildBook("pigs", option("--pigs-dir"), 10)
-  };
+  const books = {};
+  const goldilocksDir = option("--gold-dir");
+  const pigsDir = option("--pigs-dir");
+  const bibleDir = option("--bible-dir");
+  if (goldilocksDir) books.goldilocks = buildBook("goldilocks", goldilocksDir, 12);
+  if (pigsDir) books.pigs = buildBook("pigs", pigsDir, 10);
+  if (bibleDir) books.bible = buildBook("bible", bibleDir, 12);
+  if (!Object.keys(books).length) throw new Error("provide at least one book page directory");
   const payload = { version: 2, books };
   fs.mkdirSync(path.dirname(output), { recursive: true });
   fs.writeFileSync(output, `/* Generated from private PDF scans. Do not edit by hand. */\nwindow.MINIMAX_RECOGNITION = ${JSON.stringify(payload)};\n`);

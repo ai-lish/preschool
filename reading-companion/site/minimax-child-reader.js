@@ -5,6 +5,7 @@
   const STORAGE_KEY = "yueguang-mirror-reader-v1";
   const params = new URLSearchParams(window.location.search);
   const REQUESTED_BOOK_ID = params.get("book") || "";
+  const REQUESTED_LANGUAGE = params.get("lang") || "";
   const BOOKS = window.MINIMAX_BOOKS || {};
   const RECOGNITION = window.MINIMAX_RECOGNITION || { books: {} };
   const PREBUILT = window.MINIMAX_ASSETS || { books: {} };
@@ -55,6 +56,7 @@
   const childWelcome = $("#childWelcome");
   const childBookName = $("#childBookName");
   const childBookPicker = $("#childBookPicker");
+  const childLanguagePicker = $("#childLanguagePicker");
   const childStart = $("#childStart");
   const manualStart = $("#manualStart");
   const manualControls = $("#manualControls");
@@ -66,6 +68,7 @@
 
   let state = loadState();
   let selectedBookId = REQUESTED_BOOK_ID && BOOKS[REQUESTED_BOOK_ID] ? REQUESTED_BOOK_ID : null;
+  let selectedLanguage = REQUESTED_LANGUAGE || state.lastLanguage || null;
   let currentBookId = null;
   let currentPage = null;
   let cameraStream = null;
@@ -94,10 +97,11 @@
       return {
         opened: Array.isArray(saved?.opened) ? saved.opened : [],
         completed: Array.isArray(saved?.completed) ? saved.completed : [],
-        lastBook: saved?.lastBook || null
+        lastBook: saved?.lastBook || null,
+        lastLanguage: saved?.lastLanguage || null
       };
     } catch (error) {
-      return { opened: [], completed: [], lastBook: null };
+      return { opened: [], completed: [], lastBook: null, lastLanguage: null };
     }
   }
 
@@ -288,7 +292,13 @@
 
   function updateMusicButton() {
     if (!toggleMusicButton) return;
-    toggleMusicButton.disabled = !musicSource;
+    if (!musicSource) {
+      toggleMusicButton.disabled = true;
+      toggleMusicButton.setAttribute("aria-pressed", "false");
+      toggleMusicButton.textContent = "🎵 背景音樂：未提供";
+      return;
+    }
+    toggleMusicButton.disabled = false;
     toggleMusicButton.setAttribute("aria-pressed", musicEnabled ? "true" : "false");
     toggleMusicButton.textContent = musicEnabled ? "🎵 背景音樂：開啟" : "🎵 背景音樂：關閉";
   }
@@ -327,12 +337,37 @@
     return PREBUILT.books?.[id] || null;
   }
 
+  function languageOptionsFor(id) {
+    const options = BOOKS[id]?.languages;
+    return Array.isArray(options) ? options : [];
+  }
+
+  function activeLanguageFor(id) {
+    const options = languageOptionsFor(id);
+    if (!options.length) return null;
+    const requested = id === selectedBookId ? selectedLanguage : null;
+    if (requested && options.some((option) => option.id === requested)) return requested;
+    return BOOKS[id].defaultLanguage && options.some((option) => option.id === BOOKS[id].defaultLanguage)
+      ? BOOKS[id].defaultLanguage
+      : options[0].id;
+  }
+
+  function selectAudioVariant(asset, id) {
+    if (!asset || !asset.audioVariants) return asset;
+    const variant = asset.audioVariants[activeLanguageFor(id)];
+    return variant ? { ...asset, ...variant } : asset;
+  }
+
   function assetsFor(id, page) {
     const pack = assetPackFor(id);
     if (!pack) return null;
     const pageAsset = pack.pages?.[String(page)];
-    if (pageAsset) return { ...(pack.pageDefault || {}), ...pageAsset, backgroundMusic: pack.backgroundMusic, backgroundMusicVolume: pack.backgroundMusicVolume };
-    return pack.pageDefault ? { ...pack.pageDefault, backgroundMusic: pack.backgroundMusic, backgroundMusicVolume: pack.backgroundMusicVolume } : null;
+    const merged = pageAsset
+      ? { ...(pack.pageDefault || {}), ...pageAsset, backgroundMusic: pack.backgroundMusic, backgroundMusicVolume: pack.backgroundMusicVolume }
+      : pack.pageDefault
+        ? { ...pack.pageDefault, backgroundMusic: pack.backgroundMusic, backgroundMusicVolume: pack.backgroundMusicVolume }
+        : null;
+    return selectAudioVariant(merged, id);
   }
 
   function bookPageNumbers() {
@@ -669,19 +704,20 @@
     pendingBook = { bookId: id, page, score };
     const book = BOOKS[id];
     const assets = assetPackFor(id);
+    const confirm = selectAudioVariant(assets?.confirm, id);
     dialogTitle.textContent = `是「${book.title}」嗎？`;
     dialogText.textContent = selectedBookId === id ? "鏡頭找到你剛才選的這本書。按確認，故事會自己讀出來。" : "鏡頭看到這本書。按確認，故事會自己讀出來。";
     const cancelButton = $("#cancelBook");
     if (cancelButton) cancelButton.textContent = selectedBookId === id ? "重試這一本" : "不是這一本";
-    if (assets?.confirm?.image) {
-      dialogImage.src = assets.confirm.image;
+    if (confirm?.image) {
+      dialogImage.src = confirm.image;
       dialogImage.hidden = false;
     } else {
       dialogImage.hidden = true;
       dialogImage.removeAttribute("src");
     }
-    if (assets?.confirm?.audio) {
-      dialogAudio.src = assets.confirm.audio;
+    if (confirm?.audio) {
+      dialogAudio.src = confirm.audio;
       dialogAudio.hidden = true;
       dialogAudio.load();
       dialogAudio.play().catch(() => {});
@@ -838,8 +874,15 @@
   function renderChildWelcome() {
     if (!childWelcome || !childBookName || !childStart) return;
     const selected = selectedBookId && BOOKS[selectedBookId] ? BOOKS[selectedBookId] : null;
+    const languages = selected ? languageOptionsFor(selectedBookId) : [];
+    if (languages.length && !languages.some((option) => option.id === selectedLanguage)) {
+      selectedLanguage = selected.defaultLanguage && languages.some((option) => option.id === selected.defaultLanguage)
+        ? selected.defaultLanguage
+        : languages[0].id;
+    }
+    const activeLanguage = languages.find((option) => option.id === selectedLanguage);
     childBookName.textContent = selected
-      ? `今天讀「${selected.title}」。選定後，鏡頭只會找這一本，不會跳去問其他故事。`
+      ? `今天讀「${selected.title}」。選定後，鏡頭只會找這一本，不會跳去問其他故事。${activeLanguage ? ` 目前語音：${activeLanguage.label}。` : ""}`
       : "先選一本故事。選定後，鏡頭只會找這一本；確認封面後，故事會自己讀出來。";
     childStart.disabled = !selected;
     childStart.textContent = selected ? `開始讀「${selected.title}」　→` : "先選一本書";
@@ -852,12 +895,32 @@
       node.classList.toggle("selected", node.dataset.childBook === selectedBookId);
       node.setAttribute("aria-pressed", node.dataset.childBook === selectedBookId ? "true" : "false");
     });
+    if (childLanguagePicker) childLanguagePicker.hidden = !languages.length;
+    document.querySelectorAll("[data-child-language]").forEach((node) => {
+      const active = node.dataset.childLanguage === selectedLanguage && languages.some((option) => option.id === selectedLanguage);
+      node.classList.toggle("selected", active);
+      node.setAttribute("aria-pressed", active ? "true" : "false");
+    });
   }
 
   function chooseChildBook(id) {
     if (!BOOKS[id]) return;
     selectedBookId = id;
     renderChildWelcome();
+  }
+
+  function chooseChildLanguage(id) {
+    const languages = languageOptionsFor(selectedBookId);
+    if (!languages.some((option) => option.id === id)) return;
+    selectedLanguage = id;
+    state.lastLanguage = id;
+    persist();
+    renderChildWelcome();
+    if (currentBookId === selectedBookId && currentPage) {
+      const page = Number(currentPage);
+      resetInteraction();
+      showPage(page, 1);
+    }
   }
 
   function showChildWelcome() {
@@ -898,6 +961,9 @@
     [$("#saveSample"), $("#clearSamples"), detectButton, stopButton].forEach((node) => { if (node) node.hidden = true; });
     document.querySelectorAll("[data-child-book]").forEach((node) => {
       node.addEventListener("click", () => chooseChildBook(node.dataset.childBook));
+    });
+    document.querySelectorAll("[data-child-language]").forEach((node) => {
+      node.addEventListener("click", () => chooseChildLanguage(node.dataset.childLanguage));
     });
     renderChildWelcome();
     childWelcome.hidden = false;

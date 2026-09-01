@@ -21,5 +21,21 @@ window.MINIMAX_BOOKS = Object.freeze({
     pageTitle: "小豬故事的預測任務",
     speech: "請找找看這一頁的房子或材料線索。你猜接下來會發生什麼？",
     backgroundMusic: { enabled: true, volume: 0.14 }
+  }),
+  bible: Object.freeze({
+    id: "bible",
+    title: "兒童聖經：耶穌的出生與馬太",
+    pageCount: 12,
+    assetBase: "assets/minimax/bible",
+    intro: "一邊聽故事，一邊找找人物、星星、馬槽和餐桌上的線索。",
+    pagePrompt: "第 {page} 頁：找一個畫面線索，說說你看見了甚麼？",
+    pageTitle: "兒童聖經的觀察任務",
+    speech: "一邊聽故事，一邊找找人物、星星、馬槽和餐桌上的線索。",
+    languages: [
+      { id: "cantonese", label: "廣東話" },
+      { id: "mandarin", label: "普通話" }
+    ],
+    defaultLanguage: "cantonese",
+    backgroundMusic: { enabled: false, volume: 0.1 }
   })
 });

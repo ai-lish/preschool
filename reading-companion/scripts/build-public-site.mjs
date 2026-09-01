@@ -31,7 +31,7 @@ function sanitiseChildHtml(value) {
   html = html.replace(/<title>[^<]*<\/title>/, "<title>閱光｜小朋友閱讀</title>");
   html = html.replace(
     '<script src="minimax-reader.js"></script>',
-    '<script src="minimax-child-reader.js?v=20260901-1"></script>'
+    '<script src="minimax-child-reader.js?v=20260901-2"></script>'
   );
   return html;
 }
