@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-HK">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6c5ce7">
+  <title>TIMO 數學小挑戰｜幼兒學習中心</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="challenge-app">
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="back-button" href="../index.html" aria-label="返回幼兒學習中心">←</a>
+        <div class="title-wrap">
+          <p class="eyebrow">TIMO · KINDERGARTEN GROUP</p>
+          <h1>TIMO 數學小挑戰</h1>
+        </div>
+        <button id="resetProgress" class="icon-button" type="button" aria-label="清除本機進度" title="清除本機進度">↺</button>
+      </header>
+
+      <section class="intro-card" aria-labelledby="introTitle">
+        <div class="intro-art" aria-hidden="true">
+          <span>＋</span><span>△</span><span>○</span>
+        </div>
+        <div>
+          <p class="intro-kicker">幼稚園組歷年模擬題</p>
+          <h2 id="introTitle">動動腦，慢慢做！</h2>
+          <p>把題目變成一題一題的小遊戲。可以按年份練習，也可以混合挑戰；答錯可以再試，進度只保存在這部裝置。</p>
+        </div>
+      </section>
+
+      <section class="control-card" aria-label="挑戰設定">
+        <div class="control-row">
+          <label>
+            <span>題目來源</span>
+            <select id="yearFilter">
+              <option value="all">兩個年度</option>
+              <option value="2021-2022">2021-2022（26 題）</option>
+              <option value="2022-2023">2022-2023（30 題）</option>
+            </select>
+          </label>
+          <label>
+            <span>題目範圍</span>
+            <select id="topicFilter">
+              <option value="all">全部範圍</option>
+            </select>
+          </label>
+        </div>
+        <div class="stats-row">
+          <div class="stat"><strong id="poolCount">56</strong><span>題目</span></div>
+          <div class="stat"><strong id="correctCount">0</strong><span>答對</span></div>
+          <div class="stat"><strong id="masteryCount">0%</strong><span>完成率</span></div>
+          <button id="shuffleButton" class="secondary-button" type="button">換一題</button>
+        </div>
+      </section>
+
+      <section id="questionCard" class="question-card" aria-live="polite">
+        <div class="question-meta">
+          <span id="yearBadge" class="year-badge">2022-2023</span>
+          <span id="topicBadge" class="topic-badge">邏輯思維</span>
+          <span id="questionNumber" class="question-number">第 1 題</span>
+          <span id="sourcePage" class="source-page">PDF 第 1 頁</span>
+        </div>
+        <div class="question-progress"><span id="progressBar"></span></div>
+        <p id="reviewBadge" class="review-badge" hidden>待老師核對：這題不計入完成率</p>
+        <h2 id="questionPrompt">題目載入中...</h2>
+        <div id="visual" class="visual" hidden></div>
+        <details class="original-toggle">
+          <summary>查看英文原題</summary>
+          <p id="originalPrompt"></p>
+        </details>
+        <div id="answerChoices" class="answer-grid" role="group" aria-label="答案選項"></div>
+        <p id="feedback" class="feedback" role="status"></p>
+        <button id="nextButton" class="next-button" type="button" hidden>下一題 →</button>
+      </section>
+
+      <section class="source-card">
+        <div class="source-heading">
+          <div>
+            <p class="intro-kicker">題庫來源</p>
+            <h2>保留原題脈絡</h2>
+          </div>
+          <span class="source-count">56 題已整理</span>
+        </div>
+        <div id="sourceList" class="source-list"></div>
+        <p class="source-note">題目文字是按 Drive 掃描檔整理的幼兒友善版本；圖形題已按原題 PDF 重畫，完整原圖請按來源連結查看。2021-2022 掃描檔未包含第 21-24 題。</p>
+      </section>
+
+      <footer class="page-footer">TIMO practice · 適合親子一起讀題</footer>
+    </div>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
