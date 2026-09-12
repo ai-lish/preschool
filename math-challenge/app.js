@@ -2,12 +2,15 @@
 
 const DATA_URL = 'data/timo_questions.json';
 const STORAGE_KEY = 'preschool_timo_progress_v1';
+const LANGUAGE_STORAGE_KEY = 'preschool_timo_language_v1';
 
 const state = {
   questions: [],
   sources: [],
   filtered: [],
   current: null,
+  currentIndex: -1,
+  language: 'zh',
   answered: new Set(),
   correct: new Set(),
   completedReview: new Set(),
@@ -16,6 +19,9 @@ const state = {
 const els = {
   yearFilter: document.getElementById('yearFilter'),
   topicFilter: document.getElementById('topicFilter'),
+  questionSelect: document.getElementById('questionSelect'),
+  langZh: document.getElementById('langZh'),
+  langEn: document.getElementById('langEn'),
   poolCount: document.getElementById('poolCount'),
   correctCount: document.getElementById('correctCount'),
   masteryCount: document.getElementById('masteryCount'),
@@ -28,9 +34,12 @@ const els = {
   progressBar: document.getElementById('progressBar'),
   reviewBadge: document.getElementById('reviewBadge'),
   visual: document.getElementById('visual'),
+  visualNote: document.getElementById('visualNote'),
+  originalSummary: document.getElementById('originalSummary'),
   originalPrompt: document.getElementById('originalPrompt'),
   answerChoices: document.getElementById('answerChoices'),
   feedback: document.getElementById('feedback'),
+  previousButton: document.getElementById('previousButton'),
   nextButton: document.getElementById('nextButton'),
   sourceList: document.getElementById('sourceList'),
   resetProgress: document.getElementById('resetProgress'),
@@ -47,6 +56,40 @@ function loadProgress() {
     state.correct = new Set();
     state.completedReview = new Set();
   }
+}
+
+function loadLanguage() {
+  try {
+    state.language = localStorage.getItem(LANGUAGE_STORAGE_KEY) === 'en' ? 'en' : 'zh';
+  } catch {
+    state.language = 'zh';
+  }
+}
+
+function setLanguage(language) {
+  state.language = language === 'en' ? 'en' : 'zh';
+  try {
+    localStorage.setItem(LANGUAGE_STORAGE_KEY, state.language);
+  } catch {
+    // Keep the current language for this visit if storage is unavailable.
+  }
+  document.documentElement.lang = state.language === 'en' ? 'en' : 'zh-HK';
+  updateLanguageControls();
+  if (state.current) renderQuestion();
+}
+
+function updateLanguageControls() {
+  const english = state.language === 'en';
+  els.langZh.classList.toggle('active', !english);
+  els.langEn.classList.toggle('active', english);
+  els.langZh.setAttribute('aria-pressed', String(!english));
+  els.langEn.setAttribute('aria-pressed', String(english));
+  els.previousButton.textContent = english ? '← Previous' : '← 上一題';
+  els.nextButton.textContent = english ? 'Next →' : '下一題 →';
+  els.originalSummary.textContent = english ? '查看中文題目' : '查看英文原題';
+  els.visualNote.textContent = english
+    ? 'The original question has no separate diagram.'
+    : '原題是文字／算式題，沒有獨立圖像。';
 }
 
 function saveProgress() {
@@ -82,6 +125,36 @@ function updateTopicOptions() {
   els.topicFilter.value = topics.includes(selected) ? selected : 'all';
 }
 
+function questionLabel(question) {
+  return '第 ' + question.number + ' 題 · ' + question.topic;
+}
+
+function updateQuestionOptions() {
+  const currentId = state.current ? state.current.id : '';
+  els.questionSelect.innerHTML = '';
+  const placeholder = document.createElement('option');
+  placeholder.value = '';
+  placeholder.textContent = state.language === 'en' ? 'Choose a question' : '選擇題目';
+  placeholder.disabled = true;
+  els.questionSelect.appendChild(placeholder);
+
+  const years = Array.from(new Set(state.filtered.map(question => question.year)));
+  years.forEach(year => {
+    const yearQuestions = state.filtered.filter(question => question.year === year);
+    const group = document.createElement('optgroup');
+    group.label = year + '（' + yearQuestions.length + ' 題）';
+    yearQuestions.forEach(question => {
+      const option = document.createElement('option');
+      option.value = question.id;
+      option.textContent = questionLabel(question);
+      group.appendChild(option);
+    });
+    els.questionSelect.appendChild(group);
+  });
+  els.questionSelect.disabled = !state.filtered.length;
+  els.questionSelect.value = state.filtered.some(question => question.id === currentId) ? currentId : '';
+}
+
 function updatePool() {
   state.filtered = state.questions.filter(question => {
     const yearMatch = els.yearFilter.value === 'all' || question.year === els.yearFilter.value;
@@ -89,6 +162,7 @@ function updatePool() {
     return yearMatch && topicMatch;
   });
   els.poolCount.textContent = state.filtered.length;
+  updateQuestionOptions();
   renderStats();
 }
 
@@ -268,21 +342,70 @@ const FIGURES = {
 function renderVisual(type) {
   const draw = type && FIGURES[type];
   els.visual.hidden = !draw;
+  els.visualNote.hidden = Boolean(draw);
   els.visual.innerHTML = draw ? draw() : '';
+}
+
+function currentQuestionIndex() {
+  if (!state.current) return -1;
+  return state.filtered.findIndex(question => question.id === state.current.id);
+}
+
+function updateNavigation() {
+  const index = currentQuestionIndex();
+  state.currentIndex = index;
+  els.previousButton.disabled = index <= 0;
+  els.nextButton.disabled = index < 0 || index >= state.filtered.length - 1;
+}
+
+function renderEmptyQuestion() {
+  state.current = null;
+  state.currentIndex = -1;
+  els.questionPrompt.textContent = state.language === 'en'
+    ? 'There are no questions in this range yet.'
+    : '這個範圍暫時沒有題目。';
+  els.originalPrompt.textContent = '';
+  els.visual.hidden = true;
+  els.visualNote.hidden = true;
+  els.answerChoices.innerHTML = '';
+  els.feedback.textContent = '';
+  els.reviewBadge.hidden = true;
+  updateQuestionOptions();
+  updateNavigation();
+}
+
+function setCurrentQuestion(index) {
+  if (!state.filtered.length) {
+    renderEmptyQuestion();
+    return;
+  }
+  const safeIndex = Math.min(Math.max(index, 0), state.filtered.length - 1);
+  state.currentIndex = safeIndex;
+  state.current = state.filtered[safeIndex];
+  renderQuestion();
 }
 
 function chooseNextQuestion(preferUnanswered) {
   if (!state.filtered.length) {
-    state.current = null;
-    els.questionPrompt.textContent = '這個範圍暫時沒有題目。';
-    els.answerChoices.innerHTML = '';
-    els.feedback.textContent = '';
+    renderEmptyQuestion();
     return;
   }
-  const unanswered = state.filtered.filter(question => !state.answered.has(question.id));
-  const pool = preferUnanswered !== false && unanswered.length ? unanswered : state.filtered;
-  state.current = shuffle(pool)[0];
-  renderQuestion();
+  if (preferUnanswered !== false) {
+    const unansweredIndex = state.filtered.findIndex(question => !state.answered.has(question.id));
+    if (unansweredIndex >= 0) {
+      setCurrentQuestion(unansweredIndex);
+      return;
+    }
+  }
+  const pool = state.filtered.filter(question => !state.current || question.id !== state.current.id);
+  const selected = shuffle(pool.length ? pool : state.filtered)[0];
+  setCurrentQuestion(state.filtered.findIndex(question => question.id === selected.id));
+}
+
+function moveQuestion(step) {
+  const index = currentQuestionIndex();
+  if (index < 0) return;
+  setCurrentQuestion(index + step);
 }
 
 function renderQuestion() {
@@ -292,13 +415,15 @@ function renderQuestion() {
   els.topicBadge.textContent = question.topic;
   els.questionNumber.textContent = '第 ' + question.number + ' 題';
   els.sourcePage.textContent = 'PDF 第 ' + question.sourcePage + ' 頁';
-  els.questionPrompt.textContent = question.prompt;
-  els.originalPrompt.textContent = question.original;
+  els.questionPrompt.textContent = state.language === 'en' ? question.original : question.prompt;
+  els.originalPrompt.textContent = state.language === 'en' ? question.prompt : question.original;
   els.reviewBadge.hidden = question.status !== 'review';
   els.feedback.textContent = '';
   els.feedback.className = 'feedback';
-  els.nextButton.hidden = true;
   renderVisual(question.visual);
+  updateLanguageControls();
+  updateQuestionOptions();
+  updateNavigation();
   els.progressBar.style.width = completionPercent() + '%';
   els.answerChoices.innerHTML = '';
   shuffle(question.choices).forEach(choice => {
@@ -328,6 +453,7 @@ function answerQuestion(choice, clickedButton) {
     els.feedback.className = 'feedback good';
     els.feedback.textContent = '答對了！' + question.explanation;
   } else {
+    state.correct.delete(question.id);
     els.feedback.className = 'feedback bad';
     els.feedback.textContent = '再想一想。答案是「' + question.answer + '」。' + question.explanation;
     const answerButton = buttons.find(button => String(button.textContent) === String(question.answer));
@@ -336,7 +462,7 @@ function answerQuestion(choice, clickedButton) {
   saveProgress();
   renderStats();
   els.progressBar.style.width = completionPercent() + '%';
-  els.nextButton.hidden = false;
+  updateNavigation();
 }
 
 function renderSources() {
@@ -349,6 +475,9 @@ function renderSources() {
 
 async function init() {
   loadProgress();
+  loadLanguage();
+  document.documentElement.lang = state.language === 'en' ? 'en' : 'zh-HK';
+  updateLanguageControls();
   try {
     const response = await fetch(DATA_URL);
     if (!response.ok) throw new Error('HTTP ' + response.status);
@@ -374,8 +503,15 @@ els.topicFilter.addEventListener('change', () => {
   updatePool();
   chooseNextQuestion(true);
 });
+els.questionSelect.addEventListener('change', () => {
+  const index = state.filtered.findIndex(question => question.id === els.questionSelect.value);
+  if (index >= 0) setCurrentQuestion(index);
+});
 els.shuffleButton.addEventListener('click', () => chooseNextQuestion(false));
-els.nextButton.addEventListener('click', () => chooseNextQuestion(true));
+els.previousButton.addEventListener('click', () => moveQuestion(-1));
+els.nextButton.addEventListener('click', () => moveQuestion(1));
+els.langZh.addEventListener('click', () => setLanguage('zh'));
+els.langEn.addEventListener('click', () => setLanguage('en'));
 els.resetProgress.addEventListener('click', () => {
   if (!window.confirm('要清除這部裝置上的 TIMO 練習進度嗎？')) return;
   state.answered.clear();

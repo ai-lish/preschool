@@ -50,6 +50,19 @@
             </select>
           </label>
         </div>
+        <div class="question-picker-row">
+          <label>
+            <span>選擇題目</span>
+            <select id="questionSelect" aria-label="選擇題目"></select>
+          </label>
+        </div>
+        <div class="language-row">
+          <span class="control-label">題目語言</span>
+          <div class="language-toggle" role="group" aria-label="題目語言">
+            <button id="langZh" class="language-button active" type="button" aria-pressed="true">中文</button>
+            <button id="langEn" class="language-button" type="button" aria-pressed="false">English</button>
+          </div>
+        </div>
         <div class="stats-row">
           <div class="stat"><strong id="poolCount">56</strong><span>題目</span></div>
           <div class="stat"><strong id="correctCount">0</strong><span>答對</span></div>
@@ -70,12 +83,16 @@
         <h2 id="questionPrompt">題目載入中...</h2>
         <div id="visual" class="visual" hidden></div>
         <details class="original-toggle">
-          <summary>查看英文原題</summary>
+          <summary id="originalSummary">查看英文原題</summary>
           <p id="originalPrompt"></p>
         </details>
+        <p id="visualNote" class="visual-note" hidden>原題是文字／算式題，沒有獨立圖像。</p>
         <div id="answerChoices" class="answer-grid" role="group" aria-label="答案選項"></div>
         <p id="feedback" class="feedback" role="status"></p>
-        <button id="nextButton" class="next-button" type="button" hidden>下一題 →</button>
+        <div class="navigation-buttons">
+          <button id="previousButton" class="nav-button previous-button" type="button">← 上一題</button>
+          <button id="nextButton" class="nav-button next-button" type="button">下一題 →</button>
+        </div>
       </section>
 
       <section class="source-card">
@@ -87,7 +104,7 @@
           <span class="source-count">56 題已整理</span>
         </div>
         <div id="sourceList" class="source-list"></div>
-        <p class="source-note">題目文字是按 Drive 掃描檔整理的幼兒友善版本；圖形題已按原題 PDF 重畫，完整原圖請按來源連結查看。2021-2022 掃描檔未包含第 21-24 題。</p>
+        <p class="source-note">題目文字是按 Drive 掃描檔整理的幼兒友善版本；原題只有文字／算式的題目保留文字顯示，14 題含圖題已按 PDF 重畫成 SVG。完整原圖請按來源連結查看。2021-2022 掃描檔未包含第 21-24 題。</p>
       </section>
 
       <footer class="page-footer">TIMO practice · 適合親子一起讀題</footer>
