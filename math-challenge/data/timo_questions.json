@@ -1,0 +1,990 @@
+{
+  "version": "1.0.0",
+  "title": "TIMO 幼稚園組模擬試題",
+  "scoring": {
+    "pointsPerQuestion": 5,
+    "noPenalty": true
+  },
+  "sources": [
+    {
+      "year": "2021-2022",
+      "url": "https://drive.google.com/file/d/1asekQNjv1NpQACSxqZoM_Q5nXp3bN2fC/view",
+      "pdfPages": 5,
+      "availableQuestionCount": 26,
+      "note": "Drive 掃描檔沒有第 21-24 題頁面；本題庫保留掃描檔實際可核對的 26 題。"
+    },
+    {
+      "year": "2022-2023",
+      "url": "https://drive.google.com/file/d/1ubPYp0pNI_Vhc24VWK815IV1WN1uj0sH/view",
+      "pdfPages": 6,
+      "availableQuestionCount": 30,
+      "note": "完整掃描檔，共 30 題。"
+    }
+  ],
+  "questions": [
+    {
+      "id": "timo-2021-2022-q01",
+      "year": "2021-2022",
+      "sourcePage": 1,
+      "number": 1,
+      "topic": "邏輯思維",
+      "prompt": "找出數列的下一個數字：7、2、5、4、3、6、1、？",
+      "original": "According to the pattern shown below, what is the number in the space provided? 7, 2, 5, 4, 3, 6, 1, ...",
+      "answer": "8",
+      "choices": [
+        "8",
+        "9",
+        "10"
+      ],
+      "explanation": "奇數由 7、5、3、1 倒數；偶數由 2、4、6、8 順數，所以答案是 8。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q02",
+      "year": "2021-2022",
+      "sourcePage": 1,
+      "number": 2,
+      "topic": "邏輯思維",
+      "prompt": "Sarah 是家中最大的女孩子，有 3 個弟弟和 1 個妹妹。家中共有多少位小朋友？",
+      "original": "Sarah is the eldest daughter in the family and has 3 brothers and 1 sister. How many children are there in Sarah's family?",
+      "answer": "5",
+      "choices": [
+        "4",
+        "5",
+        "6"
+      ],
+      "explanation": "Sarah 加上 3 個弟弟和 1 個妹妹：1 + 3 + 1 = 5。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q03",
+      "year": "2021-2022",
+      "sourcePage": 2,
+      "number": 3,
+      "topic": "邏輯思維",
+      "prompt": "看看兩個平衡的天平：○、△、□之中哪一種最輕？",
+      "original": "Refer to the figure below, there are 2 balances. Which one of ○, △, □ is the lightest?",
+      "answer": "○",
+      "choices": [
+        "○",
+        "△",
+        "□"
+      ],
+      "explanation": "4 個○和 2 個□一樣重，所以 1 個□等於 2 個○，□比○重；2 個△和 3 個○一樣重，所以△也比○重。最輕的是○。",
+      "status": "verified",
+      "visual": "balances"
+    },
+    {
+      "id": "timo-2021-2022-q04",
+      "year": "2021-2022",
+      "sourcePage": 2,
+      "number": 4,
+      "topic": "邏輯思維",
+      "prompt": "Daniel 有 7 個足球，比 Harry 少 4 個。Harry 有多少個足球？",
+      "original": "Daniel has 7 footballs. Daniel has 4 more footballs than Harry. How many footballs does Harry have?",
+      "answer": "3",
+      "choices": [
+        "3",
+        "4",
+        "11"
+      ],
+      "explanation": "Daniel 比 Harry 多 4 個，所以 Harry 有 7 - 4 = 3 個。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q05",
+      "year": "2021-2022",
+      "sourcePage": 2,
+      "number": 5,
+      "topic": "數量規律",
+      "prompt": "按圖中的規律，第 4 組有多少個 ⊕？",
+      "original": "According to the pattern shown below, how many ⊕ are there in the 4th group?",
+      "answer": "10",
+      "choices": [
+        "8",
+        "10",
+        "12"
+      ],
+      "visual": "symbol-groups-2021",
+      "explanation": "⊕ 排成樓梯：第 3 組是 3 + 2 + 1 = 6 個，所以第 4 組是 4 + 3 + 2 + 1 = 10 個。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q06",
+      "year": "2021-2022",
+      "sourcePage": 2,
+      "number": 6,
+      "topic": "字母規律",
+      "prompt": "找出英文字母規律：A、D、G、J、M、？",
+      "original": "According to the pattern shown below, what is the English alphabet in the space provided? A, D, G, J, M, ...",
+      "answer": "P",
+      "choices": [
+        "N",
+        "O",
+        "P"
+      ],
+      "explanation": "每次向後跳 3 個字母：A-D-G-J-M-P。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q07",
+      "year": "2021-2022",
+      "sourcePage": 3,
+      "number": 7,
+      "topic": "算術",
+      "prompt": "如果 12 - A = 8，A 是多少？",
+      "original": "If A is a 1-digit number, what is the value of A if the equation below is correct? 12 - A = 8.",
+      "answer": "4",
+      "choices": [
+        "3",
+        "4",
+        "5"
+      ],
+      "explanation": "12 減去 4 才等於 8。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q08",
+      "year": "2021-2022",
+      "sourcePage": 3,
+      "number": 8,
+      "topic": "算術",
+      "prompt": "9 - 2 - 5 等於多少？",
+      "original": "Find the value of 9 - 2 - 5.",
+      "answer": "2",
+      "choices": [
+        "1",
+        "2",
+        "3"
+      ],
+      "explanation": "先算 9 - 2 = 7，再算 7 - 5 = 2。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q09",
+      "year": "2021-2022",
+      "sourcePage": 3,
+      "number": 9,
+      "topic": "算術",
+      "prompt": "1 + 4 + 9 + 6 等於多少？",
+      "original": "Find the value of 1 + 4 + 9 + 6.",
+      "answer": "20",
+      "choices": [
+        "18",
+        "20",
+        "22"
+      ],
+      "explanation": "1 + 4 + 9 + 6 = 20。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q10",
+      "year": "2021-2022",
+      "sourcePage": 3,
+      "number": 10,
+      "topic": "算術",
+      "prompt": "13 - 12 + 11 - 10 + 8 - 7 等於多少？",
+      "original": "Find the value of 13 - 12 + 11 - 10 + 8 - 7.",
+      "answer": "3",
+      "choices": [
+        "2",
+        "3",
+        "4"
+      ],
+      "explanation": "由左至右計算：1 + 11 - 10 + 8 - 7 = 3。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q11",
+      "year": "2021-2022",
+      "sourcePage": 3,
+      "number": 11,
+      "topic": "算術",
+      "prompt": "5 + 7 + 16 等於多少？",
+      "original": "Find the value of 5 + 7 + 16.",
+      "answer": "28",
+      "choices": [
+        "26",
+        "28",
+        "30"
+      ],
+      "explanation": "5 + 7 = 12，12 + 16 = 28。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q12",
+      "year": "2021-2022",
+      "sourcePage": 3,
+      "number": 12,
+      "topic": "算術",
+      "prompt": "4 + 0 + 2 重複 5 次，總和是多少？",
+      "original": "Find the value of 4 + 0 + 2 + 4 + 0 + 2 + 4 + 0 + 2 + 4 + 0 + 2 + 4 + 0 + 2.",
+      "answer": "30",
+      "choices": [
+        "24",
+        "30",
+        "36"
+      ],
+      "explanation": "每組 4 + 0 + 2 = 6，共 5 組：6 × 5 = 30。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q13",
+      "year": "2021-2022",
+      "sourcePage": 3,
+      "number": 13,
+      "topic": "數論",
+      "prompt": "Emily 原本有偶數個橙。她吃了 5 個，再用 7 個換取 4 瓶茶。最後是奇數還是偶數個橙？",
+      "original": "Emily has an even number of oranges. Emily eats 5 of them and exchanges 7 of them with Natasha for 4 bottles of tea. Determine whether the total number of Emily's oranges is odd or even now.",
+      "answer": "偶數",
+      "choices": [
+        "奇數",
+        "偶數"
+      ],
+      "explanation": "總共減少 5 + 7 = 12 個；偶數減偶數仍然是偶數。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q14",
+      "year": "2021-2022",
+      "sourcePage": 3,
+      "number": 14,
+      "topic": "算術",
+      "prompt": "在 6、5、8、2 之間填入 + 或 -，令算式等於 5。",
+      "original": "Fill in the blanks with '+' and '-' to make the equation below correct: 6 __ 5 __ 8 __ 2 = 5.",
+      "answer": "+ - +",
+      "choices": [
+        "+ - +",
+        "+ + -",
+        "- + -"
+      ],
+      "explanation": "6 + 5 - 8 + 2 = 5。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q15",
+      "year": "2021-2022",
+      "sourcePage": 3,
+      "number": 15,
+      "topic": "金錢",
+      "prompt": "一盒鉛筆售價 7 元，買 4 盒要多少元？",
+      "original": "A box of pencils costs $7, how much do 4 boxes of pencils cost?",
+      "answer": "28",
+      "choices": [
+        "21",
+        "28",
+        "35"
+      ],
+      "explanation": "7 × 4 = 28 元。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q16",
+      "year": "2021-2022",
+      "sourcePage": 4,
+      "number": 16,
+      "topic": "數量關係",
+      "prompt": "Irene 有 13 塊餅乾，Karen 有 5 塊。Irene 給 Karen 多少塊後，兩人會一樣多？",
+      "original": "Irene has 13 biscuits and Karen has 5 biscuits. How many biscuit(s) does Irene have to give Karen so that they will have the same number of biscuits?",
+      "answer": "4",
+      "choices": [
+        "3",
+        "4",
+        "5"
+      ],
+      "explanation": "13 - 4 = 9，而 5 + 4 = 9，所以要給 4 塊。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q17",
+      "year": "2021-2022",
+      "sourcePage": 4,
+      "number": 17,
+      "topic": "數列",
+      "prompt": "找出數列下一項：3、7、11、15、？",
+      "original": "According to the pattern shown below, what should be the number filled in the blank? 3, 7, 11, 15, ...",
+      "answer": "19",
+      "choices": [
+        "18",
+        "19",
+        "20"
+      ],
+      "explanation": "每次加 4：15 + 4 = 19。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q18",
+      "year": "2021-2022",
+      "sourcePage": 4,
+      "number": 18,
+      "topic": "數數",
+      "prompt": "29 至 40（包括 29 和 40）之間有多少個數字？",
+      "original": "How many number(s) is / are there between 29 to 40? (Including the first and last number)",
+      "answer": "12",
+      "choices": [
+        "11",
+        "12",
+        "13"
+      ],
+      "explanation": "40 - 29 + 1 = 12。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q19",
+      "year": "2021-2022",
+      "sourcePage": 4,
+      "number": 19,
+      "topic": "圖形規律",
+      "prompt": "圖形按「正方形、三角形、星形」重複出現，橫線上的圖形是甚麼？",
+      "original": "According to the pattern shown below, what is the figure in the space provided?",
+      "answer": "正方形",
+      "choices": [
+        "正方形",
+        "三角形",
+        "星形"
+      ],
+      "explanation": "每 3 個圖形為一組；空格位於下一組的第一個，所以是正方形。",
+      "status": "verified",
+      "visual": "sequence-2021"
+    },
+    {
+      "id": "timo-2021-2022-q20",
+      "year": "2021-2022",
+      "sourcePage": 4,
+      "number": 20,
+      "topic": "立體圖形",
+      "prompt": "下圖最少由多少個立方體組成？",
+      "original": "At least how many cube(s) is / are there in the figure below?",
+      "answer": "7",
+      "choices": [
+        "6",
+        "7",
+        "8"
+      ],
+      "explanation": "前排 1 個；中排 3 個（左邊疊高 2 個，右邊 1 個）；後排 3 個（最左那個只露出頂面一小角）。1 + 3 + 3 = 7 個。",
+      "status": "verified",
+      "visual": "cubes-2021"
+    },
+    {
+      "id": "timo-2021-2022-q25",
+      "year": "2021-2022",
+      "sourcePage": 5,
+      "number": 25,
+      "topic": "組合數學",
+      "prompt": "以下算式的答案中，有多少個是偶數？3+1、5+3、4+3、2+4",
+      "original": "Among the value of the following expressions, how many even number(s) is / are there? 3+1, 5+3, 4+3, 2+4.",
+      "answer": "3",
+      "choices": [
+        "2",
+        "3",
+        "4"
+      ],
+      "explanation": "答案是 4、8、7、6，其中 4、8、6 共 3 個偶數。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q26",
+      "year": "2021-2022",
+      "sourcePage": 5,
+      "number": 26,
+      "topic": "組合數學",
+      "prompt": "把 6 個三角形分成 3 組，每組有多少個？",
+      "original": "Separate 6 triangles into 3 equal groups, how many triangle(s) is / are there in each group?",
+      "answer": "2",
+      "choices": [
+        "1",
+        "2",
+        "3"
+      ],
+      "visual": "triangles-2021",
+      "explanation": "6 ÷ 3 = 2。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q27",
+      "year": "2021-2022",
+      "sourcePage": 5,
+      "number": 27,
+      "topic": "排序",
+      "prompt": "把 69、93、31、4、17 由大至小排列，最大的數是多少？",
+      "original": "Arranging the following numbers in descending order (from the largest to the smallest), find the largest number. 69, 93, 31, 4, 17.",
+      "answer": "93",
+      "choices": [
+        "69",
+        "93",
+        "31"
+      ],
+      "explanation": "93 比其他數字都大。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q28",
+      "year": "2021-2022",
+      "sourcePage": 5,
+      "number": 28,
+      "topic": "金錢",
+      "prompt": "Paula 有 6 枚 1 元硬幣，最多可以換多少枚 2 元硬幣？",
+      "original": "Paula has 6 $1 coins. How many $2 coin(s) can she exchange?",
+      "answer": "3",
+      "choices": [
+        "2",
+        "3",
+        "4"
+      ],
+      "explanation": "6 元每 2 元一枚：6 ÷ 2 = 3 枚。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q29",
+      "year": "2021-2022",
+      "sourcePage": 5,
+      "number": 29,
+      "topic": "數字分類",
+      "prompt": "以下數字中有多少個是兩位數？62、58、57、9、71、24、10、6、5",
+      "original": "Among the following numbers, how many 2-digit number(s) is / are there? 62, 58, 57, 9, 71, 24, 10, 6, 5.",
+      "answer": "6",
+      "choices": [
+        "5",
+        "6",
+        "7"
+      ],
+      "explanation": "兩位數是 62、58、57、71、24、10，共 6 個。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2021-2022-q30",
+      "year": "2021-2022",
+      "sourcePage": 5,
+      "number": 30,
+      "topic": "排序",
+      "prompt": "把 15、20、13、55、49 由大至小排列，第三大的數是多少？",
+      "original": "Arranging the following numbers in descending order, find the value of the 3rd largest number. 15, 20, 13, 55, 49.",
+      "answer": "20",
+      "choices": [
+        "15",
+        "20",
+        "49"
+      ],
+      "explanation": "由大至小是 55、49、20、15、13，第三個是 20。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q01",
+      "year": "2022-2023",
+      "sourcePage": 1,
+      "number": 1,
+      "topic": "邏輯思維",
+      "prompt": "找出數列的下一個數字：9、1、7、3、5、5、3、？",
+      "original": "According to the pattern shown below, what should be the number filled in the blank? 9, 1, 7, 3, 5, 5, 3, ...",
+      "answer": "7",
+      "choices": [
+        "1",
+        "7",
+        "9"
+      ],
+      "explanation": "奇數位置由 9、7、5、3 倒數；偶數位置由 1、3、5、7 順數，所以答案是 7。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q02",
+      "year": "2022-2023",
+      "sourcePage": 1,
+      "number": 2,
+      "topic": "邏輯思維",
+      "prompt": "Sarah 是家中最小的女孩子，有 2 個哥哥和 3 個姐姐。家中共有多少位小朋友？",
+      "original": "Sarah is the youngest girl in the family and has 2 elder brothers and 3 elder sisters. How many children are there in Sarah's family?",
+      "answer": "6",
+      "choices": [
+        "5",
+        "6",
+        "7"
+      ],
+      "explanation": "Sarah 加上 2 個哥哥和 3 個姐姐：1 + 2 + 3 = 6。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q03",
+      "year": "2022-2023",
+      "sourcePage": 1,
+      "number": 3,
+      "topic": "邏輯思維",
+      "prompt": "看看兩個平衡的天平：○、△、□之中哪一種最重？",
+      "original": "The figure below shows 2 balances. Which of ○, △, □ is the heaviest?",
+      "answer": "□",
+      "choices": [
+        "○",
+        "△",
+        "□"
+      ],
+      "explanation": "2 個□和 4 個○一樣重；2 個△和 3 個○一樣重。4 個○比 3 個○重，所以□比△重，也比○重。最重的是□。",
+      "status": "verified",
+      "visual": "balances"
+    },
+    {
+      "id": "timo-2022-2023-q04",
+      "year": "2022-2023",
+      "sourcePage": 1,
+      "number": 4,
+      "topic": "邏輯思維",
+      "prompt": "Daniel 有 4 個足球，比 Harry 少 4 個。Harry 有多少個足球？",
+      "original": "Daniel has 4 footballs. Daniel has 4 less footballs than Harry. How many football(s) does Harry have?",
+      "answer": "8",
+      "choices": [
+        "4",
+        "8",
+        "12"
+      ],
+      "explanation": "Harry 比 Daniel 多 4 個：4 + 4 = 8。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q05",
+      "year": "2022-2023",
+      "sourcePage": 2,
+      "number": 5,
+      "topic": "數量規律",
+      "prompt": "按圖中的規律，第 15 組有多少個 ⊕？",
+      "original": "According to the pattern shown below, how many ⊕ are there in the 15th group?",
+      "answer": "16",
+      "choices": [
+        "15",
+        "16",
+        "17"
+      ],
+      "visual": "symbol-groups-2022",
+      "explanation": "⊕ 放在樓梯斜邊的每一格，再加右下角 1 格。第 2 組 3 個、第 3 組 4 個、第 4 組 5 個，每組多 1 個，所以第 15 組有 15 + 1 = 16 個。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q06",
+      "year": "2022-2023",
+      "sourcePage": 2,
+      "number": 6,
+      "topic": "字母規律",
+      "prompt": "找出英文字母規律：B、D、F、H、J、？",
+      "original": "According to the pattern shown below, what is the English alphabet in the space provided? B, D, F, H, J, ...",
+      "answer": "L",
+      "choices": [
+        "K",
+        "L",
+        "M"
+      ],
+      "explanation": "每次跳過一個字母：B-D-F-H-J-L。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q07",
+      "year": "2022-2023",
+      "sourcePage": 2,
+      "number": 7,
+      "topic": "算術",
+      "prompt": "如果 16 - A = 9，A 是多少？",
+      "original": "What is the 1-digit number A if the equation below is correct? 16 - A = 9.",
+      "answer": "7",
+      "choices": [
+        "6",
+        "7",
+        "8"
+      ],
+      "explanation": "16 減去 7 等於 9。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q08",
+      "year": "2022-2023",
+      "sourcePage": 2,
+      "number": 8,
+      "topic": "算術",
+      "prompt": "17 - 4 - 5 等於多少？",
+      "original": "Find the value of 17 - 4 - 5.",
+      "answer": "8",
+      "choices": [
+        "7",
+        "8",
+        "9"
+      ],
+      "explanation": "17 - 4 = 13，13 - 5 = 8。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q09",
+      "year": "2022-2023",
+      "sourcePage": 2,
+      "number": 9,
+      "topic": "算術",
+      "prompt": "3 + 7 + 6 + 4 等於多少？",
+      "original": "Find the value of 3 + 7 + 6 + 4.",
+      "answer": "20",
+      "choices": [
+        "18",
+        "20",
+        "22"
+      ],
+      "explanation": "3 + 7 + 6 + 4 = 20。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q10",
+      "year": "2022-2023",
+      "sourcePage": 2,
+      "number": 10,
+      "topic": "算術",
+      "prompt": "18 - 13 + 15 - 10 + 12 - 7 等於多少？",
+      "original": "Find the value of 18 - 13 + 15 - 10 + 12 - 7.",
+      "answer": "15",
+      "choices": [
+        "14",
+        "15",
+        "16"
+      ],
+      "explanation": "由左至右計算，結果是 15。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q11",
+      "year": "2022-2023",
+      "sourcePage": 2,
+      "number": 11,
+      "topic": "算術",
+      "prompt": "7 + 5 + 13 + 15 等於多少？",
+      "original": "Find the value of 7 + 5 + 13 + 15.",
+      "answer": "40",
+      "choices": [
+        "38",
+        "40",
+        "42"
+      ],
+      "explanation": "7 + 5 + 13 + 15 = 40。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q12",
+      "year": "2022-2023",
+      "sourcePage": 2,
+      "number": 12,
+      "topic": "算術",
+      "prompt": "1 + 3 + 5 + 7 + 1 + 3 + 5 + 7 等於多少？",
+      "original": "Find the value of 1 + 3 + 5 + 7 + 1 + 3 + 5 + 7.",
+      "answer": "32",
+      "choices": [
+        "30",
+        "32",
+        "34"
+      ],
+      "explanation": "每組 1 + 3 + 5 + 7 = 16，共兩組：16 × 2 = 32。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q13",
+      "year": "2022-2023",
+      "sourcePage": 3,
+      "number": 13,
+      "topic": "數論",
+      "prompt": "Emily 原本有偶數個橙。她吃了 5 個，再用 3 個換取 4 瓶茶。最後是奇數還是偶數個橙？",
+      "original": "Emily has an even number of oranges. Emily eats 5 of them and exchanges 3 of them with Natasha for 4 bottles of tea. Determine whether the total number of Emily's oranges is odd or even now.",
+      "answer": "偶數",
+      "choices": [
+        "奇數",
+        "偶數"
+      ],
+      "explanation": "總共減少 5 + 3 = 8 個；偶數減偶數仍然是偶數。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q14",
+      "year": "2022-2023",
+      "sourcePage": 3,
+      "number": 14,
+      "topic": "算術",
+      "prompt": "在 5、4、8、2 之間填入 + 或 -，令算式等於 3。",
+      "original": "Fill in the blanks with '+' and '-' to make the equation below correct: 5 __ 4 __ 8 __ 2 = 3.",
+      "answer": "+ - +",
+      "choices": [
+        "+ - +",
+        "+ + -",
+        "- + +"
+      ],
+      "explanation": "5 + 4 - 8 + 2 = 3。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q15",
+      "year": "2022-2023",
+      "sourcePage": 3,
+      "number": 15,
+      "topic": "金錢",
+      "prompt": "一盒糖果售價 6 元，買 3 盒要多少元？",
+      "original": "A box of candies is sold for $6, how much do 3 boxes of candies cost?",
+      "answer": "18",
+      "choices": [
+        "12",
+        "18",
+        "24"
+      ],
+      "explanation": "6 × 3 = 18 元。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q16",
+      "year": "2022-2023",
+      "sourcePage": 3,
+      "number": 16,
+      "topic": "數量關係",
+      "prompt": "Jack 有 18 塊餅乾，Tommy 有 4 塊。Jack 給 Tommy 多少塊後，兩人會一樣多？",
+      "original": "Jack has 18 biscuits and Tommy has 4 biscuits. How many biscuit(s) should Jack give Tommy so that they will have the same number of biscuits?",
+      "answer": "7",
+      "choices": [
+        "6",
+        "7",
+        "8"
+      ],
+      "explanation": "18 - 7 = 11，而 4 + 7 = 11，所以要給 7 塊。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q17",
+      "year": "2022-2023",
+      "sourcePage": 3,
+      "number": 17,
+      "topic": "數列",
+      "prompt": "找出數列下一項：4、8、12、16、？",
+      "original": "According to the pattern shown below, what should be the number filled in the blank? 4, 8, 12, 16, ...",
+      "answer": "20",
+      "choices": [
+        "18",
+        "20",
+        "22"
+      ],
+      "explanation": "每次加 4：16 + 4 = 20。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q18",
+      "year": "2022-2023",
+      "sourcePage": 3,
+      "number": 18,
+      "topic": "數數",
+      "prompt": "15 至 30（包括 15 和 30）之間有多少個數字？",
+      "original": "How many number(s) is / are there between 15 to 30? (Including the first and last number)",
+      "answer": "16",
+      "choices": [
+        "15",
+        "16",
+        "17"
+      ],
+      "explanation": "30 - 15 + 1 = 16。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q19",
+      "year": "2022-2023",
+      "sourcePage": 4,
+      "number": 19,
+      "topic": "圖形規律",
+      "prompt": "圖形按「正方形、三角形、圓形、星形」重複出現，橫線上的圖形是甚麼？",
+      "original": "According to the pattern shown below, what is the figure in the space provided?",
+      "answer": "圓形",
+      "choices": [
+        "正方形",
+        "圓形",
+        "星形"
+      ],
+      "explanation": "每 4 個圖形為一組：正方形、三角形、圓形、星形。空格在三角形後面、星形前面，所以是圓形。",
+      "status": "verified",
+      "visual": "sequence-2022"
+    },
+    {
+      "id": "timo-2022-2023-q20",
+      "year": "2022-2023",
+      "sourcePage": 4,
+      "number": 20,
+      "topic": "立體圖形",
+      "prompt": "下圖最少由多少個立方體組成？",
+      "original": "At least how many cube(s) is / are there in the figure below?",
+      "answer": "6",
+      "choices": [
+        "5",
+        "6",
+        "7"
+      ],
+      "explanation": "前排左右各 1 個；後排 3 個；後排中間上面再疊 1 個。2 + 3 + 1 = 6 個。",
+      "status": "verified",
+      "visual": "cubes-2022"
+    },
+    {
+      "id": "timo-2022-2023-q21",
+      "year": "2022-2023",
+      "sourcePage": 4,
+      "number": 21,
+      "topic": "平面圖形",
+      "prompt": "下圖一共有多少個正方形？",
+      "original": "How many square(s) is / are there in the figure below?",
+      "answer": "9",
+      "choices": [
+        "8",
+        "9",
+        "10"
+      ],
+      "explanation": "先數小正方形，有 8 個；右上角 4 個小正方形合起來是 1 個大正方形。8 + 1 = 9 個。",
+      "status": "verified",
+      "visual": "squares-2022"
+    },
+    {
+      "id": "timo-2022-2023-q22",
+      "year": "2022-2023",
+      "sourcePage": 5,
+      "number": 22,
+      "topic": "平面圖形",
+      "prompt": "下圖一共有多少個平行四邊形？",
+      "original": "How many parallelogram(s) is / are there in the figure below?",
+      "answer": "4",
+      "choices": [
+        "3",
+        "4",
+        "5"
+      ],
+      "explanation": "大的斜四邊形、它裏面的菱形、中間的小菱形和斜放的正方形都是平行四邊形，共 4 個。長條形和三角形裏的四邊形只有一組對邊平行，不算。",
+      "status": "verified",
+      "visual": "parallelograms-2022"
+    },
+    {
+      "id": "timo-2022-2023-q23",
+      "year": "2022-2023",
+      "sourcePage": 5,
+      "number": 23,
+      "topic": "平面圖形",
+      "prompt": "下圖的多邊形有多少條邊？",
+      "original": "How many side(s) is / are there in the polygon below?",
+      "answer": "4",
+      "choices": [
+        "3",
+        "4",
+        "5"
+      ],
+      "explanation": "這是一個長方形，有 4 條邊。",
+      "status": "verified",
+      "visual": "rectangle-2022"
+    },
+    {
+      "id": "timo-2022-2023-q24",
+      "year": "2022-2023",
+      "sourcePage": 5,
+      "number": 24,
+      "topic": "線段",
+      "prompt": "下圖的多邊形有多少條線段？",
+      "original": "How many line segment(s) is / are there in the polygon below?",
+      "answer": "6",
+      "choices": [
+        "6",
+        "7",
+        "8"
+      ],
+      "explanation": "交點會把左邊分成 2 段、右邊斜邊分成 2 段；再加上面的 1 段和中間的 1 段，共有 6 條線段。",
+      "status": "verified",
+      "visual": "segments-2022"
+    },
+    {
+      "id": "timo-2022-2023-q25",
+      "year": "2022-2023",
+      "sourcePage": 6,
+      "number": 25,
+      "topic": "組合數學",
+      "prompt": "以下算式的答案中，有多少個是奇數？3+2、5+1、4+3、6+4",
+      "original": "Among the values of the following expressions, how many odd number(s) is / are there? 3+2, 5+1, 4+3, 6+4.",
+      "answer": "2",
+      "choices": [
+        "1",
+        "2",
+        "3"
+      ],
+      "explanation": "答案是 5、6、7、10，其中 5 和 7 共 2 個奇數。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q26",
+      "year": "2022-2023",
+      "sourcePage": 6,
+      "number": 26,
+      "topic": "組合數學",
+      "prompt": "把 10 個三角形分成 5 組，每組有多少個？",
+      "original": "Divide 10 triangles into 5 equal groups, how many triangle(s) is / are there in each group?",
+      "answer": "2",
+      "choices": [
+        "1",
+        "2",
+        "3"
+      ],
+      "visual": "triangles-2022",
+      "explanation": "10 ÷ 5 = 2。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q27",
+      "year": "2022-2023",
+      "sourcePage": 6,
+      "number": 27,
+      "topic": "排序",
+      "prompt": "85、58、8、52、5 中最大的數是多少？",
+      "original": "Find the largest number of the following number sequence: 85, 58, 8, 52, 5.",
+      "answer": "85",
+      "choices": [
+        "58",
+        "85",
+        "52"
+      ],
+      "explanation": "85 比其他數字都大。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q28",
+      "year": "2022-2023",
+      "sourcePage": 6,
+      "number": 28,
+      "topic": "金錢",
+      "prompt": "Paula 有 4 枚 5 元硬幣，最多可以換多少張 10 元鈔票？",
+      "original": "Paula has 4 $5 coins. At most how many $10 money note(s) can she exchange these coins for?",
+      "answer": "2",
+      "choices": [
+        "1",
+        "2",
+        "3"
+      ],
+      "explanation": "4 × 5 = 20 元；20 元可換 2 張 10 元鈔票。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q29",
+      "year": "2022-2023",
+      "sourcePage": 6,
+      "number": 29,
+      "topic": "數字分類",
+      "prompt": "以下數字中有多少個是一位數？53、75、97、9、7、42、20、61、8",
+      "original": "Among the following numbers, how many 1-digit number(s) is / are there? 53, 75, 97, 9, 7, 42, 20, 61, 8.",
+      "answer": "3",
+      "choices": [
+        "2",
+        "3",
+        "4"
+      ],
+      "explanation": "一位數是 9、7、8，共 3 個。",
+      "status": "verified"
+    },
+    {
+      "id": "timo-2022-2023-q30",
+      "year": "2022-2023",
+      "sourcePage": 6,
+      "number": 30,
+      "topic": "排序",
+      "prompt": "把 78、40、33、25、91 由小至大排列，第三小的數是多少？",
+      "original": "Arranging the following numbers in ascending order (from the smallest to the largest), find the value of the 3rd smallest number. 78, 40, 33, 25, 91.",
+      "answer": "40",
+      "choices": [
+        "33",
+        "40",
+        "78"
+      ],
+      "explanation": "由小至大是 25、33、40、78、91，第三個是 40。",
+      "status": "verified"
+    }
+  ]
+}

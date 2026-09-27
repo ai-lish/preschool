@@ -60,20 +60,37 @@ function selectChar(index, chip) {
   speakZh(currentChar.char);
 }
 
-// ── TTS ──
-function speak(text, lang) {
-  if (!window.speechSynthesis) return;
-  const utt = new SpeechSynthesisUtterance(text);
-  utt.lang = lang;
-  utt.rate = 0.85;
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(utt);
+// ── MiniMax TTS ──
+let activeCoreVoice = null;
+
+function playCoreVoice(source) {
+  if (activeCoreVoice) {
+    activeCoreVoice.pause();
+    activeCoreVoice.currentTime = 0;
+  }
+  if (!source) return;
+
+  const audio = new Audio(source);
+  activeCoreVoice = audio;
+  const finish = () => {
+    if (activeCoreVoice === audio) activeCoreVoice = null;
+  };
+  audio.addEventListener('ended', finish, { once: true });
+  audio.addEventListener('error', finish, { once: true });
+  audio.play().catch(finish);
 }
-function speakZh(text) { speak(text, 'zh-TW'); }
-function speakEn(text) { speak(text, 'en-US'); }
+
+function speakCharacter(character, language = 'zh') {
+  const assets = window.CORE_VOICE_ASSETS || {};
+  const item = assets.characters && assets.characters[character];
+  playCoreVoice(item && item[language === 'en' ? 'en' : 'zh']);
+}
+
+function speakZh(character) { speakCharacter(character, 'zh'); }
+function speakEn(character) { speakCharacter(character, 'en'); }
 
 ttsZhBtn.addEventListener('click', () => { if (currentChar) speakZh(currentChar.char); });
-ttsEnBtn.addEventListener('click', () => { if (currentChar) speakEn(currentChar.meaning); });
+ttsEnBtn.addEventListener('click', () => { if (currentChar) speakEn(currentChar.char); });
 
 // ── Canvas drawing ──
 function getPos(e) {
