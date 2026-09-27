@@ -49,12 +49,11 @@
       color: #555;
       text-align: center;
     }
-    .emoji-stage {
+    .image-stage {
       background: #fff;
       border-radius: var(--radius);
       box-shadow: var(--card-shadow);
       padding: 20px;
-      font-size: 2rem;
       text-align: center;
       min-width: 200px;
       min-height: 80px;
@@ -64,6 +63,13 @@
       justify-content: center;
       gap: 6px;
       line-height: 1;
+    }
+    .count-object {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+      filter: drop-shadow(0 3px 3px rgba(0,0,0,0.12));
+      animation: pop 0.25s ease both;
     }
     .answer-grid {
       display: grid;
@@ -137,52 +143,393 @@
       font-weight: 700;
       line-height: 1.5;
     }
+    .number-music-toggle {
+      min-height: 44px;
+      padding: 8px 12px;
+      border: 2px solid var(--accent);
+      border-radius: 999px;
+      background: #fffaf0;
+      color: #8a6500;
+      font-family: var(--font);
+      font-size: 0.8rem;
+      font-weight: 900;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .number-music-toggle.playing {
+      background: var(--accent);
+      color: var(--text);
+    }
+
+    /* K2 1–10 practice panels */
+    .number-panel {
+      max-width: 560px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .number-panel h2 {
+      font-size: 1.35rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    .number-panel .panel-lede {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+    .panel-kicker {
+      display: inline-block;
+      margin-bottom: 8px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: #f0eeff;
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 900;
+    }
+    .practice-question {
+      margin: 18px auto;
+      padding: 18px;
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: var(--card-shadow);
+    }
+    .practice-question strong {
+      display: block;
+      font-size: 1.2rem;
+      color: var(--text);
+    }
+    .practice-listen {
+      min-height: 48px;
+      margin: 14px 0 18px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 999px;
+      background: var(--secondary);
+      color: #fff;
+      font-family: var(--font);
+      font-size: 1rem;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 6px 14px rgba(0,184,148,0.22);
+    }
+    .practice-listen:hover { transform: translateY(-2px); }
+    .number-answer-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .number-answer {
+      min-height: 64px;
+      border: 3px solid transparent;
+      border-radius: var(--radius-sm);
+      background: #fff;
+      box-shadow: var(--card-shadow);
+      color: var(--primary);
+      font-family: var(--font);
+      font-size: 1.5rem;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 0.15s, border-color 0.15s, background 0.15s;
+    }
+    .number-answer:hover { transform: scale(1.06); border-color: var(--primary); }
+    .hanzi-answer {
+      color: var(--text);
+      font-size: 1.9rem;
+    }
+    .practice-feedback {
+      min-height: 2rem;
+      margin-top: 16px;
+      color: var(--secondary);
+      font-weight: 900;
+    }
+    .practice-score {
+      color: #888;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .read-card {
+      margin: 20px auto;
+      padding: 24px 20px;
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: var(--card-shadow);
+    }
+    .read-character {
+      color: var(--primary);
+      font-size: 6rem;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+    .read-arabic {
+      margin-top: 4px;
+      color: #888;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .read-number-grid,
+    .write-number-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .read-number-chip,
+    .write-number-chip {
+      min-height: 48px;
+      border: 3px solid transparent;
+      border-radius: var(--radius-sm);
+      background: #fff;
+      box-shadow: var(--card-shadow);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 1.25rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+    .read-number-chip.active,
+    .write-number-chip.active {
+      border-color: var(--primary);
+      background: #f0eeff;
+      color: var(--primary);
+    }
+    .read-nav,
+    .write-actions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .read-nav .btn { min-width: 108px; }
+
+    .number-write-board {
+      position: relative;
+      width: min(82vw, 320px);
+      aspect-ratio: 1;
+      margin: 20px auto 0;
+      overflow: hidden;
+      border: 3px solid #d9d3ff;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(#eee 1px, transparent 1px),
+        linear-gradient(90deg, #eee 1px, transparent 1px),
+        #fff;
+      background-size: 25% 25%;
+      box-shadow: var(--card-shadow);
+    }
+    .number-write-guide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(108,92,231,0.18);
+      font-size: 13rem;
+      font-weight: 900;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+    #numberWriteCanvas {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      cursor: crosshair;
+    }
+    .write-hint {
+      min-height: 1.8rem;
+      margin-top: 12px;
+      color: #777;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 480px) {
+      .number-answer-grid { gap: 7px; }
+      .number-answer { min-height: 56px; font-size: 1.3rem; }
+      .read-character { font-size: 5rem; }
+      .number-write-guide { font-size: 11rem; }
+    }
   </style>
+  <link rel="stylesheet" href="css/numbers-child.css">
 </head>
-<body>
+<body class="number-playground">
   <div class="module-page">
     <header class="page-header">
-      <a href="index.html" class="back-btn" aria-label="返回">←</a>
-      <h1>🔢 數字認知</h1>
+      <a href="index.html" class="back-btn" aria-label="返回首頁">←</a>
+      <div class="page-title-wrap">
+        <span class="page-eyebrow">MINIMAX 數字樂園</span>
+        <h1>小小數字家</h1>
+      </div>
+      <button class="number-music-toggle" id="numberMusicToggle" type="button" aria-pressed="false">
+        <span class="music-note" aria-hidden="true">♪</span>
+        <span class="music-label">音樂</span>
+      </button>
     </header>
 
-    <div class="focus-note" id="focusNote" hidden></div>
+    <section class="number-hero" aria-labelledby="heroHeading">
+      <img class="number-hero-art" src="img/numbers/lion.png" alt="MiniMax 畫的小獅子">
+      <div class="number-hero-copy">
+        <p class="hero-kicker">每天玩一小會</p>
+        <h2 id="heroHeading">和小獅子玩 1 至 10！</h2>
+        <p class="focus-note" id="focusNote">先選一個活動，每次只做一小步。</p>
+      </div>
+    </section>
 
-    <div class="tab-bar">
-      <button class="tab-btn active" data-tab="cards">📇 數字卡</button>
-      <button class="tab-btn" data-tab="count">🎮 計數遊戲</button>
-      <button class="tab-btn" data-tab="order">🔢 數序排列</button>
-    </div>
+    <nav class="activity-picker" aria-label="選擇數字活動">
+      <div class="tab-bar">
+        <div class="primary-activities">
+          <button class="tab-btn active" data-tab="cards" type="button" aria-selected="true">
+            <img class="tab-art" src="img/numbers/apple.png" alt="">
+            <span>看數字</span>
+          </button>
+          <button class="tab-btn" data-tab="practice" type="button" aria-selected="false">
+            <img class="tab-art" src="img/numbers/dog.png" alt="">
+            <span>聽數字</span>
+          </button>
+          <button class="tab-btn" data-tab="count" type="button" aria-selected="false">
+            <img class="tab-art" src="img/numbers/cat.png" alt="">
+            <span>數一數</span>
+          </button>
+          <button class="tab-btn" data-tab="write" type="button" aria-selected="false">
+            <img class="tab-art" src="img/numbers/ice-cream.png" alt="">
+            <span>寫一寫</span>
+          </button>
+        </div>
+
+        <button class="more-activities-toggle" id="moreActivitiesToggle" type="button" aria-expanded="false" aria-controls="moreActivities">
+          更多遊戲
+        </button>
+        <div class="more-activities" id="moreActivities" hidden>
+          <button class="tab-btn" data-tab="recognize" type="button" aria-selected="false">
+            <img class="tab-art" src="img/numbers/lion.png" alt="">
+            <span>認中文字</span>
+          </button>
+          <button class="tab-btn" data-tab="read" type="button" aria-selected="false">
+            <img class="tab-art" src="img/numbers/dog.png" alt="">
+            <span>讀一讀</span>
+          </button>
+          <button class="tab-btn" data-tab="order" type="button" aria-selected="false">
+            <img class="tab-art" src="img/numbers/apple.png" alt="">
+            <span>排次序</span>
+          </button>
+        </div>
+      </div>
+    </nav>
 
     <!-- Tab: Number Cards -->
-    <div id="tab-cards">
+    <div class="activity-panel" id="tab-cards" role="tabpanel">
+      <div class="panel-intro">
+        <h2>按一按，聽數字</h2>
+        <p>看圖、看數字，再聽小老師讀一次。</p>
+      </div>
       <div class="num-grid" id="numGrid"></div>
     </div>
 
+    <!-- Tab: 1–10 Practice -->
+    <div class="activity-panel" id="tab-practice" role="tabpanel" style="display:none;">
+      <section class="number-panel" aria-labelledby="practiceHeading">
+        <span class="panel-kicker">聽一聽</span>
+        <h2 id="practiceHeading">你聽到哪個數字？</h2>
+        <p class="panel-lede">每次只有三個答案，慢慢聽就可以。</p>
+        <div class="practice-question">
+          <strong id="practicePrompt">按「聽一聽」開始。</strong>
+          <button class="practice-listen" id="practiceListen" type="button">▶ 聽一聽</button>
+          <div class="number-answer-grid" id="practiceAnswers"></div>
+          <div class="practice-feedback" id="practiceFeedback" aria-live="polite"></div>
+          <div class="practice-score" id="practiceScore">完成 0 題</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Tab: Chinese numeral writing -->
+    <div class="activity-panel" id="tab-write" role="tabpanel" style="display:none;">
+      <section class="number-panel" aria-labelledby="writeHeading">
+        <span class="panel-kicker">小手練習</span>
+        <h2 id="writeHeading">沿著淡色字寫</h2>
+        <p class="panel-lede">選一個字，用手指慢慢寫一次。</p>
+        <div class="write-number-grid" id="writeNumberPicker"></div>
+        <div class="number-write-board">
+          <div class="number-write-guide" id="writeGuideChar" aria-hidden="true">一</div>
+          <canvas id="numberWriteCanvas" width="320" height="320" aria-label="一至十中文字寫字練習"></canvas>
+        </div>
+        <div class="write-actions">
+          <button class="btn btn-danger" id="numberWriteClear" type="button">再寫一次</button>
+          <button class="btn btn-secondary" id="numberWriteDone" type="button">完成</button>
+          <button class="tts-btn" id="numberWriteListen" type="button" aria-label="播放數字讀音">▶ 聽讀音</button>
+        </div>
+        <div class="write-hint" id="numberWriteFeedback" aria-live="polite">沿著淡色字慢慢寫。</div>
+      </section>
+    </div>
+
+    <!-- Tab: Chinese numeral recognition -->
+    <div class="activity-panel" id="tab-recognize" role="tabpanel" style="display:none;">
+      <section class="number-panel" aria-labelledby="recognizeHeading">
+        <span class="panel-kicker">找朋友</span>
+        <h2 id="recognizeHeading">找出數字的中文字</h2>
+        <p class="panel-lede">看大數字，再從三個字中找朋友。</p>
+        <div class="practice-question">
+          <strong id="recognizePrompt">準備開始。</strong>
+          <button class="practice-listen" id="recognizeListen" type="button">▶ 聽一聽</button>
+          <div class="number-answer-grid" id="recognizeAnswers"></div>
+          <div class="practice-feedback" id="recognizeFeedback" aria-live="polite"></div>
+          <div class="practice-score" id="recognizeScore">完成 0 題</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Tab: Chinese numeral reading -->
+    <div class="activity-panel" id="tab-read" role="tabpanel" style="display:none;">
+      <section class="number-panel" aria-labelledby="readHeading">
+        <span class="panel-kicker">跟我讀</span>
+        <h2 id="readHeading">看一看，讀一讀</h2>
+        <p class="panel-lede">按「聽讀音」，再大聲跟著讀。</p>
+        <div class="read-card">
+          <div class="read-character" id="readCharacter">一</div>
+          <div class="read-arabic" id="readArabic">數字 1</div>
+          <button class="tts-btn" id="readListen" type="button" aria-label="播放一的讀音">▶ 聽讀音</button>
+          <img class="read-card-art" src="img/numbers/dog.png" alt="">
+        </div>
+        <div class="read-number-grid" id="readNumberPicker"></div>
+        <div class="read-nav">
+          <button class="btn btn-secondary" id="readPrev" type="button">← 上一個</button>
+          <button class="btn btn-primary" id="readNext" type="button">下一個 →</button>
+        </div>
+      </section>
+    </div>
+
     <!-- Tab: Counting Game -->
-    <div id="tab-count" style="display:none;">
+    <div class="activity-panel" id="tab-count" role="tabpanel" style="display:none;">
       <div class="game-area">
-        <div class="score-display" id="countScore">⭐ 分數: 0</div>
-        <div class="game-prompt">數一數有幾個？</div>
-        <div class="emoji-stage" id="emojiStage"></div>
+        <div class="score-display" id="countScore">完成 0 題</div>
+        <div class="game-prompt">慢慢數，有幾個？</div>
+        <div class="image-stage" id="emojiStage" aria-label="MiniMax 圖像數數區"></div>
         <div class="answer-grid" id="countAnswers"></div>
-        <button class="btn btn-secondary" id="countNext">下一題 ▶</button>
+        <button class="btn btn-secondary" id="countNext">換一題</button>
       </div>
     </div>
 
     <!-- Tab: Order Game -->
-    <div id="tab-order" style="display:none;">
+    <div class="activity-panel" id="tab-order" role="tabpanel" style="display:none;">
       <div class="game-area">
-        <div class="score-display" id="orderScore">⭐ 分數: 0</div>
-        <div class="game-prompt">找出缺少的數字 🔍</div>
+        <div class="score-display" id="orderScore">完成 0 題</div>
+        <div class="game-prompt">中間少了哪個數字？</div>
         <div class="seq-row" id="seqRow"></div>
         <div class="answer-grid" id="orderAnswers"></div>
-        <button class="btn btn-secondary" id="orderNext">下一題 ▶</button>
+        <button class="btn btn-secondary" id="orderNext">換一題</button>
       </div>
     </div>
   </div>
 
   <script src="js/core-voice-assets.js"></script>
+  <script src="js/number-media-assets.js"></script>
   <script src="js/numbers.js"></script>
 </body>
 </html>
