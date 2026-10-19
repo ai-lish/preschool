@@ -464,10 +464,12 @@
     const config = LANGUAGES[langKey];
     const candidates = voiceList.filter(voice => config.matches(voice));
     if (!candidates.length) return null;
+    const localCandidates = candidates.filter(voice => voice.localService !== false);
+    const eligible = localCandidates.length ? localCandidates : candidates;
     const preferred = { yue: ['yue-hk', 'zh-hk'], cmn: ['zh-cn', 'cmn-cn', 'zh-tw', 'zh-sg', 'zh-mo'], en: ['en-us', 'en-gb', 'en-au'] }[langKey];
-    return candidates.find(voice => preferred.includes((voice.lang || '').toLowerCase().replace('_', '-')))
-      || candidates.find(voice => voice.default)
-      || candidates[0];
+    return eligible.find(voice => preferred.includes((voice.lang || '').toLowerCase().replace('_', '-')))
+      || eligible.find(voice => voice.default)
+      || eligible[0];
   }
 
   function refreshVoiceControls() {
@@ -482,7 +484,8 @@
       return;
     }
     if (voice) {
-      status.textContent = `使用此裝置語音：${voice.name}（${voice.lang}）。切換語言或頁面會停止播放。`;
+      const delivery = voice.localService === true ? '本機語音' : voice.localService === false ? '瀏覽器網絡語音' : '瀏覽器語音';
+      status.textContent = `使用${delivery}：${voice.name}（${voice.lang}）。切換語言或頁面會停止播放。`;
       status.classList.remove('unavailable');
     } else if (voiceListReady) {
       status.textContent = config.missing;
