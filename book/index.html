@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-HK">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fff9ed">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <title>小小畫冊 — 幼兒學習中心</title>
+  <link rel="stylesheet" href="book.css">
+</head>
+<body>
+  <div class="app-frame" id="appFrame">
+    <header class="topbar screen-only">
+      <a class="back-link" href="../index.html" aria-label="返回幼兒學習中心">← 返回</a>
+      <div class="brand"><span aria-hidden="true">📚</span><div><h1>小小畫冊</h1><p>K2 看圖、填色、讀一讀、寫一寫</p></div></div>
+      <div class="top-actions">
+        <button class="soft-button" id="showLibrary" type="button">🗂️ 我的作品</button>
+        <button class="primary-button" id="saveWork" type="button">💾 儲存作品</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="controls screen-only" aria-label="畫冊設定">
+        <div class="control-row page-picker" id="pagePicker" role="group" aria-label="選擇示範頁"></div>
+        <div class="control-row title-row">
+          <label for="workTitle">作品名稱</label>
+          <input id="workTitle" maxlength="60" value="我的日畫冊" autocomplete="off">
+          <span class="privacy-note">🔒 作品只存在此瀏覽器，不會上傳；其他裝置不會自動同步。</span>
+        </div>
+        <div class="control-row tool-row">
+          <div class="tool-group" role="group" aria-label="畫畫工具">
+            <span class="control-label">工具</span>
+            <button class="tool-button active" data-tool="fill" type="button" aria-pressed="true">🪣 填色</button>
+            <button class="tool-button" data-tool="brush" type="button" aria-pressed="false">🖍️ 畫筆</button>
+            <button class="tool-button" data-tool="eraser" type="button" aria-pressed="false">🧽 橡皮</button>
+            <button class="tool-button" id="undo" type="button" aria-label="復原">↶ 復原</button>
+            <button class="tool-button" id="redo" type="button" aria-label="重做">↷ 重做</button>
+            <button class="tool-button clear-button" id="clearPicture" type="button">清除填色</button>
+          </div>
+          <div class="palette" id="palette" role="group" aria-label="選擇畫筆顏色"></div>
+          <label class="size-control" for="brushSize">筆畫
+            <select id="brushSize" aria-label="畫筆大小"><option value="8">細</option><option value="16" selected>中</option><option value="28">粗</option></select>
+          </label>
+        </div>
+        <div class="control-row print-row">
+          <fieldset class="print-choice"><legend>列印版本</legend>
+            <label><input type="radio" name="printMode" value="original" checked> 原稿填色紙</label>
+            <label><input type="radio" name="printMode" value="colored"> 已填色作品</label>
+          </fieldset>
+          <button class="print-button" id="printPage" type="button">🖨️ 列印橫向 A4</button>
+          <span class="save-status" id="saveStatus" role="status" aria-live="polite">未儲存</span>
+        </div>
+      </section>
+
+      <section class="saved-drawer screen-only" id="savedDrawer" hidden aria-label="已儲存作品">
+        <div class="drawer-heading"><div><h2>我的作品</h2><p id="storageUsage">只在此瀏覽器儲存</p></div><button id="closeLibrary" type="button" class="icon-button" aria-label="關閉作品列表">✕</button></div>
+        <div class="drawer-actions">
+          <button id="newWork" type="button" class="soft-button">＋ 新作品</button>
+          <button id="exportWork" type="button" class="soft-button" disabled>⬇ 匯出可編輯備份</button>
+          <label class="soft-button import-label" for="importFile">⬆ 匯入作品檔</label>
+          <input id="importFile" type="file" accept="application/json,.json" hidden>
+        </div>
+        <ul class="saved-list" id="savedList"></ul>
+      </section>
+
+      <section class="worksheet" id="worksheet" aria-label="畫冊示範頁">
+        <header class="paper-heading">
+          <div><span class="book-kicker">K2 小小畫冊</span><h2 id="paperTitle">日 · 太陽</h2></div>
+          <p id="paperInstruction">給太陽塗上喜歡的顏色，再聽一聽。</p>
+          <div class="page-number" id="pageNumber">示範 1 / 3</div>
+        </header>
+
+        <div class="worksheet-grid">
+          <section class="illustration-column" aria-label="線稿填色區">
+            <div class="art-card">
+              <div class="art-caption"><span>🎨 大圖填色</span><span>點一點填色，或用畫筆自由畫</span></div>
+              <div class="art-stage" id="artStage">
+                <div class="svg-host" id="svgHost"></div>
+                <canvas id="paintCanvas" aria-label="畫筆繪圖區"></canvas>
+              </div>
+            </div>
+            <p class="art-help screen-only" id="artHelp">選「填色」後點圖形；選「畫筆」可用手指或滑鼠自由畫。</p>
+          </section>
+
+          <section class="learning-column" aria-label="讀字與寫字">
+            <div class="word-card">
+              <div class="word-heading"><div><span class="section-label">看圖認字</span><h3 id="lessonTitle">太陽</h3></div><span class="hero-character" id="heroCharacter">日</span></div>
+              <p class="lesson-explainer" id="lessonExplainer">太陽升起來，天亮了。</p>
+              <div class="language-tabs" id="languageTabs" role="tablist" aria-label="選擇讀音語言">
+                <button type="button" role="tab" data-language="yue" aria-selected="true">粵語</button>
+                <button type="button" role="tab" data-language="cmn" aria-selected="false">普通話</button>
+                <button type="button" role="tab" data-language="en" aria-selected="false">English</button>
+              </div>
+              <div class="spoken-text"><span class="spoken-tag">字／詞</span><span id="spokenWord">太陽</span></div>
+              <div class="spoken-text sentence-text"><span class="spoken-tag">短句</span><span id="spokenSentence">太陽出來喇。</span></div>
+              <div class="voice-actions">
+                <button class="listen-main" id="listenSequence" type="button">▶ 先聽字，再聽句子</button>
+                <div class="replay-row"><button id="replayWord" type="button">🔁 重播字</button><button id="replaySentence" type="button">🔁 重播句子</button></div>
+              </div>
+              <p class="voice-status" id="voiceStatus" role="status" aria-live="polite">正在檢查此裝置的語音…</p>
+            </div>
+
+            <div class="writing-card">
+              <div class="writing-heading"><div><span class="section-label">小手寫一寫</span><h3>練習「<span id="writingChar">日</span>」</h3></div><span class="parent-tag">家長按能力選擇</span></div>
+              <fieldset class="writing-layouts" aria-label="選擇練習版面">
+                <legend>練習版面</legend>
+                <label><input type="radio" name="writingLayout" value="pad" checked><span>手寫板</span></label>
+                <label><input type="radio" name="writingLayout" value="workbook"><span>寫字簿（5×5／9字）</span></label>
+              </fieldset>
+              <div class="writing-modes" role="group" aria-label="選擇書寫方式">
+                <label><input type="radio" name="writingMode" value="strokes"><span>一筆一劃</span></label>
+                <label><input type="radio" name="writingMode" value="trace" checked><span>描字</span></label>
+                <label><input type="radio" name="writingMode" value="free"><span>自己寫</span></label>
+              </div>
+              <p class="writing-hint" id="writingHint">沿著淡色字描一描。頁面不提供筆順示範或自動評分。</p>
+              <div class="writing-area layout-pad" id="writingArea">
+                <span class="trace-character" id="traceCharacter" aria-hidden="true">日</span>
+                <div class="workbook-grid" id="workbookGrid" aria-hidden="true"></div>
+                <canvas id="writingCanvas" aria-label="中文字書寫練習區"></canvas>
+              </div>
+              <div class="writing-actions screen-only"><button id="undoWriting" type="button">↶ 復原筆畫</button><button id="clearWriting" type="button">清除這一格</button></div>
+              <p class="print-writing-label print-only">請在格內寫一寫</p>
+            </div>
+          </section>
+        </div>
+        <footer class="paper-footer"><span>畫得開心，慢慢學習。</span><span id="paperFooterCharacter">日 · 太陽</span></footer>
+      </section>
+      <p class="privacy-footer screen-only">你的作品只存在目前瀏覽器的本機儲存空間。建議偶爾匯出可編輯作品檔備份。</p>
+    </main>
+  </div>
+  <script src="artwork.js"></script>
+  <script src="book.js"></script>
+</body>
+</html>
