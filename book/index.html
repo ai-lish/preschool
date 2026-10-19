@@ -102,14 +102,20 @@
 
             <div class="writing-card">
               <div class="writing-heading"><div><span class="section-label">小手寫一寫</span><h3>練習「<span id="writingChar">日</span>」</h3></div><span class="parent-tag">家長按能力選擇</span></div>
+              <fieldset class="writing-layouts" aria-label="選擇練習版面">
+                <legend>練習版面</legend>
+                <label><input type="radio" name="writingLayout" value="pad" checked><span>手寫板</span></label>
+                <label><input type="radio" name="writingLayout" value="workbook"><span>寫字簿（5×5／9字）</span></label>
+              </fieldset>
               <div class="writing-modes" role="group" aria-label="選擇書寫方式">
                 <label><input type="radio" name="writingMode" value="strokes"><span>一筆一劃</span></label>
                 <label><input type="radio" name="writingMode" value="trace" checked><span>描字</span></label>
                 <label><input type="radio" name="writingMode" value="free"><span>自己寫</span></label>
               </div>
               <p class="writing-hint" id="writingHint">沿著淡色字描一描。頁面不提供筆順示範或自動評分。</p>
-              <div class="writing-area" id="writingArea">
+              <div class="writing-area layout-pad" id="writingArea">
                 <span class="trace-character" id="traceCharacter" aria-hidden="true">日</span>
+                <div class="workbook-grid" id="workbookGrid" aria-hidden="true"></div>
                 <canvas id="writingCanvas" aria-label="中文字書寫練習區"></canvas>
               </div>
               <div class="writing-actions screen-only"><button id="undoWriting" type="button">↶ 復原筆畫</button><button id="clearWriting" type="button">清除這一格</button></div>

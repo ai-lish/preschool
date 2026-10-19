@@ -39,6 +39,8 @@
   const paintContext = paintCanvas.getContext('2d');
   const writingCanvas = $('writingCanvas');
   const writingContext = writingCanvas.getContext('2d');
+  const writingArea = $('writingArea');
+  const workbookGrid = $('workbookGrid');
   let pageId = pages[0].id;
   let language = 'yue';
   let tool = 'fill';
@@ -50,13 +52,15 @@
   let voiceListReady = false;
   let voiceTimeout = null;
   let speechSequence = 0;
+  let activeAudio = null;
+  let minimaxAudioFiles = {};
   let writingState = 'trace';
   let undoStack = [];
   let redoStack = [];
   let paintState = emptyPaintState();
 
   function emptyPaintState() {
-    return { fills: {}, artStrokes: [], writingStrokes: [], writingMode: 'trace' };
+    return { fills: {}, artStrokes: [], writingStrokes: [], workbookStrokes: [], writingMode: 'trace', writingLayout: 'pad' };
   }
 
   function clone(value) {
@@ -120,7 +124,9 @@
     }
     result.artStrokes = cleanStrokes(input.artStrokes);
     result.writingStrokes = cleanStrokes(input.writingStrokes);
+    result.workbookStrokes = cleanStrokes(input.workbookStrokes);
     result.writingMode = ['strokes', 'trace', 'free'].includes(input.writingMode) ? input.writingMode : 'trace';
+    result.writingLayout = ['pad', 'workbook'].includes(input.writingLayout) ? input.writingLayout : 'pad';
     return result;
   }
 
@@ -204,6 +210,7 @@
     $('heroCharacter').textContent = page.character;
     $('writingChar').textContent = page.character;
     $('traceCharacter').textContent = page.character;
+    buildWorkbookGrid();
     $('paperFooterCharacter').textContent = page.label;
     $('lessonExplainer').textContent = page.explainer;
     updateWritingModeUI();
@@ -252,7 +259,32 @@
   function updateHistoryButtons() {
     $('undo').disabled = !undoStack.length;
     $('redo').disabled = !redoStack.length;
-    $('undoWriting').disabled = !paintState.writingStrokes.length;
+    $('undoWriting').disabled = !activeWritingStrokes().length;
+  }
+
+  function activeWritingStrokes() {
+    return paintState.writingLayout === 'workbook' ? paintState.workbookStrokes : paintState.writingStrokes;
+  }
+
+  function writingCanvasDimensions() {
+    return paintState.writingLayout === 'workbook' ? [960, 960] : [960, 560];
+  }
+
+  function buildWorkbookGrid() {
+    workbookGrid.replaceChildren();
+    for (let row = 0; row < 5; row += 1) {
+      for (let column = 0; column < 5; column += 1) {
+        const cell = document.createElement('span');
+        cell.className = 'workbook-cell';
+        if (row % 2 === 0 && column % 2 === 0) {
+          const character = document.createElement('span');
+          character.className = 'workbook-character';
+          character.textContent = currentPage().character;
+          cell.append(character);
+        }
+        workbookGrid.append(cell);
+      }
+    }
   }
 
   function renderPaintState() {
@@ -263,7 +295,8 @@
       else region.style.removeProperty('--region-fill');
     });
     redrawCanvas(paintCanvas, paintContext, paintState.artStrokes, 760, 560);
-    redrawCanvas(writingCanvas, writingContext, paintState.writingStrokes, 960, 560);
+    const [writingWidth, writingHeight] = writingCanvasDimensions();
+    redrawCanvas(writingCanvas, writingContext, activeWritingStrokes(), writingWidth, writingHeight);
     updateWritingModeUI();
     updateHistoryButtons();
   }
@@ -355,7 +388,7 @@
     };
     drawing = { canvas: targetCanvas, stroke, rect };
     if (targetCanvas === paintCanvas) paintState.artStrokes.push(stroke);
-    else paintState.writingStrokes.push(stroke);
+    else activeWritingStrokes().push(stroke);
     targetCanvas.setPointerCapture(event.pointerId);
     renderPaintState();
     setDirty();
@@ -425,29 +458,37 @@
     setDirty();
   });
   $('undoWriting').addEventListener('click', () => {
-    if (!paintState.writingStrokes.length) return;
+    const strokes = activeWritingStrokes();
+    if (!strokes.length) return;
     markUndoPoint();
-    paintState.writingStrokes.pop();
+    strokes.pop();
     renderPaintState();
     setDirty();
   });
   $('clearWriting').addEventListener('click', () => {
-    if (!paintState.writingStrokes.length) return;
+    const strokes = activeWritingStrokes();
+    if (!strokes.length) return;
     markUndoPoint();
-    paintState.writingStrokes = [];
+    strokes.splice(0);
     renderPaintState();
     setDirty();
   });
 
   function updateWritingModeUI() {
     writingState = ['strokes', 'trace', 'free'].includes(paintState.writingMode) ? paintState.writingMode : 'trace';
+    paintState.writingLayout = ['pad', 'workbook'].includes(paintState.writingLayout) ? paintState.writingLayout : 'pad';
     const radio = document.querySelector(`input[name="writingMode"][value="${writingState}"]`);
     if (radio) radio.checked = true;
-    $('writingArea').classList.remove('mode-trace', 'mode-strokes', 'mode-free');
-    $('writingArea').classList.add(`mode-${writingState}`);
+    const layoutRadio = document.querySelector(`input[name="writingLayout"][value="${paintState.writingLayout}"]`);
+    if (layoutRadio) layoutRadio.checked = true;
+    writingArea.classList.remove('mode-trace', 'mode-strokes', 'mode-free', 'layout-pad', 'layout-workbook');
+    writingArea.classList.add(`mode-${writingState}`, `layout-${paintState.writingLayout}`);
+    $('clearWriting').textContent = paintState.writingLayout === 'workbook' ? '清除寫字簿' : '清除這一格';
     const hints = {
       strokes: '可先由家長示範，再一筆一劃慢慢寫；頁面不提供筆順示範或自動評分。',
-      trace: '沿著淡色字描一描。頁面不提供筆順示範或自動評分。',
+      trace: paintState.writingLayout === 'workbook'
+        ? '沿著九個淡色字描一描；字格隔一行、隔一格排列。頁面不提供筆順示範或自動評分。'
+        : '沿著淡色字描一描。頁面不提供筆順示範或自動評分。',
       free: '不看描字，試試自己寫；每個孩子的進度都不同。',
     };
     $('writingHint').textContent = hints[writingState];
@@ -457,6 +498,14 @@
     markUndoPoint();
     paintState.writingMode = input.value;
     updateWritingModeUI();
+    setDirty();
+  }));
+  document.querySelectorAll('input[name="writingLayout"]').forEach(input => input.addEventListener('change', () => {
+    if (input.value === paintState.writingLayout) return;
+    markUndoPoint();
+    paintState.writingLayout = input.value;
+    updateWritingModeUI();
+    renderPaintState();
     setDirty();
   }));
 
@@ -475,10 +524,18 @@
   function refreshVoiceControls() {
     const config = LANGUAGES[language];
     const voice = findVoice(language);
+    const speechSupported = 'speechSynthesis' in window && typeof window.SpeechSynthesisUtterance === 'function';
+    const minimaxAvailable = hasMinimaxAudio();
+    const canSpeak = minimaxAvailable || (speechSupported && Boolean(voice));
     const buttons = [$('listenSequence'), $('replayWord'), $('replaySentence')];
-    buttons.forEach(button => { button.disabled = !voice; });
+    buttons.forEach(button => { button.disabled = !canSpeak; });
     const status = $('voiceStatus');
-    if (!('speechSynthesis' in window) || typeof window.SpeechSynthesisUtterance !== 'function') {
+    if (minimaxAvailable) {
+      status.textContent = '使用 MiniMax 語音（Speech 2.8 HD）；切換語言或頁面會停止播放。';
+      status.classList.remove('unavailable');
+      return;
+    }
+    if (!speechSupported) {
       status.textContent = '此瀏覽器不支援 Web Speech 語音播放。';
       status.classList.add('unavailable');
       return;
@@ -514,13 +571,18 @@
   function cancelSpeech() {
     speechSequence += 1;
     if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    if (activeAudio) {
+      activeAudio.pause();
+      activeAudio.currentTime = 0;
+      activeAudio = null;
+    }
   }
 
-  function utterance(text, voice, onend) {
+  function utterance(text, voice, onend, langKey = language) {
     const item = new SpeechSynthesisUtterance(text);
     item.voice = voice;
     item.lang = voice.lang;
-    item.rate = language === 'en' ? 0.82 : 0.78;
+    item.rate = langKey === 'en' ? 0.82 : 0.78;
     item.onend = onend;
     item.onerror = event => {
       if (event.error !== 'canceled' && event.error !== 'interrupted') {
@@ -531,25 +593,84 @@
     return item;
   }
 
+  function minimaxAudioPath(part, langKey = language, page = currentPage()) {
+    const filename = minimaxAudioFiles[`${page.id}.${langKey}.${part}`];
+    if (!filename || !/^[a-z0-9-]+-(yue|cmn|en)-(word|sentence)\.mp3$/i.test(filename)) return null;
+    return new URL(`audio/minimax/${filename}`, document.baseURI).href;
+  }
+
+  function hasMinimaxAudio(page = currentPage(), langKey = language) {
+    return Boolean(minimaxAudioPath('word', langKey, page) && minimaxAudioPath('sentence', langKey, page));
+  }
+
+  async function loadMinimaxAudioManifest() {
+    try {
+      const response = await fetch('audio/minimax/manifest.json', { cache: 'no-store' });
+      if (!response.ok) return;
+      const manifest = await response.json();
+      if (!manifest || typeof manifest.files !== 'object') return;
+      minimaxAudioFiles = Object.fromEntries(Object.entries(manifest.files).filter(([key, filename]) => (
+        /^[a-z0-9-]+\.(yue|cmn|en)\.(word|sentence)$/i.test(key)
+        && typeof filename === 'string'
+        && /^[a-z0-9-]+-(yue|cmn|en)-(word|sentence)\.mp3$/i.test(filename)
+      )));
+      refreshVoiceControls();
+    } catch (error) {
+      // Local browser speech remains available if the optional MiniMax files are absent.
+    }
+  }
+
+  function playPart(text, part, langKey, voice, onend, sequence) {
+    const source = minimaxAudioPath(part, langKey);
+    if (!source) {
+      if (voice) window.speechSynthesis.speak(utterance(text, voice, onend, langKey));
+      return;
+    }
+
+    const player = new Audio(source);
+    activeAudio = player;
+    let fallbackStarted = false;
+    const fallback = () => {
+      if (fallbackStarted || activeAudio !== player || sequence !== speechSequence) return;
+      fallbackStarted = true;
+      activeAudio = null;
+      player.pause();
+      if (voice && 'speechSynthesis' in window) window.speechSynthesis.speak(utterance(text, voice, onend, langKey));
+      else {
+        $('voiceStatus').textContent = 'MiniMax 音檔未能播放，而且此裝置沒有可用的後備語音。';
+        $('voiceStatus').classList.add('unavailable');
+      }
+    };
+    player.addEventListener('ended', () => {
+      if (activeAudio !== player || sequence !== speechSequence) return;
+      activeAudio = null;
+      if (onend) onend();
+    }, { once: true });
+    player.addEventListener('error', fallback, { once: true });
+    const result = player.play();
+    if (result && typeof result.catch === 'function') result.catch(fallback);
+  }
+
   function speakSingle(part) {
     cancelSpeech();
+    const sequence = speechSequence;
     const voice = findVoice(language);
-    if (!voice) return refreshVoiceControls();
+    if (!voice && !minimaxAudioPath(part)) return refreshVoiceControls();
     const words = currentPage().sentences[language];
-    window.speechSynthesis.speak(utterance(words[part], voice));
+    playPart(words[part], part, language, voice, null, sequence);
   }
 
   function playSequence() {
     cancelSpeech();
     const sequence = speechSequence;
     const voice = findVoice(language);
-    if (!voice) return refreshVoiceControls();
     const words = currentPage().sentences[language];
     const next = () => {
       if (sequence !== speechSequence) return;
-      window.speechSynthesis.speak(utterance(words.sentence, voice));
+      playPart(words.sentence, 'sentence', language, voice, null, sequence);
     };
-    window.speechSynthesis.speak(utterance(words.word, voice, next));
+    if (!voice && !minimaxAudioPath('word')) return refreshVoiceControls();
+    playPart(words.word, 'word', language, voice, next, sequence);
   }
 
   $('listenSequence').addEventListener('click', playSequence);
@@ -575,6 +696,7 @@
     voiceListReady = true;
     refreshVoiceControls();
   }
+  loadMinimaxAudioManifest();
 
   function openRecord(record) {
     if (dirty && !window.confirm('目前的修改尚未儲存。開啟其他作品會放棄這些修改，仍要繼續嗎？')) return;
@@ -678,7 +800,7 @@
 
   function downloadJson(record) {
     const data = {
-      type: 'preschool-coloring-work', schemaVersion: 1,
+      type: 'preschool-coloring-work', schemaVersion: 2,
       exportedAt: new Date().toISOString(),
       work: { id: record.id, pageId: record.pageId, title: record.title, updatedAt: record.updatedAt, state: record.state },
     };
@@ -706,7 +828,7 @@
     try {
       if (file.size > 4_000_000) throw new Error('作品檔超過 4 MB，請先確認檔案。');
       const data = JSON.parse(await file.text());
-      if (data.type !== 'preschool-coloring-work' || data.schemaVersion !== 1 || !validRecord(data.work)) {
+      if (data.type !== 'preschool-coloring-work' || ![1, 2].includes(data.schemaVersion) || !validRecord(data.work)) {
         throw new Error('這不是可辨識的小小畫冊作品備份檔。');
       }
       const source = data.work;

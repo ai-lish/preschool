@@ -1,0 +1,11 @@
+{
+  "provider": "MiniMax",
+  "model": "speech-2.8-hd",
+  "emotion": "happy",
+  "voices": {
+    "yue": "Cantonese_CuteGirl",
+    "cmn": "Chinese (Mandarin)_Warm_Girl",
+    "en": "English_PlayfulGirl"
+  },
+  "files": {}
+}

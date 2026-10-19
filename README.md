@@ -25,7 +25,7 @@
 | **⬛ 圖形形狀** | shapes.html | ✅ 完成 | 圓方三角橢圓 |
 | **✏️ 寫字練習** | writing.html | ✅ 完成 | 筆劃訓練 |
 | **🏠 K2 家校 10 分鐘** | k2-guide.html | ✅ 完成 | A-Z、1-10、中文基礎字、生活習慣 |
-| **🎨 K2 小小畫冊** | book/ | 🆕 示範版 | 看圖填色、寫字、粵普英朗讀、作品本機保存及 A4 列印 |
+| **🎨 K2 小小畫冊** | book/ | 🆕 示範版 | 看圖填色、手寫板、5×5 九字寫字簿、粵普英朗讀及 A4 列印 |
 
 ---
 
@@ -99,7 +99,9 @@ preschool/
 │   ├── index.html
 │   ├── artwork.js                # 原創黑白 SVG 填色線稿
 │   ├── book.js                   # 填色、語音、作品保存及列印
-│   └── book.css
+│   ├── book.css
+│   └── audio/minimax/manifest.json # MiniMax 語音索引
+├── scripts/generate_k2_minimax_audio.mjs # 以 MiniMax 產生 K2 語音檔
 ├── alphabet/                    # Alphabet Park 英語字母公園
 │   ├── index.html               # A-Z 字母學習主頁
 │   ├── characters/              # 角色圖片
@@ -131,6 +133,8 @@ preschool/
 │   └── prodigal_son/           # 浪子回頭音頻
 └── img/                         # 遊戲圖片資源
 ```
+
+K2 畫冊的 MiniMax 語音檔由本機腳本產生，API 金鑰只從 `MINIMAX_API_KEY` 或本機 `~/.openclaw/secrets.json` 讀取，不會放入網頁。設定金鑰後執行 `node scripts/generate_k2_minimax_audio.mjs`，音檔會寫入 `book/audio/minimax/`；尚未生成音檔時，畫冊會使用裝置的語音。
 
 ### 創造七日遊戲 ✅
 

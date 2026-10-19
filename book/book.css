@@ -117,6 +117,13 @@ button { color: inherit; }
 .voice-status { margin: 6px 0 0; color: #66727e; font-size: .69rem; line-height: 1.45; }
 .voice-status.unavailable { color: #a13d34; }
 .parent-tag { color: #826539; background: #fff3d6; border-radius: 999px; padding: 5px 8px; font-size: .67rem; font-weight: 800; white-space: nowrap; }
+.writing-layouts { display: flex; gap: 6px; align-items: center; border: 0; margin: 9px 0 5px; padding: 0; }
+.writing-layouts legend { float: left; margin-right: 4px; padding: 0; color: #697583; font-size: .7rem; font-weight: 850; }
+.writing-layouts label { cursor: pointer; }
+.writing-layouts input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.writing-layouts span { display: inline-flex; min-height: 31px; align-items: center; border: 1px solid #e6dfd5; border-radius: 9px; padding: 5px 9px; color: #5f6974; font-size: .76rem; font-weight: 800; }
+.writing-layouts input:checked + span { color: #4e348f; border-color: #b6a7e7; background: #f3efff; }
+.writing-layouts input:focus-visible + span { outline: 3px solid #cbbeef; outline-offset: 2px; }
 .writing-modes { display: flex; gap: 6px; margin: 9px 0 5px; }
 .writing-modes label { cursor: pointer; }
 .writing-modes input { position: absolute; opacity: 0; width: 1px; height: 1px; }
@@ -127,7 +134,17 @@ button { color: inherit; }
 .writing-area { position: relative; width: 100%; aspect-ratio: 1.72 / 1; overflow: hidden; border: 2px dashed #b8b0a2; border-radius: 10px; background-color: #fffefb; background-image: linear-gradient(to bottom, transparent calc(50% - .5px), #e9e2d7 50%, transparent calc(50% + .5px)), linear-gradient(to right, transparent calc(50% - .5px), #e9e2d7 50%, transparent calc(50% + .5px)); touch-action: none; }
 .writing-area.mode-free { background-image: linear-gradient(to bottom, transparent calc(69% - .5px), #dcd4c7 69%, transparent calc(69% + .5px)); }
 .writing-area.mode-strokes { background-image: linear-gradient(to bottom, transparent calc(50% - .5px), #e9e2d7 50%, transparent calc(50% + .5px)), linear-gradient(to right, transparent calc(50% - .5px), #e9e2d7 50%, transparent calc(50% + .5px)); }
+.writing-area.layout-workbook { aspect-ratio: 1 / 1; border-style: solid; background: #fffefb; }
+.workbook-grid { position: absolute; inset: 0; display: none; grid-template: repeat(5, minmax(0, 1fr)) / repeat(5, minmax(0, 1fr)); }
+.layout-workbook .workbook-grid { display: grid; }
+.workbook-cell { position: relative; display: grid; place-items: center; min-width: 0; min-height: 0; border: 1px solid #cfc8ba; }
+.workbook-cell::before, .workbook-cell::after { position: absolute; content: ""; pointer-events: none; }
+.workbook-cell::before { top: 50%; left: 0; width: 100%; border-top: 1px dashed #e4ded3; }
+.workbook-cell::after { top: 0; left: 50%; height: 100%; border-left: 1px dashed #e4ded3; }
+.workbook-character { position: relative; z-index: 1; color: #c7c2b8; font-size: clamp(1.5rem, 5vw, 3.6rem); font-weight: 700; line-height: 1; }
+.layout-workbook.mode-strokes .workbook-character, .layout-workbook.mode-free .workbook-character { visibility: hidden; }
 .trace-character { position: absolute; inset: 0; display: grid; place-items: center; color: #c7c2b8; font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif; font-size: clamp(6rem, 12vw, 10rem); font-weight: 700; line-height: 1; user-select: none; pointer-events: none; }
+.layout-workbook .trace-character { display: none; }
 .mode-strokes .trace-character, .mode-free .trace-character { display: none; }
 #writingCanvas { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; touch-action: none; cursor: crosshair; }
 .writing-actions { display: flex; justify-content: space-between; margin-top: 6px; }
@@ -214,13 +231,18 @@ button { color: inherit; }
   .word-heading h3, .writing-heading h3 { font-size: 13pt !important; }
   .hero-character { width: 15mm !important; height: 15mm !important; border: .3mm solid #999; border-radius: 2mm !important; color: #111 !important; background: #fff !important; font-size: 24pt !important; }
   .lesson-explainer { margin: 1mm 0 !important; color: #222 !important; font-size: 8pt !important; }
-  .language-tabs, .voice-actions, .voice-status, .parent-tag, .writing-modes, .writing-hint, .writing-actions, .art-help { display: none !important; }
+  .language-tabs, .voice-actions, .voice-status, .parent-tag, .writing-layouts, .writing-modes, .writing-hint, .writing-actions, .art-help { display: none !important; }
   .spoken-text { min-height: 0 !important; padding-top: 1mm !important; font-size: 9pt !important; }
   .spoken-tag { color: #333 !important; font-size: 7pt !important; }
   .writing-card { display: flex; flex: 1; min-height: 0; flex-direction: column; }
   .writing-area { width: 100%; flex: 1; min-height: 0; aspect-ratio: auto; margin-top: 2mm; border: .5mm dashed #777 !important; border-radius: 1.5mm !important; background-color: #fff !important; }
   .writing-area.mode-free { background-image: linear-gradient(to bottom, transparent calc(69% - .25mm), #aaa 69%, transparent calc(69% + .25mm)) !important; }
   .writing-area.mode-strokes, .writing-area.mode-trace { background-image: linear-gradient(to bottom, transparent calc(50% - .25mm), #ccc 50%, transparent calc(50% + .25mm)), linear-gradient(to right, transparent calc(50% - .25mm), #ccc 50%, transparent calc(50% + .25mm)) !important; }
+  .writing-area.layout-workbook { width: 100%; flex: 0 0 auto; aspect-ratio: 1 / 1; align-self: center; background: #fff !important; }
+  .workbook-cell { border-color: #888 !important; }
+  .workbook-cell::before { border-color: #ccc !important; }
+  .workbook-cell::after { border-color: #ccc !important; }
+  .workbook-character { font-size: 10mm !important; color: #c8c8c8 !important; }
   .trace-character { font-size: 47mm !important; color: #c8c8c8 !important; }
   .print-writing-label { display: block !important; margin: 1mm 0 0 !important; color: #333 !important; font-size: 8pt !important; }
   .paper-footer { height: 7mm; margin: 1mm 0 0 !important; padding: 2mm 1mm 0 !important; color: #555 !important; border-top: .3mm solid #aaa !important; font-size: 7pt !important; }
