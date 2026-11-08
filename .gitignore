@@ -1,0 +1,12 @@
+# Local credentials and private account files
+.env
+.env.*
+!.env.example
+.openclaw/
+secrets.json
+*.key
+*.pem
+
+# Python bytecode
+__pycache__/
+*.py[cod]

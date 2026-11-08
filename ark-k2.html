@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#e8f7ff">
+  <link rel="icon" href="data:,">
+  <title>方舟動物上船 — 幼兒學習中心</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/ark-k2.css">
+</head>
+<body>
+  <div class="ark-app" id="arkApp">
+    <header class="ark-header">
+      <a class="ark-back" href="index.html" aria-label="返回學習中心" data-localize-aria-label="backAria">← <span data-localize="backLink">學習中心</span></a>
+      <div class="ark-brand">
+        <span class="ark-brand-icon" aria-hidden="true">🛶</span>
+        <div>
+          <p class="ark-eyebrow">K2 → 小一</p>
+          <h1 data-localize="gameTitle">方舟動物上船</h1>
+        </div>
+      </div>
+      <div class="ark-header-actions">
+        <div class="ark-language" role="group" aria-label="語言">
+          <button type="button" data-language="zhHK" aria-pressed="true">粵語</button>
+          <button type="button" data-language="zhCN" aria-pressed="false">普通話</button>
+        </div>
+        <button class="ark-parent-tab" id="parentTab" type="button">家長成績表</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="ark-screen" id="homeScreen" aria-labelledby="worldTitle">
+        <div class="ark-world-card">
+          <div class="ark-world-copy">
+            <p class="ark-kicker" data-localize="homeKicker">一個世界 · 四級任務</p>
+            <h2 id="worldTitle" data-localize="worldTitle">幫挪亞照顧方舟動物</h2>
+            <p data-localize="worldDescription">聽動物、寫中文字、數羊和做加減。慢慢完成任務，為方舟收集星星。</p>
+            <p class="ark-voice-note" id="voiceStatus" aria-live="polite"></p>
+          </div>
+          <div class="ark-world-art" aria-hidden="true">
+            <span class="ark-sun">☀️</span>
+            <span class="ark-wave wave-one">〰️〰️〰️</span>
+            <span class="ark-boat">🛶</span>
+            <span class="ark-animal animal-one">🐑</span>
+            <span class="ark-animal animal-two">🐘</span>
+          </div>
+        </div>
+
+        <section class="ark-level-section" aria-labelledby="levelsTitle">
+          <div class="ark-section-heading">
+            <div>
+              <p class="ark-kicker" data-localize="levelKicker">逐級解鎖</p>
+              <h2 id="levelsTitle" data-localize="selectTask">選擇任務</h2>
+            </div>
+            <span class="ark-total-stars" id="totalStars" aria-live="polite">⭐ 0 / 12</span>
+          </div>
+          <div class="ark-level-grid" id="levelGrid"></div>
+        </section>
+
+        <p class="ark-privacy-note" data-localize="privacyNote">練習進度只保存在這個瀏覽器，不會記錄孩子姓名。</p>
+      </section>
+
+      <section class="ark-screen" id="gameScreen" hidden aria-live="polite">
+        <div class="ark-game-heading">
+          <button class="ark-back-game" id="backToLevels" type="button" data-localize="backToLevels">← 任務列表</button>
+          <div>
+            <p class="ark-kicker" id="levelKicker"></p>
+            <h2 id="levelTitle"></h2>
+          </div>
+          <p class="ark-question-counter" id="questionCounter"></p>
+        </div>
+        <div class="ark-progress-track" aria-hidden="true"><span id="questionProgress"></span></div>
+        <p class="ark-level-instruction" id="levelInstruction"></p>
+        <p class="ark-game-voice-note" id="gameVoiceStatus" role="status" aria-live="polite" hidden></p>
+
+        <div class="ark-play-card">
+          <div class="ark-play-scene" id="playScene"></div>
+          <p class="ark-feedback" id="feedback" role="status" aria-live="polite"></p>
+          <div class="ark-play-actions" id="playActions"></div>
+        </div>
+      </section>
+
+      <section class="ark-screen" id="parentScreen" hidden>
+        <div class="ark-game-heading">
+          <button class="ark-back-game" id="backFromParents" type="button" data-localize="backToLevels">← 任務列表</button>
+          <div>
+            <p class="ark-kicker" data-localize="parentKicker">家校一起看</p>
+            <h2 data-localize="parentHeading">家長成績表</h2>
+          </div>
+        </div>
+        <p class="ark-parent-note" id="parentIntro"></p>
+        <section class="ark-report-card" aria-labelledby="reportLevelsTitle">
+          <h3 id="reportLevelsTitle" data-localize="reportLevels">各級星數</h3>
+          <div id="parentLevelScores" class="ark-parent-levels"></div>
+          <p class="ark-recent-date"><strong id="recentDateLabel">最近練習</strong><span id="recentDateValue">—</span></p>
+        </section>
+        <section class="ark-report-card" aria-labelledby="mistakesTitle">
+          <h3 id="mistakesTitle" data-localize="mistakesHeading">錯得最多的字／題型</h3>
+          <ol id="mistakeList" class="ark-mistake-list"></ol>
+          <p id="noMistakes" class="ark-empty-note" hidden></p>
+        </section>
+        <button class="btn btn-danger ark-clear-progress" id="clearProgress" type="button">清除進度</button>
+      </section>
+
+      <section class="ark-screen" id="resultScreen" hidden>
+        <div class="ark-result-card" aria-live="polite">
+          <div class="ark-result-emoji" id="resultEmoji" aria-hidden="true">⭐</div>
+          <p class="ark-kicker" id="resultKicker"></p>
+          <h2 id="resultTitle"></h2>
+          <p class="ark-result-score" id="resultScore"></p>
+          <div class="ark-result-stars" id="resultStars" aria-label="本級星數"></div>
+          <div class="ark-result-actions" id="resultActions"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/ark-k2-math.js" defer></script>
+  <script src="js/ark-k2.js" defer></script>
+</body>
+</html>

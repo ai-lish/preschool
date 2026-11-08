@@ -1,0 +1,269 @@
+.ark-app {
+  width: min(100%, 1040px);
+  margin: 0 auto;
+  padding: max(12px, env(safe-area-inset-top)) 16px max(28px, env(safe-area-inset-bottom));
+}
+
+.ark-header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  min-height: 76px;
+  margin-bottom: 18px;
+  padding: 10px 0 14px;
+  border-bottom: 3px solid #e3edf1;
+}
+
+.ark-back,
+.ark-back-game {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 64px;
+  min-height: 64px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 16px;
+  background: #e7efff;
+  color: #314477;
+  font: inherit;
+  font-weight: 900;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.ark-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.ark-brand-icon { font-size: 2.4rem; }
+.ark-eyebrow,
+.ark-kicker { color: #607080; font-size: 0.82rem; font-weight: 900; letter-spacing: 0.05em; }
+.ark-brand h1 { color: #23334a; font-size: clamp(1.25rem, 3vw, 1.8rem); line-height: 1.2; }
+
+.ark-header-actions { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px; }
+.ark-language { display: flex; gap: 4px; padding: 4px; border-radius: 15px; background: #e8eef0; }
+.ark-language button,
+.ark-parent-tab {
+  min-width: 64px;
+  min-height: 64px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: #34404b;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+.ark-language button[aria-pressed="true"] { background: #fff; color: #155d57; box-shadow: 0 2px 6px #2030401c; }
+.ark-parent-tab { background: #e8fff8; color: #116c58; }
+
+.ark-screen[hidden] { display: none; }
+.ark-world-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 0.8fr);
+  align-items: center;
+  gap: 20px;
+  min-height: 250px;
+  margin-bottom: 24px;
+  padding: clamp(20px, 4vw, 34px);
+  overflow: hidden;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #edf9ff, #e7fff5 66%, #fff9e4);
+  box-shadow: 0 10px 26px #29495c18;
+}
+.ark-world-copy h2 { margin: 6px 0 10px; color: #193651; font-size: clamp(1.55rem, 4vw, 2.3rem); line-height: 1.22; }
+.ark-world-copy > p:not(.ark-kicker):not(.ark-voice-note) { max-width: 550px; color: #506474; line-height: 1.65; }
+.ark-voice-note { min-height: 1.4em; margin-top: 10px; color: #657789; font-size: 0.9rem; }
+.ark-world-art { position: relative; display: grid; place-items: center; min-height: 190px; overflow: hidden; border-radius: 24px; background: linear-gradient(#a9e6ff 0 55%, #8dd8d1 56% 100%); }
+.ark-sun { position: absolute; top: 10px; right: 22px; font-size: 2rem; }
+.ark-boat { position: absolute; z-index: 2; bottom: 26px; font-size: 6rem; filter: drop-shadow(0 5px 2px #445b5840); }
+.ark-animal { position: absolute; z-index: 3; bottom: 74px; font-size: 2.4rem; }
+.animal-one { left: 34%; }
+.animal-two { right: 29%; bottom: 70px; font-size: 2.7rem; }
+.ark-wave { position: absolute; bottom: 10px; width: 100%; overflow: hidden; color: #368b9d; font-size: 1.4rem; white-space: nowrap; }
+
+.ark-level-section { margin-bottom: 18px; }
+.ark-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 14px; margin: 0 2px 12px; }
+.ark-section-heading h2 { margin-top: 3px; font-size: 1.35rem; }
+.ark-total-stars { flex-shrink: 0; padding: 8px 12px; border-radius: 999px; background: #fff6d8; color: #735200; font-weight: 900; }
+.ark-level-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.ark-level-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  min-width: 0;
+  min-height: 150px;
+  padding: 16px;
+  border: 3px solid transparent;
+  border-radius: 20px;
+  background: #fff;
+  color: #273849;
+  text-align: left;
+  box-shadow: 0 7px 18px #20304012;
+  cursor: pointer;
+}
+.ark-level-card:focus-visible,
+.ark-level-card:hover:not(:disabled) { outline: 3px solid #8bc8dd; transform: translateY(-2px); }
+.ark-level-card:disabled { color: #73818b; background: #eff2f4; cursor: not-allowed; box-shadow: none; }
+.ark-level-number { color: #728092; font-size: 0.8rem; font-weight: 900; }
+.ark-level-icon { font-size: 2rem; line-height: 1; }
+.ark-level-title { font-size: 1rem; font-weight: 900; line-height: 1.35; }
+.ark-level-stars { color: #b87800; font-size: 1.1rem; letter-spacing: 0.04em; }
+.ark-privacy-note { margin: 10px 4px 0; color: #75818b; font-size: 0.85rem; }
+
+.ark-game-heading { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px; margin-bottom: 10px; }
+.ark-game-heading h2 { margin-top: 3px; color: #263c50; font-size: clamp(1.25rem, 3vw, 1.7rem); }
+.ark-question-counter { color: #617080; font-size: 0.9rem; font-weight: 900; text-align: right; }
+.ark-progress-track { height: 12px; margin: 8px 0 14px; overflow: hidden; border-radius: 999px; background: #e4edf0; }
+.ark-progress-track span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #42b88a, #66a9f5); transition: width 0.25s ease; }
+.ark-level-instruction { min-height: 1.6em; margin: 0 0 14px; color: #526474; font-weight: 700; line-height: 1.5; }
+.ark-game-voice-note:not([hidden]) { margin: -6px 0 12px; color: #8b5d32; font-size: 0.9rem; font-weight: 700; }
+.ark-play-card { min-height: 420px; padding: clamp(14px, 3vw, 24px); border-radius: 24px; background: #fff; box-shadow: 0 10px 26px #29495c18; }
+.ark-play-scene { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; min-height: 320px; }
+.ark-feedback { min-height: 1.5em; margin: 8px 0; color: #276b56; font-size: 1.05rem; font-weight: 900; text-align: center; }
+.ark-feedback.is-error { color: #8b5840; }
+.ark-play-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.ark-play-actions .btn,
+.ark-result-actions .btn { min-width: 64px; min-height: 68px; font-weight: 900; }
+
+.ark-question-tools { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 10px; }
+.ark-audio-button { min-width: 72px; min-height: 72px; border: 0; border-radius: 18px; background: #e8fff8; color: #155d57; font: inherit; font-size: 1.2rem; font-weight: 900; cursor: pointer; }
+.ark-answer-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; width: min(100%, 740px); }
+.ark-answer-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-width: 0; min-height: 148px; padding: 12px; border: 3px solid #e8eef0; border-radius: 20px; background: #f8fbfc; color: #263c50; font: inherit; font-size: clamp(1.5rem, 4vw, 2.1rem); font-weight: 900; cursor: pointer; }
+.ark-answer-card img { width: 84px; height: 84px; border-radius: 16px; object-fit: cover; }
+.ark-animal-emoji { display: grid; place-items: center; width: 84px; height: 84px; border-radius: 16px; background: #fff; font-size: 4rem; }
+.ark-answer-card:hover,
+.ark-answer-card:focus-visible { border-color: #6ac7ad; outline: 3px solid #d4f4e9; }
+.ark-answer-card:disabled { opacity: 0.6; cursor: default; }
+.ark-boat-deck { display: flex; align-items: end; justify-content: center; gap: 4px; width: min(100%, 600px); min-height: 132px; padding: 14px; border: 3px dashed #66b6b7; border-radius: 24px 24px 12px 12px; background: linear-gradient(#e9fbff, #efffff); }
+.ark-boarded-animal { display: block; width: 64px; height: 64px; border-radius: 14px; object-fit: cover; animation: ark-board 0.55s cubic-bezier(.2,.8,.2,1) both; }
+.ark-boarded-emoji { display: grid; place-items: center; width: 64px; height: 64px; font-size: 3rem; animation: ark-board 0.55s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes ark-board { from { opacity: 0; transform: translateY(80px) rotate(-10deg); } to { opacity: 1; transform: translateY(0) rotate(0); } }
+
+.ark-stroke-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, 0.72fr); align-items: center; gap: 20px; width: min(100%, 760px); }
+.ark-writing-canvas { width: min(100%, 340px); aspect-ratio: 1; border: 3px solid #e1edf0; border-radius: 22px; background-color: #fffdf6; background-image: linear-gradient(90deg, transparent calc(50% - 1px), #d7e2e7 50%, transparent calc(50% + 1px)), linear-gradient(0deg, transparent calc(50% - 1px), #d7e2e7 50%, transparent calc(50% + 1px)); touch-action: none; }
+.ark-stroke-side { display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
+.ark-target-char { color: #2c4158; font-size: 4rem; font-weight: 900; line-height: 1; }
+.ark-stroke-progress { color: #4d6b72; font-weight: 900; }
+.ark-plank-readout { display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 14px; background: #edf6f5; color: #3e665c; }
+.ark-plank-count { min-width: 32px; padding: 4px 8px; border-radius: 10px; background: #79b99c; color: #fff; font-size: 1.1rem; }
+.ark-stroke-hint { min-height: 3em; color: #526474; line-height: 1.5; }
+
+.ark-count-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; width: min(100%, 760px); }
+.ark-drop-zone { min-width: 0; min-height: 210px; padding: 12px; border: 3px dashed #9bb6c4; border-radius: 20px; background: #f5fbfd; }
+.ark-drop-zone.is-target { border-color: #249b81; background: #edfff8; }
+.ark-zone-title { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; color: #425667; font-size: 1rem; font-weight: 900; }
+.ark-sheep-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.ark-sheep-token { display: grid; place-items: center; width: 100%; min-width: 0; min-height: 64px; padding: 4px; border: 2px solid #dce9eb; border-radius: 14px; background: #fff; cursor: grab; touch-action: none; }
+.ark-sheep-token:active { cursor: grabbing; }
+.ark-sheep-token img { width: min(100%, 58px); height: 52px; object-fit: contain; pointer-events: none; }
+.ark-sheep-token:focus-visible { outline: 3px solid #6ac7ad; }
+
+.ark-math-scene { display: flex; flex-direction: column; align-items: center; gap: 14px; width: min(100%, 760px); }
+.ark-math-groups { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 10px; width: 100%; }
+.ark-math-group { min-width: 0; min-height: 116px; padding: 10px; border-radius: 18px; background: #eff9fb; text-align: center; }
+.ark-math-group strong { display: block; min-height: 1.4em; margin-bottom: 6px; color: #466070; font-size: 0.9rem; }
+.ark-math-animals { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 3px; }
+.ark-math-animals img { width: 44px; height: 44px; border-radius: 10px; object-fit: cover; }
+.ark-math-emoji { font-size: 2.4rem; line-height: 1; }
+.ark-math-operator { color: #475a70; font-size: 2rem; font-weight: 900; }
+.ark-math-answers { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.ark-math-answer { min-width: 80px; min-height: 80px; border: 3px solid #dce9eb; border-radius: 20px; background: #fff; color: #23435a; font: inherit; font-size: 2rem; font-weight: 900; cursor: pointer; }
+.ark-math-answer:focus-visible,
+.ark-math-answer:hover { border-color: #48b99b; outline: 3px solid #d8f6eb; }
+
+.ark-result-card { display: flex; flex-direction: column; align-items: center; gap: 12px; width: min(100%, 650px); margin: 36px auto; padding: 30px 20px; border-radius: 28px; background: #fff; box-shadow: 0 10px 26px #29495c18; text-align: center; }
+.ark-result-emoji { font-size: 4rem; animation: ark-pop 0.45s ease both; }
+@keyframes ark-pop { 0% { transform: scale(.5); opacity: 0; } 75% { transform: scale(1.15); } 100% { transform: scale(1); opacity: 1; } }
+.ark-result-card h2 { color: #263c50; font-size: clamp(1.45rem, 4vw, 2rem); }
+.ark-result-score { color: #607080; font-weight: 900; }
+.ark-result-stars { color: #c28200; font-size: 2.6rem; letter-spacing: 0.12em; }
+.ark-result-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 6px; }
+
+.ark-parent-note { margin: 0 0 14px; color: #637482; line-height: 1.5; }
+.ark-report-card { margin-bottom: 14px; padding: 18px; border-radius: 20px; background: #fff; box-shadow: 0 6px 18px #20304012; }
+.ark-report-card h3 { margin-bottom: 12px; color: #263c50; font-size: 1.15rem; }
+.ark-parent-levels { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.ark-parent-level { min-width: 0; min-height: 86px; padding: 10px; border-radius: 14px; background: #f3f8f9; }
+.ark-parent-level strong,
+.ark-parent-level span { display: block; }
+.ark-parent-level strong { margin-bottom: 5px; color: #536676; font-size: 0.85rem; line-height: 1.3; }
+.ark-parent-level span { color: #9b6a0a; font-size: 1.05rem; font-weight: 900; }
+.ark-recent-date { display: flex; justify-content: space-between; gap: 12px; margin-top: 14px; color: #596e7d; }
+.ark-mistake-list { display: grid; gap: 8px; padding-left: 28px; color: #4d5f6b; }
+.ark-mistake-list li { padding-left: 3px; line-height: 1.4; }
+.ark-empty-note { color: #78858e; }
+.ark-clear-progress { min-height: 64px; }
+
+@media (max-width: 760px) {
+  .ark-header { grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
+  .ark-back { grid-column: 1; grid-row: 1; justify-self: start; }
+  .ark-brand { grid-column: 1; grid-row: 2; }
+  .ark-header-actions { grid-column: 2; grid-row: 1 / span 2; flex-direction: column; align-items: stretch; }
+  .ark-language { flex-direction: column; }
+  .ark-language button, .ark-parent-tab { min-height: 64px; }
+  .ark-world-card { grid-template-columns: minmax(0, 1fr); }
+  .ark-world-art { min-height: 160px; }
+  .ark-level-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ark-level-card { min-height: 136px; }
+  .ark-game-heading { grid-template-columns: auto minmax(0, 1fr); }
+  .ark-question-counter { grid-column: 2; text-align: left; }
+  .ark-back-game { grid-row: 1 / span 2; }
+  .ark-play-card { min-height: 390px; }
+  .ark-play-scene { min-height: 285px; }
+  .ark-stroke-layout { grid-template-columns: minmax(0, 1fr); }
+  .ark-writing-canvas { width: min(100%, 320px); }
+  .ark-stroke-side { display: grid; grid-template-columns: auto minmax(0, 1fr); justify-items: start; text-align: left; }
+  .ark-stroke-hint { grid-column: 1 / -1; }
+}
+
+@media (max-width: 480px) {
+  .ark-app { padding-right: 12px; padding-left: 12px; }
+  .ark-header { gap: 8px; }
+  .ark-back { min-width: 64px; padding: 8px; }
+  .ark-back span { max-width: 4.5em; overflow: hidden; font-size: 0.76rem; }
+  .ark-brand { gap: 8px; }
+  .ark-brand-icon { font-size: 1.9rem; }
+  .ark-brand h1 { font-size: 1.2rem; }
+  .ark-eyebrow { font-size: 0.72rem; }
+  .ark-header-actions { width: 102px; }
+  .ark-language button, .ark-parent-tab { min-width: 96px; min-height: 64px; padding: 7px 4px; font-size: 0.78rem; }
+  .ark-world-card { gap: 10px; padding: 18px; }
+  .ark-world-art { min-height: 135px; }
+  .ark-level-grid { gap: 8px; }
+  .ark-level-card { min-height: 124px; padding: 12px; }
+  .ark-level-title { font-size: 0.92rem; }
+  .ark-section-heading h2 { font-size: 1.15rem; }
+  .ark-game-heading { gap: 8px; }
+  .ark-back-game { min-width: 64px; padding: 6px; font-size: 0.8rem; }
+  .ark-game-heading h2 { font-size: 1.22rem; }
+  .ark-question-counter { font-size: 0.82rem; }
+  .ark-play-card { min-height: 360px; padding: 12px; }
+  .ark-play-scene { min-height: 250px; gap: 10px; }
+  .ark-answer-grid { gap: 7px; }
+  .ark-answer-card { min-height: 126px; padding: 7px; border-radius: 16px; font-size: 1.45rem; }
+  .ark-answer-card img { width: 64px; height: 64px; }
+  .ark-animal-emoji { width: 64px; height: 64px; font-size: 3rem; }
+  .ark-count-layout { grid-template-columns: minmax(0, 1fr); }
+  .ark-drop-zone { min-height: 136px; padding: 8px; }
+  .ark-sheep-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; }
+  .ark-sheep-token { min-height: 64px; }
+  .ark-sheep-token img { height: 44px; }
+  .ark-math-group { min-height: 100px; padding: 7px 4px; }
+  .ark-math-groups { gap: 5px; }
+  .ark-math-animals img { width: 34px; height: 34px; }
+  .ark-math-emoji { font-size: 1.9rem; }
+  .ark-math-operator { font-size: 1.5rem; }
+  .ark-math-answer { min-width: 72px; min-height: 72px; }
+  .ark-parent-levels { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ark-result-card { margin: 18px auto; padding: 22px 14px; }
+}
