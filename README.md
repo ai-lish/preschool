@@ -249,3 +249,21 @@ img/
 ## 📱 使用方式
 
 用瀏覽器打開：https://ai-lish.github.io/preschool/
+
+## 🛶 方舟動物上船（K2 升小一）
+
+以挪亞方舟為原創故事背景，把聽動物名、跟筆順寫字、拖羊上船和加減題包裝成四級任務。每級 8 題；按首答正確數給星：0 題 0 星、1–5 題 1 星、6–7 題 2 星、8 題 3 星。上一級累積至少 1 星才解鎖下一級。練習語言預設粵語，也可切換普通話；進度使用 `localStorage` key `preschool-ark-k2-v1`，不記錄孩子姓名。
+
+### 遊戲內容和檔案
+
+- `ark-k2.html`、`css/ark-k2.css`、`js/ark-k2.js`：遊戲頁、響應式版面和互動。
+- `data/ark-k2.json`：題庫、語言文字、星數規則、動物資料及七字筆順路徑。
+- `audio/ark-k2/manifest.json`：兩種語言的語音資產狀態與 voice ID；語音由 `scripts/generate_ark_k2_voice.py` 以 MiniMax `speech-2.8-hd` 產生。粵語 voice ID 為 `61`，普通話為 `3`。腳本預設只建立待辦 manifest；只有確認月費額度足夠後，才用 `--generate --confirm-monthly-quota` 發送請求。本分支目前為 0/78 個音檔已生成。
+- 第一級從 11 種動物中抽 8 題。牛、馬、羊、鹿、狼、獅子、大象、兔子使用站內圖片和叫聲；貓、魚、雞使用 emoji。站內沒有這三種動物叫聲，答對時會重播動物名稱讀音。
+- 第二級練習風、毛、人、小、火、冰、家；第 8 題重溫「風」。每筆寫對增加一塊船板。
+- 第三級每輪從 1–10 抽 8 個數量；第四級使用 8 道答案及運算數在 0–10 內的加減題。
+- 語音檔名使用英文小寫及底線，例如 `animal_sheep.mp3`、`char_feng.mp3`、`number_1.mp3`、`level_1.mp3`，分放於 `audio/ark-k2/zhHK/` 和 `audio/ark-k2/zhCN/`。
+
+### 筆順來源
+
+根因：Hanzi Writer 的 Make Me a Hanzi 筆順資料以內地規範為主，可能與香港教育局字詞表不同。做法：七字的筆畫數及動畫逐筆次序逐字按香港教育局[《香港小學學習字詞表》](https://www.edbchinese.hk/lexlist_ch/)各字詞條目核對，Canvas 使用本地自製的簡化路徑。路徑不是教育局動畫原圖，也不使用 Make Me a Hanzi 預設筆順；教育局說明筆順資料供參考，並非唯一或硬性標準。

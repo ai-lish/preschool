@@ -1,0 +1,794 @@
+{
+  "version": 1,
+  "model": "speech-2.8-hd",
+  "voiceIds": {
+    "zhHK": "61",
+    "zhCN": "3"
+  },
+  "monthlyQuotaOnly": true,
+  "generatedCount": 0,
+  "plannedCount": 78,
+  "updatedAt": "2026-11-08T13:27:08+00:00",
+  "assets": [
+    {
+      "key": "level_1",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "level_1.mp3",
+      "path": "audio/ark-k2/zhHK/level_1.mp3",
+      "text": "聽動物名，選出正確字卡。答對，動物就上船！",
+      "status": "pending"
+    },
+    {
+      "key": "level_2",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "level_2.mp3",
+      "path": "audio/ark-k2/zhHK/level_2.mp3",
+      "text": "聽字音、看筆順動畫，再跟著綠點一筆一筆寫。",
+      "status": "pending"
+    },
+    {
+      "key": "level_3",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "level_3.mp3",
+      "path": "audio/ark-k2/zhHK/level_3.mp3",
+      "text": "聽數量，把相同數目的羊拖上船，再按完成。",
+      "status": "pending"
+    },
+    {
+      "key": "level_4",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "level_4.mp3",
+      "path": "audio/ark-k2/zhHK/level_4.mp3",
+      "text": "看看動物上船或落船，再選出正確答案。",
+      "status": "pending"
+    },
+    {
+      "key": "animal_cow",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "animal_cow.mp3",
+      "path": "audio/ark-k2/zhHK/animal_cow.mp3",
+      "text": "牛",
+      "status": "pending"
+    },
+    {
+      "key": "animal_horse",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "animal_horse.mp3",
+      "path": "audio/ark-k2/zhHK/animal_horse.mp3",
+      "text": "馬",
+      "status": "pending"
+    },
+    {
+      "key": "animal_sheep",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "animal_sheep.mp3",
+      "path": "audio/ark-k2/zhHK/animal_sheep.mp3",
+      "text": "羊",
+      "status": "pending"
+    },
+    {
+      "key": "animal_deer",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "animal_deer.mp3",
+      "path": "audio/ark-k2/zhHK/animal_deer.mp3",
+      "text": "鹿",
+      "status": "pending"
+    },
+    {
+      "key": "animal_wolf",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "animal_wolf.mp3",
+      "path": "audio/ark-k2/zhHK/animal_wolf.mp3",
+      "text": "狼",
+      "status": "pending"
+    },
+    {
+      "key": "animal_lion",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "animal_lion.mp3",
+      "path": "audio/ark-k2/zhHK/animal_lion.mp3",
+      "text": "獅子",
+      "status": "pending"
+    },
+    {
+      "key": "animal_elephant",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "animal_elephant.mp3",
+      "path": "audio/ark-k2/zhHK/animal_elephant.mp3",
+      "text": "大象",
+      "status": "pending"
+    },
+    {
+      "key": "animal_rabbit",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "animal_rabbit.mp3",
+      "path": "audio/ark-k2/zhHK/animal_rabbit.mp3",
+      "text": "兔子",
+      "status": "pending"
+    },
+    {
+      "key": "animal_cat",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "animal_cat.mp3",
+      "path": "audio/ark-k2/zhHK/animal_cat.mp3",
+      "text": "貓",
+      "status": "pending"
+    },
+    {
+      "key": "animal_fish",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "animal_fish.mp3",
+      "path": "audio/ark-k2/zhHK/animal_fish.mp3",
+      "text": "魚",
+      "status": "pending"
+    },
+    {
+      "key": "animal_chicken",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "animal_chicken.mp3",
+      "path": "audio/ark-k2/zhHK/animal_chicken.mp3",
+      "text": "雞",
+      "status": "pending"
+    },
+    {
+      "key": "char_feng",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "char_feng.mp3",
+      "path": "audio/ark-k2/zhHK/char_feng.mp3",
+      "text": "風",
+      "status": "pending"
+    },
+    {
+      "key": "char_mao",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "char_mao.mp3",
+      "path": "audio/ark-k2/zhHK/char_mao.mp3",
+      "text": "毛",
+      "status": "pending"
+    },
+    {
+      "key": "char_ren",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "char_ren.mp3",
+      "path": "audio/ark-k2/zhHK/char_ren.mp3",
+      "text": "人",
+      "status": "pending"
+    },
+    {
+      "key": "char_xiao",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "char_xiao.mp3",
+      "path": "audio/ark-k2/zhHK/char_xiao.mp3",
+      "text": "小",
+      "status": "pending"
+    },
+    {
+      "key": "char_huo",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "char_huo.mp3",
+      "path": "audio/ark-k2/zhHK/char_huo.mp3",
+      "text": "火",
+      "status": "pending"
+    },
+    {
+      "key": "char_bing",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "char_bing.mp3",
+      "path": "audio/ark-k2/zhHK/char_bing.mp3",
+      "text": "冰",
+      "status": "pending"
+    },
+    {
+      "key": "char_jia",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "char_jia.mp3",
+      "path": "audio/ark-k2/zhHK/char_jia.mp3",
+      "text": "家",
+      "status": "pending"
+    },
+    {
+      "key": "number_1",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "number_1.mp3",
+      "path": "audio/ark-k2/zhHK/number_1.mp3",
+      "text": "一",
+      "status": "pending"
+    },
+    {
+      "key": "number_2",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "number_2.mp3",
+      "path": "audio/ark-k2/zhHK/number_2.mp3",
+      "text": "二",
+      "status": "pending"
+    },
+    {
+      "key": "number_3",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "number_3.mp3",
+      "path": "audio/ark-k2/zhHK/number_3.mp3",
+      "text": "三",
+      "status": "pending"
+    },
+    {
+      "key": "number_4",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "number_4.mp3",
+      "path": "audio/ark-k2/zhHK/number_4.mp3",
+      "text": "四",
+      "status": "pending"
+    },
+    {
+      "key": "number_5",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "number_5.mp3",
+      "path": "audio/ark-k2/zhHK/number_5.mp3",
+      "text": "五",
+      "status": "pending"
+    },
+    {
+      "key": "number_6",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "number_6.mp3",
+      "path": "audio/ark-k2/zhHK/number_6.mp3",
+      "text": "六",
+      "status": "pending"
+    },
+    {
+      "key": "number_7",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "number_7.mp3",
+      "path": "audio/ark-k2/zhHK/number_7.mp3",
+      "text": "七",
+      "status": "pending"
+    },
+    {
+      "key": "number_8",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "number_8.mp3",
+      "path": "audio/ark-k2/zhHK/number_8.mp3",
+      "text": "八",
+      "status": "pending"
+    },
+    {
+      "key": "number_9",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "number_9.mp3",
+      "path": "audio/ark-k2/zhHK/number_9.mp3",
+      "text": "九",
+      "status": "pending"
+    },
+    {
+      "key": "number_10",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "number_10.mp3",
+      "path": "audio/ark-k2/zhHK/number_10.mp3",
+      "text": "十",
+      "status": "pending"
+    },
+    {
+      "key": "praise",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "praise.mp3",
+      "path": "audio/ark-k2/zhHK/praise.mp3",
+      "text": "做得好！",
+      "status": "pending"
+    },
+    {
+      "key": "hint",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "hint.mp3",
+      "path": "audio/ark-k2/zhHK/hint.mp3",
+      "text": "唔緊要，慢慢再試一次。",
+      "status": "pending"
+    },
+    {
+      "key": "count_lead_in",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "count_lead_in.mp3",
+      "path": "audio/ark-k2/zhHK/count_lead_in.mp3",
+      "text": "請帶",
+      "status": "pending"
+    },
+    {
+      "key": "count_tail",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "count_tail.mp3",
+      "path": "audio/ark-k2/zhHK/count_tail.mp3",
+      "text": "隻羊上船。",
+      "status": "pending"
+    },
+    {
+      "key": "math_plus",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "math_plus.mp3",
+      "path": "audio/ark-k2/zhHK/math_plus.mp3",
+      "text": "加",
+      "status": "pending"
+    },
+    {
+      "key": "math_minus",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "math_minus.mp3",
+      "path": "audio/ark-k2/zhHK/math_minus.mp3",
+      "text": "減",
+      "status": "pending"
+    },
+    {
+      "key": "math_question",
+      "language": "zhHK",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "61",
+      "filename": "math_question.mp3",
+      "path": "audio/ark-k2/zhHK/math_question.mp3",
+      "text": "等於多少？",
+      "status": "pending"
+    },
+    {
+      "key": "level_1",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "level_1.mp3",
+      "path": "audio/ark-k2/zhCN/level_1.mp3",
+      "text": "听动物名，选出正确字卡。答对，动物就上船！",
+      "status": "pending"
+    },
+    {
+      "key": "level_2",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "level_2.mp3",
+      "path": "audio/ark-k2/zhCN/level_2.mp3",
+      "text": "听字音、看笔顺动画，再跟着绿点一笔一笔写。",
+      "status": "pending"
+    },
+    {
+      "key": "level_3",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "level_3.mp3",
+      "path": "audio/ark-k2/zhCN/level_3.mp3",
+      "text": "听数量，把相同只数的羊拖上船，再按完成。",
+      "status": "pending"
+    },
+    {
+      "key": "level_4",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "level_4.mp3",
+      "path": "audio/ark-k2/zhCN/level_4.mp3",
+      "text": "看看动物上船或下船，再选出正确答案。",
+      "status": "pending"
+    },
+    {
+      "key": "animal_cow",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "animal_cow.mp3",
+      "path": "audio/ark-k2/zhCN/animal_cow.mp3",
+      "text": "牛",
+      "status": "pending"
+    },
+    {
+      "key": "animal_horse",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "animal_horse.mp3",
+      "path": "audio/ark-k2/zhCN/animal_horse.mp3",
+      "text": "馬",
+      "status": "pending"
+    },
+    {
+      "key": "animal_sheep",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "animal_sheep.mp3",
+      "path": "audio/ark-k2/zhCN/animal_sheep.mp3",
+      "text": "羊",
+      "status": "pending"
+    },
+    {
+      "key": "animal_deer",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "animal_deer.mp3",
+      "path": "audio/ark-k2/zhCN/animal_deer.mp3",
+      "text": "鹿",
+      "status": "pending"
+    },
+    {
+      "key": "animal_wolf",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "animal_wolf.mp3",
+      "path": "audio/ark-k2/zhCN/animal_wolf.mp3",
+      "text": "狼",
+      "status": "pending"
+    },
+    {
+      "key": "animal_lion",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "animal_lion.mp3",
+      "path": "audio/ark-k2/zhCN/animal_lion.mp3",
+      "text": "獅子",
+      "status": "pending"
+    },
+    {
+      "key": "animal_elephant",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "animal_elephant.mp3",
+      "path": "audio/ark-k2/zhCN/animal_elephant.mp3",
+      "text": "大象",
+      "status": "pending"
+    },
+    {
+      "key": "animal_rabbit",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "animal_rabbit.mp3",
+      "path": "audio/ark-k2/zhCN/animal_rabbit.mp3",
+      "text": "兔子",
+      "status": "pending"
+    },
+    {
+      "key": "animal_cat",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "animal_cat.mp3",
+      "path": "audio/ark-k2/zhCN/animal_cat.mp3",
+      "text": "貓",
+      "status": "pending"
+    },
+    {
+      "key": "animal_fish",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "animal_fish.mp3",
+      "path": "audio/ark-k2/zhCN/animal_fish.mp3",
+      "text": "魚",
+      "status": "pending"
+    },
+    {
+      "key": "animal_chicken",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "animal_chicken.mp3",
+      "path": "audio/ark-k2/zhCN/animal_chicken.mp3",
+      "text": "雞",
+      "status": "pending"
+    },
+    {
+      "key": "char_feng",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "char_feng.mp3",
+      "path": "audio/ark-k2/zhCN/char_feng.mp3",
+      "text": "風",
+      "status": "pending"
+    },
+    {
+      "key": "char_mao",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "char_mao.mp3",
+      "path": "audio/ark-k2/zhCN/char_mao.mp3",
+      "text": "毛",
+      "status": "pending"
+    },
+    {
+      "key": "char_ren",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "char_ren.mp3",
+      "path": "audio/ark-k2/zhCN/char_ren.mp3",
+      "text": "人",
+      "status": "pending"
+    },
+    {
+      "key": "char_xiao",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "char_xiao.mp3",
+      "path": "audio/ark-k2/zhCN/char_xiao.mp3",
+      "text": "小",
+      "status": "pending"
+    },
+    {
+      "key": "char_huo",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "char_huo.mp3",
+      "path": "audio/ark-k2/zhCN/char_huo.mp3",
+      "text": "火",
+      "status": "pending"
+    },
+    {
+      "key": "char_bing",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "char_bing.mp3",
+      "path": "audio/ark-k2/zhCN/char_bing.mp3",
+      "text": "冰",
+      "status": "pending"
+    },
+    {
+      "key": "char_jia",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "char_jia.mp3",
+      "path": "audio/ark-k2/zhCN/char_jia.mp3",
+      "text": "家",
+      "status": "pending"
+    },
+    {
+      "key": "number_1",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "number_1.mp3",
+      "path": "audio/ark-k2/zhCN/number_1.mp3",
+      "text": "一",
+      "status": "pending"
+    },
+    {
+      "key": "number_2",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "number_2.mp3",
+      "path": "audio/ark-k2/zhCN/number_2.mp3",
+      "text": "二",
+      "status": "pending"
+    },
+    {
+      "key": "number_3",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "number_3.mp3",
+      "path": "audio/ark-k2/zhCN/number_3.mp3",
+      "text": "三",
+      "status": "pending"
+    },
+    {
+      "key": "number_4",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "number_4.mp3",
+      "path": "audio/ark-k2/zhCN/number_4.mp3",
+      "text": "四",
+      "status": "pending"
+    },
+    {
+      "key": "number_5",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "number_5.mp3",
+      "path": "audio/ark-k2/zhCN/number_5.mp3",
+      "text": "五",
+      "status": "pending"
+    },
+    {
+      "key": "number_6",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "number_6.mp3",
+      "path": "audio/ark-k2/zhCN/number_6.mp3",
+      "text": "六",
+      "status": "pending"
+    },
+    {
+      "key": "number_7",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "number_7.mp3",
+      "path": "audio/ark-k2/zhCN/number_7.mp3",
+      "text": "七",
+      "status": "pending"
+    },
+    {
+      "key": "number_8",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "number_8.mp3",
+      "path": "audio/ark-k2/zhCN/number_8.mp3",
+      "text": "八",
+      "status": "pending"
+    },
+    {
+      "key": "number_9",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "number_9.mp3",
+      "path": "audio/ark-k2/zhCN/number_9.mp3",
+      "text": "九",
+      "status": "pending"
+    },
+    {
+      "key": "number_10",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "number_10.mp3",
+      "path": "audio/ark-k2/zhCN/number_10.mp3",
+      "text": "十",
+      "status": "pending"
+    },
+    {
+      "key": "praise",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "praise.mp3",
+      "path": "audio/ark-k2/zhCN/praise.mp3",
+      "text": "做得好！",
+      "status": "pending"
+    },
+    {
+      "key": "hint",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "hint.mp3",
+      "path": "audio/ark-k2/zhCN/hint.mp3",
+      "text": "没关系，慢慢再试一次。",
+      "status": "pending"
+    },
+    {
+      "key": "count_lead_in",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "count_lead_in.mp3",
+      "path": "audio/ark-k2/zhCN/count_lead_in.mp3",
+      "text": "请带",
+      "status": "pending"
+    },
+    {
+      "key": "count_tail",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "count_tail.mp3",
+      "path": "audio/ark-k2/zhCN/count_tail.mp3",
+      "text": "只羊上船。",
+      "status": "pending"
+    },
+    {
+      "key": "math_plus",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "math_plus.mp3",
+      "path": "audio/ark-k2/zhCN/math_plus.mp3",
+      "text": "加",
+      "status": "pending"
+    },
+    {
+      "key": "math_minus",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "math_minus.mp3",
+      "path": "audio/ark-k2/zhCN/math_minus.mp3",
+      "text": "减",
+      "status": "pending"
+    },
+    {
+      "key": "math_question",
+      "language": "zhCN",
+      "languageBoost": "Chinese",
+      "voiceId": "3",
+      "filename": "math_question.mp3",
+      "path": "audio/ark-k2/zhCN/math_question.mp3",
+      "text": "等于多少？",
+      "status": "pending"
+    }
+  ]
+}
