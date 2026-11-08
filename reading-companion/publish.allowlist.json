@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "publicDirectory": "site",
+  "entries": [
+    { "source": "minimax-mirror-reader.html", "destination": "index.html", "kind": "child-html" },
+    { "source": "minimax-child-reader.js", "destination": "minimax-child-reader.js", "kind": "file" },
+    { "source": "assets/minimax-books.js", "destination": "assets/minimax-books.js", "kind": "file" },
+    { "source": "assets/minimax-recognition.js", "destination": "assets/minimax-recognition.js", "kind": "file" },
+    { "source": "assets/minimax-assets.js", "destination": "assets/minimax-assets.js", "kind": "file" },
+    { "source": "assets/minimax", "destination": "assets/minimax", "kind": "directory" }
+  ]
+}
