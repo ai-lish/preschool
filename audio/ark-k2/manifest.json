@@ -2,793 +2,961 @@
   "version": 1,
   "model": "speech-2.8-hd",
   "voiceIds": {
-    "zhHK": "61",
-    "zhCN": "3"
+    "zhHK": "Cantonese_GentleLady",
+    "zhCN": "Chinese (Mandarin)_Warm_Girl"
+  },
+  "voiceProfiles": {
+    "zhHK": "Gentle Lady",
+    "zhCN": "Warm Girl"
+  },
+  "voiceIdSource": {
+    "catalog": "https://platform.minimax.io/docs/faq/system-voice-id",
+    "api": "https://api.minimax.io/v1/get_voice",
+    "request": {
+      "voice_type": "system"
+    },
+    "responseField": "system_voice[].voice_id"
   },
   "monthlyQuotaOnly": true,
-  "generatedCount": 0,
+  "generatedCount": 78,
   "plannedCount": 78,
-  "updatedAt": "2026-11-08T13:27:08+00:00",
+  "updatedAt": "2026-11-08T15:29:57+00:00",
   "assets": [
     {
       "key": "level_1",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "level_1.mp3",
       "path": "audio/ark-k2/zhHK/level_1.mp3",
       "text": "聽動物名，選出正確字卡。答對，動物就上船！",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 48948,
+      "generatedAt": "2026-11-08T15:22:19+00:00"
     },
     {
       "key": "level_2",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "level_2.mp3",
       "path": "audio/ark-k2/zhHK/level_2.mp3",
       "text": "聽字音、看筆順動畫，再跟著綠點一筆一筆寫。",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 30228,
+      "generatedAt": "2026-11-08T15:22:25+00:00"
     },
     {
       "key": "level_3",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "level_3.mp3",
       "path": "audio/ark-k2/zhHK/level_3.mp3",
       "text": "聽數量，把相同數目的羊拖上船，再按完成。",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 39444,
+      "generatedAt": "2026-11-08T15:22:32+00:00"
     },
     {
       "key": "level_4",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "level_4.mp3",
       "path": "audio/ark-k2/zhHK/level_4.mp3",
       "text": "看看動物上船或落船，再選出正確答案。",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 38004,
+      "generatedAt": "2026-11-08T15:22:38+00:00"
     },
     {
       "key": "animal_cow",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "animal_cow.mp3",
       "path": "audio/ark-k2/zhHK/animal_cow.mp3",
       "text": "牛",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 6612,
+      "generatedAt": "2026-11-08T15:22:44+00:00"
     },
     {
       "key": "animal_horse",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "animal_horse.mp3",
       "path": "audio/ark-k2/zhHK/animal_horse.mp3",
       "text": "馬",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 11796,
+      "generatedAt": "2026-11-08T15:22:50+00:00"
     },
     {
       "key": "animal_sheep",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "animal_sheep.mp3",
       "path": "audio/ark-k2/zhHK/animal_sheep.mp3",
       "text": "羊",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 7476,
+      "generatedAt": "2026-11-08T15:22:55+00:00"
     },
     {
       "key": "animal_deer",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "animal_deer.mp3",
       "path": "audio/ark-k2/zhHK/animal_deer.mp3",
       "text": "鹿",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 6324,
+      "generatedAt": "2026-11-08T15:23:00+00:00"
     },
     {
       "key": "animal_wolf",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "animal_wolf.mp3",
       "path": "audio/ark-k2/zhHK/animal_wolf.mp3",
       "text": "狼",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 9780,
+      "generatedAt": "2026-11-08T15:23:05+00:00"
     },
     {
       "key": "animal_lion",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "animal_lion.mp3",
       "path": "audio/ark-k2/zhHK/animal_lion.mp3",
       "text": "獅子",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 10068,
+      "generatedAt": "2026-11-08T15:23:10+00:00"
     },
     {
       "key": "animal_elephant",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "animal_elephant.mp3",
       "path": "audio/ark-k2/zhHK/animal_elephant.mp3",
       "text": "大象",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 9204,
+      "generatedAt": "2026-11-08T15:23:15+00:00"
     },
     {
       "key": "animal_rabbit",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "animal_rabbit.mp3",
       "path": "audio/ark-k2/zhHK/animal_rabbit.mp3",
       "text": "兔子",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 11220,
+      "generatedAt": "2026-11-08T15:23:21+00:00"
     },
     {
       "key": "animal_cat",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "animal_cat.mp3",
       "path": "audio/ark-k2/zhHK/animal_cat.mp3",
       "text": "貓",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 6900,
+      "generatedAt": "2026-11-08T15:23:26+00:00"
     },
     {
       "key": "animal_fish",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "animal_fish.mp3",
       "path": "audio/ark-k2/zhHK/animal_fish.mp3",
       "text": "魚",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8340,
+      "generatedAt": "2026-11-08T15:23:31+00:00"
     },
     {
       "key": "animal_chicken",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "animal_chicken.mp3",
       "path": "audio/ark-k2/zhHK/animal_chicken.mp3",
       "text": "雞",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 6324,
+      "generatedAt": "2026-11-08T15:23:38+00:00"
     },
     {
       "key": "char_feng",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "char_feng.mp3",
       "path": "audio/ark-k2/zhHK/char_feng.mp3",
       "text": "風",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 11796,
+      "generatedAt": "2026-11-08T15:23:43+00:00"
     },
     {
       "key": "char_mao",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "char_mao.mp3",
       "path": "audio/ark-k2/zhHK/char_mao.mp3",
       "text": "毛",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8340,
+      "generatedAt": "2026-11-08T15:23:49+00:00"
     },
     {
       "key": "char_ren",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "char_ren.mp3",
       "path": "audio/ark-k2/zhHK/char_ren.mp3",
       "text": "人",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 6612,
+      "generatedAt": "2026-11-08T15:23:55+00:00"
     },
     {
       "key": "char_xiao",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "char_xiao.mp3",
       "path": "audio/ark-k2/zhHK/char_xiao.mp3",
       "text": "小",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8052,
+      "generatedAt": "2026-11-08T15:24:00+00:00"
     },
     {
       "key": "char_huo",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "char_huo.mp3",
       "path": "audio/ark-k2/zhHK/char_huo.mp3",
       "text": "火",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 7476,
+      "generatedAt": "2026-11-08T15:24:06+00:00"
     },
     {
       "key": "char_bing",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "char_bing.mp3",
       "path": "audio/ark-k2/zhHK/char_bing.mp3",
       "text": "冰",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 6900,
+      "generatedAt": "2026-11-08T15:24:11+00:00"
     },
     {
       "key": "char_jia",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "char_jia.mp3",
       "path": "audio/ark-k2/zhHK/char_jia.mp3",
       "text": "家",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8340,
+      "generatedAt": "2026-11-08T15:24:16+00:00"
     },
     {
       "key": "number_1",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "number_1.mp3",
       "path": "audio/ark-k2/zhHK/number_1.mp3",
       "text": "一",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 6324,
+      "generatedAt": "2026-11-08T15:24:21+00:00"
     },
     {
       "key": "number_2",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "number_2.mp3",
       "path": "audio/ark-k2/zhHK/number_2.mp3",
       "text": "二",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8628,
+      "generatedAt": "2026-11-08T15:24:27+00:00"
     },
     {
       "key": "number_3",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "number_3.mp3",
       "path": "audio/ark-k2/zhHK/number_3.mp3",
       "text": "三",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 7476,
+      "generatedAt": "2026-11-08T15:24:32+00:00"
     },
     {
       "key": "number_4",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "number_4.mp3",
       "path": "audio/ark-k2/zhHK/number_4.mp3",
       "text": "四",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 7188,
+      "generatedAt": "2026-11-08T15:24:37+00:00"
     },
     {
       "key": "number_5",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "number_5.mp3",
       "path": "audio/ark-k2/zhHK/number_5.mp3",
       "text": "五",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 6324,
+      "generatedAt": "2026-11-08T15:24:41+00:00"
     },
     {
       "key": "number_6",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "number_6.mp3",
       "path": "audio/ark-k2/zhHK/number_6.mp3",
       "text": "六",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 6324,
+      "generatedAt": "2026-11-08T15:24:46+00:00"
     },
     {
       "key": "number_7",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "number_7.mp3",
       "path": "audio/ark-k2/zhHK/number_7.mp3",
       "text": "七",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 6324,
+      "generatedAt": "2026-11-08T15:24:52+00:00"
     },
     {
       "key": "number_8",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "number_8.mp3",
       "path": "audio/ark-k2/zhHK/number_8.mp3",
       "text": "八",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 6036,
+      "generatedAt": "2026-11-08T15:24:58+00:00"
     },
     {
       "key": "number_9",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "number_9.mp3",
       "path": "audio/ark-k2/zhHK/number_9.mp3",
       "text": "九",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8340,
+      "generatedAt": "2026-11-08T15:25:03+00:00"
     },
     {
       "key": "number_10",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "number_10.mp3",
       "path": "audio/ark-k2/zhHK/number_10.mp3",
       "text": "十",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8340,
+      "generatedAt": "2026-11-08T15:25:08+00:00"
     },
     {
       "key": "praise",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "praise.mp3",
       "path": "audio/ark-k2/zhHK/praise.mp3",
       "text": "做得好！",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 10068,
+      "generatedAt": "2026-11-08T15:25:13+00:00"
     },
     {
       "key": "hint",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "hint.mp3",
       "path": "audio/ark-k2/zhHK/hint.mp3",
       "text": "唔緊要，慢慢再試一次。",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 17268,
+      "generatedAt": "2026-11-08T15:25:19+00:00"
     },
     {
       "key": "count_lead_in",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "count_lead_in.mp3",
       "path": "audio/ark-k2/zhHK/count_lead_in.mp3",
       "text": "請帶",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 9204,
+      "generatedAt": "2026-11-08T15:25:25+00:00"
     },
     {
       "key": "count_tail",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "count_tail.mp3",
       "path": "audio/ark-k2/zhHK/count_tail.mp3",
       "text": "隻羊上船。",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 11220,
+      "generatedAt": "2026-11-08T15:25:30+00:00"
     },
     {
       "key": "math_plus",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "math_plus.mp3",
       "path": "audio/ark-k2/zhHK/math_plus.mp3",
       "text": "加",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 9780,
+      "generatedAt": "2026-11-08T15:25:36+00:00"
     },
     {
       "key": "math_minus",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "math_minus.mp3",
       "path": "audio/ark-k2/zhHK/math_minus.mp3",
       "text": "減",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 10068,
+      "generatedAt": "2026-11-08T15:25:41+00:00"
     },
     {
       "key": "math_question",
       "language": "zhHK",
       "languageBoost": "Chinese,Yue",
-      "voiceId": "61",
+      "voiceId": "Cantonese_GentleLady",
       "filename": "math_question.mp3",
       "path": "audio/ark-k2/zhHK/math_question.mp3",
       "text": "等於多少？",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 14100,
+      "generatedAt": "2026-11-08T15:25:47+00:00"
     },
     {
       "key": "level_1",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "level_1.mp3",
       "path": "audio/ark-k2/zhCN/level_1.mp3",
       "text": "听动物名，选出正确字卡。答对，动物就上船！",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 38580,
+      "generatedAt": "2026-11-08T15:25:53+00:00"
     },
     {
       "key": "level_2",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "level_2.mp3",
       "path": "audio/ark-k2/zhCN/level_2.mp3",
       "text": "听字音、看笔顺动画，再跟着绿点一笔一笔写。",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 35412,
+      "generatedAt": "2026-11-08T15:26:00+00:00"
     },
     {
       "key": "level_3",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "level_3.mp3",
       "path": "audio/ark-k2/zhCN/level_3.mp3",
       "text": "听数量，把相同只数的羊拖上船，再按完成。",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 33396,
+      "generatedAt": "2026-11-08T15:26:06+00:00"
     },
     {
       "key": "level_4",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "level_4.mp3",
       "path": "audio/ark-k2/zhCN/level_4.mp3",
       "text": "看看动物上船或下船，再选出正确答案。",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 29076,
+      "generatedAt": "2026-11-08T15:26:12+00:00"
     },
     {
       "key": "animal_cow",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "animal_cow.mp3",
       "path": "audio/ark-k2/zhCN/animal_cow.mp3",
       "text": "牛",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8052,
+      "generatedAt": "2026-11-08T15:26:18+00:00"
     },
     {
       "key": "animal_horse",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "animal_horse.mp3",
       "path": "audio/ark-k2/zhCN/animal_horse.mp3",
       "text": "馬",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 6900,
+      "generatedAt": "2026-11-08T15:26:23+00:00"
     },
     {
       "key": "animal_sheep",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "animal_sheep.mp3",
       "path": "audio/ark-k2/zhCN/animal_sheep.mp3",
       "text": "羊",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8628,
+      "generatedAt": "2026-11-08T15:26:28+00:00"
     },
     {
       "key": "animal_deer",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "animal_deer.mp3",
       "path": "audio/ark-k2/zhCN/animal_deer.mp3",
       "text": "鹿",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8340,
+      "generatedAt": "2026-11-08T15:26:33+00:00"
     },
     {
       "key": "animal_wolf",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "animal_wolf.mp3",
       "path": "audio/ark-k2/zhCN/animal_wolf.mp3",
       "text": "狼",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 7476,
+      "generatedAt": "2026-11-08T15:26:38+00:00"
     },
     {
       "key": "animal_lion",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "animal_lion.mp3",
       "path": "audio/ark-k2/zhCN/animal_lion.mp3",
       "text": "獅子",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 9204,
+      "generatedAt": "2026-11-08T15:26:43+00:00"
     },
     {
       "key": "animal_elephant",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "animal_elephant.mp3",
       "path": "audio/ark-k2/zhCN/animal_elephant.mp3",
       "text": "大象",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 9780,
+      "generatedAt": "2026-11-08T15:26:50+00:00"
     },
     {
       "key": "animal_rabbit",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "animal_rabbit.mp3",
       "path": "audio/ark-k2/zhCN/animal_rabbit.mp3",
       "text": "兔子",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8052,
+      "generatedAt": "2026-11-08T15:26:54+00:00"
     },
     {
       "key": "animal_cat",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "animal_cat.mp3",
       "path": "audio/ark-k2/zhCN/animal_cat.mp3",
       "text": "貓",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 6612,
+      "generatedAt": "2026-11-08T15:26:59+00:00"
     },
     {
       "key": "animal_fish",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "animal_fish.mp3",
       "path": "audio/ark-k2/zhCN/animal_fish.mp3",
       "text": "魚",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 7476,
+      "generatedAt": "2026-11-08T15:27:05+00:00"
     },
     {
       "key": "animal_chicken",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "animal_chicken.mp3",
       "path": "audio/ark-k2/zhCN/animal_chicken.mp3",
       "text": "雞",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 6900,
+      "generatedAt": "2026-11-08T15:27:10+00:00"
     },
     {
       "key": "char_feng",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "char_feng.mp3",
       "path": "audio/ark-k2/zhCN/char_feng.mp3",
       "text": "風",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8340,
+      "generatedAt": "2026-11-08T15:27:15+00:00"
     },
     {
       "key": "char_mao",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "char_mao.mp3",
       "path": "audio/ark-k2/zhCN/char_mao.mp3",
       "text": "毛",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 6900,
+      "generatedAt": "2026-11-08T15:27:20+00:00"
     },
     {
       "key": "char_ren",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "char_ren.mp3",
       "path": "audio/ark-k2/zhCN/char_ren.mp3",
       "text": "人",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8340,
+      "generatedAt": "2026-11-08T15:27:27+00:00"
     },
     {
       "key": "char_xiao",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "char_xiao.mp3",
       "path": "audio/ark-k2/zhCN/char_xiao.mp3",
       "text": "小",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8052,
+      "generatedAt": "2026-11-08T15:27:32+00:00"
     },
     {
       "key": "char_huo",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "char_huo.mp3",
       "path": "audio/ark-k2/zhCN/char_huo.mp3",
       "text": "火",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8916,
+      "generatedAt": "2026-11-08T15:27:38+00:00"
     },
     {
       "key": "char_bing",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "char_bing.mp3",
       "path": "audio/ark-k2/zhCN/char_bing.mp3",
       "text": "冰",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8340,
+      "generatedAt": "2026-11-08T15:27:45+00:00"
     },
     {
       "key": "char_jia",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "char_jia.mp3",
       "path": "audio/ark-k2/zhCN/char_jia.mp3",
       "text": "家",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 6612,
+      "generatedAt": "2026-11-08T15:27:50+00:00"
     },
     {
       "key": "number_1",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "number_1.mp3",
       "path": "audio/ark-k2/zhCN/number_1.mp3",
       "text": "一",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 7476,
+      "generatedAt": "2026-11-08T15:27:55+00:00"
     },
     {
       "key": "number_2",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "number_2.mp3",
       "path": "audio/ark-k2/zhCN/number_2.mp3",
       "text": "二",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 6324,
+      "generatedAt": "2026-11-08T15:28:00+00:00"
     },
     {
       "key": "number_3",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "number_3.mp3",
       "path": "audio/ark-k2/zhCN/number_3.mp3",
       "text": "三",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 7476,
+      "generatedAt": "2026-11-08T15:28:07+00:00"
     },
     {
       "key": "number_4",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "number_4.mp3",
       "path": "audio/ark-k2/zhCN/number_4.mp3",
       "text": "四",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 7476,
+      "generatedAt": "2026-11-08T15:28:12+00:00"
     },
     {
       "key": "number_5",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "number_5.mp3",
       "path": "audio/ark-k2/zhCN/number_5.mp3",
       "text": "五",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 6612,
+      "generatedAt": "2026-11-08T15:28:19+00:00"
     },
     {
       "key": "number_6",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "number_6.mp3",
       "path": "audio/ark-k2/zhCN/number_6.mp3",
       "text": "六",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8052,
+      "generatedAt": "2026-11-08T15:28:24+00:00"
     },
     {
       "key": "number_7",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "number_7.mp3",
       "path": "audio/ark-k2/zhCN/number_7.mp3",
       "text": "七",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8916,
+      "generatedAt": "2026-11-08T15:28:31+00:00"
     },
     {
       "key": "number_8",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "number_8.mp3",
       "path": "audio/ark-k2/zhCN/number_8.mp3",
       "text": "八",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 7476,
+      "generatedAt": "2026-11-08T15:28:42+00:00"
     },
     {
       "key": "number_9",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "number_9.mp3",
       "path": "audio/ark-k2/zhCN/number_9.mp3",
       "text": "九",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8916,
+      "generatedAt": "2026-11-08T15:28:48+00:00"
     },
     {
       "key": "number_10",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "number_10.mp3",
       "path": "audio/ark-k2/zhCN/number_10.mp3",
       "text": "十",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 10068,
+      "generatedAt": "2026-11-08T15:28:58+00:00"
     },
     {
       "key": "praise",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "praise.mp3",
       "path": "audio/ark-k2/zhCN/praise.mp3",
       "text": "做得好！",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8628,
+      "generatedAt": "2026-11-08T15:29:05+00:00"
     },
     {
       "key": "hint",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "hint.mp3",
       "path": "audio/ark-k2/zhCN/hint.mp3",
       "text": "没关系，慢慢再试一次。",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 20724,
+      "generatedAt": "2026-11-08T15:29:11+00:00"
     },
     {
       "key": "count_lead_in",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "count_lead_in.mp3",
       "path": "audio/ark-k2/zhCN/count_lead_in.mp3",
       "text": "请带",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8340,
+      "generatedAt": "2026-11-08T15:29:19+00:00"
     },
     {
       "key": "count_tail",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "count_tail.mp3",
       "path": "audio/ark-k2/zhCN/count_tail.mp3",
       "text": "只羊上船。",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 12660,
+      "generatedAt": "2026-11-08T15:29:26+00:00"
     },
     {
       "key": "math_plus",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "math_plus.mp3",
       "path": "audio/ark-k2/zhCN/math_plus.mp3",
       "text": "加",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 7188,
+      "generatedAt": "2026-11-08T15:29:33+00:00"
     },
     {
       "key": "math_minus",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "math_minus.mp3",
       "path": "audio/ark-k2/zhCN/math_minus.mp3",
       "text": "减",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 8340,
+      "generatedAt": "2026-11-08T15:29:46+00:00"
     },
     {
       "key": "math_question",
       "language": "zhCN",
       "languageBoost": "Chinese",
-      "voiceId": "3",
+      "voiceId": "Chinese (Mandarin)_Warm_Girl",
       "filename": "math_question.mp3",
       "path": "audio/ark-k2/zhCN/math_question.mp3",
       "text": "等于多少？",
-      "status": "pending"
+      "status": "generated",
+      "sizeBytes": 11220,
+      "generatedAt": "2026-11-08T15:29:57+00:00"
     }
   ]
 }

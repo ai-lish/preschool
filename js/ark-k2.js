@@ -133,10 +133,6 @@ function getCharacter(id) {
   return data.characters.find(character => character.id === id);
 }
 
-function getMathQuestion(id) {
-  return data.arithmetic.find(question => question.id === id);
-}
-
 function setScreen(name) {
   currentScreen = name;
   ui.home.hidden = name !== 'home';
@@ -326,7 +322,12 @@ function makeStageQuestions(level) {
       .slice(0, level.questionCount)
       .map(number => ({ kind: 'count', number }));
   }
-  return level.questionIds.map(id => ({ kind: 'math', id }));
+  if (level.id === 'animal-math') {
+    const rotation = levelRecord(level.id).playCount * data.arithmetic.questionsPerRound;
+    return ArkK2Math.generateRound(data.arithmetic, data.animals, Math.random, rotation)
+      .map(question => ({ kind: 'math', ...question }));
+  }
+  return [];
 }
 
 function startLevel(id) {
@@ -871,8 +872,7 @@ function checkCount(question, sheep) {
   showHintFeedback(t('countWrong'));
 }
 
-function renderMathQuestion(question) {
-  const item = getMathQuestion(question.id);
+function renderMathQuestion(item) {
   const animal = getAnimal(item.animalId);
   const prompt = document.createElement('p');
   prompt.className = 'ark-count-prompt';
@@ -895,8 +895,7 @@ function renderMathQuestion(question) {
   symbol.textContent = '= ?';
   const answers = document.createElement('div');
   answers.className = 'ark-math-answers';
-  const options = mathChoices(item.answer);
-  options.forEach(answer => {
+  item.choices.forEach(answer => {
     const button = document.createElement('button');
     button.className = 'ark-math-answer';
     button.type = 'button';
@@ -923,19 +922,22 @@ function makeMathGroup(count, animal, label) {
   const icons = document.createElement('div');
   icons.className = 'ark-math-animals';
   for (let index = 0; index < count; index += 1) {
-    const image = document.createElement('img');
-    image.src = animal.image;
-    image.alt = '';
-    image.draggable = false;
-    icons.append(image);
+    if (animal.image) {
+      const image = document.createElement('img');
+      image.src = animal.image;
+      image.alt = '';
+      image.draggable = false;
+      icons.append(image);
+    } else {
+      const emoji = document.createElement('span');
+      emoji.className = 'ark-math-emoji';
+      emoji.setAttribute('aria-hidden', 'true');
+      emoji.textContent = animal.emoji;
+      icons.append(emoji);
+    }
   }
   group.append(title, icons);
   return group;
-}
-
-function mathChoices(answer) {
-  const distractors = answer === 0 ? [1, 2] : answer === 10 ? [8, 9] : [answer - 1, answer + 1];
-  return shuffle([answer, ...distractors]);
 }
 
 function checkMathAnswer(answer, item) {

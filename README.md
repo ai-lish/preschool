@@ -256,14 +256,14 @@ img/
 
 ### 遊戲內容和檔案
 
-- `ark-k2.html`、`css/ark-k2.css`、`js/ark-k2.js`：遊戲頁、響應式版面和互動。
-- `data/ark-k2.json`：題庫、語言文字、星數規則、動物資料及七字筆順路徑。
-- `audio/ark-k2/manifest.json`：兩種語言的語音資產狀態與 voice ID；語音由 `scripts/generate_ark_k2_voice.py` 以 MiniMax `speech-2.8-hd` 產生。粵語 voice ID 為 `61`，普通話為 `3`。腳本預設只建立待辦 manifest；只有確認月費額度足夠後，才用 `--generate --confirm-monthly-quota` 發送請求。本分支目前為 0/78 個音檔已生成。
+- `ark-k2.html`、`css/ark-k2.css`、`js/ark-k2.js`、`js/ark-k2-math.js`：遊戲頁、響應式版面、互動及純函數算題器。
+- `data/ark-k2.json`：動物、語言文字、星數規則、七字筆順路徑，以及第四級每輪生成題目的範圍設定。
+- `audio/ark-k2/manifest.json`：記錄兩種語言的語音狀態、MiniMax `speech-2.8-hd` 模型和 voice ID。粵語使用 `Cantonese_GentleLady`，普通話使用 `Chinese (Mandarin)_Warm_Girl`；兩者來自官方系統聲音清單回傳欄位 `system_voice[].voice_id`。先用 `--test --confirm-monthly-quota` 在 repo 外生成兩句測試，再以 `--generate --confirm-monthly-quota` 生成 78 個檔案；API key 依序從環境變數、`~/.minimax-api-key`、`~/.openclaw/secrets.json` 讀取，檔案不入 repo。本分支已提交 78/78 個 MP3。
 - 第一級從 11 種動物中抽 8 題。牛、馬、羊、鹿、狼、獅子、大象、兔子使用站內圖片和叫聲；貓、魚、雞使用 emoji。站內沒有這三種動物叫聲，答對時會重播動物名稱讀音。
 - 第二級練習風、毛、人、小、火、冰、家；第 8 題重溫「風」。每筆寫對增加一塊船板。
-- 第三級每輪從 1–10 抽 8 個數量；第四級使用 8 道答案及運算數在 0–10 內的加減題。
+- 第三級每輪從 1–10 抽 8 個數量；第四級每輪重新生成 8 道題，4 加 4 減、運算數 1–9、答案 1–10、算式不重複且每個答案最多兩次；選項從正確答案及兩個優先相差 1 或 2 的數字隨機排列。動物按 JSON 的 animals 清單輪替。`scripts/verify_ark_k2_math.js` 以固定種子驗證 1,000 輪。
 - 語音檔名使用英文小寫及底線，例如 `animal_sheep.mp3`、`char_feng.mp3`、`number_1.mp3`、`level_1.mp3`，分放於 `audio/ark-k2/zhHK/` 和 `audio/ark-k2/zhCN/`。
 
 ### 筆順來源
 
-根因：Hanzi Writer 的 Make Me a Hanzi 筆順資料以內地規範為主，可能與香港教育局字詞表不同。做法：七字的筆畫數及動畫逐筆次序逐字按香港教育局[《香港小學學習字詞表》](https://www.edbchinese.hk/lexlist_ch/)各字詞條目核對，Canvas 使用本地自製的簡化路徑。路徑不是教育局動畫原圖，也不使用 Make Me a Hanzi 預設筆順；教育局說明筆順資料供參考，並非唯一或硬性標準。
+根因：Hanzi Writer 的 Make Me a Hanzi 筆順資料以內地規範為主，可能與香港教育局字詞表不同。七字的筆畫數及動畫順序逐字按香港教育局[《香港小學學習字詞表》](https://www.edbchinese.hk/lexlist_ch/)詞條核對，Canvas 使用本地簡化路徑。教育局動畫以序號和筆形展示、沒有文字標註各筆名稱；本遊戲按動畫形狀分類名稱。風字9筆為撇、橫折彎鉤、橫、豎、橫折、橫、豎、提、點；動畫第3筆確認是橫。路徑不是教育局動畫原圖，也不使用 Make Me a Hanzi 預設筆順；教育局說明筆順資料供參考，並非唯一或硬性標準。

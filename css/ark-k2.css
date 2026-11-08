@@ -174,6 +174,7 @@
 .ark-math-group strong { display: block; min-height: 1.4em; margin-bottom: 6px; color: #466070; font-size: 0.9rem; }
 .ark-math-animals { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 3px; }
 .ark-math-animals img { width: 44px; height: 44px; border-radius: 10px; object-fit: cover; }
+.ark-math-emoji { font-size: 2.4rem; line-height: 1; }
 .ark-math-operator { color: #475a70; font-size: 2rem; font-weight: 900; }
 .ark-math-answers { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
 .ark-math-answer { min-width: 80px; min-height: 80px; border: 3px solid #dce9eb; border-radius: 20px; background: #fff; color: #23435a; font: inherit; font-size: 2rem; font-weight: 900; cursor: pointer; }
@@ -260,6 +261,7 @@
   .ark-math-group { min-height: 100px; padding: 7px 4px; }
   .ark-math-groups { gap: 5px; }
   .ark-math-animals img { width: 34px; height: 34px; }
+  .ark-math-emoji { font-size: 1.9rem; }
   .ark-math-operator { font-size: 1.5rem; }
   .ark-math-answer { min-width: 72px; min-height: 72px; }
   .ark-parent-levels { grid-template-columns: repeat(2, minmax(0, 1fr)); }

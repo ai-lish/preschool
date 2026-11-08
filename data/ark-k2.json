@@ -34,7 +34,7 @@
       "agency": "香港教育局中文教育組",
       "url": "https://www.edbchinese.hk/lexlist_ch/",
       "checkedOn": "2026-11-08",
-      "note": "根因：Hanzi Writer 的 Make Me a Hanzi 筆順資料以內地規範為主，可能與香港教育局字詞表不同。做法：讀取教育局各字詞條目動畫程式，核對逐筆次序及畫數，並自製簡化描寫路徑。教育局網站說明字形、筆順屬參考資料，並非唯一或硬性標準；本遊戲不載入 Make Me a Hanzi 預設筆順。"
+      "note": "根因：Hanzi Writer 的 Make Me a Hanzi 筆順資料以內地規範為主，可能與香港教育局字詞表不同。做法：逐字讀取教育局條目動畫，核對風、毛、人、小、火、冰、家的筆畫數及逐筆次序，並自製簡化描寫路徑。教育局動畫以序號和筆形展示，沒有文字標註每筆名稱；本資料的名稱按動畫筆形分類。風字9筆為：撇、橫折彎鉤、橫、豎、橫折、橫、豎、提、點；第3筆動畫確認為橫，保留原名稱。教育局網站說明字形、筆順屬參考資料，並非唯一或硬性標準；本遊戲不載入 Make Me a Hanzi 預設筆順。"
     }
   },
   "settings": {
@@ -116,7 +116,6 @@
       "id": "animal-math",
       "title": { "zhHK": "加一加、減一減", "zhCN": "加一加、减一减" },
       "instruction": { "zhHK": "看看動物上船或落船，再選出正確答案。", "zhCN": "看看动物上船或下船，再选出正确答案。" },
-      "questionIds": ["add-2-3", "add-4-2", "subtract-6-1", "subtract-8-3", "add-3-4", "subtract-9-4", "add-5-5", "subtract-7-7"],
       "voiceKey": "level_4"
     }
   ],
@@ -234,16 +233,18 @@
     "animalId": "sheep",
     "voiceParts": ["count_lead_in", "number_{number}", "count_tail"]
   },
-  "arithmetic": [
-    { "id": "add-2-3", "operation": "add", "first": 2, "second": 3, "answer": 5, "animalId": "sheep" },
-    { "id": "add-4-2", "operation": "add", "first": 4, "second": 2, "answer": 6, "animalId": "rabbit" },
-    { "id": "subtract-6-1", "operation": "subtract", "first": 6, "second": 1, "answer": 5, "animalId": "cow" },
-    { "id": "subtract-8-3", "operation": "subtract", "first": 8, "second": 3, "answer": 5, "animalId": "deer" },
-    { "id": "add-3-4", "operation": "add", "first": 3, "second": 4, "answer": 7, "animalId": "lion" },
-    { "id": "subtract-9-4", "operation": "subtract", "first": 9, "second": 4, "answer": 5, "animalId": "elephant" },
-    { "id": "add-5-5", "operation": "add", "first": 5, "second": 5, "answer": 10, "animalId": "horse" },
-    { "id": "subtract-7-7", "operation": "subtract", "first": 7, "second": 7, "answer": 0, "animalId": "wolf" }
-  ],
+  "arithmetic": {
+    "questionsPerRound": 8,
+    "additionQuestionCount": 4,
+    "operandMinimum": 1,
+    "operandMaximum": 9,
+    "answerMinimum": 1,
+    "answerMaximum": 10,
+    "maxSameAnswerPerRound": 2,
+    "distractorOffsets": [1, 2],
+    "animalRotation": "animals list order",
+    "generationNote": "每輪隨機生成 4 題加法和 4 題減法；算式不重複，每個答案最多出現兩次；動物按 animals 清單輪替。"
+  },
   "voice": {
     "directory": "audio/ark-k2",
     "manifest": "audio/ark-k2/manifest.json",
