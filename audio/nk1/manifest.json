@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "model": "speech-2.8-hd",
+  "voiceIds": {
+    "zhHK": "Cantonese_GentleLady"
+  },
+  "monthlyQuotaOnly": true,
+  "voiceSource": "Existing repo-approved MiniMax system voice; no voice cloning.",
+  "generatedCount": 6,
+  "plannedCount": 6,
+  "updatedAt": "2026-11-08T22:52:52+00:00",
+  "assets": [
+    {
+      "key": "welcome",
+      "language": "zhHK",
+      "languageName": "粵語",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "Cantonese_GentleLady",
+      "filename": "welcome.mp3",
+      "path": "audio/nk1/welcome.mp3",
+      "text": "揀一樣嚟玩",
+      "status": "generated",
+      "sizeBytes": 13236,
+      "generatedAt": "2026-11-08T22:52:24+00:00"
+    },
+    {
+      "key": "alphabet_song",
+      "language": "zhHK",
+      "languageName": "粵語",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "Cantonese_GentleLady",
+      "filename": "alphabet_song.mp3",
+      "path": "audio/nk1/alphabet_song.mp3",
+      "text": "字母唱歌",
+      "status": "generated",
+      "sizeBytes": 17268,
+      "generatedAt": "2026-11-08T22:52:29+00:00"
+    },
+    {
+      "key": "shapes",
+      "language": "zhHK",
+      "languageName": "粵語",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "Cantonese_GentleLady",
+      "filename": "shapes.mp3",
+      "path": "audio/nk1/shapes.mp3",
+      "text": "形狀",
+      "status": "generated",
+      "sizeBytes": 12372,
+      "generatedAt": "2026-11-08T22:52:35+00:00"
+    },
+    {
+      "key": "recognize_picture_words",
+      "language": "zhHK",
+      "languageName": "粵語",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "Cantonese_GentleLady",
+      "filename": "recognize_picture_words.mp3",
+      "path": "audio/nk1/recognize_picture_words.mp3",
+      "text": "認圖認字",
+      "status": "generated",
+      "sizeBytes": 10932,
+      "generatedAt": "2026-11-08T22:52:40+00:00"
+    },
+    {
+      "key": "counting",
+      "language": "zhHK",
+      "languageName": "粵語",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "Cantonese_GentleLady",
+      "filename": "counting.mp3",
+      "path": "audio/nk1/counting.mp3",
+      "text": "數一數",
+      "status": "generated",
+      "sizeBytes": 8916,
+      "generatedAt": "2026-11-08T22:52:45+00:00"
+    },
+    {
+      "key": "doodle_drawing",
+      "language": "zhHK",
+      "languageName": "粵語",
+      "languageBoost": "Chinese,Yue",
+      "voiceId": "Cantonese_GentleLady",
+      "filename": "doodle_drawing.mp3",
+      "path": "audio/nk1/doodle_drawing.mp3",
+      "text": "塗鴉畫畫",
+      "status": "generated",
+      "sizeBytes": 15540,
+      "generatedAt": "2026-11-08T22:52:52+00:00"
+    }
+  ]
+}

@@ -1,290 +1,51 @@
 <!DOCTYPE html>
 <html lang="zh-HK">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>🎓 幼兒學習中心 — Bible Alphabet Park</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  
-  :root {
-    --cream: #FFFDF0;
-    --yellow: #FFD93D;
-    --green: #6BCB77;
-    --blue: #4D96FF;
-    --purple: #C77DFF;
-    --red: #FF6B6B;
-    --dark: #3A3232;
-    --shadow: 0 8px 28px rgba(0,0,0,0.13);
-    --shadow-hover: 0 16px 40px rgba(0,0,0,0.18);
-  }
-
-  body {
-    font-family: 'Noto Sans TC', 'PingFang HK', sans-serif;
-    background: var(--cream);
-    background-image: 
-      radial-gradient(circle at 15% 20%, rgba(255, 217, 61, 0.2) 20px, transparent 20px),
-      radial-gradient(circle at 85% 10%, rgba(107, 203, 119, 0.2) 25px, transparent 25px),
-      radial-gradient(circle at 75% 80%, rgba(77, 150, 255, 0.15) 30px, transparent 30px),
-      radial-gradient(circle at 20% 85%, rgba(199, 125, 255, 0.15) 22px, transparent 22px);
-    min-height: 100vh;
-    padding: 24px 16px 40px;
-  }
-
-  .wrap {
-    max-width: 640px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  /* Header */
-  header {
-    text-align: center;
-    padding: 16px 0 8px;
-  }
-  .logo {
-    font-size: 3rem;
-    margin-bottom: 8px;
-    animation: pop 0.6s ease both;
-  }
-  @keyframes pop {
-    0% { transform: scale(0); opacity: 0; }
-    70% { transform: scale(1.1); }
-    100% { transform: scale(1); opacity: 1; }
-  }
-  .title {
-    font-size: 1.8rem;
-    font-weight: 900;
-    color: var(--dark);
-    margin-bottom: 4px;
-  }
-  .subtitle {
-    font-size: 1rem;
-    color: #888;
-    font-weight: 700;
-  }
-
-  /* Hero Card - Alphabet */
-  .hero-card {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    background: linear-gradient(135deg, var(--purple), #9b59b6);
-    border-radius: 28px;
-    padding: 28px 24px;
-    box-shadow: var(--shadow);
-    text-decoration: none;
-    color: white;
-    transition: transform 0.2s, box-shadow 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -30%;
-    width: 200px;
-    height: 200px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 50%;
-  }
-  .hero-card:hover, .hero-card:active {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: var(--shadow-hover);
-  }
-  .hero-icon {
-    font-size: 4.5rem;
-    line-height: 1;
-    flex-shrink: 0;
-    animation: bounce 2s ease-in-out infinite;
-  }
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-  }
-  .hero-content {
-    flex: 1;
-  }
-  .hero-title {
-    font-size: 1.6rem;
-    font-weight: 900;
-    margin-bottom: 4px;
-  }
-  .hero-sub {
-    font-size: 0.95rem;
-    opacity: 0.9;
-    margin-bottom: 8px;
-  }
-  .hero-badge {
-    display: inline-block;
-    background: rgba(255,255,255,0.25);
-    padding: 4px 12px;
-    border-radius: 50px;
-    font-size: 0.8rem;
-    font-weight: 700;
-  }
-  .hero-arrow {
-    font-size: 2rem;
-    opacity: 0.8;
-    flex-shrink: 0;
-  }
-
-  .k2-link-card {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 16px 18px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, #fff7df, #ffe7a0);
-    color: var(--dark);
-    box-shadow: var(--shadow);
-    text-decoration: none;
-    transition: transform 0.18s, box-shadow 0.18s;
-  }
-  .k2-link-card:hover, .k2-link-card:active {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-hover);
-  }
-  .k2-link-icon { font-size: 2.25rem; line-height: 1; }
-  .k2-link-content { flex: 1; }
-  .k2-link-title { font-size: 1.05rem; font-weight: 900; }
-  .k2-link-sub { margin-top: 3px; color: #7d5a00; font-size: 0.82rem; line-height: 1.45; }
-  .k2-link-arrow { color: #a66d00; font-size: 1.8rem; }
-
-  /* Feature Grid */
-  .feature-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-  }
-  .feature-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px 12px 16px;
-    border-radius: 22px;
-    text-decoration: none;
-    color: white;
-    box-shadow: var(--shadow);
-    transition: transform 0.18s, box-shadow 0.18s;
-    min-height: 120px;
-    gap: 6px;
-  }
-  .feature-card:hover, .feature-card:active {
-    transform: translateY(-4px) scale(1.03);
-    box-shadow: var(--shadow-hover);
-  }
-  .feature-card .icon { font-size: 2.4rem; line-height: 1; }
-  .feature-card .zh { font-size: 1.1rem; font-weight: 900; }
-  .feature-card .en { font-size: 0.75rem; opacity: 0.85; font-weight: 700; }
-  
-  .card-bible { background: linear-gradient(135deg, #e74c3c, #c0392b); }
-  .card-writing { background: linear-gradient(135deg, var(--blue), #2980b9); }
-  .card-numbers { background: linear-gradient(135deg, var(--green), #27ae60); color: #1a5c4e; }
-  .card-shapes { background: linear-gradient(135deg, var(--yellow), #f39c12); color: #7d5a00; }
-
-  /* Footer */
-  .footer {
-    text-align: center;
-    font-size: 0.8rem;
-    color: #aaa;
-    margin-top: 8px;
-  }
-
-  @media (max-width: 380px) {
-    .hero-card { flex-direction: column; text-align: center; padding: 24px 20px; }
-    .hero-icon { font-size: 3.5rem; }
-    .title { font-size: 1.5rem; }
-    .feature-card { min-height: 100px; }
-    .feature-card .icon { font-size: 2rem; }
-    .feature-card .zh { font-size: 1rem; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#FFF8F0">
+  <link rel="icon" href="data:,">
+  <title>幼兒學習中心</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/preschool-hubs.css">
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="logo">🎓</div>
-      <h1 class="title">幼兒學習中心</h1>
-      <p class="subtitle">Bible Alphabet Park</p>
+  <div class="site-shell home-shell">
+    <header class="site-header">
+      <div class="site-header-copy">
+        <h1>幼兒學習中心</h1>
+        <p class="site-subtitle">請家長先揀小朋友的年級</p>
+      </div>
+      <a class="site-parent-link" href="ark-k2.html#parents" aria-label="打開方舟家長成績表">
+        <span aria-hidden="true">▥</span> 家長成績表
+      </a>
     </header>
-
-    <a href="alphabet/" class="hero-card">
-      <div class="hero-icon">🔤</div>
-      <div class="hero-content">
-        <div class="hero-title">聖經字母學習</div>
-        <div class="hero-sub">A–Z 聖經人物配對 · 讀音 · 描紅 · 遊戲</div>
-        <span class="hero-badge">✨ K1-K3 適用</span>
-      </div>
-      <div class="hero-arrow">›</div>
-    </a>
-
-    <a href="k2-guide.html" class="k2-link-card">
-      <div class="k2-link-icon">🏠</div>
-      <div class="k2-link-content">
-        <div class="k2-link-title">K2 家校 10 分鐘</div>
-        <div class="k2-link-sub">A–Z · 數字 1–10 · 中文基礎字 · 每日生活習慣</div>
-      </div>
-      <div class="k2-link-arrow">›</div>
-    </a>
-
-    <a href="math-challenge/" class="k2-link-card">
-      <div class="k2-link-icon">🧩</div>
-      <div class="k2-link-content">
-        <div class="k2-link-title">TIMO 數學小挑戰</div>
-        <div class="k2-link-sub">幼稚園組歷年模擬題 · 邏輯 · 算術 · 圖形 · 親子練習</div>
-      </div>
-      <div class="k2-link-arrow">›</div>
-    </a>
-
-    <a href="reading-companion/site/index.html" class="k2-link-card">
-      <div class="k2-link-icon">📷</div>
-      <div class="k2-link-content">
-        <div class="k2-link-title">閱光互動伴讀 🚧 開發中</div>
-        <div class="k2-link-sub">登記書本 · MiniMax TTS／背景音樂 · 小朋友自助閱讀</div>
-      </div>
-      <div class="k2-link-arrow">›</div>
-    </a>
-
-    <a href="ark-k2.html" class="k2-link-card">
-      <div class="k2-link-icon">🛶</div>
-      <div class="k2-link-content">
-        <div class="k2-link-title">方舟動物上船</div>
-        <div class="k2-link-sub">K2 升小一 · 聽動物名 · 寫字 · 數羊 · 加減</div>
-      </div>
-      <div class="k2-link-arrow">›</div>
-    </a>
-
-    <div class="feature-grid">
-      <a href="#" class="feature-card card-bible" aria-label="聖經故事">
-        <div class="icon">📖</div>
-        <div class="zh">聖經故事</div>
-        <div class="en">Bible Stories</div>
+    <main class="home-lanes">
+      <a class="lane-card lane-card-k2" href="k2.html" data-level-link="k2" aria-label="進入 K2 升小準備">
+        <span class="lane-last-choice" data-last-choice="k2">上次選擇</span>
+        <span class="lane-art"><img src="img/noah-icon.png" alt="挪亞方舟插圖"></span>
+        <span class="lane-copy">
+          <span class="lane-title">K2 升小準備</span>
+          <span class="lane-age">5–6 歲 · 跟學校進度</span>
+        </span>
+        <span class="lane-tags" aria-label="認字、寫字、數學、英文">
+          <span>認字</span><span>寫字</span><span>數學</span><span>英文</span>
+        </span>
       </a>
-      <a href="writing.html" class="feature-card card-writing" aria-label="寫字練習">
-        <div class="icon">✏️</div>
-        <div class="zh">寫字練習</div>
-        <div class="en">Writing</div>
+      <a class="lane-card lane-card-nk1" href="nk1.html" data-level-link="nk1" aria-label="進入 N / K1 幼兒啟蒙">
+        <span class="lane-last-choice" data-last-choice="nk1">上次選擇</span>
+        <span class="lane-art"><img src="img/noah/animals/sheep.jpg" alt="小羊插圖"></span>
+        <span class="lane-copy">
+          <span class="lane-title">N / K1 幼兒啟蒙</span>
+          <span class="lane-age">2–4 歲 · 聽、玩、認</span>
+        </span>
+        <span class="lane-tags" aria-label="唱歌、形狀、塗鴉、認圖">
+          <span>唱歌</span><span>形狀</span><span>塗鴉</span><span>認圖</span>
+        </span>
       </a>
-      <a href="numbers.html" class="feature-card card-numbers" aria-label="數字認知">
-        <div class="icon">🔢</div>
-        <div class="zh">數字認知</div>
-        <div class="en">Numbers</div>
-      </a>
-      <a href="shapes.html" class="feature-card card-shapes" aria-label="圖形形狀">
-        <div class="icon">⬛</div>
-        <div class="zh">圖形形狀</div>
-        <div class="en">Shapes</div>
-      </a>
-    </div>
-
-    <p class="footer">適合 3–6 歲小朋友 · For ages 3–6</p>
+    </main>
+    <p class="site-footer-note">進度只保存在這部機，不會上載，也不記名字</p>
   </div>
+  <script src="js/preschool-home.js" defer></script>
 </body>
 </html>

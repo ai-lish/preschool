@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#FFF8F0">
+  <link rel="icon" href="data:,">
+  <title>K2 升小準備 — 幼兒學習中心</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/preschool-hubs.css">
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header hub-topbar">
+      <a class="site-back" href="index.html" aria-label="返回首頁">‹</a>
+      <div class="site-header-copy">
+        <h1 class="hub-heading-color-k2">K2 升小準備</h1>
+        <p class="site-subtitle">今日玩 10 分鐘就夠</p>
+      </div>
+      <div class="hub-star-total" aria-label="方舟總星數"><span aria-hidden="true">☆</span> <strong id="arkTotalStars">0</strong></div>
+    </header>
+
+    <main class="site-main k2-hub-main">
+      <div class="hub-feature-row">
+        <a class="hub-feature hub-ark-feature" href="ark-k2.html" id="arkContinue">
+          <span class="hub-feature-art"><img src="img/noah-icon.png" alt="挪亞方舟插圖"></span>
+          <span class="hub-feature-copy">
+            <strong class="hub-feature-label">方舟動物上船</strong>
+            <span class="hub-level-progress" id="arkLevelProgress" role="img" aria-label="四級進度">
+              <span data-level-progress="animal-listening"></span>
+              <span data-level-progress="stroke-writing"></span>
+              <span data-level-progress="sheep-counting"></span>
+              <span data-level-progress="animal-math"></span>
+            </span>
+            <span class="hub-start-label" id="arkContinueLabel">開始</span>
+          </span>
+        </a>
+        <a class="hub-feature hub-guide-feature" href="k2-guide.html">
+          <svg class="hub-guide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg>
+          <strong class="hub-feature-label">家校 10 分鐘</strong>
+          <span class="hub-guide-today" id="guideProgress" hidden></span>
+        </a>
+      </div>
+
+      <section class="hub-words" aria-labelledby="schoolWordsHeading">
+        <h2 id="schoolWordsHeading">學校今期字</h2>
+        <a class="hub-word-link" href="ark-k2.html?level=stroke-writing" aria-label="練習風字">風</a>
+        <a class="hub-word-link" href="ark-k2.html?level=stroke-writing" aria-label="練習毛字">毛</a>
+        <a class="hub-word-link" href="ark-k2.html?level=stroke-writing" aria-label="練習人字">人</a>
+        <a class="hub-word-link" href="ark-k2.html?level=stroke-writing" aria-label="練習小字">小</a>
+        <a class="hub-word-link" href="ark-k2.html?level=stroke-writing" aria-label="練習火字">火</a>
+        <a class="hub-word-link" href="ark-k2.html?level=stroke-writing" aria-label="練習冰字">冰</a>
+        <a class="hub-word-link" href="ark-k2.html?level=stroke-writing" aria-label="練習家字">家</a>
+      </section>
+
+      <nav class="hub-grid" aria-label="K2 練習">
+        <a class="hub-quick-link" href="alphabet/"><span class="hub-quick-icon" aria-hidden="true">Aa</span><span class="hub-quick-label">字母 A–Z</span></a>
+        <a class="hub-quick-link" href="numbers.html?focus=k2"><span class="hub-quick-icon" aria-hidden="true">1–10</span><span class="hub-quick-label">數字</span></a>
+        <a class="hub-quick-link" href="characters.html"><span class="hub-quick-icon" aria-hidden="true">字</span><span class="hub-quick-label">中文字卡</span></a>
+        <a class="hub-quick-link" href="writing.html"><svg class="hub-guide-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4-1 11-11-3-3L5 16z"/><path d="M14 6l3 3"/></svg><span class="hub-quick-label">寫字練習</span></a>
+      </nav>
+
+      <section class="hub-existing-links" aria-label="其他 K2 內容">
+        <a class="hub-existing-card" href="math-challenge/">
+          <span class="hub-existing-emoji" aria-hidden="true">➕</span>
+          <span><strong>TIMO 數學小挑戰</strong><small>數學遊戲</small></span>
+        </a>
+        <a class="hub-existing-card" href="reading-companion/site/index.html">
+          <span class="hub-existing-emoji" aria-hidden="true">📚</span>
+          <span><strong>閱光互動伴讀 <span class="hub-development">🚧 開發中</span></strong><small>親子閱讀</small></span>
+        </a>
+      </section>
+
+      <a class="site-back hub-return" href="index.html">返回首頁</a>
+    </main>
+  </div>
+  <script src="js/k2-hub.js" defer></script>
+</body>
+</html>
