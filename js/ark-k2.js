@@ -1546,14 +1546,35 @@ function recentDates() {
   return Array.from({ length: 7 }, (_, index) => dateOffset(today, index - 6));
 }
 
-function parentTipFor(record) {
+function parentTipEntryFor(record) {
   const language = locale();
   const category = data.parentTips[record.kind] || {};
-  return category[record.id] && category[record.id][language]
-    ? category[record.id][language]
-    : category.default && category.default[language]
-      ? category.default[language]
-      : null;
+  if (category[record.id] && category[record.id][language]) {
+    return { key: record.id, tip: category[record.id][language] };
+  }
+  return category.default && category.default[language]
+    ? { key: 'default', tip: category.default[language] }
+    : null;
+}
+
+function parentSuggestionName(record) {
+  if (record.kind === 'animals') {
+    const animal = getAnimal(record.id);
+    return animal ? text(animal.label) : (record.label || '');
+  }
+  if (record.kind === 'characters') {
+    const character = getCharacter(record.id);
+    return character ? text(character.label) : (record.label || '');
+  }
+  if (record.kind === 'counting') {
+    const number = data.numberWords[locale()][record.id];
+    if (number) return (locale() === 'zhCN' ? '数到 ' : '數到 ') + number;
+  }
+  if (record.kind === 'arithmetic') {
+    if (record.id === 'add') return '加法';
+    if (record.id === 'subtract') return locale() === 'zhCN' ? '减法' : '減法';
+  }
+  return record.label || '';
 }
 
 function renderParentSuggestions() {
@@ -1563,21 +1584,29 @@ function renderParentSuggestions() {
     const daily = record.daily || {};
     const recentMistakes = dates.reduce((sum, date) => sum + (Number((daily[date] || {}).mistakes) || 0), 0);
     const recentlySeen = Boolean(record.lastSeenDate && record.lastSeenDate >= minimumDate && record.lastSeenDate <= dates[6]);
-    return { record, recentMistakes, recentlySeen };
+    return { record, recentMistakes, recentlySeen, tipEntry: parentTipEntryFor(record) };
   }).filter(item => item.recentMistakes > 0 || (item.recentlySeen && !item.record.mastered))
+    .filter(item => item.tipEntry)
     .sort((first, second) =>
       second.recentMistakes - first.recentMistakes ||
       Number(first.record.mastered) - Number(second.record.mastered) ||
       (first.record.lastSeenDate < second.record.lastSeenDate ? -1 : first.record.lastSeenDate > second.record.lastSeenDate ? 1 : 0),
     );
 
+  const groupsByTip = new Map();
+  candidates.forEach(item => {
+    const key = item.record.kind + ':' + item.tipEntry.key;
+    if (!groupsByTip.has(key)) groupsByTip.set(key, { tip: item.tipEntry.tip, items: [] });
+    groupsByTip.get(key).items.push(item);
+  });
+
   ui.parentSuggestions.replaceChildren();
-  candidates.slice(0, 3).forEach(item => {
-    const tip = parentTipFor(item.record);
-    if (!tip) return;
+  [...groupsByTip.values()].slice(0, 3).forEach(group => {
     const li = document.createElement('li');
-    li.append(createText('strong', '', tip.skill));
-    li.append(createText('span', '', tip.practice));
+    const names = [...new Set(group.items.map(item => parentSuggestionName(item.record)).filter(Boolean))].slice(0, 3);
+    const skill = group.tip.skill + (names.length > 1 ? '：' + names.join('、') : '');
+    li.append(createText('strong', '', skill));
+    li.append(createText('span', '', group.tip.practice));
     ui.parentSuggestions.append(li);
   });
   ui.noMistakes.hidden = ui.parentSuggestions.children.length > 0;
