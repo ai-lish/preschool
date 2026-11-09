@@ -93,7 +93,15 @@ alphabet/
 
 ```
 preschool/
-├── index.html                   # 主頁（學習分類）
+├── index.html                   # 首頁（K2／N-K1 年級分流）
+├── k2.html                      # K2 升小準備入口
+├── nk1.html                     # N／K1 幼兒啟蒙入口
+├── css/preschool-hubs.css       # 首頁及兩個入口頁共用樣式
+├── js/preschool-home.js         # 記錄首頁上次選擇的年級入口
+├── js/k2-hub.js                 # 讀取方舟及家校任務的本機進度
+├── js/nk1.js                    # N／K1 活動名稱語音播放
+├── audio/nk1/                   # 六段粵語活動名稱語音及 manifest
+├── ark-k2.html                  # 方舟動物上船及家長成績表
 ├── k2-guide.html                # K2 家校 10 分鐘任務頁
 ├── alphabet/                    # Alphabet Park 英語字母公園
 │   ├── index.html               # A-Z 字母學習主頁
@@ -269,17 +277,21 @@ img/
 
 ## 🛶 方舟動物上船（K2 升小一）
 
-以挪亞方舟為原創故事背景，把聽動物名、跟筆順寫字、拖羊上船和加減題包裝成四級任務。每級 8 題；按首答正確數給星：0 題 0 星、1–5 題 1 星、6–7 題 2 星、8 題 3 星。上一級累積至少 1 星才解鎖下一級。練習語言預設粵語，也可切換普通話；進度使用 `localStorage` key `preschool-ark-k2-v1`，不記錄孩子姓名。
+以挪亞方舟為原創故事背景，把聽動物名、跟筆順寫字、拖羊上船和加減題包裝成四級任務。每級維持 8 道計分題；按第一次作答正確數給星：0 題 0 星、1–5 題 1 星、6–7 題 2 星、8 題 3 星。上一級累積至少 1 星才解鎖下一級。錯題或有提示的題目會在同輪隔開 2–3 道主要題後以不計分重溫方式再出；因接近一輪尾段而無法留出間隔的題目會在 8 道主要題後重溫。未熟項目會在下一日優先抽出，連續兩日無提示答對後標記為熟；動物及數量題先抽未熟項目。寫字題庫包括七個主字，每輪 8 題按熟練度抽選，會優先抽未熟字；題目不足時才補抽熟字。每完成一輪會按輪次收集一張動物貼紙，貼紙是完成紀念，不影響星數或解鎖。家長成績表顯示最近七日錯題／未熟項目和遊戲畫面可見時間。練習語言預設粵語，也可切換普通話；進度使用 `localStorage` key `preschool-ark-k2-v1`，不記錄孩子姓名。
 
 ### 遊戲內容和檔案
 
 - `ark-k2.html`、`css/ark-k2.css`、`js/ark-k2.js`、`js/ark-k2-math.js`：遊戲頁、響應式版面、互動及純函數算題器。
+- `js/ark-k2-progress.js`：在保留原進度 key 和星數的前提下，遷移舊資料並記錄熟練度、逐字練習次數、貼紙及按香港日期統計的可見遊戲時間。
 - `data/ark-k2.json`：動物、語言文字、星數規則、七字筆順路徑，以及第四級每輪生成題目的範圍設定。
 - `audio/ark-k2/manifest.json`：記錄兩種語言的語音狀態、MiniMax `speech-2.8-hd` 模型和 voice ID。粵語使用 `Cantonese_GentleLady`，普通話使用 `Chinese (Mandarin)_Warm_Girl`；兩者來自官方系統聲音清單回傳欄位 `system_voice[].voice_id`。先用 `--test --confirm-monthly-quota` 在 repo 外生成兩句測試，再以 `--generate --confirm-monthly-quota` 生成 78 個檔案；API key 依序從環境變數、`~/.minimax-api-key`、`~/.openclaw/secrets.json` 讀取，檔案不入 repo。本分支已提交 78/78 個 MP3。
 - 第一級從 11 種動物中抽 8 題。牛、馬、羊、鹿、狼、獅子、大象、兔子使用站內圖片和叫聲；貓、魚、雞使用 emoji。站內沒有這三種動物叫聲，答對時會重播動物名稱讀音。
-- 第二級練習風、毛、人、小、火、冰、家；第 8 題重溫「風」。每筆寫對增加一塊船板。
+- 第二級題庫包括風、毛、人、小、火、冰、家；每輪 8 題先抽 6 題，再按熟練度補足，重練字與前次該字之間至少隔兩題。每筆寫對增加一塊船板。
 - 第三級每輪從 1–10 抽 8 個數量；第四級每輪重新生成 8 道題，4 加 4 減、運算數 1–9、答案 1–10、算式不重複且每個答案最多兩次；選項從正確答案及兩個優先相差 1 或 2 的數字隨機排列。動物按 JSON 的 animals 清單輪替。`scripts/verify_ark_k2_math.js` 以固定種子驗證 1,000 輪。
 - 語音檔名使用英文小寫及底線，例如 `animal_sheep.mp3`、`char_feng.mp3`、`number_1.mp3`、`level_1.mp3`，分放於 `audio/ark-k2/zhHK/` 和 `audio/ark-k2/zhCN/`。
+- `audio/nk1/manifest.json` 記錄粵語卡名短句和開場語音；檔名為 `welcome.mp3`、`alphabet_song.mp3`、`shapes.mp3`、`recognize_picture_words.mp3`、`counting.mp3`、`doodle_drawing.mp3`，使用 MiniMax `speech-2.8-hd` 及 `Cantonese_GentleLady`。
+- `scripts/generate_nk1_audio.py` 只在明確加入 `--generate --confirm-monthly-quota` 時生成缺少的 N／K1 語音，沿用方舟腳本的金鑰讀取和月費額度保護；不把金鑰寫進 repo。
+- `scripts/decode_noah_sound_wrappers.py` 用來一次性把 Noah 動物叫聲舊檔中的 `data.audio` 十六進位資料解碼為 MP3；預設只檢查，加入 `--apply` 才會在全部檔案通過預檢後原位替換，不呼叫 API。
 
 ### 筆順來源
 

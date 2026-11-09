@@ -9,23 +9,210 @@
     "zhCN": "挪亚方舟"
   },
   "staticText": {
-    "backLink": { "zhHK": "學習中心", "zhCN": "学习中心" },
-    "backAria": { "zhHK": "返回學習中心", "zhCN": "返回学习中心" },
-    "gameTitle": { "zhHK": "方舟動物上船", "zhCN": "方舟动物上船" },
-    "homeKicker": { "zhHK": "一個世界 · 四級任務", "zhCN": "一个世界 · 四级任务" },
-    "worldTitle": { "zhHK": "幫挪亞照顧方舟動物", "zhCN": "帮挪亚照顾方舟动物" },
-    "worldDescription": { "zhHK": "聽動物、寫中文字、數羊和做加減。慢慢完成任務，為方舟收集星星。", "zhCN": "听动物、写中文字、数羊和做加减。慢慢完成任务，为方舟收集星星。" },
-    "levelKicker": { "zhHK": "逐級解鎖", "zhCN": "逐级解锁" },
-    "selectTask": { "zhHK": "選擇任務", "zhCN": "选择任务" },
-    "privacyNote": { "zhHK": "練習進度只保存在這個瀏覽器，不會記錄孩子姓名。", "zhCN": "练习进度只保存在这个浏览器，不会记录孩子姓名。" },
-    "backToLevels": { "zhHK": "← 任務列表", "zhCN": "← 任务列表" },
-    "parentKicker": { "zhHK": "家校一起看", "zhCN": "家校一起看" },
-    "parentHeading": { "zhHK": "家長成績表", "zhCN": "家长成绩表" },
-    "reportLevels": { "zhHK": "各級星數", "zhCN": "各级星数" },
-    "mistakesHeading": { "zhHK": "錯得最多的字／題型", "zhCN": "错得最多的字／题型" },
-    "levelNumber": { "zhHK": "第 {number} 級", "zhCN": "第 {number} 级" },
-    "levelTask": { "zhHK": "第 {number} 級任務", "zhCN": "第 {number} 级任务" },
-    "starLabel": { "zhHK": "{number} 顆星", "zhCN": "{number} 颗星" }
+    "backLink": {
+      "zhHK": "K2 升小準備",
+      "zhCN": "K2 升小准备"
+    },
+    "backAria": {
+      "zhHK": "返回 K2 入口",
+      "zhCN": "返回 K2 入口"
+    },
+    "gameTitle": {
+      "zhHK": "方舟動物上船",
+      "zhCN": "方舟动物上船"
+    },
+    "homeKicker": {
+      "zhHK": "一個世界 · 四級任務",
+      "zhCN": "一个世界 · 四级任务"
+    },
+    "worldTitle": {
+      "zhHK": "幫挪亞照顧方舟動物",
+      "zhCN": "帮挪亚照顾方舟动物"
+    },
+    "worldDescription": {
+      "zhHK": "聽動物、寫中文字、數羊和做加減。慢慢完成任務，為方舟收集星星。",
+      "zhCN": "听动物、写中文字、数羊和做加减。慢慢完成任务，为方舟收集星星。"
+    },
+    "levelKicker": {
+      "zhHK": "逐級解鎖",
+      "zhCN": "逐级解锁"
+    },
+    "selectTask": {
+      "zhHK": "選擇任務",
+      "zhCN": "选择任务"
+    },
+    "privacyNote": {
+      "zhHK": "練習進度只保存在這個瀏覽器，不會記錄孩子姓名。",
+      "zhCN": "练习进度只保存在这个浏览器，不会记录孩子姓名。"
+    },
+    "backToLevels": {
+      "zhHK": "← 任務列表",
+      "zhCN": "← 任务列表"
+    },
+    "parentKicker": {
+      "zhHK": "家校一起看",
+      "zhCN": "家校一起看"
+    },
+    "parentHeading": {
+      "zhHK": "家長成績表",
+      "zhCN": "家长成绩表"
+    },
+    "reportLevels": {
+      "zhHK": "各級星數與次數",
+      "zhCN": "各级星数与次数"
+    },
+    "mistakesHeading": {
+      "zhHK": "今個星期可以陪佢練",
+      "zhCN": "这周可以陪他练"
+    },
+    "levelNumber": {
+      "zhHK": "第 {number} 級",
+      "zhCN": "第 {number} 级"
+    },
+    "levelTask": {
+      "zhHK": "第 {number} 級任務",
+      "zhCN": "第 {number} 级任务"
+    },
+    "starLabel": {
+      "zhHK": "{number} 顆星",
+      "zhCN": "{number} 颗星"
+    },
+    "practiceTimeHeading": {
+      "zhHK": "最近 7 日練習（分鐘）",
+      "zhCN": "最近 7 天练习（分钟）"
+    },
+    "parentLastPractice": {
+      "zhHK": "上次練習",
+      "zhCN": "上次练习"
+    },
+    "parentLocalOnly": {
+      "zhHK": "只存在這部機",
+      "zhCN": "只保存在这台设备"
+    },
+    "reviewRule": {
+      "zhHK": "自己答啱先計熟（有提示唔計）；會隔幾題再出，第二日再溫一次。",
+      "zhCN": "自己答对才计熟（有提示不算）；会隔几题再出，第二天再复习一次。"
+    },
+    "practiceTimeNote": {
+      "zhHK": "每日 10 分鐘左右已經足夠，唔使追分數。",
+      "zhCN": "每天 10 分钟左右已经足够，不用追分数。"
+    },
+    "notPlayedYet": {
+      "zhHK": "已解鎖 · 未玩過，可以一齊試",
+      "zhCN": "已解锁 · 还没玩过，可以一起试"
+    },
+    "notUnlockedYet": {
+      "zhHK": "未解鎖",
+      "zhCN": "未解锁"
+    },
+    "playedTimes": {
+      "zhHK": "玩過 {count} 次",
+      "zhCN": "玩过 {count} 次"
+    },
+    "earnedStars": {
+      "zhHK": "{count} 顆星",
+      "zhCN": "{count} 颗星"
+    },
+    "stickerBook": {
+      "zhHK": "我的貼紙簿",
+      "zhCN": "我的贴纸簿"
+    },
+    "stickerNote": {
+      "zhHK": "完成紀念，唔係分數。",
+      "zhCN": "完成纪念，不是分数。"
+    },
+    "stickerNew": {
+      "zhHK": "新！",
+      "zhCN": "新！"
+    },
+    "countQuestionCounter": {
+      "zhHK": "第 {current} 題，共 {total} 題",
+      "zhCN": "第 {current} 题，共 {total} 题"
+    },
+    "reviewCounter": {
+      "zhHK": "重溫 · 第 {original} 題",
+      "zhCN": "复习 · 第 {original} 题"
+    },
+    "countPrompt": {
+      "zhHK": "請帶 {number} 隻羊上船",
+      "zhCN": "请带 {number} 只羊上船"
+    },
+    "countTooFew": {
+      "zhHK": "仲差 {count} 隻羊，再帶多 {count} 隻上船",
+      "zhCN": "还差 {count} 只羊，再带 {count} 只上船"
+    },
+    "countTooMany": {
+      "zhHK": "多咗 {count} 隻，撳紅框嗰隻送佢返草地",
+      "zhCN": "多了 {count} 只，点红框里的羊送它回草地"
+    },
+    "countGood": {
+      "zhHK": "啱喇！你逐隻數，{number} 隻羊都上咗船",
+      "zhCN": "对了！你一只一只数，{number} 只羊都上船了"
+    },
+    "countReset": {
+      "zhHK": "重新數",
+      "zhCN": "重新数"
+    },
+    "countCheck": {
+      "zhHK": "數好喇",
+      "zhCN": "数好了"
+    },
+    "countField": {
+      "zhHK": "草地（撳一隻羊，佢就行上船）",
+      "zhCN": "草地（点一只羊，它就走上船）"
+    },
+    "countBoat": {
+      "zhHK": "方舟上有 {count} 隻羊（撳羊送佢返草地）",
+      "zhCN": "方舟上有 {count} 只羊（点羊送它回草地）"
+    },
+    "countSlotLabel": {
+      "zhHK": "第 {number} 格",
+      "zhCN": "第 {number} 格"
+    },
+    "mathPrompt": {
+      "zhHK": "看看動物上船或落船，再選答案",
+      "zhCN": "看看动物上船或下船，再选答案"
+    },
+    "mathFirstGroup": {
+      "zhHK": "船上",
+      "zhCN": "船上"
+    },
+    "mathSecondAdd": {
+      "zhHK": "再上船",
+      "zhCN": "再上船"
+    },
+    "mathSecondSubtract": {
+      "zhHK": "落船",
+      "zhCN": "下船"
+    },
+    "mathAnswerPrompt": {
+      "zhHK": "一共有幾多隻？",
+      "zhCN": "一共有多少只？"
+    },
+    "resultAnimalsHeading": {
+      "zhHK": "今輪上船的 8 隻動物",
+      "zhCN": "本轮上船的 8 只动物"
+    },
+    "praiseAllFirstTry": {
+      "zhHK": "你一路都好專心！",
+      "zhCN": "你一直都很专心！"
+    },
+    "praiseAfterRetry": {
+      "zhHK": "你試完再試，自己搵返啱嘅做法！",
+      "zhCN": "你试了再试，自己找到正确方法！"
+    },
+    "restartWithNewQuestions": {
+      "zhHK": "再玩一次（新題目）",
+      "zhCN": "再玩一次（新题目）"
+    },
+    "restAtK2": {
+      "zhHK": "休息一下",
+      "zhCN": "休息一下"
+    },
+    "allAnimalsBoarded": {
+      "zhHK": "動物全部上船！",
+      "zhCN": "动物全部上船！"
+    }
   },
   "sourceNotes": {
     "learningWords": "使用用家提供的 K2 字詞整理清單；只採用字詞，不包含工作紙掃描或兒童姓名。",
@@ -35,78 +222,267 @@
       "url": "https://www.edbchinese.hk/lexlist_ch/",
       "checkedOn": "2026-11-08",
       "note": "根因：Hanzi Writer 的 Make Me a Hanzi 筆順資料以內地規範為主，可能與香港教育局字詞表不同。做法：逐字讀取教育局條目動畫，核對風、毛、人、小、火、冰、家的筆畫數及逐筆次序，並自製簡化描寫路徑。教育局動畫以序號和筆形展示，沒有文字標註每筆名稱；本資料的名稱按動畫筆形分類。風字9筆為：撇、橫折彎鉤、橫、豎、橫折、橫、豎、提、點；第3筆動畫確認為橫，保留原名稱。教育局網站說明字形、筆順屬參考資料，並非唯一或硬性標準；本遊戲不載入 Make Me a Hanzi 預設筆順。"
+    },
+    "parentTips": {
+      "note": "陪練建議為本遊戲另行撰寫，按字、數量和運算類型儲存，不含兒童個人資料。"
     }
   },
   "settings": {
     "questionsPerLevel": 8,
     "stars": [
-      { "minimumCorrect": 1, "stars": 1 },
-      { "minimumCorrect": 6, "stars": 2 },
-      { "minimumCorrect": 8, "stars": 3 }
+      {
+        "minimumCorrect": 1,
+        "stars": 1
+      },
+      {
+        "minimumCorrect": 6,
+        "stars": 2
+      },
+      {
+        "minimumCorrect": 8,
+        "stars": 3
+      }
     ],
     "unlockMinimumStars": 1,
     "storageKey": "preschool-ark-k2-v1",
     "localeDefault": "zhHK"
   },
   "interface": {
-    "back": { "zhHK": "返回學習中心", "zhCN": "返回学习中心" },
-    "language": { "zhHK": "粵語", "zhCN": "普通話" },
-    "parentTab": { "zhHK": "家長成績表", "zhCN": "家长成绩表" },
-    "listenAgain": { "zhHK": "再聽一次", "zhCN": "再听一次" },
-    "check": { "zhHK": "完成，看看數量", "zhCN": "完成，看看数量" },
-    "tryAgain": { "zhHK": "再試一次", "zhCN": "再试一次" },
-    "nextQuestion": { "zhHK": "下一題", "zhCN": "下一题" },
-    "nextLevel": { "zhHK": "前往下一級", "zhCN": "前往下一级" },
-    "restartLevel": { "zhHK": "再玩一次", "zhCN": "再玩一次" },
-    "clearProgress": { "zhHK": "清除進度", "zhCN": "清除进度" },
-    "clearConfirm": {
-      "zhHK": "確定清除方舟遊戲的所有星星、練習日期和錯題記錄嗎？",
-      "zhCN": "确定清除方舟游戏的所有星星、练习日期和错题记录吗？"
+    "back": {
+      "zhHK": "返回學習中心",
+      "zhCN": "返回学习中心"
     },
-    "locked": { "zhHK": "先完成上一級，取得至少一顆星星。", "zhCN": "先完成上一级，取得至少一颗星星。" },
-    "questionCounter": { "zhHK": "第 {current} 題，共 {total} 題", "zhCN": "第 {current} 题，共 {total} 题" },
-    "animalsCount": { "zhHK": "已上船 {current} 隻", "zhCN": "已上船 {current} 只" },
-    "firstTryScore": { "zhHK": "第一次答對 {correct} / {total}", "zhCN": "第一次答对 {correct} / {total}" },
-    "levelStars": { "zhHK": "第 {level} 級星星", "zhCN": "第 {level} 级星星" },
-    "recentDate": { "zhHK": "最近練習", "zhCN": "最近练习" },
-    "noMistakes": { "zhHK": "暫時沒有錯題紀錄。", "zhCN": "暂时没有错题记录。" },
-    "missingVoice": { "zhHK": "語音檔未準備；仍可繼續遊戲。", "zhCN": "语音文件尚未准备；仍可继续游戏。" },
-    "plank": { "zhHK": "塊船板", "zhCN": "块船板" },
-    "parentName": { "zhHK": "錯得最多的字／題型", "zhCN": "错得最多的字／题型" },
-    "animalOptions": { "zhHK": "請選出剛才聽到的動物名。", "zhCN": "请选择刚才听到的动物名。" },
-    "strokePrompt": { "zhHK": "跟著綠點起筆，沿著箭嘴方向寫。", "zhCN": "跟着绿点起笔，沿着箭头方向写。" },
-    "strokeWrong": { "zhHK": "看看綠點的位置，從這裏慢慢開始。", "zhCN": "看看绿点的位置，从这里慢慢开始。" },
-    "countPrompt": { "zhHK": "請帶 {number} 隻羊上船。", "zhCN": "请带 {number} 只羊上船。" },
-    "countWrong": { "zhHK": "再數一數船上的羊，可以拖回草地調整。", "zhCN": "再数一数船上的羊，可以拖回草地调整。" },
-    "mathPrompt": { "zhHK": "看看有幾隻動物，再選答案。", "zhCN": "看看有几只动物，再选答案。" },
-    "mathWrong": { "zhHK": "再數一數船上的動物。", "zhCN": "再数一数船上的动物。" },
-    "correct": { "zhHK": "做得好！動物上船喇！", "zhCN": "做得好！动物上船了！" },
-    "wrong": { "zhHK": "唔緊要，再聽一次再試。", "zhCN": "没关系，再听一次再试。" },
-    "levelComplete": { "zhHK": "完成今級！你為方舟加了 {stars} 顆星。", "zhCN": "完成本级！你为方舟加了 {stars} 颗星。" },
-    "levelUnlock": { "zhHK": "上一級有星星，下一級開放喇！", "zhCN": "上一级有星星，下一关开放了！" },
-    "allComplete": { "zhHK": "四級都完成，方舟準備出發！", "zhCN": "四级都完成，方舟准备出发！" },
-    "parentIntro": { "zhHK": "進度只保存在這個瀏覽器，不會記錄孩子姓名。", "zhCN": "进度只保存在这个浏览器，不会记录孩子姓名。" }
+    "language": {
+      "zhHK": "粵語",
+      "zhCN": "普通話"
+    },
+    "parentTab": {
+      "zhHK": "家長成績表",
+      "zhCN": "家长成绩表"
+    },
+    "listenAgain": {
+      "zhHK": "聽多次",
+      "zhCN": "再听一次"
+    },
+    "check": {
+      "zhHK": "完成，看看數量",
+      "zhCN": "完成，看看数量"
+    },
+    "tryAgain": {
+      "zhHK": "再試一次",
+      "zhCN": "再试一次"
+    },
+    "nextQuestion": {
+      "zhHK": "下一題",
+      "zhCN": "下一题"
+    },
+    "nextLevel": {
+      "zhHK": "前往下一級",
+      "zhCN": "前往下一级"
+    },
+    "restartLevel": {
+      "zhHK": "再玩一次",
+      "zhCN": "再玩一次"
+    },
+    "clearProgress": {
+      "zhHK": "清除進度",
+      "zhCN": "清除进度"
+    },
+    "clearConfirm": {
+      "zhHK": "確定清除方舟遊戲的星星、練習日期、錯題與熟練紀錄、貼紙和練習時間嗎？",
+      "zhCN": "确定清除方舟游戏的星星、练习日期、错题与熟练记录、贴纸和练习时间吗？"
+    },
+    "locked": {
+      "zhHK": "先完成上一級，取得至少一顆星星。",
+      "zhCN": "先完成上一级，取得至少一颗星星。"
+    },
+    "questionCounter": {
+      "zhHK": "第 {current} 題，共 {total} 題",
+      "zhCN": "第 {current} 题，共 {total} 题"
+    },
+    "animalsCount": {
+      "zhHK": "已上船 {current} 隻",
+      "zhCN": "已上船 {current} 只"
+    },
+    "firstTryScore": {
+      "zhHK": "第一次答對 {correct} / {total}",
+      "zhCN": "第一次答对 {correct} / {total}"
+    },
+    "levelStars": {
+      "zhHK": "第 {level} 級星星",
+      "zhCN": "第 {level} 级星星"
+    },
+    "recentDate": {
+      "zhHK": "最近練習",
+      "zhCN": "最近练习"
+    },
+    "noMistakes": {
+      "zhHK": "暫時沒有錯題紀錄。",
+      "zhCN": "暂时没有错题记录。"
+    },
+    "missingVoice": {
+      "zhHK": "語音檔未準備；仍可繼續遊戲。",
+      "zhCN": "语音文件尚未准备；仍可继续游戏。"
+    },
+    "plank": {
+      "zhHK": "塊船板",
+      "zhCN": "块船板"
+    },
+    "parentName": {
+      "zhHK": "錯得最多的字／題型",
+      "zhCN": "错得最多的字／题型"
+    },
+    "animalOptions": {
+      "zhHK": "聽一聽，撳啱個名，幫佢上船",
+      "zhCN": "听一听，点对名字，帮它上船"
+    },
+    "strokePrompt": {
+      "zhHK": "跟著綠點起筆，沿著箭嘴方向寫。",
+      "zhCN": "跟着绿点起笔，沿着箭头方向写。"
+    },
+    "strokeWrong": {
+      "zhHK": "看看綠點的位置，從這裏慢慢開始。",
+      "zhCN": "看看绿点的位置，从这里慢慢开始。"
+    },
+    "countPrompt": {
+      "zhHK": "請帶 {number} 隻羊上船。",
+      "zhCN": "请带 {number} 只羊上船。"
+    },
+    "countWrong": {
+      "zhHK": "再數一數船上的羊，撳羊可以送佢返草地。",
+      "zhCN": "再数一数船上的羊，点羊可以送它回草地。"
+    },
+    "mathPrompt": {
+      "zhHK": "看看有幾隻動物，再選答案。",
+      "zhCN": "看看有几只动物，再选答案。"
+    },
+    "mathWrong": {
+      "zhHK": "再數一數船上的動物。",
+      "zhCN": "再数一数船上的动物。"
+    },
+    "correct": {
+      "zhHK": "做得好！動物上船喇！",
+      "zhCN": "做得好！动物上船了！"
+    },
+    "wrong": {
+      "zhHK": "呢張係「{word}」，再聽一次",
+      "zhCN": "这张是「{word}」，再听一次"
+    },
+    "levelComplete": {
+      "zhHK": "完成今級！你為方舟加了 {stars} 顆星。",
+      "zhCN": "完成本级！你为方舟加了 {stars} 颗星。"
+    },
+    "levelUnlock": {
+      "zhHK": "上一級有星星，下一級開放喇！",
+      "zhCN": "上一级有星星，下一关开放了！"
+    },
+    "allComplete": {
+      "zhHK": "四級都完成，方舟準備出發！",
+      "zhCN": "四级都完成，方舟准备出发！"
+    },
+    "parentIntro": {
+      "zhHK": "進度只保存在這個瀏覽器，不會記錄孩子姓名。",
+      "zhCN": "进度只保存在这个浏览器，不会记录孩子姓名。"
+    },
+    "correctFirstListen": {
+      "zhHK": "啱喇！你一聽就搵到，{animal}上船啦",
+      "zhCN": "对了！你一听就找到了，{animal}上船了"
+    },
+    "correctAfterRetry": {
+      "zhHK": "啱喇！你試完再試，搵到{animal}",
+      "zhCN": "对了！你试了再试，找到{animal}"
+    },
+    "replayInstructions": {
+      "zhHK": "請帶 {number} 隻羊上船",
+      "zhCN": "请带 {number} 只羊上船"
+    },
+    "noRecentPractice": {
+      "zhHK": "最近 7 日暫時沒有錯題或未熟項目。",
+      "zhCN": "最近 7 天暂时没有错题或未熟项目。"
+    },
+    "levelLockedReport": {
+      "zhHK": "上一級取得 1 顆星就會解鎖",
+      "zhCN": "上一级取得 1 颗星就会解锁"
+    },
+    "weekdays": {
+      "zhHK": [
+        "一",
+        "二",
+        "三",
+        "四",
+        "五",
+        "六",
+        "日"
+      ],
+      "zhCN": [
+        "一",
+        "二",
+        "三",
+        "四",
+        "五",
+        "六",
+        "日"
+      ]
+    }
   },
   "levels": [
     {
       "id": "animal-listening",
-      "title": { "zhHK": "聽聲認動物名", "zhCN": "听声认动物名" },
-      "instruction": { "zhHK": "聽動物名，選出正確字卡。答對，動物就上船！", "zhCN": "听动物名，选出正确字卡。答对，动物就上船！" },
-      "questionIds": ["cow", "horse", "sheep", "deer", "wolf", "lion", "elephant", "rabbit", "cat", "fish", "chicken"],
+      "title": {
+        "zhHK": "聽聲認動物名",
+        "zhCN": "听声认动物名"
+      },
+      "instruction": {
+        "zhHK": "聽動物名，選出正確字卡。答對，動物就上船！",
+        "zhCN": "听动物名，选出正确字卡。答对，动物就上船！"
+      },
+      "questionIds": [
+        "cow",
+        "horse",
+        "sheep",
+        "deer",
+        "wolf",
+        "lion",
+        "elephant",
+        "rabbit",
+        "cat",
+        "fish",
+        "chicken"
+      ],
       "questionCount": 8,
       "voiceKey": "level_1"
     },
     {
       "id": "stroke-writing",
-      "title": { "zhHK": "跟筆順寫字", "zhCN": "跟笔顺写字" },
-      "instruction": { "zhHK": "聽字音、看筆順動畫，再跟著綠點一筆一筆寫。", "zhCN": "听字音、看笔顺动画，再跟着绿点一笔一笔写。" },
-      "questionIds": ["feng", "mao", "ren", "xiao", "huo", "bing", "jia", "feng"],
+      "title": {
+        "zhHK": "跟筆順寫字",
+        "zhCN": "跟笔顺写字"
+      },
+      "instruction": {
+        "zhHK": "聽字音、看筆順動畫，再跟著綠點一筆一筆寫。",
+        "zhCN": "听字音、看笔顺动画，再跟着绿点一笔一笔写。"
+      },
+      "questionIds": [
+        "feng",
+        "mao",
+        "ren",
+        "xiao",
+        "huo",
+        "bing",
+        "jia"
+      ],
       "voiceKey": "level_2"
     },
     {
       "id": "sheep-counting",
-      "title": { "zhHK": "數一數", "zhCN": "数一数" },
-      "instruction": { "zhHK": "聽數量，把相同數目的羊拖上船，再按完成。", "zhCN": "听数量，把相同只数的羊拖上船，再按完成。" },
+      "title": {
+        "zhHK": "數一數",
+        "zhCN": "数一数"
+      },
+      "instruction": {
+        "zhHK": "聽數量，撳羊上船，數啱就按完成。",
+        "zhCN": "听数量，点羊上船，数对就按完成。"
+      },
       "minimum": 1,
       "maximum": 10,
       "questionCount": 8,
@@ -114,8 +490,14 @@
     },
     {
       "id": "animal-math",
-      "title": { "zhHK": "加一加、減一減", "zhCN": "加一加、减一减" },
-      "instruction": { "zhHK": "看看動物上船或落船，再選出正確答案。", "zhCN": "看看动物上船或下船，再选出正确答案。" },
+      "title": {
+        "zhHK": "加一加、減一減",
+        "zhCN": "加一加、减一减"
+      },
+      "instruction": {
+        "zhHK": "看看動物上船或落船，再選出正確答案。",
+        "zhCN": "看看动物上船或下船，再选出正确答案。"
+      },
       "voiceKey": "level_4"
     }
   ],
@@ -128,110 +510,1002 @@
     "zhCN": "没关系，慢慢再试一次。"
   },
   "animals": [
-    { "id": "cow", "label": { "zhHK": "牛", "zhCN": "牛" }, "image": "img/noah/animals/cow.jpg", "emoji": "🐄", "sound": { "zhHK": "audio/noah/sounds/zhHK/cow.mp3", "zhCN": "audio/noah/sounds/zhCN/cow.mp3" }, "voiceKey": "animal_cow" },
-    { "id": "horse", "label": { "zhHK": "馬", "zhCN": "馬" }, "image": "img/noah/animals/horse.jpg", "emoji": "🐎", "sound": { "zhHK": "audio/noah/sounds/zhHK/horse.mp3", "zhCN": "audio/noah/sounds/zhCN/horse.mp3" }, "voiceKey": "animal_horse" },
-    { "id": "sheep", "label": { "zhHK": "羊", "zhCN": "羊" }, "image": "img/noah/animals/sheep.jpg", "emoji": "🐑", "sound": { "zhHK": "audio/noah/sounds/zhHK/sheep.mp3", "zhCN": "audio/noah/sounds/zhCN/sheep.mp3" }, "voiceKey": "animal_sheep" },
-    { "id": "deer", "label": { "zhHK": "鹿", "zhCN": "鹿" }, "image": "img/noah/animals/deer.jpg", "emoji": "🦌", "sound": { "zhHK": "audio/noah/sounds/zhHK/deer.mp3", "zhCN": "audio/noah/sounds/zhCN/deer.mp3" }, "voiceKey": "animal_deer" },
-    { "id": "wolf", "label": { "zhHK": "狼", "zhCN": "狼" }, "image": "img/noah/animals/wolf.jpg", "emoji": "🐺", "sound": { "zhHK": "audio/noah/sounds/zhHK/wolf.mp3", "zhCN": "audio/noah/sounds/zhCN/wolf.mp3" }, "voiceKey": "animal_wolf" },
-    { "id": "lion", "label": { "zhHK": "獅子", "zhCN": "獅子" }, "image": "img/noah/animals/lion.jpg", "emoji": "🦁", "sound": { "zhHK": "audio/noah/sounds/zhHK/lion.mp3", "zhCN": "audio/noah/sounds/zhCN/lion.mp3" }, "voiceKey": "animal_lion" },
-    { "id": "elephant", "label": { "zhHK": "大象", "zhCN": "大象" }, "image": "img/noah/animals/elephant.jpg", "emoji": "🐘", "sound": { "zhHK": "audio/noah/sounds/zhHK/elephant.mp3", "zhCN": "audio/noah/sounds/zhCN/elephant.mp3" }, "voiceKey": "animal_elephant" },
-    { "id": "rabbit", "label": { "zhHK": "兔子", "zhCN": "兔子" }, "image": "img/noah/animals/rabbit.jpg", "emoji": "🐇", "sound": { "zhHK": "audio/noah/sounds/zhHK/rabbit.mp3", "zhCN": "audio/noah/sounds/zhCN/rabbit.mp3" }, "voiceKey": "animal_rabbit" },
-    { "id": "cat", "label": { "zhHK": "貓", "zhCN": "貓" }, "emoji": "🐈", "voiceKey": "animal_cat" },
-    { "id": "fish", "label": { "zhHK": "魚", "zhCN": "魚" }, "emoji": "🐟", "voiceKey": "animal_fish" },
-    { "id": "chicken", "label": { "zhHK": "雞", "zhCN": "雞" }, "emoji": "🐔", "voiceKey": "animal_chicken" }
+    {
+      "id": "cow",
+      "label": {
+        "zhHK": "牛",
+        "zhCN": "牛"
+      },
+      "image": "img/noah/animals/cow.jpg",
+      "emoji": "🐄",
+      "sound": {
+        "zhHK": "audio/noah/sounds/zhHK/cow.mp3",
+        "zhCN": "audio/noah/sounds/zhCN/cow.mp3"
+      },
+      "voiceKey": "animal_cow"
+    },
+    {
+      "id": "horse",
+      "label": {
+        "zhHK": "馬",
+        "zhCN": "馬"
+      },
+      "image": "img/noah/animals/horse.jpg",
+      "emoji": "🐎",
+      "sound": {
+        "zhHK": "audio/noah/sounds/zhHK/horse.mp3",
+        "zhCN": "audio/noah/sounds/zhCN/horse.mp3"
+      },
+      "voiceKey": "animal_horse"
+    },
+    {
+      "id": "sheep",
+      "label": {
+        "zhHK": "羊",
+        "zhCN": "羊"
+      },
+      "image": "img/noah/animals/sheep.jpg",
+      "emoji": "🐑",
+      "sound": {
+        "zhHK": "audio/noah/sounds/zhHK/sheep.mp3",
+        "zhCN": "audio/noah/sounds/zhCN/sheep.mp3"
+      },
+      "voiceKey": "animal_sheep"
+    },
+    {
+      "id": "deer",
+      "label": {
+        "zhHK": "鹿",
+        "zhCN": "鹿"
+      },
+      "image": "img/noah/animals/deer.jpg",
+      "emoji": "🦌",
+      "sound": {
+        "zhHK": "audio/noah/sounds/zhHK/deer.mp3",
+        "zhCN": "audio/noah/sounds/zhCN/deer.mp3"
+      },
+      "voiceKey": "animal_deer"
+    },
+    {
+      "id": "wolf",
+      "label": {
+        "zhHK": "狼",
+        "zhCN": "狼"
+      },
+      "image": "img/noah/animals/wolf.jpg",
+      "emoji": "🐺",
+      "sound": {
+        "zhHK": "audio/noah/sounds/zhHK/wolf.mp3",
+        "zhCN": "audio/noah/sounds/zhCN/wolf.mp3"
+      },
+      "voiceKey": "animal_wolf"
+    },
+    {
+      "id": "lion",
+      "label": {
+        "zhHK": "獅子",
+        "zhCN": "獅子"
+      },
+      "image": "img/noah/animals/lion.jpg",
+      "emoji": "🦁",
+      "sound": {
+        "zhHK": "audio/noah/sounds/zhHK/lion.mp3",
+        "zhCN": "audio/noah/sounds/zhCN/lion.mp3"
+      },
+      "voiceKey": "animal_lion"
+    },
+    {
+      "id": "elephant",
+      "label": {
+        "zhHK": "大象",
+        "zhCN": "大象"
+      },
+      "image": "img/noah/animals/elephant.jpg",
+      "emoji": "🐘",
+      "sound": {
+        "zhHK": "audio/noah/sounds/zhHK/elephant.mp3",
+        "zhCN": "audio/noah/sounds/zhCN/elephant.mp3"
+      },
+      "voiceKey": "animal_elephant"
+    },
+    {
+      "id": "rabbit",
+      "label": {
+        "zhHK": "兔子",
+        "zhCN": "兔子"
+      },
+      "image": "img/noah/animals/rabbit.jpg",
+      "emoji": "🐇",
+      "sound": {
+        "zhHK": "audio/noah/sounds/zhHK/rabbit.mp3",
+        "zhCN": "audio/noah/sounds/zhCN/rabbit.mp3"
+      },
+      "voiceKey": "animal_rabbit"
+    },
+    {
+      "id": "cat",
+      "label": {
+        "zhHK": "貓",
+        "zhCN": "貓"
+      },
+      "emoji": "🐈",
+      "voiceKey": "animal_cat"
+    },
+    {
+      "id": "fish",
+      "label": {
+        "zhHK": "魚",
+        "zhCN": "魚"
+      },
+      "emoji": "🐟",
+      "voiceKey": "animal_fish"
+    },
+    {
+      "id": "chicken",
+      "label": {
+        "zhHK": "雞",
+        "zhCN": "雞"
+      },
+      "emoji": "🐔",
+      "voiceKey": "animal_chicken"
+    }
   ],
   "characters": [
     {
-      "id": "feng", "char": "風", "label": { "zhHK": "風", "zhCN": "風" }, "pronunciation": { "zhHK": "fung1", "zhCN": "fēng" }, "voiceKey": "char_feng", "strokeCount": 9,
-      "edb": { "entryId": "4531", "entryPath": "https://www.edbchinese.hk/EmbziciwebRes/stkdemo_js/4001-ZC/4531.html?lang=ch", "orderChecked": true, "note": "9畫；已核對教育局動畫逐筆次序，本地描寫路徑為簡化自製資料。" },
+      "id": "feng",
+      "char": "風",
+      "label": {
+        "zhHK": "風",
+        "zhCN": "風"
+      },
+      "pronunciation": {
+        "zhHK": "fung1",
+        "zhCN": "fēng"
+      },
+      "voiceKey": "char_feng",
+      "strokeCount": 9,
+      "edb": {
+        "entryId": "4531",
+        "entryPath": "https://www.edbchinese.hk/EmbziciwebRes/stkdemo_js/4001-ZC/4531.html?lang=ch",
+        "orderChecked": true,
+        "note": "9畫；已核對教育局動畫逐筆次序，本地描寫路徑為簡化自製資料。"
+      },
       "strokes": [
-        { "name": "撇", "points": [[310,150],[260,215],[200,305],[150,400]] },
-        { "name": "橫折彎鉤", "points": [[315,125],[700,125],[800,175],[800,370],[790,620],[735,805],[675,850]] },
-        { "name": "橫", "points": [[340,320],[660,320]] },
-        { "name": "豎", "points": [[500,300],[500,690]] },
-        { "name": "橫折", "points": [[380,450],[640,450],[640,650]] },
-        { "name": "橫", "points": [[405,535],[595,535]] },
-        { "name": "豎", "points": [[500,495],[500,645]] },
-        { "name": "提", "points": [[410,680],[500,665],[595,625]] },
-        { "name": "點", "points": [[660,735],[690,790]] }
+        {
+          "name": "撇",
+          "points": [
+            [
+              310,
+              150
+            ],
+            [
+              260,
+              215
+            ],
+            [
+              200,
+              305
+            ],
+            [
+              150,
+              400
+            ]
+          ]
+        },
+        {
+          "name": "橫折彎鉤",
+          "points": [
+            [
+              315,
+              125
+            ],
+            [
+              700,
+              125
+            ],
+            [
+              800,
+              175
+            ],
+            [
+              800,
+              370
+            ],
+            [
+              790,
+              620
+            ],
+            [
+              735,
+              805
+            ],
+            [
+              675,
+              850
+            ]
+          ]
+        },
+        {
+          "name": "橫",
+          "points": [
+            [
+              340,
+              320
+            ],
+            [
+              660,
+              320
+            ]
+          ]
+        },
+        {
+          "name": "豎",
+          "points": [
+            [
+              500,
+              300
+            ],
+            [
+              500,
+              690
+            ]
+          ]
+        },
+        {
+          "name": "橫折",
+          "points": [
+            [
+              380,
+              450
+            ],
+            [
+              640,
+              450
+            ],
+            [
+              640,
+              650
+            ]
+          ]
+        },
+        {
+          "name": "橫",
+          "points": [
+            [
+              405,
+              535
+            ],
+            [
+              595,
+              535
+            ]
+          ]
+        },
+        {
+          "name": "豎",
+          "points": [
+            [
+              500,
+              495
+            ],
+            [
+              500,
+              645
+            ]
+          ]
+        },
+        {
+          "name": "提",
+          "points": [
+            [
+              410,
+              680
+            ],
+            [
+              500,
+              665
+            ],
+            [
+              595,
+              625
+            ]
+          ]
+        },
+        {
+          "name": "點",
+          "points": [
+            [
+              660,
+              735
+            ],
+            [
+              690,
+              790
+            ]
+          ]
+        }
       ]
     },
     {
-      "id": "mao", "char": "毛", "label": { "zhHK": "毛", "zhCN": "毛" }, "pronunciation": { "zhHK": "mou4", "zhCN": "máo" }, "voiceKey": "char_mao", "strokeCount": 4,
-      "edb": { "entryId": "2088", "entryPath": "https://www.edbchinese.hk/EmbziciwebRes/stkdemo_js/2001-3000/2088.html?lang=ch", "orderChecked": true, "note": "4畫；已核對教育局動畫逐筆次序，本地描寫路徑為簡化自製資料。" },
+      "id": "mao",
+      "char": "毛",
+      "label": {
+        "zhHK": "毛",
+        "zhCN": "毛"
+      },
+      "pronunciation": {
+        "zhHK": "mou4",
+        "zhCN": "máo"
+      },
+      "voiceKey": "char_mao",
+      "strokeCount": 4,
+      "edb": {
+        "entryId": "2088",
+        "entryPath": "https://www.edbchinese.hk/EmbziciwebRes/stkdemo_js/2001-3000/2088.html?lang=ch",
+        "orderChecked": true,
+        "note": "4畫；已核對教育局動畫逐筆次序，本地描寫路徑為簡化自製資料。"
+      },
       "strokes": [
-        { "name": "撇", "points": [[710,150],[630,245],[535,330],[430,390]] },
-        { "name": "橫", "points": [[250,340],[730,340]] },
-        { "name": "橫", "points": [[220,505],[755,505]] },
-        { "name": "豎彎鈎", "points": [[505,435],[490,610],[500,745],[575,820],[710,820]] }
+        {
+          "name": "撇",
+          "points": [
+            [
+              710,
+              150
+            ],
+            [
+              630,
+              245
+            ],
+            [
+              535,
+              330
+            ],
+            [
+              430,
+              390
+            ]
+          ]
+        },
+        {
+          "name": "橫",
+          "points": [
+            [
+              250,
+              340
+            ],
+            [
+              730,
+              340
+            ]
+          ]
+        },
+        {
+          "name": "橫",
+          "points": [
+            [
+              220,
+              505
+            ],
+            [
+              755,
+              505
+            ]
+          ]
+        },
+        {
+          "name": "豎彎鈎",
+          "points": [
+            [
+              505,
+              435
+            ],
+            [
+              490,
+              610
+            ],
+            [
+              500,
+              745
+            ],
+            [
+              575,
+              820
+            ],
+            [
+              710,
+              820
+            ]
+          ]
+        }
       ]
     },
     {
-      "id": "ren", "char": "人", "label": { "zhHK": "人", "zhCN": "人" }, "pronunciation": { "zhHK": "jan4", "zhCN": "rén" }, "voiceKey": "char_ren", "strokeCount": 2,
-      "edb": { "entryId": "0067", "entryPath": "https://www.edbchinese.hk/EmbziciwebRes/stkdemo_js/0001-1000/0067.html?lang=ch", "orderChecked": true, "note": "2畫；已核對教育局動畫逐筆次序，本地描寫路徑為簡化自製資料。" },
+      "id": "ren",
+      "char": "人",
+      "label": {
+        "zhHK": "人",
+        "zhCN": "人"
+      },
+      "pronunciation": {
+        "zhHK": "jan4",
+        "zhCN": "rén"
+      },
+      "voiceKey": "char_ren",
+      "strokeCount": 2,
+      "edb": {
+        "entryId": "0067",
+        "entryPath": "https://www.edbchinese.hk/EmbziciwebRes/stkdemo_js/0001-1000/0067.html?lang=ch",
+        "orderChecked": true,
+        "note": "2畫；已核對教育局動畫逐筆次序，本地描寫路徑為簡化自製資料。"
+      },
       "strokes": [
-        { "name": "撇", "points": [[560,175],[495,310],[400,470],[280,635]] },
-        { "name": "捺", "points": [[515,395],[600,495],[700,600],[820,705]] }
+        {
+          "name": "撇",
+          "points": [
+            [
+              560,
+              175
+            ],
+            [
+              495,
+              310
+            ],
+            [
+              400,
+              470
+            ],
+            [
+              280,
+              635
+            ]
+          ]
+        },
+        {
+          "name": "捺",
+          "points": [
+            [
+              515,
+              395
+            ],
+            [
+              600,
+              495
+            ],
+            [
+              700,
+              600
+            ],
+            [
+              820,
+              705
+            ]
+          ]
+        }
       ]
     },
     {
-      "id": "xiao", "char": "小", "label": { "zhHK": "小", "zhCN": "小" }, "pronunciation": { "zhHK": "siu2", "zhCN": "xiǎo" }, "voiceKey": "char_xiao", "strokeCount": 3,
-      "edb": { "entryId": "1056", "entryPath": "https://www.edbchinese.hk/EmbziciwebRes/stkdemo_js/1001-2000/1056.html?lang=ch", "orderChecked": true, "note": "3畫；已核對教育局動畫逐筆次序，本地描寫路徑為簡化自製資料。" },
+      "id": "xiao",
+      "char": "小",
+      "label": {
+        "zhHK": "小",
+        "zhCN": "小"
+      },
+      "pronunciation": {
+        "zhHK": "siu2",
+        "zhCN": "xiǎo"
+      },
+      "voiceKey": "char_xiao",
+      "strokeCount": 3,
+      "edb": {
+        "entryId": "1056",
+        "entryPath": "https://www.edbchinese.hk/EmbziciwebRes/stkdemo_js/1001-2000/1056.html?lang=ch",
+        "orderChecked": true,
+        "note": "3畫；已核對教育局動畫逐筆次序，本地描寫路徑為簡化自製資料。"
+      },
       "strokes": [
-        { "name": "豎鈎", "points": [[500,160],[500,470],[500,700],[455,760]] },
-        { "name": "點", "points": [[300,390],[250,500]] },
-        { "name": "點", "points": [[700,390],[750,500]] }
+        {
+          "name": "豎鈎",
+          "points": [
+            [
+              500,
+              160
+            ],
+            [
+              500,
+              470
+            ],
+            [
+              500,
+              700
+            ],
+            [
+              455,
+              760
+            ]
+          ]
+        },
+        {
+          "name": "點",
+          "points": [
+            [
+              300,
+              390
+            ],
+            [
+              250,
+              500
+            ]
+          ]
+        },
+        {
+          "name": "點",
+          "points": [
+            [
+              700,
+              390
+            ],
+            [
+              750,
+              500
+            ]
+          ]
+        }
       ]
     },
     {
-      "id": "huo", "char": "火", "label": { "zhHK": "火", "zhCN": "火" }, "pronunciation": { "zhHK": "fo2", "zhCN": "huǒ" }, "voiceKey": "char_huo", "strokeCount": 4,
-      "edb": { "entryId": "2366", "entryPath": "https://www.edbchinese.hk/EmbziciwebRes/stkdemo_js/2001-3000/2366.html?lang=ch", "orderChecked": true, "note": "4畫；已核對教育局動畫逐筆次序，本地描寫路徑為簡化自製資料。" },
+      "id": "huo",
+      "char": "火",
+      "label": {
+        "zhHK": "火",
+        "zhCN": "火"
+      },
+      "pronunciation": {
+        "zhHK": "fo2",
+        "zhCN": "huǒ"
+      },
+      "voiceKey": "char_huo",
+      "strokeCount": 4,
+      "edb": {
+        "entryId": "2366",
+        "entryPath": "https://www.edbchinese.hk/EmbziciwebRes/stkdemo_js/2001-3000/2366.html?lang=ch",
+        "orderChecked": true,
+        "note": "4畫；已核對教育局動畫逐筆次序，本地描寫路徑為簡化自製資料。"
+      },
       "strokes": [
-        { "name": "點", "points": [[460,160],[420,255]] },
-        { "name": "撇", "points": [[535,260],[500,420],[430,565],[330,670]] },
-        { "name": "撇", "points": [[700,380],[610,485],[510,580],[405,635]] },
-        { "name": "捺", "points": [[535,455],[620,555],[730,660],[835,740]] }
+        {
+          "name": "點",
+          "points": [
+            [
+              460,
+              160
+            ],
+            [
+              420,
+              255
+            ]
+          ]
+        },
+        {
+          "name": "撇",
+          "points": [
+            [
+              535,
+              260
+            ],
+            [
+              500,
+              420
+            ],
+            [
+              430,
+              565
+            ],
+            [
+              330,
+              670
+            ]
+          ]
+        },
+        {
+          "name": "撇",
+          "points": [
+            [
+              700,
+              380
+            ],
+            [
+              610,
+              485
+            ],
+            [
+              510,
+              580
+            ],
+            [
+              405,
+              635
+            ]
+          ]
+        },
+        {
+          "name": "捺",
+          "points": [
+            [
+              535,
+              455
+            ],
+            [
+              620,
+              555
+            ],
+            [
+              730,
+              660
+            ],
+            [
+              835,
+              740
+            ]
+          ]
+        }
       ]
     },
     {
-      "id": "bing", "char": "冰", "label": { "zhHK": "冰", "zhCN": "冰" }, "pronunciation": { "zhHK": "bing1", "zhCN": "bīng" }, "voiceKey": "char_bing", "strokeCount": 6,
-      "edb": { "entryId": "0305", "entryPath": "https://www.edbchinese.hk/EmbziciwebRes/stkdemo_js/0001-1000/0305.html?lang=ch", "orderChecked": true, "note": "6畫；已核對教育局動畫逐筆次序，本地描寫路徑為簡化自製資料。" },
+      "id": "bing",
+      "char": "冰",
+      "label": {
+        "zhHK": "冰",
+        "zhCN": "冰"
+      },
+      "pronunciation": {
+        "zhHK": "bing1",
+        "zhCN": "bīng"
+      },
+      "voiceKey": "char_bing",
+      "strokeCount": 6,
+      "edb": {
+        "entryId": "0305",
+        "entryPath": "https://www.edbchinese.hk/EmbziciwebRes/stkdemo_js/0001-1000/0305.html?lang=ch",
+        "orderChecked": true,
+        "note": "6畫；已核對教育局動畫逐筆次序，本地描寫路徑為簡化自製資料。"
+      },
       "strokes": [
-        { "name": "點", "points": [[260,185],[300,260]] },
-        { "name": "提", "points": [[195,455],[285,435],[375,385]] },
-        { "name": "豎鈎", "points": [[565,155],[560,455],[550,705],[490,770]] },
-        { "name": "橫撇", "points": [[575,470],[470,555],[375,620]] },
-        { "name": "撇", "points": [[545,540],[455,680],[335,820]] },
-        { "name": "捺", "points": [[610,555],[690,680],[790,790],[870,850]] }
+        {
+          "name": "點",
+          "points": [
+            [
+              260,
+              185
+            ],
+            [
+              300,
+              260
+            ]
+          ]
+        },
+        {
+          "name": "提",
+          "points": [
+            [
+              195,
+              455
+            ],
+            [
+              285,
+              435
+            ],
+            [
+              375,
+              385
+            ]
+          ]
+        },
+        {
+          "name": "豎鈎",
+          "points": [
+            [
+              565,
+              155
+            ],
+            [
+              560,
+              455
+            ],
+            [
+              550,
+              705
+            ],
+            [
+              490,
+              770
+            ]
+          ]
+        },
+        {
+          "name": "橫撇",
+          "points": [
+            [
+              575,
+              470
+            ],
+            [
+              470,
+              555
+            ],
+            [
+              375,
+              620
+            ]
+          ]
+        },
+        {
+          "name": "撇",
+          "points": [
+            [
+              545,
+              540
+            ],
+            [
+              455,
+              680
+            ],
+            [
+              335,
+              820
+            ]
+          ]
+        },
+        {
+          "name": "捺",
+          "points": [
+            [
+              610,
+              555
+            ],
+            [
+              690,
+              680
+            ],
+            [
+              790,
+              790
+            ],
+            [
+              870,
+              850
+            ]
+          ]
+        }
       ]
     },
     {
-      "id": "jia", "char": "家", "label": { "zhHK": "家", "zhCN": "家" }, "pronunciation": { "zhHK": "gaa1", "zhCN": "jiā" }, "voiceKey": "char_jia", "strokeCount": 10,
-      "edb": { "entryId": "1014", "entryPath": "https://www.edbchinese.hk/EmbziciwebRes/stkdemo_js/1001-2000/1014.html?lang=ch", "orderChecked": true, "note": "10畫；已核對教育局動畫逐筆次序，本地描寫路徑為簡化自製資料。" },
+      "id": "jia",
+      "char": "家",
+      "label": {
+        "zhHK": "家",
+        "zhCN": "家"
+      },
+      "pronunciation": {
+        "zhHK": "gaa1",
+        "zhCN": "jiā"
+      },
+      "voiceKey": "char_jia",
+      "strokeCount": 10,
+      "edb": {
+        "entryId": "1014",
+        "entryPath": "https://www.edbchinese.hk/EmbziciwebRes/stkdemo_js/1001-2000/1014.html?lang=ch",
+        "orderChecked": true,
+        "note": "10畫；已核對教育局動畫逐筆次序，本地描寫路徑為簡化自製資料。"
+      },
       "strokes": [
-        { "name": "點", "points": [[330,140],[285,215]] },
-        { "name": "點", "points": [[675,140],[720,215]] },
-        { "name": "橫鈎", "points": [[245,280],[735,280],[735,345]] },
-        { "name": "橫", "points": [[390,405],[645,405]] },
-        { "name": "撇", "points": [[520,405],[480,495],[420,565]] },
-        { "name": "彎鈎", "points": [[650,405],[625,535],[625,645],[700,685]] },
-        { "name": "撇", "points": [[500,520],[445,620],[365,705]] },
-        { "name": "撇", "points": [[565,555],[515,675],[445,760]] },
-        { "name": "撇", "points": [[620,585],[600,705],[555,790]] },
-        { "name": "捺", "points": [[670,615],[735,700],[805,765],[875,815]] }
+        {
+          "name": "點",
+          "points": [
+            [
+              330,
+              140
+            ],
+            [
+              285,
+              215
+            ]
+          ]
+        },
+        {
+          "name": "點",
+          "points": [
+            [
+              675,
+              140
+            ],
+            [
+              720,
+              215
+            ]
+          ]
+        },
+        {
+          "name": "橫鈎",
+          "points": [
+            [
+              245,
+              280
+            ],
+            [
+              735,
+              280
+            ],
+            [
+              735,
+              345
+            ]
+          ]
+        },
+        {
+          "name": "橫",
+          "points": [
+            [
+              390,
+              405
+            ],
+            [
+              645,
+              405
+            ]
+          ]
+        },
+        {
+          "name": "撇",
+          "points": [
+            [
+              520,
+              405
+            ],
+            [
+              480,
+              495
+            ],
+            [
+              420,
+              565
+            ]
+          ]
+        },
+        {
+          "name": "彎鈎",
+          "points": [
+            [
+              650,
+              405
+            ],
+            [
+              625,
+              535
+            ],
+            [
+              625,
+              645
+            ],
+            [
+              700,
+              685
+            ]
+          ]
+        },
+        {
+          "name": "撇",
+          "points": [
+            [
+              500,
+              520
+            ],
+            [
+              445,
+              620
+            ],
+            [
+              365,
+              705
+            ]
+          ]
+        },
+        {
+          "name": "撇",
+          "points": [
+            [
+              565,
+              555
+            ],
+            [
+              515,
+              675
+            ],
+            [
+              445,
+              760
+            ]
+          ]
+        },
+        {
+          "name": "撇",
+          "points": [
+            [
+              620,
+              585
+            ],
+            [
+              600,
+              705
+            ],
+            [
+              555,
+              790
+            ]
+          ]
+        },
+        {
+          "name": "捺",
+          "points": [
+            [
+              670,
+              615
+            ],
+            [
+              735,
+              700
+            ],
+            [
+              805,
+              765
+            ],
+            [
+              875,
+              815
+            ]
+          ]
+        }
       ]
     }
   ],
   "numberWords": {
-    "zhHK": ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"],
-    "zhCN": ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"]
+    "zhHK": [
+      "零",
+      "一",
+      "二",
+      "三",
+      "四",
+      "五",
+      "六",
+      "七",
+      "八",
+      "九",
+      "十"
+    ],
+    "zhCN": [
+      "零",
+      "一",
+      "二",
+      "三",
+      "四",
+      "五",
+      "六",
+      "七",
+      "八",
+      "九",
+      "十"
+    ]
   },
   "counting": {
     "questionCount": 8,
     "minimum": 1,
     "maximum": 10,
     "animalId": "sheep",
-    "voiceParts": ["count_lead_in", "number_{number}", "count_tail"]
+    "voiceParts": [
+      "count_lead_in",
+      "number_{number}",
+      "count_tail"
+    ]
   },
   "arithmetic": {
     "questionsPerRound": 8,
@@ -241,7 +1515,10 @@
     "answerMinimum": 1,
     "answerMaximum": 10,
     "maxSameAnswerPerRound": 2,
-    "distractorOffsets": [1, 2],
+    "distractorOffsets": [
+      1,
+      2
+    ],
     "animalRotation": "animals list order",
     "generationNote": "每輪隨機生成 4 題加法和 4 題減法；算式不重複，每個答案最多出現兩次；動物按 animals 清單輪替。"
   },
@@ -250,13 +1527,272 @@
     "manifest": "audio/ark-k2/manifest.json",
     "generatedModel": "speech-2.8-hd",
     "clips": [
-      { "key": "praise", "filename": "praise.mp3", "text": { "zhHK": "做得好！", "zhCN": "做得好！" } },
-      { "key": "hint", "filename": "hint.mp3", "text": { "zhHK": "唔緊要，慢慢再試一次。", "zhCN": "没关系，慢慢再试一次。" } },
-      { "key": "count_lead_in", "filename": "count_lead_in.mp3", "text": { "zhHK": "請帶", "zhCN": "请带" } },
-      { "key": "count_tail", "filename": "count_tail.mp3", "text": { "zhHK": "隻羊上船。", "zhCN": "只羊上船。" } },
-      { "key": "math_plus", "filename": "math_plus.mp3", "text": { "zhHK": "加", "zhCN": "加" } },
-      { "key": "math_minus", "filename": "math_minus.mp3", "text": { "zhHK": "減", "zhCN": "减" } },
-      { "key": "math_question", "filename": "math_question.mp3", "text": { "zhHK": "等於多少？", "zhCN": "等于多少？" } }
+      {
+        "key": "praise",
+        "filename": "praise.mp3",
+        "text": {
+          "zhHK": "做得好！",
+          "zhCN": "做得好！"
+        }
+      },
+      {
+        "key": "hint",
+        "filename": "hint.mp3",
+        "text": {
+          "zhHK": "唔緊要，慢慢再試一次。",
+          "zhCN": "没关系，慢慢再试一次。"
+        }
+      },
+      {
+        "key": "count_lead_in",
+        "filename": "count_lead_in.mp3",
+        "text": {
+          "zhHK": "請帶",
+          "zhCN": "请带"
+        }
+      },
+      {
+        "key": "count_tail",
+        "filename": "count_tail.mp3",
+        "text": {
+          "zhHK": "隻羊上船。",
+          "zhCN": "只羊上船。"
+        }
+      },
+      {
+        "key": "math_plus",
+        "filename": "math_plus.mp3",
+        "text": {
+          "zhHK": "加",
+          "zhCN": "加"
+        }
+      },
+      {
+        "key": "math_minus",
+        "filename": "math_minus.mp3",
+        "text": {
+          "zhHK": "減",
+          "zhCN": "减"
+        }
+      },
+      {
+        "key": "math_question",
+        "filename": "math_question.mp3",
+        "text": {
+          "zhHK": "等於多少？",
+          "zhCN": "等于多少？"
+        }
+      }
     ]
+  },
+  "parentTips": {
+    "characters": {
+      "feng": {
+        "zhHK": {
+          "skill": "風：內框筆順",
+          "practice": "沿住外框寫好，再由上到下逐筆寫入裏面的橫、豎；每一筆停一停。"
+        },
+        "zhCN": {
+          "skill": "风：内框笔顺",
+          "practice": "先写好外框，再从上到下逐笔写里面的横、竖；每一笔停一停。"
+        }
+      },
+      "mao": {
+        "zhHK": {
+          "skill": "毛：撇與兩橫",
+          "practice": "手指先向左下寫撇，再分開寫兩條橫，最後寫彎鈎。"
+        },
+        "zhCN": {
+          "skill": "毛：撇与两横",
+          "practice": "手指先向左下写撇，再分开写两条横，最后写弯钩。"
+        }
+      },
+      "ren": {
+        "zhHK": {
+          "skill": "人：撇、捺方向",
+          "practice": "先由上向左下寫撇，再由中間向右下寫捺，兩筆分開。"
+        },
+        "zhCN": {
+          "skill": "人：撇、捺方向",
+          "practice": "先从上向左下写撇，再从中间向右下写捺，两笔分开。"
+        }
+      },
+      "xiao": {
+        "zhHK": {
+          "skill": "小：豎鈎與兩點",
+          "practice": "先寫中間豎鈎，再分開點左邊和右邊。"
+        },
+        "zhCN": {
+          "skill": "小：竖钩与两点",
+          "practice": "先写中间竖钩，再分别点左边和右边。"
+        }
+      },
+      "huo": {
+        "zhHK": {
+          "skill": "火：點、撇、捺",
+          "practice": "先寫頂點，再由中心分開寫兩邊，最後一筆向右下舒展。"
+        },
+        "zhCN": {
+          "skill": "火：点、撇、捺",
+          "practice": "先写顶点，再从中心分开写两边，最后一笔向右下舒展。"
+        }
+      },
+      "bing": {
+        "zhHK": {
+          "skill": "冰：兩點水的提",
+          "practice": "一齊用手指喺枱面寫，提要由左下向右上。"
+        },
+        "zhCN": {
+          "skill": "冰：两点水的提",
+          "practice": "一起用手指在桌面写，提要由左下向右上。"
+        }
+      },
+      "jia": {
+        "zhHK": {
+          "skill": "家：寶蓋頭先寫",
+          "practice": "先講「點、點、橫鈎」，再寫下面。"
+        },
+        "zhCN": {
+          "skill": "家：宝盖头先写",
+          "practice": "先说“点、点、横钩”，再写下面。"
+        }
+      }
+    },
+    "counting": {
+      "1": {
+        "zhHK": {
+          "skill": "數到 1",
+          "practice": "拿一件玩具，說「一」，再放進盒子。"
+        },
+        "zhCN": {
+          "skill": "数到 1",
+          "practice": "拿一件玩具，说“一”，再放进盒子。"
+        }
+      },
+      "2": {
+        "zhHK": {
+          "skill": "數到 2",
+          "practice": "兩件玩具一件一件移開，手指跟住數。"
+        },
+        "zhCN": {
+          "skill": "数到 2",
+          "practice": "两件玩具一件一件移开，手指跟着数。"
+        }
+      },
+      "3": {
+        "zhHK": {
+          "skill": "數到 3",
+          "practice": "把三件玩具排開，每數一件就移到另一邊。"
+        },
+        "zhCN": {
+          "skill": "数到 3",
+          "practice": "把三件玩具排开，每数一件就移到另一边。"
+        }
+      },
+      "4": {
+        "zhHK": {
+          "skill": "數到 4",
+          "practice": "用四個杯子逐個放入積木，數一次就放一塊。"
+        },
+        "zhCN": {
+          "skill": "数到 4",
+          "practice": "用四个杯子逐个放入积木，数一次就放一块。"
+        }
+      },
+      "5": {
+        "zhHK": {
+          "skill": "數到 5",
+          "practice": "先用手指數五下，再找五件小物件一一配對。"
+        },
+        "zhCN": {
+          "skill": "数到 5",
+          "practice": "先用手指数五下，再找五件小物件一一配对。"
+        }
+      },
+      "6": {
+        "zhHK": {
+          "skill": "數到 6",
+          "practice": "分成兩組三件，逐件移動並說出最後總數。"
+        },
+        "zhCN": {
+          "skill": "数到 6",
+          "practice": "分成两组三件，逐件移动并说出最后总数。"
+        }
+      },
+      "7": {
+        "zhHK": {
+          "skill": "數到 7",
+          "practice": "排成一行，數過一件就向前推一件，避免重數。"
+        },
+        "zhCN": {
+          "skill": "数到 7",
+          "practice": "排成一行，数过一件就向前推一件，避免重复数。"
+        }
+      },
+      "8": {
+        "zhHK": {
+          "skill": "數到 8 會漏數",
+          "practice": "數玩具時，數一件就移開一件。"
+        },
+        "zhCN": {
+          "skill": "数到 8 会漏数",
+          "practice": "数玩具时，数一件就移开一件。"
+        }
+      },
+      "9": {
+        "zhHK": {
+          "skill": "數到 9",
+          "practice": "分兩組數，再把兩組合起來，逐件點數確認。"
+        },
+        "zhCN": {
+          "skill": "数到 9",
+          "practice": "分两组数，再把两组合起来，逐件点数确认。"
+        }
+      },
+      "10": {
+        "zhHK": {
+          "skill": "數到 10",
+          "practice": "用十格框一格放一件，每放一件讀一個數詞。"
+        },
+        "zhCN": {
+          "skill": "数到 10",
+          "practice": "用十格框一格放一件，每放一件读一个数词。"
+        }
+      }
+    },
+    "arithmetic": {
+      "add": {
+        "zhHK": {
+          "skill": "加法：再上船",
+          "practice": "先數船上的動物，再逐隻加入新動物，兩組合起來數總數。"
+        },
+        "zhCN": {
+          "skill": "加法：再上船",
+          "practice": "先数船上的动物，再逐只加入新动物，把两组合起来数总数。"
+        }
+      },
+      "subtract": {
+        "zhHK": {
+          "skill": "減法：落船",
+          "practice": "先數全部動物，再逐隻送落船，數一數剩下幾多。"
+        },
+        "zhCN": {
+          "skill": "减法：下船",
+          "practice": "先数全部动物，再逐只送下船，数一数还剩多少。"
+        }
+      }
+    },
+    "animals": {
+      "default": {
+        "zhHK": {
+          "skill": "聽動物字卡",
+          "practice": "先聽清楚動物名，再慢慢讀兩張字卡，找出相同的名稱。"
+        },
+        "zhCN": {
+          "skill": "听动物字卡",
+          "practice": "先听清动物名，再慢慢读两张字卡，找出相同的名称。"
+        }
+      }
+    }
   }
 }
