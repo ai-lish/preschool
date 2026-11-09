@@ -275,6 +275,15 @@ img/
 
 用瀏覽器打開：https://ai-lish.github.io/preschool/
 
+## 🧪 開發與驗證
+
+### 瀏覽器自動化驗證
+
+- Playwright 驗證必須使用 Playwright 隨附的 Chromium 或 chromium-headless-shell，不得用 `executablePath` 或 `channel` 指向用家的系統 Chrome。
+- 如瀏覽器尚未安裝，使用與專案 Playwright 版本相同的官方指令（例如 `npx playwright install chromium`），安裝到 Playwright 預設快取；不可從其他來源下載瀏覽器。
+- 每個驗證腳本都要在 `finally` 關閉建立的 page、context 和 browser，並處理 `SIGINT`／`SIGTERM`，確保中斷時也會關閉 browser。
+- 原因：系統 Chrome 的 headless 實例與用家日常使用的 Chrome 共用同一個 app bundle，可能干擾依賴 AppleScript 的 Mac 用量收集工具，令工具找不到標記視窗。
+
 ## 🛶 方舟動物上船（K2 升小一）
 
 以挪亞方舟為原創故事背景，把聽動物名、跟筆順寫字、拖羊上船和加減題包裝成四級任務。每級維持 8 道計分題；按第一次作答正確數給星：0 題 0 星、1–5 題 1 星、6–7 題 2 星、8 題 3 星。上一級累積至少 1 星才解鎖下一級。錯題或有提示的題目會在同輪隔開 2–3 道主要題後以不計分重溫方式再出；因接近一輪尾段而無法留出間隔的題目會在 8 道主要題後重溫。未熟項目會在下一日優先抽出，連續兩日無提示答對後標記為熟；動物及數量題先抽未熟項目。寫字題庫包括七個主字，每輪 8 題按熟練度抽選，會優先抽未熟字；題目不足時才補抽熟字。每完成一輪會按輪次收集一張動物貼紙，貼紙是完成紀念，不影響星數或解鎖。家長成績表顯示最近七日錯題／未熟項目和遊戲畫面可見時間。練習語言預設粵語，也可切換普通話；進度使用 `localStorage` key `preschool-ark-k2-v1`，不記錄孩子姓名。
