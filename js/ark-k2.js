@@ -980,6 +980,7 @@ function renderStrokeQuestion(question) {
     writeProgress();
   }
   const scaffold = scaffoldForCharacter(character);
+  if (scaffold < 3) stageRun.hintedItemKeys.add(questionItemKey(question));
   const characterList = createText('div', 'ark-character-list');
   data.characters.forEach(item => {
     const chip = createText('span', 'ark-character-chip' + (item.id === character.id ? ' is-active' : ''), text(item.label));
@@ -997,7 +998,10 @@ function renderStrokeQuestion(question) {
   currentCanvas = canvas;
 
   const controls = createText('div', 'ark-demo-audio-row');
-  const demo = createAudioButton(locale() === 'zhCN' ? '看示范' : '睇示範', () => animateCharacter(character, canvas, scaffold));
+  const demo = createAudioButton(locale() === 'zhCN' ? '看示范' : '睇示範', () => {
+    stageRun.hintedItemKeys.add(questionItemKey(question));
+    animateCharacter(character, canvas, scaffold);
+  });
   demo.classList.add('ark-demo-button');
   const replay = addReplayButton(t('listenAgain'), () => playClip(character.voiceKey));
   controls.append(demo, replay);
