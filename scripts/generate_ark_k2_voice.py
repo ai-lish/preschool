@@ -107,6 +107,10 @@ def build_assets(data: dict) -> list[dict]:
             add(animal["voiceKey"], animal["label"][language])
         for character in data["characters"]:
             add(character["voiceKey"], character["label"][language])
+        for item in data["copybook"]["sets"][0]["items"]:
+            add(item["voiceKey"], item["label"][language])
+        for chapter in data["story"]["chapters"]:
+            add(chapter["audio"], chapter["text"][language])
         for number in range(1, 11):
             add(f"number_{number}", data["numberWords"][language][number])
         for clip in data["voice"]["clips"]:
@@ -268,21 +272,21 @@ def request_audio(text: str, language: str, key: str) -> tuple[bytes, int]:
 
 
 def run_sample_test(data: dict, output_dir: pathlib.Path, key: str) -> int:
-    instruction = data["levels"][0]["instruction"]
+    phrase = data["story"]["chapters"][0]["text"]
     output_dir.mkdir(parents=True, exist_ok=True)
     for language in ("zhHK", "zhCN"):
         ensure_included_quota(key)
-        audio, status = request_audio(instruction[language], language, key)
-        destination = output_dir / f"{language}_level_1.mp3"
+        audio, status = request_audio(phrase[language], language, key)
+        destination = output_dir / f"{language}_story_01.mp3"
         destination.write_bytes(audio)
-        print(f"Sample {language}: HTTP {status}; bytes={len(audio)}; file={destination}")
+        print(f"Story sample {language}: HTTP {status}; bytes={len(audio)}; file={destination}")
     return 0
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     action = parser.add_mutually_exclusive_group()
-    action.add_argument("--test", action="store_true", help="generate one level_1 sample in each language")
+    action.add_argument("--test", action="store_true", help="generate one story_01 sample in each language")
     action.add_argument("--generate", action="store_true", help="make one API request per pending voice clip")
     parser.add_argument(
         "--test-output-dir",
