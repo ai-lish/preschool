@@ -425,6 +425,21 @@ button:focus-visible, a:focus-visible { outline: 4px solid var(--ink); outline-o
   color: var(--ink);
   font-size: 1.5rem;
 }
+.hub-copybook-feature { position: relative; min-height: 96px; border-color: var(--k2); background: var(--k2-soft); color: var(--k2-ink); }
+.hub-copybook-open { margin-left: auto; font-size: 2.4rem; font-weight: 800; }
+.hub-copybook-words { align-items: flex-start; }
+.hub-copybook-words h2 { padding-top: 10px; }
+.hub-copybook-word-list { display: flex; min-width: 0; flex: 1; flex-wrap: wrap; gap: 12px; }
+.hub-copybook-word { position: relative; display: inline-flex; min-width: 80px; min-height: 80px; align-items: center; justify-content: center; border-radius: var(--radius-sm); background: var(--k2-soft); color: var(--ink); font-size: 2rem; font-weight: 700; text-decoration: none; }
+.k2-hub-main .hub-word-link { min-width: 80px; min-height: 80px; }
+.hub-copybook-word.is-current { border: 3px solid var(--k2); background: var(--sun); }
+.hub-copybook-word small { position: absolute; right: -7px; top: -9px; padding: 3px 7px; border-radius: 999px; background: var(--k2); color: var(--k2-ink); font-size: .65rem; }
+@media (max-width: 560px) {
+  .hub-copybook-feature { min-height: var(--tap); }
+  .hub-copybook-word-list { gap: 8px; }
+  .hub-copybook-word { min-width: 80px; min-height: 80px; flex: 0 0 80px; font-size: 1.7rem; }
+  .k2-hub-main .hub-word-link { min-width: 80px; min-height: 80px; flex: 0 0 80px; }
+}
 .hub-star-total span { font-size: 1.7rem; }
 .hub-start-label { white-space: normal; }
 .hub-return { flex: initial; width: min(100%, 280px); }
