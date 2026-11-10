@@ -1522,6 +1522,629 @@
     "animalRotation": "animals list order",
     "generationNote": "每輪隨機生成 4 題加法和 4 題減法；算式不重複，每個答案最多出現兩次；動物按 animals 清單輪替。"
   },
+  "copybook": {
+    "strokeDataSource": "新字筆畫順序依本次任務指定；筆畫路徑為本地自繪標準化座標，並非教育局動畫資料。",
+    "sets": [
+      {
+        "id": "zhongwenbu",
+        "title": {
+          "zhHK": "中文簿",
+          "zhCN": "中文簿"
+        },
+        "items": [
+          {
+            "id": "yi",
+            "char": "一",
+            "date": "2026-09-21",
+            "voiceKey": "char_yi",
+            "label": {
+              "zhHK": "一",
+              "zhCN": "一"
+            },
+            "pronunciation": {
+              "zhHK": "jat1",
+              "zhCN": "yī"
+            },
+            "strokeCount": 1,
+            "strokes": [
+              {
+                "name": "橫",
+                "type": "horizontal",
+                "points": [
+                  [
+                    180,
+                    500
+                  ],
+                  [
+                    820,
+                    500
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "id": "shi",
+            "char": "十",
+            "date": "2026-09-28",
+            "voiceKey": "char_shi",
+            "label": {
+              "zhHK": "十",
+              "zhCN": "十"
+            },
+            "pronunciation": {
+              "zhHK": "sap6",
+              "zhCN": "shí"
+            },
+            "strokeCount": 2,
+            "strokes": [
+              {
+                "name": "橫",
+                "type": "horizontal",
+                "points": [
+                  [
+                    240,
+                    400
+                  ],
+                  [
+                    760,
+                    400
+                  ]
+                ]
+              },
+              {
+                "name": "豎",
+                "type": "vertical",
+                "points": [
+                  [
+                    500,
+                    200
+                  ],
+                  [
+                    500,
+                    800
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "id": "tu",
+            "char": "土",
+            "date": "2026-10-05",
+            "voiceKey": "char_tu",
+            "label": {
+              "zhHK": "土",
+              "zhCN": "土"
+            },
+            "pronunciation": {
+              "zhHK": "tou2",
+              "zhCN": "tǔ"
+            },
+            "strokeCount": 3,
+            "strokes": [
+              {
+                "name": "橫",
+                "type": "horizontal",
+                "points": [
+                  [
+                    300,
+                    350
+                  ],
+                  [
+                    700,
+                    350
+                  ]
+                ]
+              },
+              {
+                "name": "豎",
+                "type": "vertical",
+                "points": [
+                  [
+                    500,
+                    250
+                  ],
+                  [
+                    500,
+                    700
+                  ]
+                ]
+              },
+              {
+                "name": "橫",
+                "type": "horizontal",
+                "points": [
+                  [
+                    150,
+                    700
+                  ],
+                  [
+                    850,
+                    700
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "id": "gong",
+            "char": "工",
+            "date": "2026-10-12",
+            "voiceKey": "char_gong",
+            "label": {
+              "zhHK": "工",
+              "zhCN": "工"
+            },
+            "pronunciation": {
+              "zhHK": "gung1",
+              "zhCN": "gōng"
+            },
+            "strokeCount": 3,
+            "strokes": [
+              {
+                "name": "橫",
+                "type": "horizontal",
+                "points": [
+                  [
+                    300,
+                    300
+                  ],
+                  [
+                    700,
+                    300
+                  ]
+                ]
+              },
+              {
+                "name": "豎",
+                "type": "vertical",
+                "points": [
+                  [
+                    500,
+                    250
+                  ],
+                  [
+                    500,
+                    720
+                  ]
+                ]
+              },
+              {
+                "name": "橫",
+                "type": "horizontal",
+                "points": [
+                  [
+                    180,
+                    720
+                  ],
+                  [
+                    820,
+                    720
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "id": "kou",
+            "char": "口",
+            "date": "2026-10-26",
+            "voiceKey": "char_kou",
+            "label": {
+              "zhHK": "口",
+              "zhCN": "口"
+            },
+            "pronunciation": {
+              "zhHK": "hau2",
+              "zhCN": "kǒu"
+            },
+            "strokeCount": 3,
+            "strokes": [
+              {
+                "name": "豎",
+                "type": "vertical",
+                "points": [
+                  [
+                    300,
+                    300
+                  ],
+                  [
+                    300,
+                    700
+                  ]
+                ]
+              },
+              {
+                "name": "橫折",
+                "type": "horizontalFold",
+                "points": [
+                  [
+                    300,
+                    300
+                  ],
+                  [
+                    700,
+                    300
+                  ],
+                  [
+                    700,
+                    700
+                  ]
+                ]
+              },
+              {
+                "name": "橫",
+                "type": "horizontal",
+                "points": [
+                  [
+                    300,
+                    700
+                  ],
+                  [
+                    700,
+                    700
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "id": "ri",
+            "char": "日",
+            "date": "2026-11-02",
+            "voiceKey": "char_ri",
+            "label": {
+              "zhHK": "日",
+              "zhCN": "日"
+            },
+            "pronunciation": {
+              "zhHK": "jat6",
+              "zhCN": "rì"
+            },
+            "strokeCount": 4,
+            "strokes": [
+              {
+                "name": "豎",
+                "type": "vertical",
+                "points": [
+                  [
+                    280,
+                    220
+                  ],
+                  [
+                    280,
+                    780
+                  ]
+                ]
+              },
+              {
+                "name": "橫折",
+                "type": "horizontalFold",
+                "points": [
+                  [
+                    280,
+                    220
+                  ],
+                  [
+                    720,
+                    220
+                  ],
+                  [
+                    720,
+                    780
+                  ]
+                ]
+              },
+              {
+                "name": "橫",
+                "type": "horizontal",
+                "points": [
+                  [
+                    280,
+                    500
+                  ],
+                  [
+                    720,
+                    500
+                  ]
+                ]
+              },
+              {
+                "name": "橫",
+                "type": "horizontal",
+                "points": [
+                  [
+                    280,
+                    780
+                  ],
+                  [
+                    720,
+                    780
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "id": "bai",
+            "char": "白",
+            "date": "2026-11-09",
+            "voiceKey": "char_bai",
+            "label": {
+              "zhHK": "白",
+              "zhCN": "白"
+            },
+            "pronunciation": {
+              "zhHK": "baak6",
+              "zhCN": "bái"
+            },
+            "strokeCount": 5,
+            "strokes": [
+              {
+                "name": "撇",
+                "type": "slant",
+                "points": [
+                  [
+                    670,
+                    200
+                  ],
+                  [
+                    480,
+                    300
+                  ],
+                  [
+                    330,
+                    390
+                  ]
+                ]
+              },
+              {
+                "name": "豎",
+                "type": "vertical",
+                "points": [
+                  [
+                    330,
+                    300
+                  ],
+                  [
+                    330,
+                    780
+                  ]
+                ]
+              },
+              {
+                "name": "橫折",
+                "type": "horizontalFold",
+                "points": [
+                  [
+                    330,
+                    300
+                  ],
+                  [
+                    720,
+                    300
+                  ],
+                  [
+                    720,
+                    780
+                  ]
+                ]
+              },
+              {
+                "name": "橫",
+                "type": "horizontal",
+                "points": [
+                  [
+                    330,
+                    540
+                  ],
+                  [
+                    720,
+                    540
+                  ]
+                ]
+              },
+              {
+                "name": "橫",
+                "type": "horizontal",
+                "points": [
+                  [
+                    330,
+                    780
+                  ],
+                  [
+                    720,
+                    780
+                  ]
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "xieqian",
+        "title": {
+          "zhHK": "寫前練習",
+          "zhCN": "写前练习"
+        },
+        "items": [
+          {
+            "id": "feng",
+            "characterId": "feng",
+            "char": "風"
+          },
+          {
+            "id": "mao",
+            "characterId": "mao",
+            "char": "毛"
+          },
+          {
+            "id": "ren",
+            "characterId": "ren",
+            "char": "人"
+          },
+          {
+            "id": "xiao",
+            "characterId": "xiao",
+            "char": "小"
+          },
+          {
+            "id": "huo",
+            "characterId": "huo",
+            "char": "火"
+          },
+          {
+            "id": "bing",
+            "characterId": "bing",
+            "char": "冰"
+          },
+          {
+            "id": "jia",
+            "characterId": "jia",
+            "char": "家"
+          }
+        ]
+      }
+    ],
+    "prompts": {
+      "general": {
+        "zhHK": "左手按住簿、靠近寫字位置；慢慢寫；注意筆順",
+        "zhCN": "左手按住本子，靠近写字位置；慢慢写；注意笔顺"
+      },
+      "horizontalFold": {
+        "zhHK": "橫折係一筆：向右寫到角位，唔好提筆，再向下。",
+        "zhCN": "横折是一笔：向右写到转角，不要提笔，再向下。"
+      }
+    },
+    "practice": {
+      "traceAttempts": 2,
+      "independentAttempts": 2,
+      "praise": {
+        "zhHK": "寫完喇！慢慢寫，試咗幾次就係好學習。",
+        "zhCN": "写完啦！慢慢写，试了几次就是好学习。"
+      },
+      "retry": {
+        "zhHK": "慢慢寫，從綠點開始，跟著方向再試一次。",
+        "zhCN": "慢慢写，从绿点开始，跟着方向再试一次。"
+      }
+    }
+  },
+  "story": {
+    "title": {
+      "zhHK": "挪亞造方舟",
+      "zhCN": "挪亚造方舟"
+    },
+    "readCompletionAction": "去練字或下一章",
+    "chapters": [
+      {
+        "id": "story_01",
+        "charId": "yi",
+        "date": "2026-09-21",
+        "text": {
+          "zhHK": "從前有一個好人，叫挪亞。上帝對他說：「你要造一隻大船。」",
+          "zhCN": "从前有一个好人，叫挪亚。上帝对他说：「你要造一只大船。」"
+        },
+        "image": "img/ark-story/story_01.jpg",
+        "imageAlt": {
+          "zhHK": "挪亞站在田野，手拿着一卷紙，抬頭聽上帝的話。",
+          "zhCN": "挪亚站在田野，手拿着一卷纸，抬头听上帝的话。"
+        },
+        "audio": "story_01"
+      },
+      {
+        "id": "story_02",
+        "charId": "shi",
+        "date": "2026-09-28",
+        "text": {
+          "zhHK": "挪亞和家人去森林找木頭。大家十分努力，搬來很多很多木頭！",
+          "zhCN": "挪亚和家人去森林找木头。大家十分努力，搬来很多很多木头！"
+        },
+        "image": "img/ark-story/story_02.jpg",
+        "imageAlt": {
+          "zhHK": "挪亞和家人在森林搬運木頭，準備建造方舟。",
+          "zhCN": "挪亚和家人在森林搬运木头，准备建造方舟。"
+        },
+        "audio": "story_02"
+      },
+      {
+        "id": "story_03",
+        "charId": "tu",
+        "date": "2026-10-05",
+        "text": {
+          "zhHK": "挪亞在泥土上造船。土地上的大船，越造越大。",
+          "zhCN": "挪亚在泥土上造船。土地上的大船，越造越大。"
+        },
+        "image": "img/ark-story/story_03.jpg",
+        "imageAlt": {
+          "zhHK": "挪亞在泥地旁建造一艘很大的木船。",
+          "zhCN": "挪亚在泥地旁建造一艘很大的木船。"
+        },
+        "audio": "story_03"
+      },
+      {
+        "id": "story_04",
+        "charId": "gong",
+        "date": "2026-10-12",
+        "text": {
+          "zhHK": "挪亞每天努力做工。鋸木頭，敲釘子，工作真辛苦！",
+          "zhCN": "挪亚每天努力做工。锯木头，敲钉子，工作真辛苦！"
+        },
+        "image": "img/ark-story/story_04.jpg",
+        "imageAlt": {
+          "zhHK": "挪亞坐在木板旁鋸木，方舟已慢慢成形。",
+          "zhCN": "挪亚坐在木板旁锯木，方舟已慢慢成形。"
+        },
+        "audio": "story_04"
+      },
+      {
+        "id": "story_05",
+        "charId": "kou",
+        "date": "2026-10-26",
+        "text": {
+          "zhHK": "動物一對一對來到船的門口。獅子張開大口：「嗷嗚！」小羊張開小口：「咩咩！」",
+          "zhCN": "动物一对一对来到船的门口。狮子张开大口：「嗷呜！」小羊张开小口：「咩咩！」"
+        },
+        "image": "img/ark-story/story_05.jpg",
+        "imageAlt": {
+          "zhHK": "獅子和兩隻小羊走上方舟木梯，挪亞在旁迎接。",
+          "zhCN": "狮子和两只小羊走上方舟木梯，挪亚在旁迎接。"
+        },
+        "audio": "story_05"
+      },
+      {
+        "id": "story_06",
+        "charId": "ri",
+        "date": "2026-11-02",
+        "text": {
+          "zhHK": "大雨下了四十日。後來雨停了，日出了，大家都很開心！",
+          "zhCN": "大雨下了四十日。后来雨停了，日出了，大家都很开心！"
+        },
+        "image": "img/ark-story/story_06.jpg",
+        "imageAlt": {
+          "zhHK": "雨後陽光照在方舟上，挪亞和動物們望着晴朗天空。",
+          "zhCN": "雨后阳光照在方舟上，挪亚和动物们望着晴朗天空。"
+        },
+        "audio": "story_06"
+      },
+      {
+        "id": "story_07",
+        "charId": "bai",
+        "date": "2026-11-09",
+        "text": {
+          "zhHK": "挪亞放出一隻白鴿。白鴿口裏銜着綠葉飛回來，天上還有彩虹！",
+          "zhCN": "挪亚放出一只白鸽。白鸽口里衔着绿叶飞回来，天上还有彩虹！"
+        },
+        "image": "img/ark-story/story_07.jpg",
+        "imageAlt": {
+          "zhHK": "白鴿銜着綠葉飛回方舟，背景有彩虹和動物。",
+          "zhCN": "白鸽衔着绿叶飞回方舟，背景有彩虹和动物。"
+        },
+        "audio": "story_07"
+      }
+    ]
+  },
   "voice": {
     "directory": "audio/ark-k2",
     "manifest": "audio/ark-k2/manifest.json",
