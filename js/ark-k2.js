@@ -10,6 +10,27 @@ const ui = {
   game: document.getElementById('gameScreen'),
   parents: document.getElementById('parentScreen'),
   result: document.getElementById('resultScreen'),
+  storyList: document.getElementById('storyListScreen'),
+  storyReader: document.getElementById('storyReaderScreen'),
+  storyOpen: document.getElementById('storyOpen'),
+  storyEntryTitle: document.getElementById('storyEntryTitle'),
+  storyReadCount: document.getElementById('storyReadCount'),
+  storyListTitle: document.getElementById('storyListTitle'),
+  storyListReadCount: document.getElementById('storyListReadCount'),
+  storyChapterList: document.getElementById('storyChapterList'),
+  storyListBack: document.getElementById('storyListBack'),
+  storyReaderBack: document.getElementById('storyReaderBack'),
+  storyReaderList: document.getElementById('storyReaderList'),
+  storyChapterDate: document.getElementById('storyChapterDate'),
+  storyChapterTitle: document.getElementById('storyChapterTitle'),
+  storyChapterImage: document.getElementById('storyChapterImage'),
+  storyChapterText: document.getElementById('storyChapterText'),
+  storyHighlightHelp: document.getElementById('storyHighlightHelp'),
+  storyReadButton: document.getElementById('storyReadButton'),
+  storyPrev: document.getElementById('storyPrev'),
+  storyNext: document.getElementById('storyNext'),
+  storyCopybookLink: document.getElementById('storyCopybookLink'),
+  parentStorySummary: document.getElementById('parentStorySummary'),
   levelGrid: document.getElementById('levelGrid'),
   totalStars: document.getElementById('totalStars'),
   voiceStatus: document.getElementById('voiceStatus'),
@@ -59,6 +80,7 @@ let lastDraggedSheep = null;
 let suppressSheepClick = false;
 let visibleGameStartedAt = 0;
 let visibleGameTimer = null;
+let activeStoryChapterIndex = -1;
 
 function locale() {
   return progress && progress.language === 'zhCN' ? 'zhCN' : 'zhHK';
@@ -213,10 +235,13 @@ function setScreen(name) {
   ui.game.hidden = name !== 'game';
   ui.parents.hidden = name !== 'parents';
   ui.result.hidden = name !== 'result';
+  ui.storyList.hidden = name !== 'story-list';
+  ui.storyReader.hidden = name !== 'story-reader';
   updateHashForScreen(name);
   window.scrollTo({ top: 0, behavior: 'instant' });
   if (name === 'home') renderHome();
   if (name === 'parents') renderParentReport();
+  if (name === 'story-list') renderStoryList();
   if (name === 'game') startVisibleGameTime();
 }
 
@@ -234,6 +259,17 @@ function updateLanguageButtons() {
     element.setAttribute('aria-label', staticText(element.dataset.localizeAriaLabel));
   });
   document.title = text(data.title) + ' — ' + (locale() === 'zhCN' ? '幼儿学习中心' : '幼兒學習中心');
+  if (ui.storyEntryTitle) ui.storyEntryTitle.textContent = storyLabel('entryTitle');
+  if (ui.storyReadButton) ui.storyReadButton.textContent = locale() === 'zhCN' ? '🔊 朗读' : '🔊 朗讀';
+  if (ui.storyHighlightHelp) ui.storyHighlightHelp.textContent = locale() === 'zhCN' ? '点一下闪亮的字，听听它怎么读。' : '撳一下閃亮嘅字，聽聽佢點讀。';
+  if (ui.storyListBack) ui.storyListBack.textContent = locale() === 'zhCN' ? '← 任务列表' : '← 任務列表';
+  if (ui.storyReaderBack) ui.storyReaderBack.textContent = locale() === 'zhCN' ? '← 故事列表' : '← 故事列表';
+  if (ui.storyReaderList) ui.storyReaderList.textContent = locale() === 'zhCN' ? '返回任务列表' : '返任務列表';
+  if (ui.storyPrev) ui.storyPrev.textContent = locale() === 'zhCN' ? '上一章' : '上一章';
+  if (ui.storyNext) ui.storyNext.textContent = locale() === 'zhCN' ? '下一章' : '下一章';
+  if (ui.storyCopybookLink) ui.storyCopybookLink.textContent = locale() === 'zhCN' ? '去练字' : '去練字';
+  if (currentScreen === 'story-list') renderStoryList();
+  if (currentScreen === 'story-reader' && activeStoryChapterIndex >= 0) renderStoryChapter(activeStoryChapterIndex);
 }
 
 function setLanguage(nextLanguage) {
@@ -393,6 +429,7 @@ function createAudioIcon() {
 
 function renderHome() {
   updateLanguageButtons();
+  updateStoryReadCount();
   ui.totalStars.textContent = '☆ ' + data.levels.reduce((total, level) => total + levelRecord(level.id).stars, 0) + ' / ' + (data.levels.length * 3);
   ui.levelGrid.replaceChildren();
   const icons = ['♫', '✎', '🐑', '＋−'];
@@ -414,6 +451,132 @@ function renderHome() {
     button.addEventListener('click', () => startLevel(level.id));
     ui.levelGrid.append(button);
   });
+}
+
+function storyLabel(key, values) {
+  const labels = {
+    entryTitle: { zhHK: '故事：挪亞造方舟', zhCN: '故事：挪亚造方舟' },
+    backToTasks: { zhHK: '返任務列表', zhCN: '返回任务列表' },
+    chapter: { zhHK: '第 {number} 章', zhCN: '第 {number} 章' },
+    readCount: { zhHK: '已讀 {count}／{total} 章', zhCN: '已读 {count}／{total} 章' },
+    locked: { zhHK: '未解鎖 · {date} 開放', zhCN: '未解锁 · {date} 开放' },
+    read: { zhHK: '已讀', zhCN: '已读' },
+    tapTarget: { zhHK: '目標字：{char}', zhCN: '目标字：{char}' },
+  };
+  return interpolate(labels[key] || { zhHK: '', zhCN: '' }, values || {});
+}
+
+function updateStoryReadCount() {
+  if (!data.story || !progress) return;
+  const total = data.story.chapters.length;
+  const count = data.story.chapters.filter(chapter => progress.storyReadDates[chapter.id]).length;
+  const label = storyLabel('readCount', { count, total });
+  if (ui.storyReadCount) ui.storyReadCount.textContent = label;
+  if (ui.storyListReadCount) ui.storyListReadCount.textContent = label;
+  if (ui.storyListTitle) ui.storyListTitle.textContent = text(data.story.title);
+}
+
+function copybookItemFor(id) {
+  for (const set of data.copybook.sets) {
+    const item = set.items.find(entry => entry.id === id || entry.characterId === id);
+    if (item) {
+      return item.characterId ? data.characters.find(character => character.id === item.characterId) : item;
+    }
+  }
+  return data.characters.find(character => character.id === id);
+}
+
+function storyChapterUnlocked(chapter) {
+  return todayInHongKong() >= chapter.date;
+}
+
+function renderStoryList() {
+  updateStoryReadCount();
+  ui.storyChapterList.replaceChildren();
+  data.story.chapters.forEach((chapter, index) => {
+    const unlocked = storyChapterUnlocked(chapter);
+    const entry = document.createElement('button');
+    entry.type = 'button';
+    entry.className = 'ark-story-chapter-card' + (unlocked ? '' : ' is-locked');
+    entry.disabled = !unlocked;
+    const number = createText('span', 'ark-story-chapter-number', String(index + 1));
+    const copy = document.createElement('span');
+    copy.className = 'ark-story-chapter-copy';
+    const character = copybookItemFor(chapter.charId);
+    const title = createText('strong', '', storyLabel('chapter', { number: index + 1 }) + ' · ' + (character ? text(character.label) : ''));
+    const status = unlocked
+      ? (progress.storyReadDates[chapter.id] ? storyLabel('read') : formatDate(chapter.date))
+      : storyLabel('locked', { date: formatDate(chapter.date) });
+    const summary = createText('small', '', status);
+    copy.append(title, summary);
+    const icon = createText('span', 'ark-story-chapter-lock', unlocked ? (progress.storyReadDates[chapter.id] ? '✓' : '›') : '🔒');
+    icon.setAttribute('aria-hidden', 'true');
+    entry.append(number, copy, icon);
+    if (unlocked) entry.addEventListener('click', () => openStoryChapter(index));
+    ui.storyChapterList.append(entry);
+  });
+}
+
+function openStoryChapter(index) {
+  if (!data.story.chapters[index] || !storyChapterUnlocked(data.story.chapters[index])) return;
+  activeStoryChapterIndex = index;
+  renderStoryChapter(index);
+  setScreen('story-reader');
+}
+
+function markStoryChapterRead() {
+  const chapter = data.story.chapters[activeStoryChapterIndex];
+  if (!chapter) return;
+  ArkK2Progress.recordStoryRead(progress, chapter.id, todayInHongKong());
+  progress.lastPracticeDate = todayInHongKong();
+  writeProgress();
+  updateStoryReadCount();
+}
+
+function renderStoryText(chapter) {
+  const source = text(chapter.text);
+  const item = copybookItemFor(chapter.charId);
+  const target = item ? item.char : '';
+  ui.storyChapterText.replaceChildren();
+  if (!target) {
+    ui.storyChapterText.textContent = source;
+    return;
+  }
+  let cursor = 0;
+  let position = source.indexOf(target);
+  while (position >= 0) {
+    ui.storyChapterText.append(document.createTextNode(source.slice(cursor, position)));
+    const button = createText('button', 'ark-story-char-highlight', target);
+    button.type = 'button';
+    button.setAttribute('aria-label', storyLabel('tapTarget', { char: target }));
+    button.addEventListener('click', () => playClip(item.voiceKey));
+    ui.storyChapterText.append(button);
+    cursor = position + target.length;
+    position = source.indexOf(target, cursor);
+  }
+  ui.storyChapterText.append(document.createTextNode(source.slice(cursor)));
+}
+
+function renderStoryChapter(index) {
+  const chapter = data.story.chapters[index];
+  if (!chapter) return;
+  activeStoryChapterIndex = index;
+  ui.storyChapterDate.textContent = storyLabel('chapter', { number: index + 1 }) + ' · ' + formatDate(chapter.date);
+  ui.storyChapterTitle.textContent = text(data.story.title);
+  ui.storyChapterImage.src = chapter.image;
+  ui.storyChapterImage.alt = text(chapter.imageAlt);
+  renderStoryText(chapter);
+  ui.storyPrev.disabled = index === 0;
+  ui.storyNext.disabled = index >= data.story.chapters.length - 1 || !storyChapterUnlocked(data.story.chapters[index + 1]);
+  ui.storyCopybookLink.href = 'copybook.html?char=' + encodeURIComponent(chapter.charId);
+  ui.storyReadButton.onclick = () => playClip(chapter.audio);
+  ui.storyPrev.onclick = () => openStoryChapter(index - 1);
+  ui.storyNext.onclick = () => {
+    markStoryChapterRead();
+    openStoryChapter(index + 1);
+  };
+  ui.storyCopybookLink.onclick = markStoryChapterRead;
+  updateStoryReadCount();
 }
 
 function shuffle(items) {
@@ -1065,7 +1228,7 @@ function renderStrokeQuestion(question) {
     stageRun.strokeSamples.push(pointOnCanvas(event, canvas));
     drawingPointer = null;
     const stroke = character.strokes[stageRun.strokeIndex];
-    const correct = followsStroke(stageRun.strokeSamples, stroke.points);
+    const correct = ArkK2Strokes.followsStroke(stageRun.strokeSamples, stroke.points);
     stageRun.strokeSamples = [];
     if (correct) {
       stageRun.strokeIndex += 1;
@@ -1092,54 +1255,6 @@ function renderStrokeQuestion(question) {
     stageRun.strokeSamples = [];
     updateStrokeDisplay();
   });
-}
-
-function pathLength(points) {
-  let total = 0;
-  for (let index = 1; index < points.length; index += 1) {
-    total += Math.hypot(points[index][0] - points[index - 1][0], points[index][1] - points[index - 1][1]);
-  }
-  return total;
-}
-
-function nearestProgress(point, target) {
-  let walked = 0;
-  let bestDistance = Infinity;
-  let bestProgress = 0;
-  const total = pathLength(target) || 1;
-  for (let index = 1; index < target.length; index += 1) {
-    const first = target[index - 1];
-    const second = target[index];
-    const dx = second[0] - first[0];
-    const dy = second[1] - first[1];
-    const lengthSquared = dx * dx + dy * dy || 1;
-    const ratio = Math.max(0, Math.min(1, ((point[0] - first[0]) * dx + (point[1] - first[1]) * dy) / lengthSquared));
-    const px = first[0] + ratio * dx;
-    const py = first[1] + ratio * dy;
-    const distance = Math.hypot(point[0] - px, point[1] - py);
-    if (distance < bestDistance) {
-      bestDistance = distance;
-      bestProgress = (walked + Math.sqrt(lengthSquared) * ratio) / total;
-    }
-    walked += Math.sqrt(lengthSquared);
-  }
-  return { distance: bestDistance, progress: bestProgress };
-}
-
-function followsStroke(actual, target) {
-  if (actual.length < 3 || pathLength(actual) < pathLength(target) * 0.28) return false;
-  const start = nearestProgress(actual[0], target);
-  const end = nearestProgress(actual[actual.length - 1], target);
-  if (start.distance > 170 || end.distance > 210 || end.progress - start.progress < 0.45) return false;
-  const strides = actual.filter((_, index) => index % Math.max(1, Math.floor(actual.length / 12)) === 0);
-  const aligned = strides.map(point => nearestProgress(point, target));
-  const nearRatio = aligned.filter(point => point.distance <= 155).length / Math.max(1, aligned.length);
-  let forwardSteps = 0;
-  for (let index = 1; index < aligned.length; index += 1) {
-    if (aligned[index].progress + 0.04 >= aligned[index - 1].progress) forwardSteps += 1;
-  }
-  const forwardRatio = forwardSteps / Math.max(1, aligned.length - 1);
-  return nearRatio >= 0.62 && forwardRatio >= 0.68;
 }
 
 function renderCountQuestion(question) {
@@ -1650,6 +1765,14 @@ function renderParentReport() {
   renderParentLevels();
   renderParentSuggestions();
   renderPracticeChart();
+  const readCount = data.story.chapters.filter(chapter => progress.storyReadDates[chapter.id]).length;
+  const completedIds = Object.keys(progress.copybookCompletions).filter(id => progress.copybookCompletions[id].length);
+  const completedItems = data.copybook.sets.flatMap(set => set.items)
+    .filter(item => completedIds.includes(item.id) || completedIds.includes(item.characterId));
+  const completedChars = [...new Set(completedItems.map(item => item.char || (data.characters.find(character => character.id === item.characterId) || {}).char).filter(Boolean))];
+  ui.parentStorySummary.textContent = locale() === 'zhCN'
+    ? '故事已读 ' + readCount + '／' + data.story.chapters.length + '、练字簿已练：' + (completedChars.join('、') || '—')
+    : '故事已讀 ' + readCount + '／' + data.story.chapters.length + '、練字簿已練：' + (completedChars.join('、') || '—');
   updateLanguageButtons();
 }
 
@@ -1666,6 +1789,10 @@ function installGlobalEvents() {
     button.addEventListener('click', () => setLanguage(button.dataset.language));
   });
   ui.parentTab.addEventListener('click', () => setScreen(currentScreen === 'parents' ? 'home' : 'parents'));
+  ui.storyOpen.addEventListener('click', () => setScreen('story-list'));
+  ui.storyListBack.addEventListener('click', () => setScreen('home'));
+  ui.storyReaderBack.addEventListener('click', () => setScreen('story-list'));
+  ui.storyReaderList.addEventListener('click', () => setScreen('home'));
   ui.backToLevels.addEventListener('click', () => {
     stageRun = null;
     setScreen('home');
@@ -1711,12 +1838,13 @@ async function loadGame() {
   progress = readProgress();
   installGlobalEvents();
   updateLanguageButtons();
-  setScreen('home');
-
-  if (window.location.hash === '#parents') {
+  const openParentReport = window.location.hash === '#parents';
+  if (openParentReport) {
     setScreen('parents');
     return;
   }
+  setScreen('home');
+
   const requestedLevel = new URLSearchParams(window.location.search).get('level');
   if (requestedLevel) {
     const requestedIndex = data.levels.findIndex(level => level.id === requestedLevel);

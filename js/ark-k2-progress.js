@@ -10,6 +10,10 @@
     return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
   }
 
+  function isDate(value) {
+    return typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value);
+  }
+
   function previousHKDate(date) {
     const parts = date.split('-').map(Number);
     const prior = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2] - 1));
@@ -28,6 +32,8 @@
       characterPracticeCount: {},
       stickers: [],
       practiceSecondsByDate: {},
+      storyReadDates: {},
+      copybookCompletions: {},
       ...source,
       version: 1,
     };
@@ -38,6 +44,19 @@
     migrated.characterPracticeCount = isRecord(source.characterPracticeCount) ? source.characterPracticeCount : {};
     migrated.stickers = Array.isArray(source.stickers) ? [...new Set(source.stickers.filter(item => typeof item === 'string'))] : [];
     migrated.practiceSecondsByDate = isRecord(source.practiceSecondsByDate) ? source.practiceSecondsByDate : {};
+    migrated.storyReadDates = {};
+    if (isRecord(source.storyReadDates)) {
+      Object.entries(source.storyReadDates).forEach(([id, date]) => {
+        if (typeof id === 'string' && id && isDate(date)) migrated.storyReadDates[id] = date;
+      });
+    }
+    migrated.copybookCompletions = {};
+    if (isRecord(source.copybookCompletions)) {
+      Object.entries(source.copybookCompletions).forEach(([id, dates]) => {
+        if (typeof id !== 'string' || !id || !Array.isArray(dates)) return;
+        migrated.copybookCompletions[id] = [...new Set(dates.filter(isDate))].sort();
+      });
+    }
     Object.keys(migrated.practiceSecondsByDate).forEach(date => {
       const seconds = Number(migrated.practiceSecondsByDate[date]);
       migrated.practiceSecondsByDate[date] = Number.isFinite(seconds) && seconds > 0 ? seconds : 0;
@@ -115,6 +134,21 @@
     const value = Number(seconds);
     if (!Number.isFinite(value) || value <= 0) return;
     progress.practiceSecondsByDate[date] = Math.round((Number(progress.practiceSecondsByDate[date]) || 0) + value);
+  }
+
+  function recordStoryRead(progress, chapterId, date) {
+    if (!isRecord(progress.storyReadDates)) progress.storyReadDates = {};
+    if (typeof chapterId !== 'string' || !chapterId || !isDate(date)) return;
+    progress.storyReadDates[chapterId] = date;
+  }
+
+  function recordCopybookCompletion(progress, characterId, date) {
+    if (!isRecord(progress.copybookCompletions)) progress.copybookCompletions = {};
+    if (typeof characterId !== 'string' || !characterId || !isDate(date)) return;
+    const dates = Array.isArray(progress.copybookCompletions[characterId])
+      ? progress.copybookCompletions[characterId].filter(isDate)
+      : [];
+    progress.copybookCompletions[characterId] = [...new Set([...dates, date])].sort();
   }
 
   function reviewDelay(random) {
@@ -212,6 +246,8 @@
     recordSeen,
     recordOutcome,
     addPracticeSeconds,
+    recordStoryRead,
+    recordCopybookCompletion,
     reviewDelay,
     reviewDueAfter,
     isDueForNextDay,

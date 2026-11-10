@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFF8F0">
+  <link rel="icon" href="data:,">
+  <title>練字簿 — K2 升小準備</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/preschool-hubs.css">
+  <link rel="stylesheet" href="css/copybook.css">
+</head>
+<body>
+  <div class="site-shell copybook-shell" id="copybookApp">
+    <header class="site-header copybook-header">
+      <a class="site-back" href="k2.html" aria-label="返回 K2 入口">←</a>
+      <div class="site-header-copy">
+        <h1>練字簿</h1>
+        <p class="site-subtitle">慢慢寫，一筆一筆來</p>
+      </div>
+      <div class="copybook-language" role="group" aria-label="語言">
+        <button type="button" data-language="zhHK" aria-pressed="true">粵語</button>
+        <button type="button" data-language="zhCN" aria-pressed="false">普通話</button>
+      </div>
+    </header>
+
+    <main class="site-main copybook-main">
+      <section class="copybook-controls" aria-label="選擇練習字組">
+        <div class="copybook-set-switch" role="group" aria-label="字組">
+          <button type="button" data-set="zhongwenbu" aria-pressed="true">中文簿</button>
+          <button type="button" data-set="xieqian" aria-pressed="false">寫前練習</button>
+        </div>
+        <div id="copybookWordList" class="copybook-word-list" aria-label="選擇一個字"></div>
+      </section>
+
+      <section class="copybook-practice-card" aria-labelledby="practiceTitle">
+        <div class="copybook-practice-heading">
+          <div>
+            <p class="copybook-date-label" id="copybookDateLabel"></p>
+            <h2 id="practiceTitle">練習「一」</h2>
+          </div>
+          <button class="site-secondary copybook-demo" id="copybookDemo" type="button">睇示範</button>
+        </div>
+
+        <div class="copybook-work-area">
+          <div class="copybook-canvas-wrap">
+            <canvas id="copybookCanvas" width="1000" height="1000" aria-label="在田字格內寫字"></canvas>
+            <p class="copybook-feedback" id="copybookFeedback" role="status" aria-live="polite"></p>
+          </div>
+          <aside class="copybook-stroke-side">
+            <div class="copybook-model-sample" aria-label="紅色範字"><span id="copybookModelGlyph"></span></div>
+            <div class="copybook-stroke-heading">
+              <strong id="copybookCurrentStroke">第 1 筆：橫</strong>
+              <span id="copybookAttemptLabel">描紅 1／2</span>
+            </div>
+            <div class="copybook-stroke-strip" id="copybookStrokeStrip" aria-label="筆順進度"></div>
+            <p class="copybook-stroke-hint" id="copybookStrokeHint"></p>
+            <button class="site-primary copybook-retry" id="copybookRetry" type="button">重試這一筆</button>
+          </aside>
+        </div>
+      </section>
+
+      <section class="copybook-parent-tip" aria-labelledby="copybookTipHeading">
+        <h2 id="copybookTipHeading">家長小提示</h2>
+        <p id="copybookTipText"></p>
+      </section>
+
+      <section class="copybook-print-card" aria-label="列印練字簿">
+        <label for="copybookPrintScope">列印內容</label>
+        <select id="copybookPrintScope">
+          <option value="week">本週字</option>
+          <option value="all">全組</option>
+        </select>
+        <button class="site-secondary" id="copybookPrintButton" type="button">列印練字簿</button>
+      </section>
+      <p class="site-footer-note" id="copybookCompletionNote">完成螢幕練習只作本機紀錄，不計分、不加星。</p>
+    </main>
+  </div>
+
+  <section class="copybook-print-pages" id="copybookPrintPages" aria-hidden="true"></section>
+  <script src="js/ark-k2-progress.js" defer></script>
+  <script src="js/ark-k2-strokes.js" defer></script>
+  <script src="js/copybook.js" defer></script>
+</body>
+</html>
