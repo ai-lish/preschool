@@ -1,4 +1,4 @@
-.copybook-shell { --copybook-red: #E54B4B; }
+:root { --copybook-red: #E54B4B; }
 .copybook-header { align-items: center; margin-bottom: 18px; }
 .copybook-header .site-back { color: var(--k2-ink); }
 .copybook-header h1 { color: var(--k2-ink); }
@@ -74,7 +74,7 @@
 .copybook-print-title { align-self: flex-start; padding-top: 10px; font-size: 17pt; font-weight: 700; }
 .copybook-print-strokes { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 0; }
 .copybook-print-strokes span { display: grid; min-width: 44px; height: 38px; place-items: center; border: 1px solid #999; border-radius: 4px; font-size: 14pt; }
-.copybook-practice-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); grid-template-rows: repeat(5, 74px); border-top: 1px solid #777; border-left: 1px solid #777; }
+.copybook-practice-grid { display: grid; width: 100%; aspect-ratio: 1; grid-template-columns: repeat(5, minmax(0, 1fr)); grid-template-rows: repeat(5, minmax(0, 1fr)); border-top: 1px solid #777; border-left: 1px solid #777; }
 .copybook-practice-cell { display: grid; place-items: center; border-right: 1px solid #777; border-bottom: 1px solid #777; background-image: linear-gradient(to right, transparent calc(50% - .5px), #d6d6d6 50%, transparent calc(50% + .5px)), linear-gradient(to bottom, transparent calc(50% - .5px), #d6d6d6 50%, transparent calc(50% + .5px)); font-size: 54px; line-height: 1; }
 .copybook-practice-cell.is-model { color: var(--copybook-red); }
 .copybook-practice-cell.is-trace { color: #d3d3d3; }
@@ -94,6 +94,10 @@
 @media print {
   @page { size: A4 portrait; margin: 12mm; }
   html, body { width: 100%; min-width: 0; min-height: 0; margin: 0; background: #fff; }
+  .copybook-print-page, .copybook-print-model, .copybook-practice-cell.is-model {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
   body.printing .copybook-shell { display: none !important; }
   body.printing .copybook-print-pages { display: block; }
   .copybook-print-page { width: 100%; min-height: 270mm; padding: 0; }

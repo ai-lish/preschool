@@ -272,21 +272,24 @@ def request_audio(text: str, language: str, key: str) -> tuple[bytes, int]:
 
 
 def run_sample_test(data: dict, output_dir: pathlib.Path, key: str) -> int:
-    phrase = data["story"]["chapters"][0]["text"]
+    sample = next((item for item in data["levels"] if item["voiceKey"] == "level_1"), None)
+    if not sample:
+        raise SafeGenerationError("Level 1 sample text is unavailable; no synthesis request made.")
+    phrase = sample["instruction"]
     output_dir.mkdir(parents=True, exist_ok=True)
     for language in ("zhHK", "zhCN"):
         ensure_included_quota(key)
         audio, status = request_audio(phrase[language], language, key)
-        destination = output_dir / f"{language}_story_01.mp3"
+        destination = output_dir / f"{language}_level_1.mp3"
         destination.write_bytes(audio)
-        print(f"Story sample {language}: HTTP {status}; bytes={len(audio)}; file={destination}")
+        print(f"Level 1 sample {language}: HTTP {status}; bytes={len(audio)}; file={destination}")
     return 0
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     action = parser.add_mutually_exclusive_group()
-    action.add_argument("--test", action="store_true", help="generate one story_01 sample in each language")
+    action.add_argument("--test", action="store_true", help="generate one level_1 sample in each language")
     action.add_argument("--generate", action="store_true", help="make one API request per pending voice clip")
     parser.add_argument(
         "--test-output-dir",

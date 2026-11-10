@@ -25,6 +25,13 @@ assert.match(data.copybook.strokeDataSource, /依本次任務指定/);
 assert.equal(zhongwenbu.items.length, expected.length);
 assert.equal(xieqian.items.length, data.characters.length);
 
+const bai = zhongwenbu.items.find(item => item.id === 'bai');
+assert.ok(bai);
+assert.ok(bai.strokes[0].points.every(point => point[1] <= 300), '白字撇 must stay above the口框頂線');
+const gong = zhongwenbu.items.find(item => item.id === 'gong');
+assert.ok(gong);
+assert.ok(gong.strokes[1].points[0][1] >= gong.strokes[0].points[0][1], '工字豎 must start at or below the上橫');
+
 function checkDirection(stroke, index) {
   const points = stroke.points;
   assert.ok(points.length >= 2, `${stroke.name} needs at least two points`);
