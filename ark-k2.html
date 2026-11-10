@@ -44,6 +44,12 @@
           </div>
         </div>
 
+        <button class="ark-story-entry" id="storyOpen" type="button">
+          <span class="ark-story-entry-art" aria-hidden="true">📖</span>
+          <span class="ark-story-entry-copy"><strong id="storyEntryTitle">故事：挪亞造方舟</strong><small id="storyReadCount">已讀 0／7 章</small></span>
+          <span class="ark-story-entry-arrow" aria-hidden="true">›</span>
+        </button>
+
         <section class="ark-level-section" aria-labelledby="levelsTitle">
           <div class="ark-section-heading">
             <div>
@@ -56,6 +62,36 @@
         </section>
 
         <p class="ark-privacy-note" data-localize="privacyNote">練習進度只保存在這個瀏覽器，不會記錄孩子姓名。</p>
+      </section>
+
+      <section class="ark-screen ark-story-screen" id="storyListScreen" hidden aria-labelledby="storyListTitle">
+        <div class="ark-story-heading">
+          <button class="ark-back-game" id="storyListBack" type="button">← 任務列表</button>
+          <div><p class="ark-kicker">方舟故事</p><h2 id="storyListTitle">挪亞造方舟</h2></div>
+          <span class="ark-story-count" id="storyListReadCount">已讀 0／7 章</span>
+        </div>
+        <div class="ark-story-list" id="storyChapterList"></div>
+      </section>
+
+      <section class="ark-screen ark-story-screen" id="storyReaderScreen" hidden aria-labelledby="storyChapterTitle">
+        <div class="ark-story-heading">
+          <button class="ark-back-game" id="storyReaderBack" type="button">← 故事列表</button>
+          <div><p class="ark-kicker" id="storyChapterDate"></p><h2 id="storyChapterTitle"></h2></div>
+          <button class="btn btn-secondary ark-story-list-button" id="storyReaderList" type="button">返任務列表</button>
+        </div>
+        <article class="ark-story-page">
+          <img class="ark-story-image" id="storyChapterImage" src="" alt="">
+          <div class="ark-story-reading">
+            <p class="ark-story-text" id="storyChapterText"></p>
+            <p class="ark-story-highlight-help" id="storyHighlightHelp"></p>
+            <button class="btn btn-primary ark-story-audio" id="storyReadButton" type="button">🔊 朗讀</button>
+          </div>
+        </article>
+        <div class="ark-story-actions">
+          <button class="btn btn-secondary" id="storyPrev" type="button">上一章</button>
+          <a class="btn btn-accent" id="storyCopybookLink" href="copybook.html">去練字</a>
+          <button class="btn btn-secondary" id="storyNext" type="button">下一章</button>
+        </div>
       </section>
 
       <section class="ark-screen" id="gameScreen" hidden aria-labelledby="levelTitle">
@@ -112,6 +148,7 @@
             <p class="ark-practice-note" id="practiceTimeNote"></p>
           </section>
         </div>
+        <p class="ark-report-story-summary" id="parentStorySummary"></p>
         <button class="btn btn-danger ark-clear-progress" id="clearProgress" type="button">清除進度…</button>
       </section>
 
@@ -144,6 +181,7 @@
 
   <script src="js/ark-k2-progress.js" defer></script>
   <script src="js/ark-k2-math.js" defer></script>
+  <script src="js/ark-k2-strokes.js" defer></script>
   <script src="js/ark-k2.js" defer></script>
 </body>
 </html>

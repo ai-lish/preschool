@@ -107,6 +107,10 @@ def build_assets(data: dict) -> list[dict]:
             add(animal["voiceKey"], animal["label"][language])
         for character in data["characters"]:
             add(character["voiceKey"], character["label"][language])
+        for item in data["copybook"]["sets"][0]["items"]:
+            add(item["voiceKey"], item["label"][language])
+        for chapter in data["story"]["chapters"]:
+            add(chapter["audio"], chapter["text"][language])
         for number in range(1, 11):
             add(f"number_{number}", data["numberWords"][language][number])
         for clip in data["voice"]["clips"]:
@@ -268,14 +272,17 @@ def request_audio(text: str, language: str, key: str) -> tuple[bytes, int]:
 
 
 def run_sample_test(data: dict, output_dir: pathlib.Path, key: str) -> int:
-    instruction = data["levels"][0]["instruction"]
+    sample = next((item for item in data["levels"] if item["voiceKey"] == "level_1"), None)
+    if not sample:
+        raise SafeGenerationError("Level 1 sample text is unavailable; no synthesis request made.")
+    phrase = sample["instruction"]
     output_dir.mkdir(parents=True, exist_ok=True)
     for language in ("zhHK", "zhCN"):
         ensure_included_quota(key)
-        audio, status = request_audio(instruction[language], language, key)
+        audio, status = request_audio(phrase[language], language, key)
         destination = output_dir / f"{language}_level_1.mp3"
         destination.write_bytes(audio)
-        print(f"Sample {language}: HTTP {status}; bytes={len(audio)}; file={destination}")
+        print(f"Level 1 sample {language}: HTTP {status}; bytes={len(audio)}; file={destination}")
     return 0
 
 
