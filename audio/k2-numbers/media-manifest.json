@@ -1,0 +1,112 @@
+{
+  "provider": "MiniMax",
+  "images": [
+    {
+      "name": "apple",
+      "provider": "MiniMax",
+      "model": "image-01",
+      "file": "img/numbers/apple.png"
+    },
+    {
+      "name": "orange",
+      "provider": "MiniMax",
+      "model": "image-01",
+      "prompt": "Cute preschool counting card illustration for children aged 3 to 6. Show exactly one one bright orange fruit, centered and large, with a simple soft pastel background, clean rounded cartoon shapes, warm cheerful lighting, gentle hand-painted digital illustration, no text, no numbers, no letters, no watermark, no border, no extra objects.",
+      "file": "img/numbers/orange.png"
+    },
+    {
+      "name": "star",
+      "provider": "MiniMax",
+      "model": "image-01",
+      "prompt": "Cute preschool counting card illustration for children aged 3 to 6. Show exactly one one cheerful golden five-point star, centered and large, with a simple soft pastel background, clean rounded cartoon shapes, warm cheerful lighting, gentle hand-painted digital illustration, no text, no numbers, no letters, no watermark, no border, no extra objects.",
+      "file": "img/numbers/star.png"
+    },
+    {
+      "name": "dog",
+      "provider": "MiniMax",
+      "model": "image-01",
+      "file": "img/numbers/dog.png"
+    },
+    {
+      "name": "cat",
+      "provider": "MiniMax",
+      "model": "image-01",
+      "file": "img/numbers/cat.png"
+    },
+    {
+      "name": "lion",
+      "provider": "MiniMax",
+      "model": "image-01",
+      "file": "img/numbers/lion.png"
+    },
+    {
+      "name": "balloon",
+      "provider": "MiniMax",
+      "model": "image-01",
+      "prompt": "Cute preschool counting card illustration for children aged 3 to 6. Show exactly one one bright blue party balloon, centered and large, with a simple soft pastel background, clean rounded cartoon shapes, warm cheerful lighting, gentle hand-painted digital illustration, no text, no numbers, no letters, no watermark, no border, no extra objects.",
+      "file": "img/numbers/balloon.png"
+    },
+    {
+      "name": "flower",
+      "provider": "MiniMax",
+      "model": "image-01",
+      "prompt": "Cute preschool counting card illustration for children aged 3 to 6. Show exactly one one happy pink flower, centered and large, with a simple soft pastel background, clean rounded cartoon shapes, warm cheerful lighting, gentle hand-painted digital illustration, no text, no numbers, no letters, no watermark, no border, no extra objects.",
+      "file": "img/numbers/flower.png"
+    },
+    {
+      "name": "butterfly",
+      "provider": "MiniMax",
+      "model": "image-01",
+      "prompt": "Cute preschool counting card illustration for children aged 3 to 6. Show exactly one one colorful butterfly, centered and large, with a simple soft pastel background, clean rounded cartoon shapes, warm cheerful lighting, gentle hand-painted digital illustration, no text, no numbers, no letters, no watermark, no border, no extra objects.",
+      "file": "img/numbers/butterfly.png"
+    },
+    {
+      "name": "ice-cream",
+      "provider": "MiniMax",
+      "model": "image-01",
+      "prompt": "Cute preschool counting card illustration for children aged 3 to 6. Show exactly one one pastel ice cream cone, centered and large, with a simple soft pastel background, clean rounded cartoon shapes, warm cheerful lighting, gentle hand-painted digital illustration, no text, no numbers, no letters, no watermark, no border, no extra objects.",
+      "file": "img/numbers/ice-cream.png"
+    }
+  ],
+  "audio": [
+    {
+      "name": "background",
+      "provider": "MiniMax",
+      "model": "music-2.6",
+      "source": "existing repository asset",
+      "file": "alphabet/songs/a-song.mp3"
+    },
+    {
+      "name": "tap",
+      "provider": "MiniMax",
+      "model": "speech-2.8-hd",
+      "text": "叮！",
+      "emotion": "happy",
+      "file": "audio/k2-numbers/tap.mp3"
+    },
+    {
+      "name": "correct",
+      "provider": "MiniMax",
+      "model": "speech-2.8-hd",
+      "text": "答對了！",
+      "emotion": "happy",
+      "file": "audio/k2-numbers/correct.mp3"
+    },
+    {
+      "name": "wrong",
+      "provider": "MiniMax",
+      "model": "speech-2.8-hd",
+      "text": "再試一次！",
+      "emotion": "calm",
+      "file": "audio/k2-numbers/wrong.mp3"
+    },
+    {
+      "name": "complete",
+      "provider": "MiniMax",
+      "model": "speech-2.8-hd",
+      "text": "完成！太棒了！",
+      "emotion": "happy",
+      "file": "audio/k2-numbers/complete.mp3"
+    }
+  ]
+}
